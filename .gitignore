@@ -1,0 +1,11 @@
+# Dependencies
+node_modules
+
+# Environment varibales
+.env*
+!.env*.example
+
+#test file
+test.js
+
+/src/middlewares/locales/
