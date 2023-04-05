@@ -1,4 +1,4 @@
-const { Vendor, Admin } = require("../models/index");
+const { Admin } = require("../models");
 // const { USER_TYPE } = require("../config/appConstants");
 const Run = async () => {
   /*-------------------------------------------------------------------------------

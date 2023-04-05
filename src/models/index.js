@@ -1,5 +1,5 @@
 module.exports = {
   Token: require("./tokenModel"),
-  User: require("./userModel"),
+  Vendor: require("./vendorModel"),
   Admin: require("./adminModel"),
 };
