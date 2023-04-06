@@ -45,8 +45,6 @@ const JOI = {
 const SUCCESS_MESSAGES = {
   SUCCESS: "Success",
   LOGOUT: "User successfully logged out",
-  SUBSCRIBER_ADDED:
-    "Thanks for showing the interest, will keep you posted with the updates",
 };
 
 const ERROR_MESSAGES = {
@@ -63,8 +61,8 @@ const ERROR_MESSAGES = {
   WRONG_PASSWORD: "Password is Incorrect",
   ACCOUNT_DELETED: "Your account has been deleted by Admin",
   ACCOUNT_BLOCKED: "Your account has been blocked by Admin",
-  USER_NOT_FOUND: "User not found",
-  USERID_ALREADY_EXIST: "UserId already exist, please try again",
+  VENDOR_NOT_FOUND: "Vendor not found",
+  VENDORID_ALREADY_EXIST: "VendorId already exist, please try again",
   ADMIN_NOT_FOUND: "Admin not found",
 };
 

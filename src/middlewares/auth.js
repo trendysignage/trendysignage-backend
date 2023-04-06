@@ -35,6 +35,9 @@ const verifyCallback =
       if (token.isDeleted) {
         return reject(new AuthFailedError());
       }
+      if (token.vendor.isDeleted) {
+        return reject(new AuthFailedError());
+      }
     }
 
     req.token = token;
