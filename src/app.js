@@ -1,18 +1,14 @@
-const express = require("express");
-const mongoSanitize = require("express-mongo-sanitize");
-const cors = require("cors");
-const passport = require("passport");
-const morgan = require("morgan");
-const compression = require("compression");
-const { jwtStrategy } = require("./config/passport");
-const routes = require("./routes");
-const { errorHandler } = require("./middlewares/common");
-const { authLimiter } = require("./middlewares/common");
-const i18n = require("./middlewares/i18n");
-const {
-  requestHandler,
-  routeNotFoundHandler,
-} = require("./middlewares/common");
+import express from "express";
+import mongoSanitize from "express-mongo-sanitize";
+import cors from "cors";
+import passport from "passport";
+import morgan from "morgan";
+import compression from "compression";
+import { jwtStrategy } from "./config/passport.js";
+import routes from "./routes/index.js";
+import { errorHandler, authLimiter } from "./middlewares/common.js";
+import i18n from "./middlewares/i18n.js";
+import { requestHandler, routeNotFoundHandler } from "./middlewares/common.js";
 
 const app = express();
 
@@ -57,4 +53,4 @@ app.use((req, res, next) => {
 
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

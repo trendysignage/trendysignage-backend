@@ -1,14 +1,15 @@
-const {
+import {
   STATUS_CODES,
   SUCCESS_MESSAGES,
   ERROR_MESSAGES,
-} = require("../config/appConstants");
-const {
+} from "../config/appConstants.js";
+
+import {
   ValidationError,
   OperationalError,
   NotFoundError,
   AuthFailedError,
-} = require("./errors");
+} from "./errors.js";
 
 const successResponse = (
   req,
@@ -89,8 +90,4 @@ const errorResponse = (error, req, res) => {
     });
 };
 
-module.exports = {
-  successResponse,
-  errorResponse,
-  createResponse,
-};
+export { successResponse, errorResponse, createResponse };

@@ -1,4 +1,5 @@
-const { ERROR_MESSAGES, STATUS_CODES } = require("../config/appConstants");
+import { ERROR_MESSAGES, STATUS_CODES } from "../config/appConstants.js";
+
 
 class ValidationError extends Error {
   constructor(
@@ -60,9 +61,4 @@ class AuthFailedError extends Error {
   }
 }
 
-module.exports = {
-  ValidationError,
-  OperationalError,
-  NotFoundError,
-  AuthFailedError,
-};
+export { ValidationError, OperationalError, NotFoundError, AuthFailedError };

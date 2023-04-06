@@ -15,7 +15,4 @@ const pick = (object, keys) => {
   }, {});
 };
 
-module.exports = {
-  catchAsync,
-  pick,
-};
+export { catchAsync, pick };

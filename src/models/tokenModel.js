@@ -1,9 +1,5 @@
-const mongoose = require("mongoose");
-const {
-  TOKEN_TYPE,
-  DEVICE_TYPE,
-  USER_TYPE,
-} = require("../config/appConstants");
+import mongoose from "mongoose";
+import { TOKEN_TYPE, USER_TYPE, DEVICE_TYPE } from "../config/appConstants.js";
 
 const tokenSchema = mongoose.Schema(
   {
@@ -40,4 +36,4 @@ const tokenSchema = mongoose.Schema(
 
 const Token = mongoose.model("token", tokenSchema);
 
-module.exports = Token;
+export { Token };

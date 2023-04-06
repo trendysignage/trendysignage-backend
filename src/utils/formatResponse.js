@@ -1,5 +1,5 @@
-const momentTz = require("moment-timezone");
-const moment = require("moment");
+import moment from "moment";
+import momentTz from "moment-timezone";
 
 const localtime = (DateTime, timeZone) => {
   const localDt = momentTz.tz(DateTime, timeZone).format("YYYY-MM-DDTHH:mm:ss");
@@ -16,8 +16,4 @@ const converStringToDate = (date) => {
   return moment(date + "Z", "DD-MM-YYYY" + "Z").toDate();
 };
 
-module.exports = {
-  converStringToDate,
-  localtime,
-  utcTime,
-};
+export { converStringToDate, localtime, utcTime };

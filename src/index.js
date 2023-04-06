@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const app = require("./app");
-const config = require("./config/config");
-const CreateAdmin = require("./utils/bootstrap");
+import mongoose from "mongoose";
+import app from "./app.js";
+import config from "./config/config.js";
+import CreateAdmin from "./utils/bootstrap.js";
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {

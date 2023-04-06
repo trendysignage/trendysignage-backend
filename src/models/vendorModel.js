@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const vendorSchema = new mongoose.Schema(
   {
@@ -14,7 +14,7 @@ const vendorSchema = new mongoose.Schema(
     screens: [
       {
         name: { type: String },
-        location: { type: String },
+        screenLocation: { type: String },
         googleLocation: { type: String },
         tags: [{ type: String }],
       },
@@ -26,4 +26,6 @@ const vendorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = Vendor = mongoose.model("vendors", vendorSchema);
+const Vendor = mongoose.model("vendors", vendorSchema);
+
+export { Vendor };

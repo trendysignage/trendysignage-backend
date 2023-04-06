@@ -1,10 +1,10 @@
-const passport = require("passport");
-const {
+import passport from "passport";
+import {
   USER_TYPE,
   ERROR_MESSAGES,
   STATUS_CODES,
-} = require("../config/appConstants");
-const { AuthFailedError } = require("../utils/errors");
+} from "../config/appConstants.js";
+import { AuthFailedError } from "../utils/errors.js";
 
 const verifyCallback =
   (req, resolve, reject, role) => async (err, token, info) => {
@@ -35,6 +35,14 @@ const verifyCallback =
       if (token.isDeleted) {
         return reject(new AuthFailedError());
       }
+      if (token.vendor.isDeleted) {
+        return reject(
+          new AuthFailedError(
+            ERROR_MESSAGES.VENDOR_NOT_FOUND,
+            STATUS_CODES.AUTH_FAILED
+          )
+        );
+      }
     }
 
     req.token = token;
@@ -53,4 +61,4 @@ const auth = (role) => async (req, res, next) => {
     .catch((err) => next(err));
 };
 
-module.exports = auth;
+export { auth };

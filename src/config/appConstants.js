@@ -1,24 +1,24 @@
-const Joi = require("joi");
-const { objectId } = require("../validations/custom.validation");
+import Joi from "joi";
+import { objectId } from "../validations/custom.validation.js";
 
-exports.TOKEN_TYPE = {
+export const TOKEN_TYPE = {
   ACCESS: "access",
   REFRESH: "refresh",
   RESET_PASSWORD: "resetPassword",
 };
 
-exports.USER_TYPE = {
+export const USER_TYPE = {
   ADMIN: "admin",
   VENDOR: "vendor",
 };
 
-exports.DEVICE_TYPE = {
+export const DEVICE_TYPE = {
   IPHONE: "iPhone",
   ANDROID: "android",
   WEB: "web",
 };
 
-exports.SOCIAL = {
+export const SOCIAL = {
   FACEBOOK: "facebook",
   GOOGLE: "google",
   APPLE: "apple",
@@ -35,18 +35,16 @@ const JOI = {
   PAGE: Joi.number().default(0),
   OBJECTID: Joi.string().custom(objectId).required(),
   DEVICE_TYPE: Joi.string()
-    .valid(...Object.values(this.DEVICE_TYPE))
+    .valid(...Object.values(DEVICE_TYPE))
     .required(),
   ROLE: Joi.string()
-    .valid(...Object.values(this.USER_TYPE))
+    .valid(...Object.values(USER_TYPE))
     .required(),
 };
 
 const SUCCESS_MESSAGES = {
   SUCCESS: "Success",
   LOGOUT: "User successfully logged out",
-  SUBSCRIBER_ADDED:
-    "Thanks for showing the interest, will keep you posted with the updates",
 };
 
 const ERROR_MESSAGES = {
@@ -63,8 +61,8 @@ const ERROR_MESSAGES = {
   WRONG_PASSWORD: "Password is Incorrect",
   ACCOUNT_DELETED: "Your account has been deleted by Admin",
   ACCOUNT_BLOCKED: "Your account has been blocked by Admin",
-  USER_NOT_FOUND: "User not found",
-  USERID_ALREADY_EXIST: "UserId already exist, please try again",
+  VENDOR_NOT_FOUND: "Vendor not found",
+  VENDORID_ALREADY_EXIST: "VendorId already exist, please try again",
   ADMIN_NOT_FOUND: "Admin not found",
 };
 
@@ -86,9 +84,4 @@ const STATUS_CODES = {
   GATEWAY_TIMEOUT: 504,
 };
 
-module.exports = {
-  JOI,
-  SUCCESS_MESSAGES,
-  ERROR_MESSAGES,
-  STATUS_CODES,
-};
+export { JOI, SUCCESS_MESSAGES, ERROR_MESSAGES, STATUS_CODES };

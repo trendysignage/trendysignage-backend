@@ -1,5 +1,5 @@
-const { Admin } = require("../models");
-// const { USER_TYPE } = require("../config/appConstants");
+import { Token, Admin, Vendor } from "../models/index.js";
+
 const Run = async () => {
   /*-------------------------------------------------------------------------------
    * add admin
@@ -33,4 +33,4 @@ const CreateAdmin = async (adminDetails) => {
   }
 };
 
-module.exports = Run;
+export default Run;

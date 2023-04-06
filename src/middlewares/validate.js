@@ -1,7 +1,7 @@
-const Joi = require("joi");
-const { pick } = require("../utils/universalFunction");
-const config = require("../config/config");
-const { ValidationError } = require("../utils/errors");
+import Joi from "joi";
+import config from "../config/config.js";
+import { ValidationError } from "../utils/errors.js";
+import { pick } from "../utils/universalFunction.js";
 
 const validate = (schema) => (req, res, next) => {
   try {
@@ -46,4 +46,4 @@ const validateView = (schema) => (req, res, next) => {
   return next();
 };
 
-module.exports = { validate, validateView };
+export { validate, validateView };
