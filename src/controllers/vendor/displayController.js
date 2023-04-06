@@ -12,3 +12,13 @@ exports.addScreen = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+exports.deleteScreen = catchAsync(async (req, res) => {
+  await displayService.deleteScreen(req.token.vendor._id, req.query.screenId);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

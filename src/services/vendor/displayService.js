@@ -23,3 +23,17 @@ exports.addScreen = async (vendorId, body) => {
     );
   }
 };
+
+exports.deleteScreen = async (vendorId, screenId) => {
+  const vendor = await Vendor.findOneAndUpdate(
+    { _id: vendorId },
+    { $pull: { screens: { _id: screenId } } },
+    { new: 1, lean: 1 }
+  );
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};

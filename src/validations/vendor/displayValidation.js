@@ -10,3 +10,9 @@ exports.addScreen = {
     tags: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
+
+exports.deleteScreen = {
+  query: Joi.object().keys({
+    screenId: JOI.OBJECTID,
+  }),
+};
