@@ -1,24 +1,24 @@
 const Joi = require("joi");
 const { objectId } = require("../validations/custom.validation");
 
-exports.TOKEN_TYPE = {
+const TOKEN_TYPE = {
   ACCESS: "access",
   REFRESH: "refresh",
   RESET_PASSWORD: "resetPassword",
 };
 
-exports.USER_TYPE = {
+const USER_TYPE = {
   ADMIN: "admin",
   VENDOR: "vendor",
 };
 
-exports.DEVICE_TYPE = {
+const DEVICE_TYPE = {
   IPHONE: "iPhone",
   ANDROID: "android",
   WEB: "web",
 };
 
-exports.SOCIAL = {
+const SOCIAL = {
   FACEBOOK: "facebook",
   GOOGLE: "google",
   APPLE: "apple",
@@ -35,10 +35,10 @@ const JOI = {
   PAGE: Joi.number().default(0),
   OBJECTID: Joi.string().custom(objectId).required(),
   DEVICE_TYPE: Joi.string()
-    .valid(...Object.values(this.DEVICE_TYPE))
+    .valid(...Object.values(DEVICE_TYPE))
     .required(),
   ROLE: Joi.string()
-    .valid(...Object.values(this.USER_TYPE))
+    .valid(...Object.values(USER_TYPE))
     .required(),
 };
 
@@ -91,4 +91,8 @@ module.exports = {
   SUCCESS_MESSAGES,
   ERROR_MESSAGES,
   STATUS_CODES,
+  USER_TYPE,
+  DEVICE_TYPE,
+  SOCIAL,
+  TOKEN_TYPE,
 };

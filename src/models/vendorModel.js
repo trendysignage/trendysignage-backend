@@ -14,7 +14,7 @@ const vendorSchema = new mongoose.Schema(
     screens: [
       {
         name: { type: String },
-        location: { type: String },
+        screenLocation: { type: String },
         googleLocation: { type: String },
         tags: [{ type: String }],
       },

@@ -12,7 +12,6 @@ const adminSchema = mongoose.Schema(
       required: true,
     },
     password: { type: String, required: true },
-    // isSuperAdmin: { type: Boolean, default: false, required: true },
   },
   {
     timestamps: true,
