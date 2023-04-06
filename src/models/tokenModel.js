@@ -12,17 +12,17 @@ const tokenSchema = mongoose.Schema(
     admin: { type: mongoose.SchemaTypes.ObjectId, ref: "admins" },
     role: {
       type: String,
-      enum: [...Object.values(USER_TYPE)],
+      // enum: [...Object.values(USER_TYPE)],
       required: true,
     },
     type: {
       type: String,
-      enum: [...Object.values(TOKEN_TYPE)],
+      // enum: [...Object.values(TOKEN_TYPE)],
       required: true,
     },
     expires: { type: Date, required: true },
     device: {
-      type: { type: String, enum: [...Object.values(DEVICE_TYPE)] },
+      type: { type: String /* enum: [...Object.values(DEVICE_TYPE)] */ },
       token: { type: String },
     },
     isDeleted: { type: Boolean, default: false, required: true },
