@@ -3,6 +3,17 @@ import { displayService } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 
+export const getScreens = catchAsync(async (req, res) => {
+  const screen = await displayService.getScreens(req.token.vendor._id);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    screen
+  );
+});
+
 export const addScreen = catchAsync(async (req, res) => {
   const screen = await displayService.addScreen(req.token.vendor._id, req.body);
   return successResponse(

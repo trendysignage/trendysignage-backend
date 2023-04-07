@@ -2,6 +2,17 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor } from "../../models/vendorModel.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
+export const getScreens = async (vendorId) => {
+  const vendor = await Vendor.findById(vendorId).lean().distinct("screens");
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return vendor;
+};
+
 export const addScreen = async (vendorId, body) => {
   let screen = [
     {
