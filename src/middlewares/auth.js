@@ -43,6 +43,14 @@ const verifyCallback =
           )
         );
       }
+      if (!token.vendor.isVerified) {
+        return reject(
+          new AuthFailedError(
+            ERROR_MESSAGES.ACCOUNT_NOT_VERIFIED,
+            STATUS_CODES.AUTH_FAILED
+          )
+        );
+      }
     }
 
     req.token = token;

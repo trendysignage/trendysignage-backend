@@ -64,6 +64,7 @@ const ERROR_MESSAGES = {
   VENDOR_NOT_FOUND: "Vendor not found",
   VENDORID_ALREADY_EXIST: "VendorId already exist, please try again",
   ADMIN_NOT_FOUND: "Admin not found",
+  ACCOUNT_NOT_VERIFIED: "Please verify your account.",
 };
 
 const STATUS_CODES = {

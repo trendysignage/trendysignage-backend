@@ -31,9 +31,10 @@ const vendorSchema = new mongoose.Schema(
       },
     ],
     country: { type: String },
-    countryCode: { type: Number, required: true },
-    phoneNumber: { type: Number, required: true },
+    countryCode: { type: Number },
+    phoneNumber: { type: Number },
     isDeleted: { type: Boolean, default: false, required: true },
+    isVerified: { type: Boolean, default: false, required: true },
   },
   { timestamps: true }
 );
