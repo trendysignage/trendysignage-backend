@@ -9,6 +9,11 @@ const router = express.Router();
 router
   .route("/screen")
   .all(auth())
-  .post(validate(displayValidation.addScreen), displayController.addScreen);
+  .post(validate(displayValidation.addScreen), displayController.addScreen)
+  .put(validate(displayValidation.editScreen), displayController.editScreen)
+  .delete(
+    validate(displayValidation.deleteScreen),
+    displayController.deleteScreen
+  );
 
 export default router;

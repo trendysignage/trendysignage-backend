@@ -10,3 +10,19 @@ export const addScreen = {
     tags: Joi.array().items(Joi.string().required()).required().default([]),
   }),
 };
+
+export const editScreen = {
+  body: Joi.object().keys({
+    screenId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    screenLocation: Joi.string().required(),
+    googleLocation: Joi.string().required(),
+    tags: Joi.array().items(Joi.string().required()).required().default([]),
+  }),
+};
+
+export const deleteScreen = {
+  query: Joi.object().keys({
+    screenId: JOI.OBJECTID,
+  }),
+};
