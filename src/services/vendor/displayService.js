@@ -3,7 +3,7 @@ import { Vendor } from "../../models/vendorModel.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const getScreens = async (vendorId) => {
-  const vendor = await Vendor.findById(vendorId).lean().distinct("screens");
+  const vendor = await Vendor.findById(vendorId).lean().select("screens");
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
