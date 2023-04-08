@@ -86,3 +86,13 @@ export const editMedia = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const deleteMedia = catchAsync(async (req, res) => {
+  await displayService.deleteMedia(req?.token?.vendor?._id, req.query.mediaId);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

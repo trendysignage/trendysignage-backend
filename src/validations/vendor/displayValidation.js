@@ -55,3 +55,9 @@ export const editMedia = {
     tags: Joi.array().items(Joi.string().required()).required().default([]),
   }),
 };
+
+export const deleteMedia = {
+  query: Joi.object().keys({
+    mediaId: JOI.OBJECTID,
+  }),
+};

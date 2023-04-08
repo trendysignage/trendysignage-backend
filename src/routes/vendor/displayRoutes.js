@@ -22,6 +22,10 @@ router
   // .all(auth())
   .get(validate(displayValidation.getMedia), displayController.getMedia)
   .post(validate(displayValidation.addMedia), displayController.addMedia)
-  .put(validate(displayValidation.editMedia), displayController.editMedia);
+  .put(validate(displayValidation.editMedia), displayController.editMedia)
+  .delete(
+    validate(displayValidation.deleteMedia),
+    displayController.deleteMedia
+  );
 
 export default router;

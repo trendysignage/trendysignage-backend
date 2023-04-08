@@ -71,7 +71,7 @@ export const editScreen = async (vendorId, body) => {
 export const deleteScreen = async (vendorId, screenId) => {
   const vendor = await Vendor.findOneAndUpdate(
     {
-      /* _id: vendorId  */
+      /* _id: vendorId  */ "screens._id": screenId,
     },
     {
       $pull: { screens: { _id: screenId } },
@@ -138,6 +138,24 @@ export const editMedia = async (vendorId, body) => {
         "media.$.properties": body.properties,
         "media.$.tags": body.tags,
       },
+    },
+    { new: true, lean: 1 }
+  );
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const deleteMedia = async (vendorId, mediaId) => {
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      /* _id: vendorId  */ "media._id": mediaId,
+    },
+    {
+      $pull: { media: { _id: mediaId } },
     },
     { new: true, lean: 1 }
   );
