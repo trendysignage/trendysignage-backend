@@ -4,7 +4,10 @@ import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 
 export const getScreens = catchAsync(async (req, res) => {
-  const screen = await displayService.getScreens(req.token.vendor._id);
+  const screen = await displayService.getScreens(
+    req?.query?.search,
+    req.token.vendor._id
+  );
   return successResponse(
     req,
     res,
