@@ -38,6 +38,10 @@ const vendorSchema = new mongoose.Schema(
         tags: [{ type: String }],
       },
     ],
+    apps: [{ type: mongoose.Schema.Types.ObjectId, ref: "apps" }],
+    compositions: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "compositions" },
+    ],
     country: { type: String },
     countryCode: { type: Number },
     phoneNumber: { type: Number },
