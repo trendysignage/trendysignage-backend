@@ -1,6 +1,5 @@
 import express from "express";
 import display from "./vendor/displayRoutes.js";
-import media from "./vendor/mediaRoutes.js";
 // import vendorAuth from "./vendor/authRoutes";
 
 const router = express.Router();
@@ -13,10 +12,6 @@ const defaultRoutes = [
   {
     path: "/vendor/display",
     route: display,
-  },
-  {
-    path: "/vendor/media",
-    route: media,
   },
 ];
 

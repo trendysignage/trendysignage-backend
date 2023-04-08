@@ -85,3 +85,27 @@ export const deleteScreen = async (vendorId, screenId) => {
     );
   }
 };
+
+export const addMedia = async (vendorId, body) => {
+  let media = [
+    {
+      title: body.title,
+      timestamp: new Date(),
+      properties: body.properties,
+      tags: body.tags,
+    },
+  ];
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      /* _id: vendorId */
+    },
+    { $addToSet: { media: media } },
+    { new: true, lean: 1 }
+  );
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};

@@ -52,3 +52,13 @@ export const deleteScreen = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const addMedia = catchAsync(async (req, res) => {
+  await displayService.addMedia(req?.token?.vendor?._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

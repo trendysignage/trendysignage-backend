@@ -13,7 +13,7 @@ export const addScreen = {
     name: Joi.string().required().trim(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).required().default([]),
+    tags: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 
@@ -30,5 +30,13 @@ export const editScreen = {
 export const deleteScreen = {
   query: Joi.object().keys({
     screenId: JOI.OBJECTID,
+  }),
+};
+
+export const addMedia = {
+  body: Joi.object().keys({
+    title: Joi.string().required(),
+    properties: Joi.string().required(),
+    tags: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
