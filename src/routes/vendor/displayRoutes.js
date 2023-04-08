@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route("/screen")
-  .all(auth())
+  // .all(auth()) 
   .get(validate(displayValidation.getScreens), displayController.getScreens)
   .post(validate(displayValidation.addScreen), displayController.addScreen)
   .put(validate(displayValidation.editScreen), displayController.editScreen)

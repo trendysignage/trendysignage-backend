@@ -3,7 +3,7 @@ import { Vendor } from "../../models/vendorModel.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const getScreens = async (search, vendorId) => {
-  let vendor = await Vendor.findById(vendorId).lean().select("screens");
+  let vendor = await Vendor.findOne(vendorId).lean().select("screens");
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -28,7 +28,9 @@ export const addScreen = async (vendorId, body) => {
     },
   ];
   const vendor = await Vendor.findOneAndUpdate(
-    { _id: vendorId },
+    {
+      /* _id: vendorId  */
+    },
     { $addToSet: { screens: screen } },
     { new: 1, lean: 1 }
   );
@@ -42,7 +44,10 @@ export const addScreen = async (vendorId, body) => {
 
 export const editScreen = async (vendorId, body) => {
   const vendor = await Vendor.findOneAndUpdate(
-    { _id: vendorId, "screens._id": body.screenId },
+    {
+      /* _id: vendorId  */
+      "screens._id": body.screenId,
+    },
     {
       $set: {
         "screens.$.name": body.name,
@@ -64,8 +69,10 @@ export const editScreen = async (vendorId, body) => {
 };
 
 export const deleteScreen = async (vendorId, screenId) => {
-  const vendor = await Vendor.findByIdAndUpdate(
-    vendorId,
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      /* _id: vendorId  */
+    },
     {
       $pull: { screens: { _id: screenId } },
     },

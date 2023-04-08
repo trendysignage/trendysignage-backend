@@ -30,6 +30,14 @@ const vendorSchema = new mongoose.Schema(
         deviceCode: { type: Number },
       },
     ],
+    media: [
+      {
+        title: { type: String },
+        timestamp: { type: Date },
+        properties: { type: String },
+        tags: [{ type: String }],
+      },
+    ],
     country: { type: String },
     countryCode: { type: Number },
     phoneNumber: { type: Number },

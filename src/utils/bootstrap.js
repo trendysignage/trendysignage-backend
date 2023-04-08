@@ -9,10 +9,17 @@ const Run = async () => {
   let adminDetails = {
     name: "Trendy App Admin",
     email: "admin@test.com",
-    isSuperAdmin: true,
     $setOnInsert: { password },
   };
+
+  let vendorDetails = {
+    name: "Test Vendor",
+    email: "vendor@test.com",
+    $setOnInsert: { password },
+  };
+
   CreateAdmin(adminDetails);
+  CreateVendor(vendorDetails);
 };
 
 const CreateAdmin = async (adminDetails) => {
@@ -25,6 +32,24 @@ const CreateAdmin = async (adminDetails) => {
     console.log("=================");
 
     return adminData;
+  } catch (err) {
+    console.log(
+      "**********************************************************************",
+      err
+    );
+  }
+};
+
+const CreateVendor = async (vendorDetails) => {
+  try {
+    let vendorData = await Vendor.findOneAndUpdate(
+      { email: vendorDetails.email },
+      vendorDetails,
+      { lean: true, upsert: true, new: true }
+    );
+    console.log("=================");
+
+    return vendorData;
   } catch (err) {
     console.log(
       "**********************************************************************",

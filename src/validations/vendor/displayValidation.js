@@ -10,7 +10,7 @@ export const getScreens = {
 
 export const addScreen = {
   body: Joi.object().keys({
-    name: Joi.string().required(),
+    name: Joi.string().required().trim(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
     tags: Joi.array().items(Joi.string().required()).required().default([]),

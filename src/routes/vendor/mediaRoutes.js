@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route("/media")
-  .all(auth())
+  // .all(auth())
   .post(validate(mediaValidation.addMedia), mediaController.addMedia);
 
 export default router;

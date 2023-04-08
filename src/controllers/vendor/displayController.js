@@ -6,7 +6,7 @@ import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 export const getScreens = catchAsync(async (req, res) => {
   const screen = await displayService.getScreens(
     req?.query?.search,
-    req.token.vendor._id
+    req?.token?.vendor?._id
   );
   return successResponse(
     req,
@@ -18,7 +18,10 @@ export const getScreens = catchAsync(async (req, res) => {
 });
 
 export const addScreen = catchAsync(async (req, res) => {
-  const screen = await displayService.addScreen(req.token.vendor._id, req.body);
+  const screen = await displayService.addScreen(
+    req?.token?.vendor?._id,
+    req.body
+  );
   return successResponse(
     req,
     res,
@@ -28,7 +31,7 @@ export const addScreen = catchAsync(async (req, res) => {
 });
 
 export const editScreen = catchAsync(async (req, res) => {
-  await displayService.editScreen(req.token.vendor._id, req.body);
+  await displayService.editScreen(req?.token?.vendor?._id, req.body);
   return successResponse(
     req,
     res,
@@ -38,7 +41,10 @@ export const editScreen = catchAsync(async (req, res) => {
 });
 
 export const deleteScreen = catchAsync(async (req, res) => {
-  await displayService.deleteScreen(req.token.vendor._id, req.query.screenId);
+  await displayService.deleteScreen(
+    req?.token?.vendor?._id,
+    req.query.screenId
+  );
   return successResponse(
     req,
     res,
