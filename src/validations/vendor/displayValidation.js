@@ -13,7 +13,7 @@ export const addScreen = {
     name: Joi.string().required().trim(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).default([]),
+    tags: Joi.array().items(Joi.string().required()).required().default([]),
   }),
 };
 
@@ -33,10 +33,25 @@ export const deleteScreen = {
   }),
 };
 
+export const getMedia = {
+  query: Joi.object().keys({
+    search: Joi.string().allow(""),
+  }),
+};
+
 export const addMedia = {
   body: Joi.object().keys({
     title: Joi.string().required(),
     properties: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).default([]),
+    tags: Joi.array().items(Joi.string().required()).required().default([]),
+  }),
+};
+
+export const editMedia = {
+  body: Joi.object().keys({
+    mediaId: JOI.OBJECTID,
+    title: Joi.string().required(),
+    properties: Joi.string().required(),
+    tags: Joi.array().items(Joi.string().required()).required().default([]),
   }),
 };

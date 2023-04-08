@@ -20,7 +20,8 @@ router
 router
   .route("/media")
   // .all(auth())
-  .get(validate(displayValidation.getMedia))
-  .post(validate(displayValidation.addMedia), displayController.addMedia);
+  .get(validate(displayValidation.getMedia), displayController.getMedia)
+  .post(validate(displayValidation.addMedia), displayController.addMedia)
+  .put(validate(displayValidation.editMedia), displayController.editMedia);
 
 export default router;

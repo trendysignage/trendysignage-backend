@@ -53,8 +53,32 @@ export const deleteScreen = catchAsync(async (req, res) => {
   );
 });
 
+export const getMedia = catchAsync(async (req, res) => {
+  const media = await displayService.getMedia(
+    req?.query?.search,
+    req?.token?.vendor?._id
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    media
+  );
+});
+
 export const addMedia = catchAsync(async (req, res) => {
   await displayService.addMedia(req?.token?.vendor?._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const editMedia = catchAsync(async (req, res) => {
+  await displayService.editMedia(req?.token?.vendor?._id, req.body);
   return successResponse(
     req,
     res,

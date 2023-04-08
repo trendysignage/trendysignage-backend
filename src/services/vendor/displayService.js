@@ -86,6 +86,22 @@ export const deleteScreen = async (vendorId, screenId) => {
   }
 };
 
+export const getMedia = async (search, vendorId) => {
+  let vendor = await Vendor.findOne(vendorId).lean().select("media");
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  if (search) {
+    vendor.media = vendor.media.filter((i) =>
+      JSON.stringify(i.title.toLowerCase()).includes(search.toLowerCase())
+    );
+  }
+  return vendor;
+};
+
 export const addMedia = async (vendorId, body) => {
   let media = [
     {
@@ -100,6 +116,29 @@ export const addMedia = async (vendorId, body) => {
       /* _id: vendorId */
     },
     { $addToSet: { media: media } },
+    { new: true, lean: 1 }
+  );
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const editMedia = async (vendorId, body) => {
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      /* _id: vendorId */
+      "media._id": body.mediaId,
+    },
+    {
+      $set: {
+        "media.$.title": body.title,
+        "media.$.properties": body.properties,
+        "media.$.tags": body.tags,
+      },
+    },
     { new: true, lean: 1 }
   );
   if (!vendor) {
