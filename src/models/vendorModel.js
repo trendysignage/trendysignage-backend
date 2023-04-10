@@ -11,8 +11,6 @@ const vendorSchema = new mongoose.Schema(
     },
     socialId: {
       googleId: { type: String },
-      facebookId: { type: String },
-      appleId: { type: String },
     },
     password: { type: String },
     screens: [
