@@ -8,7 +8,7 @@ export const addDevice = async (deviceToken, code) => {
     {
       deviceToken: deviceToken,
       isDeleted: false,
-      isVerified: true,
+      isVerified: false,
       screen: { $exists: false },
       vendor: { $exists: false },
     },
@@ -19,6 +19,7 @@ export const addDevice = async (deviceToken, code) => {
     device = await Device.findOne({
       deviceToken: deviceToken,
       isDeleted: false,
+      isVerified: true,
     }).lean();
   }
   return device;
