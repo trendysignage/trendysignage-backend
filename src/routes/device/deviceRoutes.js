@@ -10,3 +10,5 @@ router
   .route("/device")
   // .all(auth())
   .get(validate(deviceValidation.addDevice), deviceController.addDevice);
+
+export default router;

@@ -11,3 +11,5 @@ router.post(
   validate(vendorAuthValidation.login),
   vendorAuthController.login
 );
+
+export default router;

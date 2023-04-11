@@ -5,7 +5,7 @@ import config from "../config/config.js";
 import {
   TOKEN_TYPE,
   STATUS_CODES,
-  ROLE,
+  USER_TYPE,
   ERROR_MESSAGES,
 } from "../config/appConstants.js";
 import { AuthFailedError } from "../utils/errors.js";
@@ -33,7 +33,7 @@ export const saveToken = async (data) => {
   };
   if (data.userType) {
     if (!data.loginType) {
-      if (data.userType === ROLE.ADMIN) {
+      if (data.userType === USER_TYPE.ADMIN) {
         dataToBesaved.admin = data.user._id;
       } else {
         dataToBesaved.vendor = data.user._id;

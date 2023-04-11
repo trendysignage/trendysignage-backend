@@ -14,7 +14,7 @@ const Run = async () => {
 
   let vendorDetails = {
     name: "Test Vendor",
-    email: "vendor@test.com",
+    email: "demo@example.com",
     isVerified: true,
     $setOnInsert: { password },
   };
