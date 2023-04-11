@@ -8,10 +8,8 @@ import {
   ROLE,
   ERROR_MESSAGES,
 } from "../config/appConstants.js";
-import { AuthFailedError, OperationalError } from "../utils/errors.js";
-import { Token, Vendor, Admin } from "../models/index.js";
-// const { OperationalError, AuthFailedError } = require("../utils/errors");
-// const { Token, User } = require("../models");
+import { AuthFailedError } from "../utils/errors.js";
+import { Token } from "../models/index.js";
 
 exports.generateToken = (data, secret = config.jwt.secret) => {
   const payload = {
