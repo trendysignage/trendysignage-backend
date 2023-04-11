@@ -16,66 +16,63 @@ export const getScreens = async (search, vendorId) => {
 };
 
 export const addScreen = async (vendorId, body) => {
-  let screen = [
-    {
-      name: body.name,
-      screenLocation: body.screenLocation,
-      googleLocation: body.googleLocation,
-      tags: body.tags,
-    },
-  ];
-  const vendor = await Vendor.findOneAndUpdate(
-    {
-      /* _id: vendorId  */
-    },
-    { $addToSet: { screens: screen } },
-    { new: 1, lean: 1 }
-  );
-  if (!vendor) {
+  if (!(await Device.findOne({ deviceCode: body.code, isDeleted: false }))) {
     throw new AuthFailedError(
-      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      ERROR_MESSAGES.WRONG_DEVICE_CODE,
       STATUS_CODES.ACTION_FAILED
     );
   }
+  const screen = await Screen.create({
+    name: body.name,
+    screenLocation: body.screenLocation,
+    googleLocation: body.googleLocation,
+    tags: body.tags,
+    groups: body.groups,
+    vendor: vendorId,
+  });
+  await Device.findOneAndUpdate(
+    { deviceCode: body.code, isDeleted: false },
+    { $set: { isVerified: true, screen: screen._id, vendor: vendorId } },
+    { new: true, lean: 1 }
+  );
 };
 
 export const editScreen = async (vendorId, body) => {
-  const vendor = await Vendor.findOneAndUpdate(
+  let data = {
+    name: body.name,
+    screenLocation: body.screenLocation,
+    googleLocation: body.googleLocation,
+    tags: body.tags,
+    groups: body.groups,
+  };
+  const screen = await Screen.findOneAndUpdate(
     {
-      /* _id: vendorId  */
-      "screens._id": body.screenId,
+      _id: body.screenId,
+      isDeleted: false,
     },
-    {
-      $set: {
-        "screens.$.name": body.name,
-        "screens.$.screenLocation": body.screenLocation,
-        "screens.$.googleLocation": body.googleLocation,
-        "screens.$.tags": body.tags,
-        "screens.$.groups": body.groups,
-        "screens.$.defaultComposition": body.defaultComposition,
-      },
-    },
-    { new: 1, lean: 1 }
+    { $set: data },
+    { new: true, lean: 1 }
   );
-  if (!vendor) {
+  if (!screen) {
     throw new AuthFailedError(
-      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      ERROR_MESSAGES.SCREEN_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
 };
 
 export const deleteScreen = async (vendorId, screenId) => {
-  const vendor = await Vendor.findOneAndUpdate(
+  const screen = await Screen.findOneAndUpdate(
     {
-      /* _id: vendorId  */ "screens._id": screenId,
+      _id: screenId,
+      isDeleted: false,
     },
     {
-      $pull: { screens: { _id: screenId } },
+      $set: { isDeleted: true },
     },
     { new: true, lean: 1 }
   );
-  if (!vendor) {
+  if (!screen) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED

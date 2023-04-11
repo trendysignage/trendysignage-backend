@@ -14,7 +14,8 @@ export const addScreen = {
     name: Joi.string().required().trim(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).required().default([]),
+    tags: Joi.array().items(Joi.string().required()).default([]),
+    groups: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 
@@ -24,7 +25,8 @@ export const editScreen = {
     name: Joi.string().required(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).required().default([]),
+    tags: Joi.array().items(Joi.string().required()).default([]),
+    groups: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 
