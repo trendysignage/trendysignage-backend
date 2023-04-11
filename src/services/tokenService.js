@@ -74,57 +74,6 @@ export const refreshAuth = async (user, tokenId, userType, device) => {
   return generateAuthToken(user, userType, device.token);
 };
 
-export const updateToken = async (token, otp, phoneNumber, countryCode) => {
-  const update = await Token.findOneAndUpdate(
-    { _id: token },
-    {
-      $set: { otp: { code: otp.code, expiresAt: otp.expiresAt } },
-      phoneNumber: phoneNumber,
-      countryCode: countryCode,
-    }
-  );
-  return update;
-};
-
-export const update = async (userId, accessToken, createCustomer) => {
-  let updateUser;
-  if (createCustomer) {
-    updateUser = await User.findOneAndUpdate(
-      { _id: userId },
-      {
-        $set: {
-          stripeId: createCustomer.id,
-          phoneNumber: accessToken.phoneNumber,
-          countryCode: accessToken.countryCode,
-        },
-      },
-      { new: true, lean: true }
-    ).populate({ path: "usualOrders.item" });
-  } else {
-    updateUser = await User.findOneAndUpdate(
-      { _id: userId },
-      {
-        $set: {
-          phoneNumber: accessToken.phoneNumber,
-          countryCode: accessToken.countryCode,
-        },
-      },
-      { new: true, lean: true }
-    ).populate({ path: "usualOrders.item" });
-  }
-  const token = await Token.findOneAndUpdate(
-    { _id: accessToken._id },
-    {
-      $unset: {
-        phoneNumber: accessToken.phoneNumber,
-        countryCode: accessToken.countryCode,
-      },
-    },
-    { new: true, lean: true }
-  );
-  return updateUser;
-};
-
 export const updateSocial = async (accessToken) => {
   const update = await Token.findOneAndUpdate(
     accessToken,

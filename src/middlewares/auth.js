@@ -8,6 +8,7 @@ import { AuthFailedError } from "../utils/errors.js";
 
 const verifyCallback =
   (req, resolve, reject, role) => async (err, token, info) => {
+    console.log(token, err, info, "tokennn");
     if (err || info || !token) {
       return reject(new AuthFailedError());
     }
@@ -69,4 +70,4 @@ const auth = (role) => async (req, res, next) => {
     .catch((err) => next(err));
 };
 
-export { auth };
+export default auth;

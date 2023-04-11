@@ -1,4 +1,5 @@
 import express from "express";
+
 import displayRoute from "./vendor/displayRoutes.js";
 import deviceRoute from "./device/deviceRoutes.js";
 import vendorAuth from "./vendor/authRoutes.js";
