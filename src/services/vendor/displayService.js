@@ -2,24 +2,6 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
-export const deviceCode = async (vendorId, code) => {
-  const device = await Device.findOneAndUpdate(
-    {
-      deviceCode: code,
-      isDeleted: false,
-    },
-    { $set: { isVerified: true } },
-    { new: true, lean: 1 }
-  ).lean();
-  if (!device) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.WRONG_DEVICE_CODE,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
-  
-};
-
 export const getScreens = async (search, vendorId) => {
   let screens = await Screen.find({
     vendor: vendorId,
