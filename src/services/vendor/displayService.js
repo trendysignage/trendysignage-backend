@@ -16,7 +16,13 @@ export const getScreens = async (search, vendorId) => {
 };
 
 export const addScreen = async (vendorId, body) => {
-  if (!(await Device.findOne({ deviceCode: body.code, isDeleted: false }))) {
+  if (
+    !(await Device.findOne({
+      deviceCode: body.code,
+      isDeleted: false,
+      isVerified: false,
+    }))
+  ) {
     throw new AuthFailedError(
       ERROR_MESSAGES.WRONG_DEVICE_CODE,
       STATUS_CODES.ACTION_FAILED
