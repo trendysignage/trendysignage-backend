@@ -11,7 +11,7 @@ import {
 import { AuthFailedError } from "../utils/errors.js";
 import { Token } from "../models/index.js";
 
-exports.generateToken = (data, secret = config.jwt.secret) => {
+export const generateToken = (data, secret = config.jwt.secret) => {
   const payload = {
     exp: data.tokenExpires.unix(),
     type: data.tokenType,
@@ -21,7 +21,7 @@ exports.generateToken = (data, secret = config.jwt.secret) => {
   return jwt.sign(payload, secret);
 };
 
-exports.saveToken = async (data) => {
+export const saveToken = async (data) => {
   let dataToBesaved = {
     expires: data.tokenExpires.toDate(),
     type: data.tokenType,
@@ -44,7 +44,7 @@ exports.saveToken = async (data) => {
   return tokenDoc;
 };
 
-exports.generateAuthToken = async (user, userType, deviceToken, otp) => {
+export const generateAuthToken = async (user, userType, deviceToken, otp) => {
   const tokenExpires = moment().add(config.jwt.accessExpirationMinutes, "days");
   var tokenId = new ObjectID();
   const accessToken = exports.generateToken({
@@ -53,7 +53,7 @@ exports.generateAuthToken = async (user, userType, deviceToken, otp) => {
     userType,
     tokenId,
   });
-  await exports.saveToken({
+  await saveToken({
     token: accessToken,
     tokenExpires,
     tokenId,
@@ -69,12 +69,12 @@ exports.generateAuthToken = async (user, userType, deviceToken, otp) => {
   };
 };
 
-exports.refreshAuth = async (user, tokenId, userType, device) => {
+export const refreshAuth = async (user, tokenId, userType, device) => {
   await Token.findByIdAndUpdate(tokenId, { isDeleted: true });
   return exports.generateAuthToken(user, userType, device.token);
 };
 
-exports.updateToken = async (token, otp, phoneNumber, countryCode) => {
+export const updateToken = async (token, otp, phoneNumber, countryCode) => {
   const update = await Token.findOneAndUpdate(
     { _id: token },
     {
@@ -86,7 +86,7 @@ exports.updateToken = async (token, otp, phoneNumber, countryCode) => {
   return update;
 };
 
-exports.update = async (userId, accessToken, createCustomer) => {
+export const update = async (userId, accessToken, createCustomer) => {
   let updateUser;
   if (createCustomer) {
     updateUser = await User.findOneAndUpdate(
@@ -125,7 +125,7 @@ exports.update = async (userId, accessToken, createCustomer) => {
   return updateUser;
 };
 
-exports.updateSocial = async (accessToken) => {
+export const updateSocial = async (accessToken) => {
   const update = await Token.findOneAndUpdate(
     accessToken,
     { $set: { isVerified: true } },
@@ -137,7 +137,7 @@ exports.updateSocial = async (accessToken) => {
   return update;
 };
 
-exports.logout = async (tokenId) => {
+export const logout = async (tokenId) => {
   const token = await Token.findOne({ _id: tokenId, isDeleted: false });
   if (!token) {
     throw new AuthFailedError(
@@ -151,7 +151,7 @@ exports.logout = async (tokenId) => {
   return updatedToken;
 };
 
-exports.isVerified = async (token) => {
+export const isVerified = async (token) => {
   const data = await Token.findOneAndUpdate(
     token,
     { $set: { isVerified: true } },
