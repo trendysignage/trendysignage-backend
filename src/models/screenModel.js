@@ -14,6 +14,7 @@ const screenSchema = new mongoose.Schema(
     groups: [{ type: String }],
     deviceCode: { type: Number, unique: true },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

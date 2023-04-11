@@ -3,6 +3,19 @@ import { displayService } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 
+export const deviceCode = catchAsync(async (req, res) => {
+  const device = await displayService.deviceCode(
+    req?.token?.vendor?._id,
+    req.body.code
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
 export const getScreens = catchAsync(async (req, res) => {
   const screen = await displayService.getScreens(
     req?.query?.search,

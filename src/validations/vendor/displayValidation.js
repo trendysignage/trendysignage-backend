@@ -2,6 +2,12 @@ import Joi from "joi";
 import { JOI } from "../../config/appConstants.js";
 import { objectId } from "../custom.validation.js";
 
+export const deviceCode = {
+  body: Joi.object().keys({
+    code: Joi.string().required(),
+  }),
+};
+
 export const getScreens = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),

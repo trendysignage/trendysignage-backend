@@ -1,21 +1,36 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Vendor } from "../../models/vendorModel.js";
+import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
-export const getScreens = async (search, vendorId) => {
-  let vendor = await Vendor.findOne(vendorId).lean().select("screens");
-  if (!vendor) {
+export const deviceCode = async (vendorId, code) => {
+  const device = await Device.findOneAndUpdate(
+    {
+      deviceCode: code,
+      isDeleted: false,
+    },
+    { $set: { isVerified: true } },
+    { new: true, lean: 1 }
+  ).lean();
+  if (!device) {
     throw new AuthFailedError(
-      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      ERROR_MESSAGES.WRONG_DEVICE_CODE,
       STATUS_CODES.ACTION_FAILED
     );
   }
+  
+};
+
+export const getScreens = async (search, vendorId) => {
+  let screens = await Screen.find({
+    vendor: vendorId,
+    isDeleted: false,
+  }).lean();
   if (search) {
-    vendor.screens = vendor.screens.filter((i) =>
+    screens = screens.filter((i) =>
       JSON.stringify(i.name.toLowerCase()).includes(search.toLowerCase())
     );
   }
-  return vendor;
+  return screens;
 };
 
 export const addScreen = async (vendorId, body) => {

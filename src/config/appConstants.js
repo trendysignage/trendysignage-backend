@@ -70,6 +70,7 @@ const ERROR_MESSAGES = {
   VENDORID_ALREADY_EXIST: "VendorId already exist, please try again",
   ADMIN_NOT_FOUND: "Admin not found",
   ACCOUNT_NOT_VERIFIED: "Please verify your account.",
+  WRONG_DEVICE_CODE: "The Device code you entered is wrong, please try again.",
 };
 
 const STATUS_CODES = {
