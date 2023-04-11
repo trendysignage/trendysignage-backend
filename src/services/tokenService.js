@@ -47,7 +47,7 @@ export const saveToken = async (data) => {
 export const generateAuthToken = async (user, userType, deviceToken, otp) => {
   const tokenExpires = moment().add(config.jwt.accessExpirationMinutes, "days");
   var tokenId = new ObjectID();
-  const accessToken = exports.generateToken({
+  const accessToken = generateToken({
     tokenExpires,
     tokenType: TOKEN_TYPE.ACCESS,
     userType,
@@ -71,7 +71,7 @@ export const generateAuthToken = async (user, userType, deviceToken, otp) => {
 
 export const refreshAuth = async (user, tokenId, userType, device) => {
   await Token.findByIdAndUpdate(tokenId, { isDeleted: true });
-  return exports.generateAuthToken(user, userType, device.token);
+  return generateAuthToken(user, userType, device.token);
 };
 
 export const updateToken = async (token, otp, phoneNumber, countryCode) => {

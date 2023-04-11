@@ -48,6 +48,7 @@ export const editScreen = async (vendorId, body) => {
   const screen = await Screen.findOneAndUpdate(
     {
       _id: body.screenId,
+      vendor: vendorId,
       isDeleted: false,
     },
     { $set: data },

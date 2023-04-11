@@ -7,6 +7,6 @@ export const login = {
     role: JOI.ROLE,
     email: Joi.string().email().lowercase().trim().required(),
     password: JOI.PASSWORD,
-    deviceToken: Joi.string().required(),
+    // deviceToken: Joi.string().required(),
   }),
 };
