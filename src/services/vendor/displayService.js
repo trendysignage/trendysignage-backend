@@ -66,6 +66,7 @@ export const deleteScreen = async (vendorId, screenId) => {
   const screen = await Screen.findOneAndUpdate(
     {
       _id: screenId,
+      vendor: vendorId,
       isDeleted: false,
     },
     {

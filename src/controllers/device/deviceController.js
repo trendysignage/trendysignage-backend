@@ -7,7 +7,7 @@ import { generateDeviceCode } from "../../utils/universalFunction.js";
 export const addDevice = catchAsync(async (req, res) => {
   const deviceCode = await generateDeviceCode();
   const device = await deviceService.addDevice(
-    req.query.deviceToken,
+    req.body.deviceToken,
     deviceCode
   );
   return successResponse(

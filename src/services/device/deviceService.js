@@ -4,7 +4,7 @@ import { AuthFailedError } from "../../utils/errors.js";
 import { Device } from "../../models/index.js";
 
 export const addDevice = async (deviceToken, code) => {
-  const device = await Device.findOneAndUpdate(
+  let device = await Device.findOneAndUpdate(
     {
       deviceToken: deviceToken,
       isDeleted: false,
@@ -15,5 +15,11 @@ export const addDevice = async (deviceToken, code) => {
     { $set: { deviceToken: deviceToken, deviceCode: code } },
     { upsert: true, new: true, lean: 1 }
   );
+  if (!device) {
+    device = await Device.findOne({
+      deviceToken: deviceToken,
+      isDeleted: false,
+    }).lean();
+  }
   return device;
 };
