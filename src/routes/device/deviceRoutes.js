@@ -7,7 +7,7 @@ import { deviceValidation } from "../../validations/index.js";
 const router = express.Router();
 
 router
-  .route("/device")
+  .route("/")
   // .all(auth())
   .get(validate(deviceValidation.addDevice), deviceController.addDevice);
 

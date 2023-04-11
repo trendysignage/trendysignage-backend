@@ -9,6 +9,8 @@ export const addDevice = async (deviceToken, code) => {
       deviceToken: deviceToken,
       isDeleted: false,
       isVerified: true,
+      screen: { $exists: false },
+      vendor: { $exists: false },
     },
     { $set: { deviceToken: deviceToken, deviceCode: code } },
     { upsert: true, new: true, lean: 1 }
