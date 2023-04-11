@@ -12,8 +12,8 @@ const compositionSchema = new mongoose.Schema(
         priority: { type: Number },
       },
     ],
-    isDefault: { type: Boolean, default: false, required: true },
-    isDeleted: { type: Boolean, default: false, required: true },
+    isDefault: { type: Boolean, default: false },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { TOKEN_TYPE, USER_TYPE, DEVICE_TYPE } from "../config/appConstants.js";
 
-const tokenSchema = mongoose.Schema(
+const tokenSchema = new mongoose.Schema(
   {
     token: { type: String, unique: true, required: true },
     vendor: { type: mongoose.SchemaTypes.ObjectId, ref: "vendors" },

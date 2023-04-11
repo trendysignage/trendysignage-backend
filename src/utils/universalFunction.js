@@ -1,3 +1,5 @@
+import { Device } from "../models/index.js";
+
 const catchAsync = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch((err) => {
     console.log(err);
@@ -15,4 +17,21 @@ const pick = (object, keys) => {
   }, {});
 };
 
-export { catchAsync, pick };
+const generateDeviceCode = async () => {
+  let code = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  do {
+    for (let i = 0; i < 6; i++) {
+      code += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+  } while (
+    await Device.findOne({
+      isDeleted: false,
+      isVerified: true,
+      deviceCode: code,
+    }).lean()
+  );
+  return code;
+};
+
+export { catchAsync, pick, generateDeviceCode };

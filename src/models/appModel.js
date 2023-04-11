@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 
 const appSchema = new mongoose.Schema(
   {
-    name: { type: String },
-    meta: {},
-    isDeleted: { type: Boolean, default: false, required: true },
+    name: { type: String, required: true },
+    type: { type: String, required: true },
+    data: { type: String },
+    url: { type: String },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

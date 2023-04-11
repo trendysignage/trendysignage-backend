@@ -1,6 +1,11 @@
 import Joi from "joi";
 import { objectId } from "../validations/custom.validation.js";
 
+export const MEDIA_TYPE = {
+  IMAGE: "image",
+  VIDEO: "video",
+};
+
 export const TOKEN_TYPE = {
   ACCESS: "access",
   REFRESH: "refresh",

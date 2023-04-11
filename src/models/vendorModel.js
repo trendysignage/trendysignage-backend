@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { MEDIA_TYPE } from "../config/appConstants.js";
 
 const vendorSchema = new mongoose.Schema(
   {
@@ -13,25 +14,11 @@ const vendorSchema = new mongoose.Schema(
       googleId: { type: String },
     },
     password: { type: String },
-    screens: [
-      {
-        name: { type: String },
-        screenLocation: { type: String },
-        googleLocation: { type: String },
-        tags: [{ type: String }],
-        defaultComposition: { type: String },
-        schedule: {
-          startTime: { type: Date },
-          endTime: { type: Date },
-        },
-        groups: { type: String },
-        deviceCode: { type: Number },
-      },
-    ],
     media: [
       {
         title: { type: String },
-        timestamp: { type: Date },
+        type: { type: String, enum: [...Object.values(MEDIA_TYPE)] },
+        uploadDate: { type: Date },
         properties: { type: String },
         tags: [{ type: String }],
       },
