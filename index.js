@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import app from "./app.js";
-import config from "./config/config.js";
-import CreateAdmin from "./utils/bootstrap.js";
+import app from "./src/app.js";
+import config from "./src/config/config.js";
+import CreateAdmin from "./src/utils/bootstrap.js";
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {

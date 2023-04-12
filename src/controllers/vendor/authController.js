@@ -9,13 +9,17 @@ import { catchAsync } from "../../utils/universalFunction.js";
 
 export const login = catchAsync(async (req, res) => {
   let { email, password } = req.body;
+  
   const vendor = await vendorAuthService.login(email, password);
+
   const token = await tokenService.generateAuthToken(
     vendor,
     USER_TYPE.VENDOR,
     req.body.deviceToken
   );
+
   const updateToken = await tokenService.isVerified(token);
+
   return successResponse(
     req,
     res,
@@ -23,4 +27,5 @@ export const login = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS,
     { token, vendor }
   );
+
 });
