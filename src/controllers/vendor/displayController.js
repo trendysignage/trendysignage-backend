@@ -28,7 +28,7 @@ export const addScreen = catchAsync(async (req, res) => {
 });
 
 export const editScreen = catchAsync(async (req, res) => {
-  await displayService.editScreen(req?.token?.vendor?._id, req.body);
+  await displayService.editScreen(req.token.vendor._id, req.body);
   return successResponse(
     req,
     res,
@@ -38,10 +38,7 @@ export const editScreen = catchAsync(async (req, res) => {
 });
 
 export const deleteScreen = catchAsync(async (req, res) => {
-  await displayService.deleteScreen(
-    req?.token?.vendor?._id,
-    req.query.screenId
-  );
+  await displayService.deleteScreen(req.token.vendor._id, req.query.screenId);
   return successResponse(
     req,
     res,
@@ -53,7 +50,7 @@ export const deleteScreen = catchAsync(async (req, res) => {
 export const getMedia = catchAsync(async (req, res) => {
   const media = await displayService.getMedia(
     req?.query?.search,
-    req?.token?.vendor?._id
+    req.token.vendor._id
   );
   return successResponse(
     req,
@@ -65,7 +62,7 @@ export const getMedia = catchAsync(async (req, res) => {
 });
 
 export const addMedia = catchAsync(async (req, res) => {
-  await displayService.addMedia(req?.token?.vendor?._id, req.body);
+  await displayService.addMedia(req.token.vendor._id, req.body);
   return successResponse(
     req,
     res,
@@ -75,7 +72,7 @@ export const addMedia = catchAsync(async (req, res) => {
 });
 
 export const editMedia = catchAsync(async (req, res) => {
-  await displayService.editMedia(req?.token?.vendor?._id, req.body);
+  await displayService.editMedia(req.token.vendor._id, req.body);
   return successResponse(
     req,
     res,
@@ -85,7 +82,7 @@ export const editMedia = catchAsync(async (req, res) => {
 });
 
 export const deleteMedia = catchAsync(async (req, res) => {
-  await displayService.deleteMedia(req?.token?.vendor?._id, req.query.mediaId);
+  await displayService.deleteMedia(req.token.vendor._id, req.query.mediaId);
   return successResponse(
     req,
     res,

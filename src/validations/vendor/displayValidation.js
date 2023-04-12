@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { JOI } from "../../config/appConstants.js";
+import { JOI, MEDIA_TYPE } from "../../config/appConstants.js";
 import { objectId } from "../custom.validation.js";
 
 export const getScreens = {
@@ -45,8 +45,11 @@ export const getMedia = {
 export const addMedia = {
   body: Joi.object().keys({
     title: Joi.string().required(),
+    type: Joi.string()
+      .valid(...Object.values(MEDIA_TYPE))
+      .required(),
     properties: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).required().default([]),
+    tags: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 
@@ -55,7 +58,7 @@ export const editMedia = {
     mediaId: JOI.OBJECTID,
     title: Joi.string().required(),
     properties: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).required().default([]),
+    tags: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 

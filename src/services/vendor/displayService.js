@@ -86,10 +86,18 @@ export const deleteScreen = async (vendorId, screenId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  await Device.findOneAndUpdate(
+    { screen: screenId, isDeleted: false },
+    {
+      $set: { isVerified: false },
+      $unset: { screen: "", vendor: "" },
+    },
+    { new: true, lean: 1 }
+  );
 };
 
 export const getMedia = async (search, vendorId) => {
-  let vendor = await Vendor.findOne(vendorId).lean().select("media");
+  let vendor = await Vendor.findById(vendorId).lean().select("media");
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -108,14 +116,16 @@ export const addMedia = async (vendorId, body) => {
   let media = [
     {
       title: body.title,
-      timestamp: new Date(),
+      uploadDate: new Date(),
       properties: body.properties,
       tags: body.tags,
+      type: body.type,
     },
   ];
   const vendor = await Vendor.findOneAndUpdate(
     {
-      /* _id: vendorId */
+      _id: vendorId,
+      isDeleted: false,
     },
     { $addToSet: { media: media } },
     { new: true, lean: 1 }
@@ -131,7 +141,7 @@ export const addMedia = async (vendorId, body) => {
 export const editMedia = async (vendorId, body) => {
   const vendor = await Vendor.findOneAndUpdate(
     {
-      /* _id: vendorId */
+      _id: vendorId,
       "media._id": body.mediaId,
     },
     {
@@ -154,7 +164,8 @@ export const editMedia = async (vendorId, body) => {
 export const deleteMedia = async (vendorId, mediaId) => {
   const vendor = await Vendor.findOneAndUpdate(
     {
-      /* _id: vendorId  */ "media._id": mediaId,
+      _id: vendorId,
+      "media._id": mediaId,
     },
     {
       $pull: { media: { _id: mediaId } },
