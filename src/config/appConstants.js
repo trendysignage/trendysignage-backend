@@ -4,6 +4,7 @@ import { objectId } from "../validations/custom.validation.js";
 export const MEDIA_TYPE = {
   IMAGE: "image",
   VIDEO: "video",
+  APP: "app",
 };
 
 export const TOKEN_TYPE = {
