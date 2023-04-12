@@ -14,15 +14,5 @@ export const addDevice = async (deviceToken, code) => {
       deviceCode: code,
     });
   }
-  if (!device.isVerified) {
-    device = await Device.findOneAndUpdate(
-      {
-        deviceToken: deviceToken,
-        isDeleted: false,
-      },
-      { $set: { deviceCode: code } },
-      { new: true, lean: 1 }
-    ).lean();
-  }
   return device;
 };
