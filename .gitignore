@@ -9,3 +9,5 @@ node_modules
 test.js
 
 /src/middlewares/locales/
+
+uploads/

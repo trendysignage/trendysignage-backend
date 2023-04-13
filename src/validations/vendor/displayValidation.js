@@ -50,7 +50,6 @@ export const getMedia = {
 
 export const addMedia = {
   body: Joi.object().keys({
-    title: Joi.string().required(),
     type: Joi.string()
       .valid(...Object.values(MEDIA_TYPE))
       .required(),
@@ -62,7 +61,6 @@ export const addMedia = {
 export const editMedia = {
   body: Joi.object().keys({
     mediaId: JOI.OBJECTID,
-    title: Joi.string().required(),
     properties: Joi.string().required(),
     tags: Joi.array().items(Joi.string().required()).default([]),
   }),

@@ -3,6 +3,7 @@ import { validate } from "../../middlewares/validate.js";
 import auth from "../../middlewares/auth.js";
 import { displayController } from "../../controllers/index.js";
 import { displayValidation } from "../../validations/index.js";
+import upload from "../../middlewares/multer.js";
 
 const router = express.Router();
 
@@ -28,8 +29,16 @@ router
   .route("/media")
   .all(auth())
   .get(validate(displayValidation.getMedia), displayController.getMedia)
-  .post(validate(displayValidation.addMedia), displayController.addMedia)
-  .put(validate(displayValidation.editMedia), displayController.editMedia)
+  .post(
+    upload.single("file"),
+    validate(displayValidation.addMedia),
+    displayController.addMedia
+  )
+  .put(
+    upload.single("file"),
+    validate(displayValidation.editMedia),
+    displayController.editMedia
+  )
   .delete(
     validate(displayValidation.deleteMedia),
     displayController.deleteMedia

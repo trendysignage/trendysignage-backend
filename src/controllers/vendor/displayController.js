@@ -72,7 +72,7 @@ export const getMedia = catchAsync(async (req, res) => {
 });
 
 export const addMedia = catchAsync(async (req, res) => {
-  await displayService.addMedia(req.token.vendor._id, req.body);
+  await displayService.addMedia(req.token.vendor._id, req.body, req.file);
   return successResponse(
     req,
     res,
@@ -82,7 +82,7 @@ export const addMedia = catchAsync(async (req, res) => {
 });
 
 export const editMedia = catchAsync(async (req, res) => {
-  await displayService.editMedia(req.token.vendor._id, req.body);
+  await displayService.editMedia(req.token.vendor._id, req.body, req.file);
   return successResponse(
     req,
     res,

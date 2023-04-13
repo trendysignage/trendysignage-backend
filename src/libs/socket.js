@@ -67,23 +67,12 @@ exports.connectSocket = (server) => {
     }
   }).on("connection", (socket) => {
     socket.on("sendMessage", async (data) => {
-      let message;
-      if (!data && !data.type) {
+      if (!data.screenId && !data.mediaId && !data.duration) {
         throw new AuthFailedError(
           "data is missing",
           STATUS_CODES.ACTION_FAILED
         );
       }
-      // const conversation = await socketService.getConversation(
-      //   data.conversationId
-      // );
-      // if (!conversation) {
-      //   throw new AuthFailedError(
-      //     "conversation not found",
-      //     STATUS_CODES.ACTION_FAILED
-      //   );
-      // }
-
       const senderId = socket.decoded.user;
       let receiverId;
       if (
@@ -108,7 +97,7 @@ exports.connectSocket = (server) => {
       );
       if (userCache[receiverId]) {
         userCache[receiverId].map(async (id) => {
-          io.to(id).emit("receiveMessage", message);
+          io.to(id).emit("receiveContent", message);
         });
       }
     });
