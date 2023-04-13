@@ -42,6 +42,7 @@ export const addScreen = async (vendorId, body) => {
     googleLocation: body.googleLocation,
     tags: body.tags,
     groups: body.groups,
+    deviceCode: body.code,
     vendor: vendorId,
   });
   let device = await Device.findOneAndUpdate(
