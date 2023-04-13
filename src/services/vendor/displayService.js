@@ -36,6 +36,18 @@ export const getScreens = async (search, vendorId) => {
 };
 
 export const addScreen = async (vendorId, body) => {
+  if (
+    !(await Device.findOne({
+      deviceCode: body.code,
+      isDeleted: false,
+      isVerified: false,
+    }))
+  ) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.WRONG_DEVICE_CODE,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
   const screen = await Screen.create({
     name: body.name,
     screenLocation: body.screenLocation,
@@ -50,12 +62,6 @@ export const addScreen = async (vendorId, body) => {
     { $set: { isVerified: true, screen: screen._id } },
     { new: true, lean: true }
   );
-  if (!device) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.DEVICE_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
 };
 
 export const editScreen = async (vendorId, body) => {

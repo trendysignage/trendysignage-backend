@@ -12,7 +12,7 @@ const screenSchema = new mongoose.Schema(
       endTime: { type: Date },
     },
     groups: [{ type: String }],
-    deviceCode: { type: Number },
+    deviceCode: { type: String, required: true },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     isDeleted: { type: Boolean, default: false },
   },
