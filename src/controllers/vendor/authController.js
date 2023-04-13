@@ -6,12 +6,13 @@ import {
   USER_TYPE,
 } from "../../config/appConstants.js";
 import { catchAsync } from "../../utils/universalFunction.js";
+import { formatVendor } from "../../utils/formatResponse";
 
 export const login = catchAsync(async (req, res) => {
   let { email, password } = req.body;
-  
-  const vendor = await vendorAuthService.login(email, password);
 
+  const vendor = await vendorAuthService.login(email, password);
+  formatVendor(vendor);
   const token = await tokenService.generateAuthToken(
     vendor,
     USER_TYPE.VENDOR,
@@ -27,5 +28,4 @@ export const login = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS,
     { token, vendor }
   );
-
 });

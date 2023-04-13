@@ -2,6 +2,26 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
+export const deviceCode = async (vendorId, code) => {
+  if (
+    !(await Device.findOne({
+      deviceCode: code,
+      isDeleted: false,
+      isVerified: false,
+    }))
+  ) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.WRONG_DEVICE_CODE,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  await Device.findOneAndUpdate(
+    { deviceCode: code, isDeleted: false },
+    { $set: { vendor: vendorId } },
+    { new: true, lean: 1 }
+  );
+};
+
 export const getScreens = async (search, vendorId) => {
   let screens = await Screen.find({
     vendor: vendorId,
@@ -16,18 +36,6 @@ export const getScreens = async (search, vendorId) => {
 };
 
 export const addScreen = async (vendorId, body) => {
-  if (
-    !(await Device.findOne({
-      deviceCode: body.code,
-      isDeleted: false,
-      isVerified: false,
-    }))
-  ) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.WRONG_DEVICE_CODE,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
   const screen = await Screen.create({
     name: body.name,
     screenLocation: body.screenLocation,
@@ -36,11 +44,17 @@ export const addScreen = async (vendorId, body) => {
     groups: body.groups,
     vendor: vendorId,
   });
-  await Device.findOneAndUpdate(
+  let device = await Device.findOneAndUpdate(
     { deviceCode: body.code, isDeleted: false },
-    { $set: { isVerified: true, screen: screen._id, vendor: vendorId } },
-    { new: true, lean: 1 }
+    { $set: { isVerified: true, screen: screen._id } },
+    { new: true, lean: true }
   );
+  if (!device) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEVICE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };
 
 export const editScreen = async (vendorId, body) => {

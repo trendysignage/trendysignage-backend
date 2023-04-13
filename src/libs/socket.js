@@ -9,7 +9,7 @@ import {
 } from "../config/appConstants.js";
 import { socketService } from "../services/index.js";
 import { AuthFailedError } from "../utils/errors.js";
-import { Token, Vendor, Devices } from "../models/index.js";
+import { Token, Vendor, Device } from "../models/index.js";
 
 let userCache = {};
 
@@ -48,7 +48,7 @@ exports.connectSocket = (server) => {
             "qwwwwwwwweerttttttttttyyyyyy"
           );
           socket.decoded = decoded;
-          socket.decoded.user = device.user;
+          socket.decoded.user = device._id;
           let value = socket.decoded.user;
           if (!userCache[value]) {
             userCache[value] = [socket.id];
@@ -68,21 +68,21 @@ exports.connectSocket = (server) => {
   }).on("connection", (socket) => {
     socket.on("sendMessage", async (data) => {
       let message;
-      if (!data.conversationId && !data.message && !data.type) {
+      if (!data && !data.type) {
         throw new AuthFailedError(
           "data is missing",
           STATUS_CODES.ACTION_FAILED
         );
       }
-      const conversation = await socketService.getConversation(
-        data.conversationId
-      );
-      if (!conversation) {
-        throw new AuthFailedError(
-          "conversation not found",
-          STATUS_CODES.ACTION_FAILED
-        );
-      }
+      // const conversation = await socketService.getConversation(
+      //   data.conversationId
+      // );
+      // if (!conversation) {
+      //   throw new AuthFailedError(
+      //     "conversation not found",
+      //     STATUS_CODES.ACTION_FAILED
+      //   );
+      // }
 
       const senderId = socket.decoded.user;
       let receiverId;
@@ -93,61 +93,22 @@ exports.connectSocket = (server) => {
       } else {
         receiverId = data.receiver;
       }
-      const blocked = await socketService.blocked(senderId, receiverId);
-      if (blocked == false) {
-        message = await socketService.saveMessage(
-          senderId,
-          receiverId,
-          conversation._id,
-          data.message,
-          data.type
-        );
-        let { androidDeviceToken, androidDeviceType, iosDeviceType } =
-          await socketService.getReceiver(data.receiver, "msg");
-        const { sender, receiver } = await socketService.getUsers(
-          senderId,
-          receiverId
-        );
-        let body;
-        if (data.type === "image") {
-          body = {
-            message: "image",
-            receiver: sender, //toggled
-            sender: { _id: receiver._id }, //toggled
-            conversationId: data.conversationId,
-          };
-        } else {
-          body = {
-            message: message.message,
-            receiver: sender, //toggled
-            sender: { _id: receiver._id }, //toggled
-            conversationId: data.conversationId,
-          };
-        }
-        await fcm.notification(
-          androidDeviceToken,
-          NOTIFICATION_TYPE.MESSAGE,
-          `You've a new message from ${sender.name}`,
-          body
-        );
-        if (userCache[receiverId]) {
-          userCache[receiverId].map(async (id) => {
-            io.to(id).emit("receiveMessage", message);
-          });
-        }
-      }
-    });
-    socket.on("isTyping", async (data) => {
-      if (!data.userId) {
-        throw new AuthFailedError(
-          "Data is missing",
-          STATUS_CODES.ACTION_FAILED
-        );
-      }
-      let receiverId = data.userId;
+      // message = await socketService.saveMessage(
+      //   senderId,
+      //   receiverId,
+      //   conversation._id,
+      //   data.message,
+      //   data.type
+      // );
+      // let { androidDeviceToken, androidDeviceType, iosDeviceType } =
+      //   await socketService.getReceiver(data.receiver, "msg");
+      const { sender, receiver } = await socketService.getUsers(
+        senderId,
+        receiverId
+      );
       if (userCache[receiverId]) {
         userCache[receiverId].map(async (id) => {
-          io.to(id).emit("isTyping", data.typing);
+          io.to(id).emit("receiveMessage", message);
         });
       }
     });

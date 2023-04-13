@@ -68,6 +68,7 @@ const ERROR_MESSAGES = {
   ACCOUNT_DELETED: "Your account has been deleted by Admin",
   ACCOUNT_BLOCKED: "Your account has been blocked by Admin",
   VENDOR_NOT_FOUND: "Vendor not found",
+  DEVICE_NOT_FOUND: "Device not found",
   SCREEN_NOT_FOUND: "Screen not found",
   VENDORID_ALREADY_EXIST: "VendorId already exist, please try again",
   ADMIN_NOT_FOUND: "Admin not found",

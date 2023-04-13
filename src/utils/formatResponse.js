@@ -16,4 +16,9 @@ const converStringToDate = (date) => {
   return moment(date + "Z", "DD-MM-YYYY" + "Z").toDate();
 };
 
-export { converStringToDate, localtime, utcTime };
+const formatVendor = (vendor) => {
+  delete vendor.__v;
+  delete vendor.password;
+};
+
+export { converStringToDate, localtime, utcTime, formatVendor };

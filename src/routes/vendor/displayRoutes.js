@@ -6,6 +6,13 @@ import { displayValidation } from "../../validations/index.js";
 
 const router = express.Router();
 
+router.post(
+  "/deviceCode",
+  auth(),
+  validate(displayValidation.deviceCode),
+  displayController.deviceCode
+);
+
 router
   .route("/screen")
   .all(auth())
