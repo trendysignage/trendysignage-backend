@@ -31,39 +31,30 @@ export const connectSocket = (server) => {
     console.log("user is trying to connect");
     if (socket.handshake.query && socket.handshake.query.token) {
       console.log("user entered", socket.handshake.query);
-      jwt.verify(
-        socket.handshake.query.token,
-        config.jwt.secret,
-        async function (err, decoded) {
-          if (err || decoded.role == USER_TYPE.ADMIN) {
-            console.log(err, "errorr connneecctionnn");
-            throw new AuthFailedError(
-              ERROR_MESSAGES.AUTHENTICATION_FAILED,
-              STATUS_CODES.AUTH_FAILED
-            );
-          }
-          const token = await Device.findOne({
-            deviceToken: socket.handshake.query.token,
-          }).lean();
-
-          console.log(
-            "decoded",
-            decoded,
-            token,
-            "qwwwwwwwweerttttttttttyyyyyy"
+      async (err, decoded) => {
+        if (err || decoded.role == USER_TYPE.ADMIN) {
+          console.log(err, "errorr connneecctionnn");
+          throw new AuthFailedError(
+            ERROR_MESSAGES.AUTHENTICATION_FAILED,
+            STATUS_CODES.AUTH_FAILED
           );
-          socket.decoded = decoded;
-          socket.decoded.user = token._id;
-          let value = socket.decoded.user;
-          if (!userCache[value]) {
-            userCache[value] = [socket.id];
-          } else {
-            userCache[value].push(socket.id);
-          }
-          console.log("socketHolder", userCache);
-          return next();
         }
-      );
+        const token = await Device.findOne({
+          deviceToken: socket.handshake.query.token,
+        }).lean();
+
+        console.log("decoded", decoded, token, "qwwwwwwwweerttttttttttyyyyyy");
+        socket.decoded = decoded;
+        socket.decoded.user = token._id;
+        let value = socket.decoded.user;
+        if (!userCache[value]) {
+          userCache[value] = [socket.id];
+        } else {
+          userCache[value].push(socket.id);
+        }
+        console.log("socketHolder", userCache);
+        return next();
+      };
     } else {
       console.log("error connecting");
       throw new AuthFailedError(
