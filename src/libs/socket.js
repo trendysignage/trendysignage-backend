@@ -67,7 +67,13 @@ export const connectSocket = (server) => {
           deviceToken: deviceToken,
           isDeleted: false,
         }).lean();
-        userCache[device] = [device._id];
+        if (!device) {
+          throw new AuthFailedError(
+            ERROR_MESSAGES.DEVICE_NOT_FOUND,
+            STATUS_CODES.ACTION_FAILED
+          );
+        }
+        userCache[device].push(device._id);
       }
       device(socket.handshake.query.deviceToken);
       return next();
