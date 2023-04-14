@@ -74,9 +74,9 @@ export const connectSocket = (server) => {
           );
         }
         let value = device._id;
-        console.log(userCache[value], socket.id, "spoookckekktttt");
         if (!userCache[value]) {
           userCache[value] = [socket.id];
+          console.log(userCache[value], socket.id, "spoookckekktttt");
         } else {
           userCache[value].push(socket.id);
         }
