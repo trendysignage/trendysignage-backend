@@ -22,41 +22,56 @@ let userCache = {};
 */
 
 export const connectSocket = (server) => {
-  const io = new Server(
-    server /* , {
+  const io = new Server(server, {
     transports: ["websocket"],
-  } */
-  );
+  });
   io.use(function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query && socket.handshake.query.token) {
-      console.log("user entered", socket.handshake.query);
-      async function jwt(err, decoded) {
-        console.log(decoded, "decode");
-        if (err || decoded.role == USER_TYPE.ADMIN) {
-          console.log(err, "errorr connneecctionnn");
-          throw new AuthFailedError(
-            ERROR_MESSAGES.AUTHENTICATION_FAILED,
-            STATUS_CODES.AUTH_FAILED
-          );
-        }
-        const token = await Device.findOne({
-          deviceToken: socket.handshake.query.token,
-        }).lean();
+      console.log("user entered");
+      jwt.verify(
+        socket.handshake.query.token,
+        config.jwt.secret,
+        async function (err, decoded) {
+          if (err || decoded.role == USER_TYPE.ADMIN) {
+            console.log(err, "errorr connneecctionnn");
+            throw new AuthFailedError(
+              ERROR_MESSAGES.AUTHENTICATION_FAILED,
+              STATUS_CODES.AUTH_FAILED
+            );
+          }
+          const token = await Token.findOne({
+            token: socket.handshake.query.token,
+          }).lean();
 
-        console.log("decoded", decoded, token, "qwwwwwwwweerttttttttttyyyyyy");
-        socket.decoded = decoded;
-        socket.decoded.user = token._id;
-        let value = socket.decoded.user;
-        if (!userCache[value]) {
-          userCache[value] = [socket.id];
-        } else {
-          userCache[value].push(socket.id);
+          console.log(
+            "decoded",
+            decoded,
+            token,
+            "qwwwwwwwweerttttttttttyyyyyy"
+          );
+          socket.decoded = decoded;
+          socket.decoded.user = token.vendor;
+          let value = socket.decoded.user;
+          if (!userCache[value]) {
+            userCache[value] = [socket.id];
+          } else {
+            userCache[value].push(socket.id);
+          }
+          console.log("socketHolder", userCache);
+          return next();
         }
-        console.log("socketHolder", userCache);
-        return next();
+      );
+    }
+    if (socket.handshake.query.deviceToken) {
+      async function device(deviceToken) {
+        const device = await Device.findOne({
+          _id: deviceToken,
+          isDeleted: false,
+        }).lean();
+        userCache[device] = [device._id];
       }
-      jwt();
+      device(socket.handshake.query.deviceToke);
     } else {
       console.log("error connecting");
       throw new AuthFailedError(
@@ -65,9 +80,7 @@ export const connectSocket = (server) => {
       );
     }
   }).on("connection", (socket) => {
-    console.log(userCache, "cachchhhee");
-    // let defaultContent = socketService.getDefault(userCache);
-    // socket.emit("default", defaultContent);
+    console.log(userCache, "sockektktktttt userCachhhe");
     socket.on("sendContent", async (data) => {
       if (!data.screenId && !data.mediaId && !data.duration) {
         throw new AuthFailedError(
