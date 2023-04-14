@@ -64,7 +64,7 @@ export const connectSocket = (server) => {
     if (socket.handshake.query.deviceToken) {
       async function device(deviceToken) {
         const device = await Device.findOne({
-          _id: deviceToken,
+          deviceToken: deviceToken,
           isDeleted: false,
         }).lean();
         userCache[device] = [device._id];
