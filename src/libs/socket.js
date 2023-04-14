@@ -71,8 +71,8 @@ export const connectSocket = (server) => {
     }
   }).on("connection", (socket) => {
     console.log(userCache, "cachchhhee");
-    let defaultContent = socketService.getDefault(userCache);
-    socket.emit("default", defaultContent);
+    // let defaultContent = socketService.getDefault(userCache);
+    // socket.emit("default", defaultContent);
     socket.on("sendContent", async (data) => {
       if (!data.screenId && !data.mediaId && !data.duration) {
         throw new AuthFailedError(
