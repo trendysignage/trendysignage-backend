@@ -92,6 +92,7 @@ export const connectSocket = (server) => {
     }
   }).on("connection", (socket) => {
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
+      console.log("runaanonnnn connection emit");
       io.to(id).emit("receiveContent", "connntnteeeettt");
     });
     console.log(userCache, "sockektktktttt userCachhhe", socket);
