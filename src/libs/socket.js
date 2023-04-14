@@ -61,7 +61,7 @@ export const connectSocket = (server) => {
         }
       );
     }
-    if (socket.handshake.query.deviceToken) {
+    if (socket.handshake.query && socket.handshake.query.deviceToken) {
       console.log("device entered");
       async function device(deviceToken) {
         const device = await Device.findOne({
@@ -91,7 +91,6 @@ export const connectSocket = (server) => {
       );
     }
   }).on("connection", (socket) => {
-    console.log(userCache, "deviceTOkennnn");
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
       console.log("runaanonnnn connection emit");
       io.to(id).emit("receiveContent", "connntnteeeettt");
