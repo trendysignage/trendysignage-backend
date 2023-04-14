@@ -42,8 +42,8 @@ export const connectSocket = (server) => {
               STATUS_CODES.AUTH_FAILED
             );
           }
-          const token = await Token.findOne({
-            token: socket.handshake.query.token,
+          const token = await Device.findOne({
+            deviceToken: socket.handshake.query.token,
           }).lean();
 
           console.log(
@@ -53,7 +53,7 @@ export const connectSocket = (server) => {
             "qwwwwwwwweerttttttttttyyyyyy"
           );
           socket.decoded = decoded;
-          socket.decoded.user = token.vendor;
+          socket.decoded.user = token._id;
           let value = socket.decoded.user;
           if (!userCache[value]) {
             userCache[value] = [socket.id];
