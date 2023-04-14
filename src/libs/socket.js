@@ -63,6 +63,7 @@ export const connectSocket = (server) => {
     }
     if (socket.handshake.query.deviceToken) {
       async function device(deviceToken) {
+        console.log(deviceToken);
         const device = await Device.findOne({
           _id: deviceToken,
           isDeleted: false,
