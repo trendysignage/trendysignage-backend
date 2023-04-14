@@ -103,7 +103,10 @@ export const connectSocket = (server) => {
         );
       }
       let receiverId = await socketService.getDevice(data.screenId);
-      let content = await socketService.getContent(userCache, data.mediaId);
+      let content = await socketService.getContent(
+        userCache[socket.handshake.query.deviceToken],
+        data.mediaId
+      );
 
       if (userCache[receiverId]) {
         userCache[receiverId].map(async (id) => {
@@ -121,6 +124,9 @@ export const connectSocket = (server) => {
           (socketId) => socketId !== socket.id
         );
       } else {
+        userCache[socket.handshake.query.deviceToken] = userCache[
+          socket.handshake.query.deviceToken
+        ].filter((socketId) => socketId !== socket.id);
       }
       console.log("disconneted", userCache);
     });
