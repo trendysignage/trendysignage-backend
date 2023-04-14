@@ -91,10 +91,7 @@ export const connectSocket = (server) => {
       );
     }
   }).on("connection", (socket) => {
-    console.log(
-      userCache[socket.handshake.query.deviceToken],
-      "deviceTOkennnn"
-    );
+    console.log(userCache, "deviceTOkennnn");
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
       console.log("runaanonnnn connection emit");
       io.to(id).emit("receiveContent", "connntnteeeettt");
