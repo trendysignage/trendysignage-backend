@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import app from "./app.js";
 import config from "./config/config.js";
 import CreateAdmin from "./utils/bootstrap.js";
+import * as socket from "./libs/socket.js";
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
@@ -10,6 +11,7 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   server = app.listen(config.port, () => {
     console.log(`Listening to port ${config.port}`);
   });
+  socket.connectSocket(server);
 });
 
 const unexpectedErrorHandler = (error) => {

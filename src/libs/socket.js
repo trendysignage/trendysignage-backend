@@ -1,4 +1,4 @@
-import socket from "socket.io";
+import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import {
@@ -21,10 +21,9 @@ let userCache = {};
 
 */
 
-exports.connectSocket = (server) => {
-  console.log(server, "serevvver");
-  io = socket(server, {
-    transports: ["websocket"], // Replace with the transport you want to use
+export const connectSocket = (server) => {
+  const io = new Server(server, {
+    transports: ["websocket"],
   });
   io.use(function (socket, next) {
     console.log("user is trying to connect");
