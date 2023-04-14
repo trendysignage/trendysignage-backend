@@ -36,13 +36,12 @@ export const getScreens = async (search, vendorId) => {
 };
 
 export const addScreen = async (vendorId, body) => {
-  if (
-    !(await Device.findOne({
-      deviceCode: body.code,
-      isDeleted: false,
-      isVerified: false,
-    }))
-  ) {
+  let device = await Device.findOne({
+    deviceCode: body.code,
+    isDeleted: false,
+    isVerified: false,
+  }).lean();
+  if (!device) {
     throw new AuthFailedError(
       ERROR_MESSAGES.WRONG_DEVICE_CODE,
       STATUS_CODES.ACTION_FAILED
@@ -56,8 +55,9 @@ export const addScreen = async (vendorId, body) => {
     groups: body.groups,
     deviceCode: body.code,
     vendor: vendorId,
+    device: device._id,
   });
-  let device = await Device.findOneAndUpdate(
+  device = await Device.findOneAndUpdate(
     { deviceCode: body.code, isDeleted: false },
     { $set: { isVerified: true, screen: screen._id } },
     { new: true, lean: true }

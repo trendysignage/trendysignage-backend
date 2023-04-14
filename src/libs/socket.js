@@ -4,7 +4,6 @@ import config from "../config/config.js";
 import {
   ERROR_MESSAGES,
   STATUS_CODES,
-  DEVICE_TYPE,
   USER_TYPE,
 } from "../config/appConstants.js";
 import { socketService } from "../services/index.js";
@@ -37,18 +36,18 @@ exports.connectSocket = (server) => {
               ERROR_MESSAGES.AUTHENTICATION_FAILED,
               STATUS_CODES.AUTH_FAILED
             );
-          const device = await Device.findOne({
-            deviceToken: socket.handshake.query.token,
+          const token = await Token.findOne({
+            token: socket.handshake.query.token,
           }).lean();
 
           console.log(
             "decoded",
             decoded,
-            device,
+            token,
             "qwwwwwwwweerttttttttttyyyyyy"
           );
           socket.decoded = decoded;
-          socket.decoded.user = device._id;
+          socket.decoded.user = token.vendor;
           let value = socket.decoded.user;
           if (!userCache[value]) {
             userCache[value] = [socket.id];

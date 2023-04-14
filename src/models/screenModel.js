@@ -13,6 +13,7 @@ const screenSchema = new mongoose.Schema(
     },
     groups: [{ type: String }],
     deviceCode: { type: String, required: true },
+    device: { type: mongoose.Schema.Types.ObjectId, ref: "devices" },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     isDeleted: { type: Boolean, default: false },
   },
