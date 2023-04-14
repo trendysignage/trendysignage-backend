@@ -74,7 +74,7 @@ export const connectSocket = (server) => {
             STATUS_CODES.ACTION_FAILED
           );
         }
-        let value = device._id;
+        let value = device.deviceToken;
         if (!userCache[value]) {
           userCache[value] = [socket.id];
         } else {
