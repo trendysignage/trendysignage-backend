@@ -62,6 +62,7 @@ export const connectSocket = (server) => {
       );
     }
     if (socket.handshake.query.deviceToken) {
+      console.log(socket.handshake.query, "wjhgbrhbvjhrbv");
       async function device(deviceToken) {
         console.log(deviceToken);
         const device = await Device.findOne({
