@@ -70,6 +70,7 @@ export const connectSocket = (server) => {
         userCache[device] = [device._id];
       }
       device(socket.handshake.query.deviceToken);
+      return next();
     } else {
       console.log("error connecting");
       throw new AuthFailedError(
