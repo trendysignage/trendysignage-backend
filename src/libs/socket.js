@@ -31,11 +31,13 @@ exports.connectSocket = (server) => {
         socket.handshake.query.token,
         config.jwt.secret,
         async function (err, decoded) {
-          if (err || decoded.role == USER_TYPE.ADMIN)
+          if (err || decoded.role == USER_TYPE.ADMIN) {
+            console.log(err, "errorr connneecctionnn");
             throw new AuthFailedError(
               ERROR_MESSAGES.AUTHENTICATION_FAILED,
               STATUS_CODES.AUTH_FAILED
             );
+          }
           const token = await Token.findOne({
             token: socket.handshake.query.token,
           }).lean();
