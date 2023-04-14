@@ -121,14 +121,14 @@ export const connectSocket = (server) => {
     });
     socket.on("disconnect", async (data) => {
       // console.log("disconnect....", socket.id, userCache[socket.decoded.user]);
-      if (userCache[socket.decoded.user]) {
-        userCache[socket.decoded.user] = userCache[socket.decoded.user].filter(
-          (socketId) => socketId !== socket.id
-        );
-      } else {
+      if (!userCache[socket.decoded.user]) {
         userCache[socket.handshake.query.deviceToken] = userCache[
           socket.handshake.query.deviceToken
         ].filter((socketId) => socketId !== socket.id);
+      } else {
+        userCache[socket.decoded.user] = userCache[socket.decoded.user].filter(
+          (socketId) => socketId !== socket.id
+        );
       }
       console.log("disconneted", userCache);
     });
