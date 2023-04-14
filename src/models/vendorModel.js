@@ -21,7 +21,6 @@ const vendorSchema = new mongoose.Schema(
         uploadDate: { type: Date },
         properties: { type: String },
         tags: [{ type: String }],
-        isDefault: { type: Boolean, default: false },
       },
     ],
     apps: [{ type: mongoose.Schema.Types.ObjectId, ref: "apps" }],
