@@ -96,7 +96,7 @@ export const connectSocket = (server) => {
       console.log("runaanonnnn connection emit");
       io.to(id).emit("receiveContent", "connntnteeeettt");
     });
-    console.log(userCache, "sockektktktttt userCachhhe", socket);
+    console.log(userCache, "sockektktktttt userCachhhe");
     socket.on("sendContent", async (data) => {
       if (!data.screenId && !data.mediaId && !data.duration) {
         throw new AuthFailedError(
