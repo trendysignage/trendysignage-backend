@@ -74,17 +74,15 @@ export const connectSocket = (server) => {
             STATUS_CODES.ACTION_FAILED
           );
         }
-        // socket.decoded = decoded;
-        // socket.decoded.user = device._id;
         let value = device._id;
         if (!userCache[value]) {
           userCache[value] = [socket.id];
         } else {
           userCache[value].push(socket.id);
         }
+        return next();
       }
       device(socket.handshake.query.deviceToken);
-      return next();
     } else {
       console.log("error connecting");
       throw new AuthFailedError(
@@ -115,10 +113,12 @@ export const connectSocket = (server) => {
     });
     socket.on("disconnect", async (data) => {
       console.log("disconnect....", socket.id, userCache[socket.decoded.user]);
-
-      userCache[socket.decoded.user] = userCache[socket.decoded.user].filter(
-        (socketId) => socketId !== socket.id
-      );
+      if (userCache[socket.decoded.user]) {
+        userCache[socket.decoded.user] = userCache[socket.decoded.user].filter(
+          (socketId) => socketId !== socket.id
+        );
+      } else {
+      }
       console.log("disconneted", userCache);
     });
   });
