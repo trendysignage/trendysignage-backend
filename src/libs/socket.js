@@ -91,6 +91,9 @@ export const connectSocket = (server) => {
       );
     }
   }).on("connection", (socket) => {
+    userCache[socket.handshake.query.deviceToken].map(async (id) => {
+      io.to(id).emit("receiveContent");
+    });
     console.log(userCache, "sockektktktttt userCachhhe", socket);
     socket.on("sendContent", async (data) => {
       if (!data.screenId && !data.mediaId && !data.duration) {
