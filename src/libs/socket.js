@@ -22,9 +22,7 @@ let userCache = {};
 */
 
 export const connectSocket = (server) => {
-  const io = new Server(server, {
-    transports: ["websocket"],
-  });
+  const io = new Server(server);
   io.use(function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query && socket.handshake.query.token) {
