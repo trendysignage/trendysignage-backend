@@ -73,7 +73,12 @@ export const connectSocket = (server) => {
             STATUS_CODES.ACTION_FAILED
           );
         }
-        userCache[device].push(device._id);
+        let value = device._id;
+        if (!userCache[value]) {
+          userCache[value] = [socket.id];
+        } else {
+          userCache.push(device._id);
+        }
       }
       device(socket.handshake.query.deviceToken);
       return next();
