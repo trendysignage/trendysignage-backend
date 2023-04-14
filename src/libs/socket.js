@@ -62,7 +62,7 @@ export const connectSocket = (server) => {
       );
     }
     if (socket.handshake.query.deviceToken) {
-      async function device(deviceToken) {
+      async function device(deviceToken, decoded) {
         const device = await Device.findOne({
           deviceToken: deviceToken,
           isDeleted: false,
@@ -73,15 +73,16 @@ export const connectSocket = (server) => {
             STATUS_CODES.ACTION_FAILED
           );
         }
+        socket.decoded = decoded;
+        socket.decoded.user = device._id;
         let value = device._id;
         if (!userCache[value]) {
           userCache[value] = [socket.id];
-          console.log(userCache, socket.id, "spoookckekktttt");
         } else {
           userCache[value].push(socket.id);
         }
       }
-      device(socket.handshake.query.deviceToken);
+      device(socket.handshake.query.deviceToken, "");
       return next();
     } else {
       console.log("error connecting");
