@@ -22,6 +22,7 @@ let userCache = {};
 */
 
 exports.connectSocket = (server) => {
+  console.log(server, "serevvver");
   io = socket(server);
   io.use(function (socket, next) {
     console.log("user is trying to connect");
