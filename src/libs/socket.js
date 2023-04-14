@@ -59,6 +59,7 @@ exports.connectSocket = (server) => {
         }
       );
     } else {
+      console.log("error connecting");
       throw new AuthFailedError(
         ERROR_MESSAGES.AUTHENTICATION_FAILED,
         STATUS_CODES.AUTH_FAILED
