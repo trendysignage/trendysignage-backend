@@ -31,7 +31,7 @@ export const connectSocket = (server) => {
     console.log("user is trying to connect");
     if (socket.handshake.query && socket.handshake.query.token) {
       console.log("user entered", socket.handshake.query);
-      async (err, decoded) => {
+      async function jwt(err, decoded) {
         if (err || decoded.role == USER_TYPE.ADMIN) {
           console.log(err, "errorr connneecctionnn");
           throw new AuthFailedError(
@@ -54,7 +54,8 @@ export const connectSocket = (server) => {
         }
         console.log("socketHolder", userCache);
         return next();
-      };
+      }
+      jwt();
     } else {
       console.log("error connecting");
       throw new AuthFailedError(
