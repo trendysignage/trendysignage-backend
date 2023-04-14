@@ -77,7 +77,7 @@ export const connectSocket = (server) => {
         if (!userCache[value]) {
           userCache[value] = [socket.id];
         } else {
-          userCache.push(device._id);
+          userCache[value].push(socket.id);
         }
       }
       device(socket.handshake.query.deviceToken);
