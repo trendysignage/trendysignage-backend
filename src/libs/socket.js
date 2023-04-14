@@ -1,4 +1,4 @@
-import { Server } from "socket.io";
+import socket from "socket.io";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import {
@@ -10,9 +10,6 @@ import { socketService } from "../services/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { Token, Vendor, Device } from "../models/index.js";
 
-let io = new Server(5000, {
-  transports: ["websocket"], // Replace with the transport you want to use
-});
 let userCache = {};
 
 /*
@@ -26,7 +23,7 @@ let userCache = {};
 
 exports.connectSocket = (server) => {
   console.log(server, "serevvver");
-  // io = socket(server);
+  io = socket(server);
   io.use(function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query && socket.handshake.query.token) {
