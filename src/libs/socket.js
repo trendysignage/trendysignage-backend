@@ -120,7 +120,7 @@ export const connectSocket = (server) => {
       console.error(error, "something went wrong in socket...");
     });
     socket.on("disconnect", async (data) => {
-      console.log("disconnect....", socket.id, userCache[socket.decoded.user]);
+      // console.log("disconnect....", socket.id, userCache[socket.decoded.user]);
       if (userCache[socket.decoded.user]) {
         userCache[socket.decoded.user] = userCache[socket.decoded.user].filter(
           (socketId) => socketId !== socket.id
