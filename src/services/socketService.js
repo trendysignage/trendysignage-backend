@@ -49,3 +49,18 @@ export const getContent = async (vendorId, mediaId) => {
   );
   return vendor.media[0];
 };
+
+export const getDefault = async (vendorId) => {
+  const vendor = await Vendor.findOne({
+    _id: vendorId,
+    isDeleted: false,
+  }).lean();
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  vendor.media = vendor.media.filter((m) => m.isDefault);
+  return vendor.media[0];
+};
