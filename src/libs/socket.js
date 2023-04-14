@@ -91,7 +91,7 @@ export const connectSocket = (server) => {
       );
     }
   }).on("connection", (socket) => {
-    console.log(userCache[value], "sockektktktttt userCachhhe");
+    console.log(userCache, "sockektktktttt userCachhhe");
     socket.on("sendContent", async (data) => {
       if (!data.screenId && !data.mediaId && !data.duration) {
         throw new AuthFailedError(
