@@ -121,7 +121,7 @@ export const connectSocket = (server) => {
     });
     socket.on("disconnect", async (data) => {
       // console.log("disconnect....", socket.id, userCache[socket.decoded.user]);
-      if (!userCache[socket.decoded.user]) {
+      if (!socket.decoded) {
         userCache[socket.handshake.query.deviceToken] = userCache[
           socket.handshake.query.deviceToken
         ].filter((socketId) => socketId !== socket.id);
