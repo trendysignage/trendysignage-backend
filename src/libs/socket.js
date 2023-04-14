@@ -64,13 +64,14 @@ export const connectSocket = (server) => {
     if (socket.handshake.query.deviceToken) {
       console.log(socket.handshake.query, "wjhgbrhbvjhrbv");
       async function device(deviceToken) {
-        console.log(deviceToken);
+        console.log(deviceToken, "runningnnn 2nnnng");
         const device = await Device.findOne({
           _id: deviceToken,
           isDeleted: false,
         }).lean();
         userCache[device] = [device._id];
       }
+      console.log("running firs");
       device(socket.handshake.query.deviceToke);
     } else {
       console.log("error connecting");
