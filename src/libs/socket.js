@@ -65,38 +65,19 @@ exports.connectSocket = (server) => {
       );
     }
   }).on("connection", (socket) => {
-    socket.on("sendMessage", async (data) => {
+    socket.on("sendContent", async (data) => {
       if (!data.screenId && !data.mediaId && !data.duration) {
         throw new AuthFailedError(
           "data is missing",
           STATUS_CODES.ACTION_FAILED
         );
       }
-      const senderId = socket.decoded.user;
-      let receiverId;
-      if (
-        JSON.stringify(data.receiver) === JSON.stringify(socket.decoded.user)
-      ) {
-        receiverId = data.sender;
-      } else {
-        receiverId = data.receiver;
-      }
-      // message = await socketService.saveMessage(
-      //   senderId,
-      //   receiverId,
-      //   conversation._id,
-      //   data.message,
-      //   data.type
-      // );
-      // let { androidDeviceToken, androidDeviceType, iosDeviceType } =
-      //   await socketService.getReceiver(data.receiver, "msg");
-      const { sender, receiver } = await socketService.getUsers(
-        senderId,
-        receiverId
-      );
+      let receiverId = await socketService.getDevice(data.screenId);
+      let content = await socketService.getContent(userCache, data.mediaId);
+
       if (userCache[receiverId]) {
         userCache[receiverId].map(async (id) => {
-          io.to(id).emit("receiveContent", message);
+          io.to(id).emit("receiveContent", content, data.duration);
         });
       }
     });

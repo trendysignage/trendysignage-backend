@@ -3,91 +3,49 @@ import {
   STATUS_CODES,
   DEVICE_TYPE,
 } from "../config/appConstants.js";
-import { Vendor, Token } from "../models/index.js";
+import { Vendor, Token, Device, Screen } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 
-export const saveMessage = async (
-  sender,
-  receiver,
-  conversationId,
-  message,
-  type
-) => {
-  let createdMessage = await Chats.create({
-    sender,
-    receiver,
-    conversationId,
-    message,
-    type,
-  });
-  if (conversationId) {
-    const conversation = await Conversations.findByIdAndUpdate(conversationId, {
-      lastMessage: message,
-      type: createdMessage.type,
-      messageTime: new Date(),
-      isSeen: false,
-      lastMessageBy: sender,
-    });
-    await Conversations.findByIdAndUpdate(conversationId, {
-      $set: { deletedFor: [], messageDeletedFor: [] },
-    });
-  }
-  return createdMessage;
-};
-
-// export const getReceiver = async (receiverId, type) => {
-//   let [androidDeviceToken, iosDeviceToken, androidDeviceType, iosDeviceType] =
-//     await Promise.all([
-//       Token.find({
-//         user: receiverId,
-//         // "device.type": DEVICE_TYPE.ANDROID,
-//         isDeleted: false,
-//         isVerified: true,
-//       })
-//         .lean()
-//         .distinct("device.token"),
-//       Token.find({
-//         user: receiverId,
-//         // "device.type": DEVICE_TYPE.IOS,
-//         isDeleted: false,
-//         isVerified: true,
-//       })
-//         .lean()
-//         .distinct("device.apns"),
-//       Token.find({
-//         user: receiverId,
-//         "device.type": DEVICE_TYPE.ANDROID,
-//         isDeleted: false,
-//         isVerified: true,
-//       }).lean(),
-//       Token.find({
-//         user: receiverId,
-//         "device.type": DEVICE_TYPE.IPHONE,
-//         isDeleted: false,
-//         isVerified: true,
-//       }).lean(),
-//     ]);
-//   return {
-//     androidDeviceToken,
-//     iosDeviceToken,
-//     androidDeviceType,
-//     iosDeviceType,
-//   };
-// };
-
-export const getUsers = async (senderId, receiverId) => {
-  const receiver = await User.findById(receiverId)
-    .lean()
-    .select("_id profileImage name isDeleted isBlocked");
-  const sender = await User.findById(senderId)
-    .lean()
-    .select("_id profileImage name isDeleted isBlocked");
-  if (!receiver || !sender) {
+export const getDevice = async (screenId) => {
+  const screen = await Screen.findOne({
+    _id: screenId,
+    isDeleted: false,
+    device: { $exists: true },
+  }).lean();
+  if (!screen) {
     throw new AuthFailedError(
-      ERROR_MESSAGES.USER_NOT_FOUND,
+      ERROR_MESSAGES.SCREEN_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
+  const device = await Device.findOne({
+    _id: screen.device,
+    isDeleted: false,
+    isVerified: true,
+  }).lean();
+  if (!device) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEVICE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return device._id;
+};
 
-  return { sender, receiver };
+export const getContent = async (vendorId, mediaId) => {
+  const vendor = await Vendor.findOne({
+    _id: vendorId,
+    "media._id": mediaId,
+    isDeleted: false,
+  }).lean();
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  vendor.media = vendor.media.filter(
+    (m) => JSON.stringify(m._id) === JSON.stringify(mediaId)
+  );
+  return vendor.media[0];
 };
