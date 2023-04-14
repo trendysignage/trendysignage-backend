@@ -32,6 +32,7 @@ export const connectSocket = (server) => {
     if (socket.handshake.query && socket.handshake.query.token) {
       console.log("user entered", socket.handshake.query);
       async function jwt(err, decoded) {
+        console.log(decoded, "decode");
         if (err || decoded.role == USER_TYPE.ADMIN) {
           console.log(err, "errorr connneecctionnn");
           throw new AuthFailedError(
