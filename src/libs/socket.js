@@ -23,7 +23,9 @@ let userCache = {};
 
 exports.connectSocket = (server) => {
   console.log(server, "serevvver");
-  io = socket(server);
+  io = socket(server, {
+    transports: ["websocket"], // Replace with the transport you want to use
+  });
   io.use(function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query && socket.handshake.query.token) {
