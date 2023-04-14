@@ -3,6 +3,7 @@ import express from "express";
 import displayRoute from "./vendor/displayRoutes.js";
 import deviceRoute from "./device/deviceRoutes.js";
 import vendorAuth from "./vendor/authRoutes.js";
+import profileRoute from "./vendor/profileRoutes.js";
 
 const router = express.Router();
 
@@ -18,6 +19,10 @@ const defaultRoutes = [
   {
     path: "/device/auth",
     route: deviceRoute,
+  },
+  {
+    path: "/vendor/profile",
+    route: profileRoute,
   },
 ];
 
