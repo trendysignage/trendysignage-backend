@@ -117,7 +117,7 @@ export const deleteScreen = async (vendorId, screenId) => {
   );
 };
 
-export const getMedia = async (search, vendorId) => {
+export const getMedia = async (host, search, vendorId) => {
   let vendor = await Vendor.findById(vendorId).lean().select("media");
   if (!vendor) {
     throw new AuthFailedError(
@@ -130,6 +130,7 @@ export const getMedia = async (search, vendorId) => {
       JSON.stringify(i.title.toLowerCase()).includes(search.toLowerCase())
     );
   }
+  vendor.host = host;
   return vendor;
 };
 
