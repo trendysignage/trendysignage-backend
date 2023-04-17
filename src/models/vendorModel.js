@@ -18,9 +18,11 @@ const vendorSchema = new mongoose.Schema(
       {
         title: { type: String },
         type: { type: String, enum: [...Object.values(MEDIA_TYPE)] },
-        uploadDate: { type: Date },
         properties: { type: String },
         tags: [{ type: String }],
+        createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
+        createdAt: { type: Date, default: new Date() },
+        updatedAt: { type: Date, default: new Date() },
       },
     ],
     apps: [{ type: mongoose.Schema.Types.ObjectId, ref: "apps" }],

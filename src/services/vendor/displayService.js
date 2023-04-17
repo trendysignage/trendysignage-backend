@@ -137,10 +137,12 @@ export const addMedia = async (vendorId, body, file) => {
   let media = [
     {
       title: file.path,
-      uploadDate: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       properties: body.properties,
       tags: body.tags,
       type: body.type,
+      createdBy: vendorId,
     },
   ];
   const vendor = await Vendor.findOneAndUpdate(
@@ -163,6 +165,7 @@ export const editMedia = async (vendorId, body, file) => {
   let data = {
     "media.$.properties": body.properties,
     "media.$.tags": body.tags,
+    "media.$.updatedAt": new Date(),
   };
   if (file) {
     data["media.$.title"] = file.path;
