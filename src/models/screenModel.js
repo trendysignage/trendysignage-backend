@@ -11,6 +11,11 @@ const screenSchema = new mongoose.Schema(
       startTime: { type: Date },
       endTime: { type: Date },
     },
+    // contentPlaying: {
+    //   file: { type: String },
+    //   type: { type: String },
+    //   duration: { type: Number },
+    // },
     groups: [{ type: String }],
     deviceCode: { type: String, required: true },
     device: { type: mongoose.Schema.Types.ObjectId, ref: "devices" },

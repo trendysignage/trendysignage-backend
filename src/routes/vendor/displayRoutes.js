@@ -44,4 +44,11 @@ router
     displayController.deleteMedia
   );
 
+router.post(
+  "/publish",
+  auth(),
+  validate(displayValidation.publish),
+  displayController.publish
+);
+
 export default router;

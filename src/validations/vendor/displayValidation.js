@@ -71,3 +71,11 @@ export const deleteMedia = {
     mediaId: JOI.OBJECTID,
   }),
 };
+
+export const publish = {
+  body: Joi.object().keys({
+    mediaId: JOI.OBJECTID,
+    duration: Joi.number().default(1).min(1).required(),
+    screenIds: Joi.array().items(JOI.OBJECTID).required(),
+  }),
+};

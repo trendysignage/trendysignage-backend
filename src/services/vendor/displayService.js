@@ -118,7 +118,10 @@ export const deleteScreen = async (vendorId, screenId) => {
 };
 
 export const getMedia = async (host, search, vendorId) => {
-  let vendor = await Vendor.findById(vendorId).lean().select("media");
+  let vendor = await Vendor.findById(vendorId)
+    .lean()
+    .select("media")
+    .populate({ path: "media.createdBy" });
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -220,4 +223,16 @@ export const deleteMedia = async (vendorId, mediaId) => {
     },
     { new: true, lean: 1 }
   );
+};
+
+export const publish = async (vendorId, body) => {
+  for (const id of body.screenIds) {
+    const screen = await Screen.findOne({ _id: id, isDeleted: false }).lean();
+    if (!screen) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCREEN_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  }
 };
