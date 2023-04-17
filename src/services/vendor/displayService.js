@@ -192,10 +192,18 @@ export const editMedia = async (vendorId, body, file) => {
 export const deleteMedia = async (vendorId, mediaId) => {
   let vendor = await Vendor.findOne({
     _id: vendorId,
-    $and: [{ "media._id": mediaId }, { "media.isDefault": true }],
+    "media._id": mediaId,
   }).lean();
-  console.log(vendor, "vendor");
-  if (vendor) {
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  vendor.media = vendor.media.filter(
+    (id) => JSON.stringify(id) === JSON.stringify(mediaId)
+  );
+  if (vendor.media[0].isDefault) {
     throw new AuthFailedError(
       ERROR_MESSAGES.DEFAULT_MEDIA,
       STATUS_CODES.ACTION_FAILED
@@ -211,10 +219,4 @@ export const deleteMedia = async (vendorId, mediaId) => {
     },
     { new: true, lean: 1 }
   );
-  if (!vendor) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.VENDOR_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
 };
