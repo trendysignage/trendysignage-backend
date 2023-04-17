@@ -58,6 +58,7 @@ export const deleteScreen = catchAsync(async (req, res) => {
 });
 
 export const getMedia = catchAsync(async (req, res) => {
+  console.log(req.headers.host, "reg");
   const media = await displayService.getMedia(
     req?.query?.search,
     req.token.vendor._id
