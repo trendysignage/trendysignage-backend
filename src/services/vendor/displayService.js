@@ -136,7 +136,7 @@ export const getMedia = async (search, vendorId) => {
 export const addMedia = async (vendorId, body, file) => {
   let media = [
     {
-      title: file.path,
+      title: file.filename,
       createdAt: new Date(),
       updatedAt: new Date(),
       properties: body.properties,
