@@ -203,6 +203,7 @@ export const deleteMedia = async (vendorId, mediaId) => {
   vendor.media = vendor.media.filter(
     (id) => JSON.stringify(id) === JSON.stringify(mediaId)
   );
+  console.log(vendor.media, "medd");
   if (vendor.media[0].isDefault) {
     throw new AuthFailedError(
       ERROR_MESSAGES.DEFAULT_MEDIA,
