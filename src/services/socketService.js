@@ -6,6 +6,20 @@ import {
 import { Vendor, Token, Device, Screen } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 
+// export const getVendor = async (vendorId) => {
+//   const vendor = await Vendor.findOne({
+//     _id: vendorId,
+//     isDeleted: false,
+//   }).lean();
+//   if (!vendor) {
+//     throw new AuthFailedError(
+//       ERROR_MESSAGES.VENDOR_NOT_FOUND,
+//       STATUS_CODES.ACTION_FAILED
+//     );
+//   }
+//   return vendor;
+// };
+
 export const getDevice = async (screenId) => {
   const screen = await Screen.findOne({
     _id: screenId,
@@ -29,7 +43,7 @@ export const getDevice = async (screenId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  return device._id;
+  return device.deviceToken;
 };
 
 export const getContent = async (vendorId, mediaId) => {

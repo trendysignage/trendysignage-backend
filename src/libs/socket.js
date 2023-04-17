@@ -92,7 +92,7 @@ export const connectSocket = (server) => {
     }
   }).on("connection", (socket) => {
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
-      console.log("runaanonnnn connection emit");
+      console.log("running connection emit");
       io.to(id).emit("receiveContent", "connntnteeeettt");
     });
     console.log(userCache, "sockektktktttt userCachhhe");
@@ -103,9 +103,13 @@ export const connectSocket = (server) => {
           STATUS_CODES.ACTION_FAILED
         );
       }
-      let receiverId = await socketService.getDevice(data.screenId);
+      let receiverId = [];
+      for (const id of data.screenId) {
+        let receiver = await socketService.getDevice(id);
+        receiverId.push(receiver);
+      }
       let content = await socketService.getContent(
-        userCache[socket.handshake.query.deviceToken],
+        socket.handshake?.query?.token,
         data.mediaId
       );
 
