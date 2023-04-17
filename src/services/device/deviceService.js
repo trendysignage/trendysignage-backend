@@ -16,3 +16,28 @@ export const addDevice = async (deviceToken, code) => {
   }
   return device;
 };
+
+export const getContent = async (deviceId) => {
+  const device = await Device.findOne({
+    _id: deviceId,
+    isDeleted: false,
+  }).lean();
+  if (!device) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEVICE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  const screen = await Screen.findOne({
+    device: deviceId,
+    isDeleted: false,
+  }).lean();
+  if (!screen) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCREEN_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  let content = screen.contentPlaying ? screen.contentPlaying : [];
+  return content;
+};

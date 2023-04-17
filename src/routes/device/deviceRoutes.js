@@ -8,6 +8,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .post(validate(deviceValidation.addDevice), deviceController.addDevice);
+  .post(validate(deviceValidation.addDevice), deviceController.addDevice)
+  .get(validate(deviceValidation.getContent), deviceController.getContent);
 
 export default router;

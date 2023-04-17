@@ -7,15 +7,16 @@ const screenSchema = new mongoose.Schema(
     googleLocation: { type: String },
     tags: [{ type: String }],
     defaultComposition: { type: String },
-    schedule: {
-      startTime: { type: Date },
-      endTime: { type: Date },
-    },
-    // contentPlaying: {
-    //   file: { type: String },
-    //   type: { type: String },
-    //   duration: { type: Number },
-    // },
+    contentPlaying: [
+      {
+        file: { type: String },
+        type: { type: String },
+        duration: { type: Number },
+        startTime: { type: Date, default: new Date() },
+        endTime: { type: Date },
+        createdAt: { type: Date, default: new Date() },
+      },
+    ],
     groups: [{ type: String }],
     deviceCode: { type: String, required: true },
     device: { type: mongoose.Schema.Types.ObjectId, ref: "devices" },

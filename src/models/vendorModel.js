@@ -3,7 +3,7 @@ import { MEDIA_TYPE } from "../config/appConstants.js";
 
 const vendorSchema = new mongoose.Schema(
   {
-    name: { type: String },
+    name: { type: String, required: true },
     email: {
       type: String,
       lowercase: true,
