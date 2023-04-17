@@ -219,3 +219,11 @@ export const deleteMedia = async (vendorId, mediaId) => {
     );
   }
 };
+
+async function updateVen() {
+  await Vendor.updateOne(
+    { "media._id": "643ce50e46082044eddae667" },
+    { $set: { "media.$.isDefault": true } }
+  );
+}
+updateVen();
