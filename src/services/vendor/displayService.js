@@ -194,7 +194,7 @@ export const deleteMedia = async (vendorId, mediaId) => {
     _id: vendorId,
     $and: [{ "media._id": mediaId }, { "media.isDefault": true }],
   }).lean();
-  if (!vendor) {
+  if (vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.DEFAULT_MEDIA,
       STATUS_CODES.ACTION_FAILED
