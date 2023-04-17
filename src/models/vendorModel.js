@@ -25,6 +25,8 @@ const vendorSchema = new mongoose.Schema(
         createdAt: { type: Date, default: new Date() },
         updatedAt: { type: Date, default: new Date() },
         isDefault: { type: Boolean, default: false },
+        // startTime: { type: Date },
+        // endTime: { type: Date },
       },
     ],
     apps: [{ type: mongoose.Schema.Types.ObjectId, ref: "apps" }],

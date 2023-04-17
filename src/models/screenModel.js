@@ -9,8 +9,8 @@ const screenSchema = new mongoose.Schema(
     defaultComposition: { type: String },
     contentPlaying: [
       {
-        file: { type: String },
-        type: { type: String },
+        media: { type: String },
+        // type: { type: String },
         duration: { type: Number },
         startTime: { type: Date, default: new Date() },
         endTime: { type: Date },

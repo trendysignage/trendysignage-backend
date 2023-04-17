@@ -121,7 +121,7 @@ export const getMedia = async (host, search, vendorId) => {
   let vendor = await Vendor.findById(vendorId)
     .lean()
     .select("media")
-    .populate({ path: "media.createdBy" });
+    .populate({ path: "media.createdBy", select: ["_id", "name"] });
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -141,12 +141,12 @@ export const addMedia = async (vendorId, body, file) => {
   let media = [
     {
       title: file.filename,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      type: body.type,
       properties: body.properties,
       tags: body.tags,
-      type: body.type,
       createdBy: vendorId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ];
   const vendor = await Vendor.findOneAndUpdate(
@@ -226,8 +226,25 @@ export const deleteMedia = async (vendorId, mediaId) => {
 };
 
 export const publish = async (vendorId, body) => {
+  let vendor = await Vendor.findOne({
+    _id: vendorId,
+    isDeleted: false,
+  }).lean();
+  vendor.media = vendor.media.filter(
+    (id) => JSON.stringify(id._id) === JSON.stringify(body.mediaId)
+  );
+  let content = {
+    media: vendor.media[0],
+    duration: { type: Number },
+    startTime: { type: Date, default: new Date() },
+    createdAt: { type: Date, default: new Date() },
+  };
   for (const id of body.screenIds) {
-    const screen = await Screen.findOne({ _id: id, isDeleted: false }).lean();
+    const screen = await Screen.findOneAndUpdate(
+      { _id: id, isDeleted: false },
+      { $addToSet: { contentPlaying: content } },
+      { new: true, lean: 1 }
+    ).lean();
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,
