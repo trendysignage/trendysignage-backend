@@ -130,7 +130,7 @@ export const getMedia = async (host, search, vendorId) => {
       JSON.stringify(i.title.toLowerCase()).includes(search.toLowerCase())
     );
   }
-  vendor.host = host;
+  // vendor.host = host;
   return vendor;
 };
 
