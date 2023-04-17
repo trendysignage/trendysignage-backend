@@ -220,9 +220,8 @@ export const deleteMedia = async (vendorId, mediaId) => {
 
 async function up() {
   await Vendor.updateOne(
-    { "media._id": "643ce50e46082044eddae667" },
+    { "media._id": "643ceea1e36fbac51f9f9433" },
     { $set: { "media.$.isDefault": true } }
   );
 }
-
 up();
