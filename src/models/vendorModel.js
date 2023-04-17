@@ -16,7 +16,7 @@ const vendorSchema = new mongoose.Schema(
     password: { type: String },
     media: [
       {
-        url: { type: String },
+        // baseUrl: { type: String },
         title: { type: String },
         type: { type: String, enum: [...Object.values(MEDIA_TYPE)] },
         properties: { type: String },
