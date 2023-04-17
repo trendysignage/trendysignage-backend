@@ -235,10 +235,12 @@ export const publish = async (vendorId, body) => {
   );
   let content = {
     media: vendor.media[0],
-    duration: { type: Number },
-    startTime: { type: Date, default: new Date() },
-    createdAt: { type: Date, default: new Date() },
+    duration: body.duration,
+    startTime: new Date(),
+    endTime: new Date(),
+    createdAt: new Date(),
   };
+  content.endTime.setMinutes(content.startTime.getMinutes() + body.duration);
   for (const id of body.screenIds) {
     const screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },
