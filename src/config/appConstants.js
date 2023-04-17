@@ -74,6 +74,8 @@ const ERROR_MESSAGES = {
   ADMIN_NOT_FOUND: "Admin not found",
   ACCOUNT_NOT_VERIFIED: "Please verify your account.",
   WRONG_DEVICE_CODE: "The Device code you entered is wrong, please try again.",
+  DEFAULT_MEDIA:
+    "The media you are trying to delete is set as default composition and thus cannot be deleted.",
 };
 
 const STATUS_CODES = {

@@ -190,6 +190,18 @@ export const editMedia = async (vendorId, body, file) => {
 };
 
 export const deleteMedia = async (vendorId, mediaId) => {
+  if (
+    await Vendor.findOne({
+      _id: vendorId,
+      "media._id": mediaId,
+      "media.isDefault": true,
+    })
+  ) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEFAULT_MEDIA,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
   const vendor = await Vendor.findOneAndUpdate(
     {
       _id: vendorId,

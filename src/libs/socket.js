@@ -25,7 +25,7 @@ export const connectSocket = (server) => {
   const io = new Server(server);
   io.use(function (socket, next) {
     console.log("user is trying to connect");
-    if (socket.handshake.query && socket.handshake.query.token) {
+    if (socket.handshake.query.token) {
       console.log("user entered");
       jwt.verify(
         socket.handshake.query.token,
@@ -61,7 +61,7 @@ export const connectSocket = (server) => {
         }
       );
     }
-    if (socket.handshake.query && socket.handshake.query.deviceToken) {
+    if (socket.handshake.query.deviceToken) {
       console.log("device entered");
       async function device(deviceToken) {
         const device = await Device.findOne({
@@ -90,10 +90,13 @@ export const connectSocket = (server) => {
         STATUS_CODES.AUTH_FAILED
       );
     }
-  }).on("connection", (socket) => {
+  }).on("connection", async (socket) => {
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
-      console.log("running connection emit");
-      io.to(id).emit("receiveContent", "connntnteeeettt");
+      const vendorId = await socketService.getVendor(
+        socket.handshake.query?.deviceToken
+      );
+      const defaultContent = await socketService.getDefault(vendorId);
+      io.to(id).emit("receiveContent", defaultContent);
     });
     console.log(userCache, "sockektktktttt userCachhhe");
     socket.on("sendContent", async (data) => {
