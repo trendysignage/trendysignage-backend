@@ -26,8 +26,9 @@ export const addDevice = async (deviceToken, code) => {
           STATUS_CODES.ACTION_FAILED
         );
       }
-      device.content = screen.contentPlaying ? screen.contentPlaying : [];
     }
+    device.content =
+      screen && screen.contentPlaying ? screen.contentPlaying : [];
   }
   return device;
 };
