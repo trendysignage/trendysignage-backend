@@ -3,6 +3,7 @@ import { Vendor, Device, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const addDevice = async (deviceToken, code) => {
+  let screen;
   let device = await Device.findOne({
     deviceToken: deviceToken,
     isDeleted: false,
@@ -12,31 +13,21 @@ export const addDevice = async (deviceToken, code) => {
       deviceToken: deviceToken,
       deviceCode: code,
     });
+  } else {
+    if (device.screen) {
+      screen = await Screen.findOneAndUpdate(
+        { _id: device.screen, isDeleted: false },
+        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+        { new: true, lean: 1 }
+      );
+      if (!screen) {
+        throw new AuthFailedError(
+          ERROR_MESSAGES.SCREEN_NOT_FOUND,
+          STATUS_CODES.ACTION_FAILED
+        );
+      }
+      device.content = screen.contentPlaying ? screen.contentPlaying : [];
+    }
   }
   return device;
-};
-
-export const getContent = async (deviceId) => {
-  const device = await Device.findOne({
-    _id: deviceId,
-    isDeleted: false,
-  }).lean();
-  if (!device) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.DEVICE_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
-  const screen = await Screen.findOne({
-    device: deviceId,
-    isDeleted: false,
-  }).lean();
-  if (!screen) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.SCREEN_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
-  let content = screen.contentPlaying ? screen.contentPlaying : [];
-  return content;
 };

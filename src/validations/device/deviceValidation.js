@@ -7,9 +7,3 @@ export const addDevice = {
     deviceToken: Joi.string().required(),
   }),
 };
-
-export const getContent = {
-  query: Joi.object().keys({
-    deviceId: JOI.OBJECTID,
-  }),
-};
