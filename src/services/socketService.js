@@ -77,5 +77,6 @@ export const getDefault = async (vendorId) => {
     );
   }
   vendor.media = vendor.media.filter((m) => m.isDefault);
+  vendor.media = vendor.media[0] ? vendor.media[0] : [];
   return vendor.media[0];
 };
