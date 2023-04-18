@@ -73,7 +73,12 @@ export const getMedia = catchAsync(async (req, res) => {
 });
 
 export const addMedia = catchAsync(async (req, res) => {
-  await displayService.addMedia(req.token.vendor._id, req.body, req.file);
+  await displayService.addMedia(
+    req.token.vendor._id,
+    req.body,
+    req.file,
+    req.headers.host
+  );
   return successResponse(
     req,
     res,

@@ -137,10 +137,10 @@ export const getMedia = async (host, search, vendorId) => {
   return vendor;
 };
 
-export const addMedia = async (vendorId, body, file) => {
+export const addMedia = async (vendorId, body, file, host) => {
   let media = [
     {
-      title: file.filename,
+      title: host + file.path.substring("public".length),
       type: body.type,
       properties: body.properties,
       tags: body.tags,
