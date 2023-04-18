@@ -137,10 +137,10 @@ export const getMedia = async (host, search, vendorId) => {
   return vendor;
 };
 
-export const addMedia = async (vendorId, body, file, host) => {
+export const addMedia = async (vendorId, body, file) => {
   let media = [
     {
-      title: host + file.path.substring("public".length),
+      title: file.path.substring("public".length),
       type: body.type,
       properties: body.properties,
       tags: body.tags,
@@ -165,14 +165,14 @@ export const addMedia = async (vendorId, body, file, host) => {
   }
 };
 
-export const editMedia = async (vendorId, body, file, host) => {
+export const editMedia = async (vendorId, body, file) => {
   let data = {
     "media.$.properties": body.properties,
     "media.$.tags": body.tags,
     "media.$.updatedAt": new Date(),
   };
   if (file) {
-    data["media.$.title"] = host + file.path.substring("public".length);
+    data["media.$.title"] = file.path.substring("public".length);
   }
   const vendor = await Vendor.findOneAndUpdate(
     {
