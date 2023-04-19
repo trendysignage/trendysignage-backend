@@ -273,6 +273,6 @@ export const publish = async (vendorId, body) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-    await emit(screen.device.deviceToken, content);
+    await emit(screen.device?.deviceToken, content);
   }
 };
