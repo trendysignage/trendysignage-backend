@@ -7,6 +7,7 @@ export const defaultComposition = async (vendorId, file) => {
     title: file.path.substring("public".length),
     type: "image",
     duration: "10 sec",
+    isDefault: true,
   };
   const vendor = await Vendor.findOneAndUpdate(
     {

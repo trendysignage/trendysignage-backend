@@ -76,7 +76,6 @@ export const getDefault = async (vendorId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  // vendor.media = vendor.media.filter((m) => m.isDefault);
-  // vendor.media = vendor.media[0] ? vendor.media[0] : {};
+  vendor.defaultComposition.isDefault = true;
   return vendor.defaultComposition;
 };
