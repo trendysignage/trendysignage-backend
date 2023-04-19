@@ -24,19 +24,15 @@ export const defaultComposition = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  vendor.screens.map((screen) => {
+  for (const screen of vendor.screens) {
     if (screen.device) {
-      console.log(screen.device, "valuessss");
       let value = screen.device.deviceToken;
       if (!userCache[value]) {
         userCache[value] = userCache[value];
-      } else {
-        userCache[value].push(value);
       }
-      console.log(userCache, "usserrrreesa");
-      userCache[value].map((id) => {
+      userCache[value]?.map((id) => {
         io.to(id).emit("receiveContent", vendor.defaultComposition);
       });
     }
-  });
+  }
 };
