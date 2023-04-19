@@ -86,7 +86,7 @@ export const emit = async (value, content) => {
   if (!userCache[value]) {
     userCache[value] = userCache[value];
   }
-  userCache[value].map((id) => {
+  userCache[value]?.map((id) => {
     io.to(id).emit("receiveContent", content);
   });
 };
