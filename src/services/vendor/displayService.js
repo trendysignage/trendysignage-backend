@@ -74,6 +74,14 @@ export const addScreen = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  let value = device.deviceToken;
+  if (!userCache[value]) {
+    userCache[value] = userCache[value];
+  }
+  userCache[value].map((id) => {
+    vendor.defaultComposition.isDefault = true;
+    io.to(id).emit("receiveContent", vendor.defaultComposition);
+  });
 };
 
 export const editScreen = async (vendorId, body) => {
