@@ -121,7 +121,7 @@ export const deleteScreen = async (vendorId, screenId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  await Device.findOneAndUpdate(
+  let device = await Device.findOneAndUpdate(
     { screen: screenId, isDeleted: false },
     {
       $set: { isVerified: false },
@@ -129,6 +129,7 @@ export const deleteScreen = async (vendorId, screenId) => {
     },
     { new: true, lean: 1 }
   );
+  await emit(device.deviceToken, "", "delete");
 };
 
 export const getMedia = async (host, query, vendorId) => {

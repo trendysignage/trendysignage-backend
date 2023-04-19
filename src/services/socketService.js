@@ -82,11 +82,17 @@ export const getDefault = async (vendorId) => {
   return vendor.defaultComposition;
 };
 
-export const emit = async (value, content) => {
+export const emit = async (value, content, data) => {
   if (!userCache[value]) {
     userCache[value] = userCache[value];
   }
-  userCache[value]?.map((id) => {
-    io.to(id).emit("receiveContent", content);
-  });
+  if (!data) {
+    userCache[value]?.map((id) => {
+      io.to(id).emit("receiveContent", content);
+    });
+  } else {
+    userCache[value]?.map((id) => {
+      io.to(id).emit("disconnect", "Disconnected");
+    });
+  }
 };
