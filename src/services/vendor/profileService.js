@@ -27,8 +27,11 @@ export const defaultComposition = async (vendorId, body) => {
   vendor.screens.map((screen) => {
     if (screen.device) {
       let value = screen.device.deviceToken;
+      console.log(value);
       if (!userCache[value]) {
         userCache[value] = userCache[value];
+      } else {
+        userCache[value].push(value);
       }
       console.log(userCache);
       userCache[value].map((id) => {
