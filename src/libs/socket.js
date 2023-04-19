@@ -143,4 +143,4 @@ export const connectSocket = (server) => {
   });
 };
 
-export default io;
+export { io, userCache };

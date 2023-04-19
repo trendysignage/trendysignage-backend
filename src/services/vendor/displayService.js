@@ -1,7 +1,7 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import io from "../../libs/socket.js";
+import { io, userCache } from "../../libs/socket.js";
 
 export const deviceCode = async (vendorId, code) => {
   if (
@@ -251,18 +251,23 @@ export const publish = async (vendorId, body) => {
       { _id: id, isDeleted: false },
       { $addToSet: { contentPlaying: content } },
       { new: true, lean: 1 }
-    ).lean();
+    )
+      .lean()
+      .populate({ path: "device" });
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,
         STATUS_CODES.ACTION_FAILED
       );
     }
-    let userCache = {};
-    userCache[screen.device] = userCache[screen.device];
-    console.log(userCache, "cache");
-    for (const id of userCache[screen.device]) {
-      io.to(id).emit("receiveContent", content);
+    if (!userCache[screen.device.deviceToken]) {
+      userCache[screen.device.deviceToken] =
+        userCache[screen.device.deviceToken];
+    } else {
+      userCache[screen.device.deviceToken].push(screen.device.deviceToken);
     }
+    userCache[screen.device.deviceToken].map((id) => {
+      io.to(id).emit("receiveContent", content);
+    });
   }
 };
