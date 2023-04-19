@@ -31,6 +31,7 @@ export const defaultComposition = async (vendorId, body) => {
         userCache[value] = userCache[value];
       }
       userCache[value]?.map((id) => {
+        vendor.defaultComposition.isDefault = true;
         io.to(id).emit("receiveContent", vendor.defaultComposition);
       });
     }
