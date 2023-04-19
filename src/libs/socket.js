@@ -98,8 +98,10 @@ export const connectSocket = (server) => {
       const vendorId = await socketService.getVendor(
         socket.handshake.query?.deviceToken
       );
-      const defaultContent = await socketService.getDefault(vendorId);
-      io.to(id).emit("receiveContent", defaultContent, "emitted default");
+      if (vendorId) {
+        const defaultContent = await socketService.getDefault(vendorId);
+        io.to(id).emit("receiveContent", defaultContent, "emitted default");
+      }
     });
     // socket.on("sendContent", async (data) => {
     //   if (!data.screenId && !data.mediaId && !data.duration) {

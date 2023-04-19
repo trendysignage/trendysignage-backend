@@ -10,7 +10,6 @@ export const getVendor = async (deviceToken) => {
   const device = await Device.findOne({
     deviceToken: deviceToken,
     isDeleted: false,
-    isVerified: true,
   }).lean();
   if (!device) {
     throw new AuthFailedError(
@@ -18,7 +17,9 @@ export const getVendor = async (deviceToken) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  return device.vendor;
+  if (device.isVerified) {
+    return device.vendor;
+  }
 };
 
 export const getDevice = async (screenId) => {
