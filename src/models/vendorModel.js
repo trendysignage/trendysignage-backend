@@ -40,6 +40,7 @@ const vendorSchema = new mongoose.Schema(
     compositions: [
       { type: mongoose.Schema.Types.ObjectId, ref: "compositions" },
     ],
+    screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],
     country: { type: String },
     countryCode: { type: Number },
     phoneNumber: { type: Number },

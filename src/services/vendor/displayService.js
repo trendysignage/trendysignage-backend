@@ -63,6 +63,17 @@ export const addScreen = async (vendorId, body) => {
     { $set: { isVerified: true, screen: screen._id } },
     { new: true, lean: true }
   );
+  let vendor = await Vendor.findOneAndUpdate(
+    { _id: vendorId, isDeleted: false },
+    { $addToSet: { screens: screen._id } },
+    { new: true, lean: 1 }
+  );
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };
 
 export const editScreen = async (vendorId, body) => {
