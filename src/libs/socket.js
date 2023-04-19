@@ -93,6 +93,7 @@ export const connectSocket = (server) => {
     }
   }).on("connection", async (socket) => {
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
+      console.log(id, "socket idddddd");
       const vendorId = await socketService.getVendor(
         socket.handshake.query?.deviceToken
       );
