@@ -24,6 +24,7 @@ export const defaultComposition = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  console.log(vendor, "vendor");
   vendor.screens.map((screen) => {
     let value = screen.device.deviceToken;
     if (!userCache[value]) {
