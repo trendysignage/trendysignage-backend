@@ -117,18 +117,22 @@ export const deleteScreen = async (vendorId, screenId) => {
   );
 };
 
-export const getMedia = async (host, search, vendorId) => {
+export const getMedia = async (host, query, vendorId) => {
   let vendor = await Vendor.findById(vendorId)
     .lean()
     .select("media")
-    .populate({ path: "media.createdBy", select: ["_id", "name"] });
+    .populate({
+      path: "media.createdBy",
+      select: ["_id", "name"],
+      options: { skip: query.page * query.limit, limit: query.limit },
+    });
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
-  if (search) {
+  if (query?.search) {
     vendor.media = vendor.media.filter((i) =>
       JSON.stringify(i.title.toLowerCase()).includes(search.toLowerCase())
     );

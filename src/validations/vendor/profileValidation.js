@@ -4,6 +4,10 @@ import { objectId } from "../custom.validation.js";
 
 export const defaultComposition = {
   body: Joi.object().keys({
-    mediaId: JOI.OBJECTID,
+    title: Joi.string().required(),
+    duration: Joi.string().required(),
+    type: Joi.string()
+      .values(...Object.values(MEDIA_TYPE))
+      .required(),
   }),
 };
