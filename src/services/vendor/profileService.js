@@ -1,7 +1,7 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import { io, userCache } from "../../libs/socket.js";
+import { emit } from "../socketService.js";
 
 export const defaultComposition = async (vendorId, body) => {
   let media = {
@@ -26,14 +26,8 @@ export const defaultComposition = async (vendorId, body) => {
   }
   for (const screen of vendor.screens) {
     if (screen.device) {
-      let value = screen.device.deviceToken;
-      if (!userCache[value]) {
-        userCache[value] = userCache[value];
-      }
-      userCache[value]?.map((id) => {
-        vendor.defaultComposition.isDefault = true;
-        io.to(id).emit("receiveContent", vendor.defaultComposition);
-      });
+      vendor.defaultComposition.isDefault = true;
+      await emit(screen.device?.deviceToken, vendor.defaultComposition);
     }
   }
 };

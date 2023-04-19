@@ -5,6 +5,7 @@ import {
 } from "../config/appConstants.js";
 import { Vendor, Token, Device, Screen } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
+import { io, userCache } from "../libs/socket.js";
 
 export const getVendor = async (deviceToken) => {
   const device = await Device.findOne({
@@ -79,4 +80,13 @@ export const getDefault = async (vendorId) => {
   }
   vendor.defaultComposition.isDefault = true;
   return vendor.defaultComposition;
+};
+
+export const emit = async (value, content) => {
+  if (!userCache[value]) {
+    userCache[value] = userCache[value];
+  }
+  userCache[value].map((id) => {
+    io.to(id).emit("receiveContent", content);
+  });
 };
