@@ -2,7 +2,7 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
-export const defaultComposition = async (vendorId, mediaId) => {
+export const defaultComposition = async (vendorId, file) => {
   let media = {
     title: file.path.substring("public".length),
     type: "image",
