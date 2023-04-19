@@ -96,7 +96,7 @@ export const connectSocket = (server) => {
         socket.handshake.query?.deviceToken
       );
       const defaultContent = await socketService.getDefault(vendorId);
-      io.to(id).emit("receiveContent", defaultContent);
+      io.to(id).emit("receiveContent", defaultContent, "emitted default");
     });
     console.log(userCache, "sockektktktttt userCachhhe");
     socket.on("sendContent", async (data) => {

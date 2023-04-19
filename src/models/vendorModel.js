@@ -14,6 +14,11 @@ const vendorSchema = new mongoose.Schema(
       googleId: { type: String },
     },
     password: { type: String },
+    defaultComposition: {
+      title: { type: String },
+      type: { type: String, enum: [...Object.values(MEDIA_TYPE)] },
+      duration: { type: String },
+    },
     media: [
       {
         // baseUrl: { type: String },

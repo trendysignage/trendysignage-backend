@@ -3,13 +3,17 @@ import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const defaultComposition = async (vendorId, mediaId) => {
+  let media = {
+    title: file.path.substring("public".length),
+    type: "image",
+    duration: "10 sec",
+  };
   const vendor = await Vendor.findOneAndUpdate(
     {
       _id: vendorId,
       isDeleted: false,
-      "media._id": mediaId,
     },
-    { $set: { "media.$.isDefault": true } },
+    { $set: { defaultComposition: media } },
     { new: true, lean: 1 }
   ).lean();
   if (!vendor) {

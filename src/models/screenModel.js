@@ -6,7 +6,10 @@ const screenSchema = new mongoose.Schema(
     screenLocation: { type: String, required: true },
     googleLocation: { type: String },
     tags: [{ type: String }],
-    defaultComposition: { type: String },
+    defaultComposition: {
+      media: {},
+      duration: { type: String },
+    },
     contentPlaying: [
       {
         media: {},
