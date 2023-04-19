@@ -271,12 +271,12 @@ export const publish = async (vendorId, body) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-    if (!userCache[screen.device.deviceToken]) {
-      userCache[screen.device.deviceToken] =
-        userCache[screen.device.deviceToken];
+    let value = screen.device.deviceToken;
+    if (!userCache[value]) {
+      userCache[value] = userCache[value];
     }
     console.log(userCache, "cacheeeee api");
-    userCache[screen.device.deviceToken].map((id) => {
+    userCache[value].map((id) => {
       io.to(id).emit("receiveContent", content);
     });
   }
