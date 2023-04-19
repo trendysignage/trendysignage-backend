@@ -259,8 +259,9 @@ export const publish = async (vendorId, body) => {
       );
     }
     let userCache = {};
-    const socketIds = userCache[screen.device];
-    for (const id of socketIds) {
+    userCache[screen.device] = userCache[screen.device];
+    console.log(userCache, "cache");
+    for (const id of userCache[screen.device]) {
       io.to(id).emit("receiveContent", content);
     }
   }
