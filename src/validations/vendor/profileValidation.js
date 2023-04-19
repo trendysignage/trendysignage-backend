@@ -6,8 +6,8 @@ export const defaultComposition = {
   body: Joi.object().keys({
     title: Joi.string().required(),
     duration: Joi.string().required(),
-    // type: Joi.string()
-    //   .values(...Object.values(MEDIA_TYPE))
-    //   .required(),
+    type: Joi.string()
+      .valid(...Object.values(MEDIA_TYPE))
+      .required(),
   }),
 };
