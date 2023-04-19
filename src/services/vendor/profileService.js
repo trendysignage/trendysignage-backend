@@ -25,15 +25,15 @@ export const defaultComposition = async (vendorId, body) => {
     );
   }
   vendor.screens.map((screen) => {
-    let value = screen.device.deviceToken;
-    if (!userCache[value]) {
-      userCache[value] = userCache[value];
-    } else {
-      userCache[value].push(value);
+    if (screen.device) {
+      let value = screen.device.deviceToken;
+      if (!userCache[value]) {
+        userCache[value] = userCache[value];
+      }
+      console.log(userCache);
+      userCache[value].map((id) => {
+        io.to(id).emit("receiveContent", vendor.defaultComposition);
+      });
     }
-    console.log(userCache);
-    userCache[value].map((id) => {
-      io.to(id).emit("receiveContent", vendor.defaultComposition);
-    });
   });
 };
