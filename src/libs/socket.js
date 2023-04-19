@@ -78,9 +78,10 @@ export const connectSocket = (server) => {
         let value = device.deviceToken;
         if (!userCache[value]) {
           userCache[value] = [socket.id];
-        } else {
-          userCache[value].push(socket.id);
         }
+        // else {
+        //   userCache[value].push(socket.id);
+        // }
         return next();
       }
       device(socket.handshake.query.deviceToken);
@@ -100,7 +101,6 @@ export const connectSocket = (server) => {
       const defaultContent = await socketService.getDefault(vendorId);
       io.to(id).emit("receiveContent", defaultContent, "emitted default");
     });
-    console.log(userCache, "sockektktktttt userCachhhe");
     socket.on("sendContent", async (data) => {
       if (!data.screenId && !data.mediaId && !data.duration) {
         throw new AuthFailedError(
