@@ -266,6 +266,7 @@ export const publish = async (vendorId, body) => {
     } else {
       userCache[screen.device.deviceToken].push(screen.device.deviceToken);
     }
+    console.log(userCache, "cacheeeee api");
     userCache[screen.device.deviceToken].map((id) => {
       io.to(id).emit("receiveContent", content);
     });
