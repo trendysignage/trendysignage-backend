@@ -92,7 +92,7 @@ export const emit = async (value, content, data) => {
     });
   } else {
     userCache[value]?.map((id) => {
-      io.to(id).emit("disconnect", "Disconnected");
+      io.to(id).emit("disconnectDevice", "Disconnected");
     });
   }
 };
