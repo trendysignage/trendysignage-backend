@@ -154,31 +154,31 @@ export const getMedia = async (host, query, vendorId) => {
 };
 
 export const addMedia = async (vendorId, body, file) => {
-  // let media = [
-  //   {
-  //     title: file.path.substring("public".length),
-  //     type: body.type,
-  //     properties: body.properties,
-  //     tags: body.tags,
-  //     createdBy: vendorId,
-  //     createdAt: new Date(),
-  //     updatedAt: new Date(),
-  //   },
-  // ];
-  // const vendor = await Vendor.findOneAndUpdate(
-  //   {
-  //     _id: vendorId,
-  //     isDeleted: false,
-  //   },
-  //   { $addToSet: { media: media } },
-  //   { new: true, lean: 1 }
-  // );
-  // if (!vendor) {
-  //   throw new AuthFailedError(
-  //     ERROR_MESSAGES.VENDOR_NOT_FOUND,
-  //     STATUS_CODES.ACTION_FAILED
-  //   );
-  // }
+  let media = [
+    {
+      title: file.path.substring("public".length),
+      type: body.type,
+      properties: body.properties,
+      tags: body.tags,
+      createdBy: vendorId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      _id: vendorId,
+      isDeleted: false,
+    },
+    { $addToSet: { media: media } },
+    { new: true, lean: 1 }
+  );
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };
 
 export const editMedia = async (vendorId, body, file) => {
