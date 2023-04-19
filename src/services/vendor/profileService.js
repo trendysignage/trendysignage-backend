@@ -21,5 +21,4 @@ export const defaultComposition = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  console.log(vendor);
 };
