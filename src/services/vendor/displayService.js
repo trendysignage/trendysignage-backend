@@ -281,15 +281,3 @@ export const publish = async (vendorId, body) => {
     });
   }
 };
-
-async function update() {
-  const screens = await Screen.find({}).lean();
-  for (const screen of screens) {
-    await Vendor.updateOne(
-      { _id: screen.vendor },
-      { $addToSet: { screens: screen._id } }
-    );
-  }
-}
-
-update();
