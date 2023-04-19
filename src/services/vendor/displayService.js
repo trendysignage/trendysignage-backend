@@ -258,6 +258,10 @@ export const publish = async (vendorId, body) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-    io.to(screen.device).emit("receiveContent", content, "published content");
+    let userCache = {};
+    const socketIds = userCache[screen.device];
+    for (const id of socketIds) {
+      io.to(id).emit("receiveContent", content);
+    }
   }
 };
