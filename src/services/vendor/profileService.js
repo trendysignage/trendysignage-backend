@@ -6,14 +6,13 @@ export const defaultComposition = async (vendorId, body) => {
   let media = {
     title: body.title,
     type: body.type,
-    duration: body.duration,
   };
   const vendor = await Vendor.findOneAndUpdate(
     {
       _id: vendorId,
       isDeleted: false,
     },
-    { $set: { defaultComposition: media } },
+    { $set: { defaultComposition: { media, duration: body.duration } } },
     { new: true, lean: 1 }
   ).lean();
   if (!vendor) {
@@ -22,4 +21,5 @@ export const defaultComposition = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  console.log(vendor);
 };
