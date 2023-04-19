@@ -9,6 +9,7 @@ import {
 import { socketService } from "../services/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { Token, Vendor, Device } from "../models/index.js";
+const io = new Server();
 
 let userCache = {};
 
@@ -22,7 +23,7 @@ let userCache = {};
 */
 
 export const connectSocket = (server) => {
-  const io = new Server(server);
+  io.attach(server);
   io.use(function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query.token) {
@@ -140,3 +141,5 @@ export const connectSocket = (server) => {
     });
   });
 };
+
+export default io;
