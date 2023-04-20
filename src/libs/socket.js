@@ -31,7 +31,6 @@ export const connectSocket = (server) => {
   });
   io.use(function (socket, next) {
     console.log("user is trying to connect");
-    console.log(socket.handshake.query.token, "tokennnnnn");
     if (socket.handshake.query.token) {
       console.log("user entered");
       jwt.verify(
