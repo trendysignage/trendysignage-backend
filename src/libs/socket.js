@@ -24,7 +24,6 @@ let userCache = {};
 
 export const connectSocket = (server) => {
   io.attach(server, {
-    transports: ["websocket"],
     cors: {
       origin: ["http://localhost:3000"],
       credentials: true,
@@ -91,12 +90,6 @@ export const connectSocket = (server) => {
         return next();
       }
       device(socket.handshake.query.deviceToken);
-    } else {
-      console.log("error connecting");
-      throw new AuthFailedError(
-        ERROR_MESSAGES.AUTHENTICATION_FAILED,
-        STATUS_CODES.AUTH_FAILED
-      );
     }
   }).on("connection", async (socket) => {
     console.log(userCache, "userCachhheeeeee");
