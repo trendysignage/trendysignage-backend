@@ -93,16 +93,18 @@ export const connectSocket = (server) => {
     }
   }).on("connection", async (socket) => {
     console.log(userCache, "userCachhheeeeee");
-    userCache[socket.handshake.query.deviceToken].map(async (id) => {
-      console.log(id, "socket idddddd");
-      const vendorId = await socketService.getVendor(
-        socket.handshake.query?.deviceToken
-      );
-      if (vendorId) {
-        const defaultContent = await socketService.getDefault(vendorId);
-        io.to(id).emit("receiveContent", defaultContent, "emitted default");
-      }
-    });
+    if (socket.handshake.query.deviceToken) {
+      userCache[socket.handshake.query.deviceToken].map(async (id) => {
+        console.log(id, "socket idddddd");
+        const vendorId = await socketService.getVendor(
+          socket.handshake.query?.deviceToken
+        );
+        if (vendorId) {
+          const defaultContent = await socketService.getDefault(vendorId);
+          io.to(id).emit("receiveContent", defaultContent, "emitted default");
+        }
+      });
+    }
     // socket.on("sendContent", async (data) => {
     //   if (!data.screenId && !data.mediaId && !data.duration) {
     //     throw new AuthFailedError(
