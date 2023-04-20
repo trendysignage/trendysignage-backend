@@ -27,7 +27,9 @@ export const getScreens = async (search, vendorId) => {
   let screens = await Screen.find({
     vendor: vendorId,
     isDeleted: false,
-  }).lean();
+  })
+    .lean()
+    .populate({ path: "device" });
   if (search) {
     screens = screens.filter((i) =>
       JSON.stringify(i.name.toLowerCase()).includes(search.toLowerCase())
