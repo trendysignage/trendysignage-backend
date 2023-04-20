@@ -26,13 +26,12 @@ export const connectSocket = (server) => {
   io.attach(server, {
     cors: {
       origin: ["http://localhost:3000"],
-      // origin: ["https://my-frontend.com", "https://my-other-frontend.com", "http://localhost:3000"],
       credentials: true,
     },
   });
   io.use(function (socket, next) {
     console.log("user is trying to connect");
-    console.log(socket.handshake.query, "query");
+    console.log(socket.handshake.query.token, "tokennnnnn");
     if (socket.handshake.query.token) {
       console.log("user entered");
       jwt.verify(
