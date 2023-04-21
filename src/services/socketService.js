@@ -84,7 +84,7 @@ export const getDefault = async (vendorId) => {
 
 export const emit = async (value, content, data) => {
   console.log("runninng 111", userCache, value);
-  if (!userCache[value]) {
+  if (!userCache[value] && value) {
     userCache[value] = userCache[value];
   } else {
     userCache[value].push(value);
@@ -93,6 +93,7 @@ export const emit = async (value, content, data) => {
 
   if (!data) {
     if (userCache[value]) {
+      console.log();
       userCache[value].map((id) => {
         console.log(id, "yese emitititt");
         io.to(id).emit("receiveContent", content);
