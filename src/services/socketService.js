@@ -83,12 +83,12 @@ export const getDefault = async (vendorId) => {
 };
 
 export const emit = async (value, content, data) => {
-  console.log(userCache, "cache");
+  console.log(userCache, "cache", value);
   if (!userCache[value]) {
     userCache[value] = userCache[value];
   }
+  console.log(userCache[value], "will this work?");
   if (!data) {
-    console.log(userCache[value], "will this work?");
     if (userCache[value]) {
       userCache[value].map((id) => {
         console.log(id, "yese emitititt");
