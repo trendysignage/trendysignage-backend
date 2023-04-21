@@ -88,13 +88,17 @@ export const emit = async (value, content, data) => {
   }
   if (!data) {
     console.log("runninng without dataa", userCache, value);
-    userCache[value].map((id) => {
-      console.log(id);
-      io.to(id).emit("receiveContent", content);
-    });
+    if (userCache[value]) {
+      userCache[value].map((id) => {
+        console.log(id);
+        io.to(id).emit("receiveContent", content);
+      });
+    }
   } else {
-    userCache[value]?.map((id) => {
-      io.to(id).emit("disconnectDevice", "Disconnected");
-    });
+    if (userCache[value]) {
+      userCache[value].map((id) => {
+        io.to(id).emit("disconnectDevice", "Disconnected");
+      });
+    }
   }
 };
