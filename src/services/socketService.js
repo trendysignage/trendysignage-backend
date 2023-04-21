@@ -84,21 +84,21 @@ export const getDefault = async (vendorId) => {
 
 export const emit = async (value, content, data) => {
   console.log(io);
-  if (!userCache[value]) {
-    userCache[value] = [socket.id];
-  }
-  if (!data) {
-    if (userCache[value]) {
-      userCache[value].map((id) => {
-        console.log(id, "yese emitititt");
-        io.to(id).emit("receiveContent", content);
-      });
-    }
-  } else {
-    if (userCache[value]) {
-      userCache[value].map((id) => {
-        io.to(id).emit("disconnectDevice", "Disconnected");
-      });
-    }
-  }
+  // if (!userCache[value]) {
+  //   userCache[value] = [io];
+  // }
+  // if (!data) {
+  //   if (userCache[value]) {
+  //     userCache[value].map((id) => {
+  //       console.log(id, "yese emitititt");
+  //       io.to(id).emit("receiveContent", content);
+  //     });
+  //   }
+  // } else {
+  //   if (userCache[value]) {
+  //     userCache[value].map((id) => {
+  //       io.to(id).emit("disconnectDevice", "Disconnected");
+  //     });
+  //   }
+  // }
 };
