@@ -84,9 +84,10 @@ export const getDefault = async (vendorId) => {
 
 export const emit = async (value, content, data) => {
   const socketId = clientsMap.get(value);
+  console.log(socketId, "socket id");
   if (!data) {
     io.to(socketId).emit("receiveContent", content);
   } else {
-    io.to(socketId).emit("disconnectDevice", "Disconnected"); 
+    io.to(socketId).emit("disconnectDevice", "Disconnected");
   }
 };
