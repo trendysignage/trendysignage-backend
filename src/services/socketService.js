@@ -83,10 +83,9 @@ export const getDefault = async (vendorId) => {
 };
 
 export const emit = async (value, content, data) => {
-  console.log(userCache, "cache", value);
   if (!userCache[value]) {
     userCache[value] = userCache[value];
-    console.log(userCache[value], "will this work?");
+    console.log(userCache, "will this work?");
   }
   if (!data) {
     if (userCache[value]) {
