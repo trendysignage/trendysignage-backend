@@ -9,7 +9,6 @@ import {
 import { socketService } from "../services/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { Token, Vendor, Device } from "../models/index.js";
-const clientsMap = new Map();
 const io = new Server();
 
 let userCache = {};
@@ -49,7 +48,6 @@ export const connectSocket = (server) => {
         if (!userCache[value]) {
           userCache[value] = [socket.id];
         }
-        clientsMap.set(value, socket.id);
         return next();
       }
       device(socket.handshake.query.deviceToken);
@@ -61,7 +59,6 @@ export const connectSocket = (server) => {
     }
   }).on("connection", async (socket) => {
     console.log(userCache, "userCachhheeeeee");
-    clientsMap.set(socket.handshake.query.deviceToken, socket.id);
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
       console.log(id, "socket idddddd");
       const vendorId = await socketService.getVendor(
@@ -114,4 +111,4 @@ export const connectSocket = (server) => {
   });
 };
 
-export { io, userCache, clientsMap };
+export { io, userCache };
