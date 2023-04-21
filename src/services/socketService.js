@@ -87,6 +87,7 @@ export const emit = async (value, content, data) => {
     if (!userCache[value]) {
       userCache[value] = [socket.id];
     }
+    console.log(userCache, "cache");
     if (!data) {
       if (userCache[value]) {
         userCache[value].map((id) => {
