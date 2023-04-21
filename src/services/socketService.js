@@ -83,12 +83,17 @@ export const getDefault = async (vendorId) => {
 };
 
 export const emit = async (value, content, data) => {
+  console.log(value);
+  console.log("-------");
+  console.log(data);
+  console.log("-------");
+  console.log(content);
+
   if (!userCache[value]) {
     userCache[value] = userCache[value];
   }
   if (!data) {
     userCache[value]?.map((id) => {
-      console.log("emitting by publish");
       io.to(id).emit("receiveContent", content);
     });
   } else {
