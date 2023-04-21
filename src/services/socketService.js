@@ -5,7 +5,7 @@ import {
 } from "../config/appConstants.js";
 import { Vendor, Token, Device, Screen } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
-import { io, userCache } from "../libs/socket.js";
+import { io, userCache, clientsMap } from "../libs/socket.js";
 
 export const getVendor = async (deviceToken) => {
   const device = await Device.findOne({
@@ -83,22 +83,10 @@ export const getDefault = async (vendorId) => {
 };
 
 export const emit = async (value, content, data) => {
-  console.log(io);
-  // if (!userCache[value]) {
-  //   userCache[value] = [io];
-  // }
-  // if (!data) {
-  //   if (userCache[value]) {
-  //     userCache[value].map((id) => {
-  //       console.log(id, "yese emitititt");
-  //       io.to(id).emit("receiveContent", content);
-  //     });
-  //   }
-  // } else {
-  //   if (userCache[value]) {
-  //     userCache[value].map((id) => {
-  //       io.to(id).emit("disconnectDevice", "Disconnected");
-  //     });
-  //   }
-  // }
+  const socketId = clientsMap.get(value);
+  if (!data) {
+    io.to(socketId).emit("receiveContent", content);
+  } else {
+    io.to(socketId).emit("disconnectDevice", "Disconnected"); 
+  }
 };
