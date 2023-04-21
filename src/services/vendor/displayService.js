@@ -29,7 +29,8 @@ export const getScreens = async (search, vendorId) => {
     isDeleted: false,
   })
     .lean()
-    .populate({ path: "device" });
+    .populate({ path: "device" })
+    .sort({ createdAt: -1 });
   if (search) {
     screens = screens.filter((i) =>
       JSON.stringify(i.name.toLowerCase()).includes(search.toLowerCase())
