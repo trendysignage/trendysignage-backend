@@ -100,7 +100,6 @@ export const connectSocket = (server) => {
       userCache[socket.handshake.query.deviceToken] = userCache[
         socket.handshake.query.deviceToken
       ].filter((socketId) => socketId !== socket.id);
-      clientsMap.delete(socket.handshake.query.deviceToken);
       // } else {
       //   userCache[socket.decoded.user] = userCache[socket.decoded.user].filter(
       //     (socketId) => socketId !== socket.id
