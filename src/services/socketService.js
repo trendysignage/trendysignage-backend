@@ -87,7 +87,7 @@ export const emit = async (value, content, data) => {
     userCache[value] = userCache[value];
   }
   if (!data) {
-    console.log("runninng without dataa");
+    console.log("runninng without dataa", userCache, value);
     userCache[value].map((id) => {
       console.log(id);
       io.to(id).emit("receiveContent", content);
