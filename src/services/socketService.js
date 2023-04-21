@@ -89,6 +89,7 @@ export const emit = async (value, content, data) => {
   } else {
     userCache[value].push(value);
   }
+  console.log(userCache[value], "I dont know");
   if (!data) {
     console.log(userCache[value], "will this work?");
     if (userCache[value]) {
