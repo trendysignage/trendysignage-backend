@@ -84,12 +84,12 @@ export const getDefault = async (vendorId) => {
 
 export const emit = async (value, content, data) => {
   if (!data) {
-    userCache[value].map((id) => {
+    userCache[value]?.map((id) => {
       console.log(id, "yese emitititt");
       io.to(id).emit("receiveContent", content);
     });
   } else {
-    userCache[value].map((id) => {
+    userCache[value]?.map((id) => {
       io.to(id).emit("disconnectDevice", "Disconnected");
     });
   }
