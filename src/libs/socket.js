@@ -45,6 +45,7 @@ export const connectSocket = (server) => {
           );
         }
         let value = device.deviceToken;
+        console.log(value, "valuuuuueeeee");
         if (!userCache[value]) {
           userCache[value] = [socket.id];
         }
