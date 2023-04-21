@@ -83,11 +83,11 @@ export const getDefault = async (vendorId) => {
 };
 
 export const emit = async (value, content, data) => {
-  io.use(async (socket) => {
+  console.log(io, "io");
+  io.use((socket) => {
     if (!userCache[value]) {
       userCache[value] = [socket.id];
     }
-    console.log(userCache, "cache");
     if (!data) {
       if (userCache[value]) {
         userCache[value].map((id) => {
