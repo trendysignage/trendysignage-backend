@@ -47,9 +47,10 @@ export const connectSocket = (server) => {
         let value = device.deviceToken;
         if (!userCache[value]) {
           userCache[value] = [socket.id];
-        } else {
-          userCache[value].push(socket.id);
         }
+        //  else {
+        //   userCache[value].push(socket.id);
+        // }
         console.log(userCache, "valuuuuueeeee");
         return next();
       }
