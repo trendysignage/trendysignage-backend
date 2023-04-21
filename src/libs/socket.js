@@ -96,7 +96,6 @@ export const connectSocket = (server) => {
       console.error(error, "something went wrong in socket...");
     });
     socket.on("disconnect", async (data) => {
-      console.log("disconnect....", socket.id, userCache[socket.decoded.user]);
       // if (!socket.decoded) {
       userCache[socket.handshake.query.deviceToken] = userCache[
         socket.handshake.query.deviceToken
