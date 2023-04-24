@@ -25,6 +25,13 @@ router
     displayController.deleteScreen
   );
 
+router.get(
+  "/screen",
+  auth(),
+  validate(displayValidation.getScreen),
+  displayController.getScreen
+);
+
 router
   .route("/media")
   .all(auth())

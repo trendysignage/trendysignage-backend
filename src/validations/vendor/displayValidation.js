@@ -42,6 +42,12 @@ export const deleteScreen = {
   }),
 };
 
+export const getScreen = {
+  query: Joi.object().keys({
+    screenId: JOI.OBJECTID,
+  }),
+};
+
 export const getMedia = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),

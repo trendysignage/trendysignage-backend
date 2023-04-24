@@ -57,6 +57,17 @@ export const deleteScreen = catchAsync(async (req, res) => {
   );
 });
 
+export const getScreen = catchAsync(async (req, res) => {
+  const screen = await displayService.getScreen(req.query.screenId);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    screen
+  );
+});
+
 export const getMedia = catchAsync(async (req, res) => {
   const media = await displayService.getMedia(
     req.headers.host,
