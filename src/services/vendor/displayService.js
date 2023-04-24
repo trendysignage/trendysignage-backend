@@ -139,7 +139,9 @@ export const getScreen = async (screenId) => {
   const screen = await Screen.findOne({
     _id: screenId,
     isDeleted: false,
-  }).lean();
+  })
+    .lean()
+    .populate({ path: "device" });
   if (!screen) {
     throw new AuthFailedError(
       ERROR_MESSAGES.SCREEN_NOT_FOUND,
