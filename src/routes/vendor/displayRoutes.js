@@ -26,7 +26,7 @@ router
   );
 
 router.get(
-  "/screen",
+  "/ss",
   auth(),
   validate(displayValidation.getScreen),
   displayController.getScreen
