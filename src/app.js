@@ -12,10 +12,11 @@ import { requestHandler, routeNotFoundHandler } from "./middlewares/common.js";
 
 const app = express();
 
+app.set("etag", true);
+
 app.use(
   express.static("public/", {
     maxAge: "1d",
-    etag: true,
     setHeaders: function (res, path) {
       res.setHeader("Cache-Control", "public, max-age=86400"); // cache for 1 day
     },
