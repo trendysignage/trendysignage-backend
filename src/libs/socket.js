@@ -34,7 +34,6 @@ export const connectSocket = (server) => {
     if (socket.handshake.query.deviceToken) {
       console.log("device entered");
       let deviceToken = socket.handshake.query.deviceToken;
-      // async function device(deviceToken) {
       const device = await Device.findOne({
         deviceToken: deviceToken,
         isDeleted: false,
@@ -51,15 +50,13 @@ export const connectSocket = (server) => {
       } else {
         userCache[value].push(socket.id);
       }
-      return next();
-      // }
-      // device();
     } else {
       throw new AuthFailedError(
         ERROR_MESSAGES.AUTHENTICATION_FAILED,
         STATUS_CODES.ACTION_FAILED
       );
     }
+    return next();
   }).on("connection", async (socket) => {
     console.log(userCache, "userCachhheeeeee");
     userCache[socket.handshake.query.deviceToken].map(async (id) => {
