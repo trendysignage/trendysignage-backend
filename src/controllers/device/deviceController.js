@@ -10,7 +10,6 @@ export const addDevice = catchAsync(async (req, res) => {
     req.body.deviceToken,
     deviceCode
   );
-  res.set("Cache-Control", "public, max-age=86400");
   return successResponse(
     req,
     res,
