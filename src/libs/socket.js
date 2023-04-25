@@ -58,11 +58,10 @@ export const connectSocket = (server) => {
     }
     return next();
   }).on("connection", async (socket) => {
-    console.log(userCache, "userCachhheeeeee");
-    userCache[socket.handshake.query.deviceToken].map(async (id) => {
-      const vendorId = await socketService.getVendor(
-        socket.handshake.query?.deviceToken
-      );
+    let deviceToken = socket.handshake.query.deviceToken;
+    console.log(userCache, "userCachhheeeeee", deviceToken);
+    userCache[deviceToken].map(async (id) => {
+      const vendorId = await socketService.getVendor(deviceToken);
       if (vendorId) {
         const defaultContent = await socketService.getDefault(vendorId);
         console.log("emitteddd", defaultContent);
@@ -96,15 +95,9 @@ export const connectSocket = (server) => {
       console.error(error, "something went wrong in socket...");
     });
     socket.on("disconnect", async (data) => {
-      // if (!socket.decoded) {
       userCache[socket.handshake.query.deviceToken] = userCache[
         socket.handshake.query.deviceToken
       ].filter((socketId) => socketId !== socket.id);
-      // } else {
-      //   userCache[socket.decoded.user] = userCache[socket.decoded.user].filter(
-      //     (socketId) => socketId !== socket.id
-      //   );
-      // }
       console.log("disconneted", userCache);
     });
   });
