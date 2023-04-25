@@ -18,7 +18,7 @@ app.use(
   express.static("public/", {
     maxAge: "365d",
     setHeaders: function (res, path) {
-      res.setHeader("Cache-Control", "public, max-age=31536000"); // cache for 1 day
+      res.setHeader("Cache-Control", "public, max-age=31536000"); // cache for 1 year
     },
   })
 );
