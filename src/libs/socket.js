@@ -29,30 +29,31 @@ export const connectSocket = (server) => {
       credentials: true,
     },
   });
-  io.use(function (socket, next) {
+  io.use(async function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query.deviceToken) {
       console.log("device entered");
-      async function device(deviceToken) {
-        const device = await Device.findOne({
-          deviceToken: deviceToken,
-          isDeleted: false,
-        }).lean();
-        if (!device) {
-          throw new AuthFailedError(
-            ERROR_MESSAGES.DEVICE_NOT_FOUND,
-            STATUS_CODES.ACTION_FAILED
-          );
-        }
-        let value = device.deviceToken;
-        if (!userCache[value]) {
-          userCache[value] = [socket.id];
-        } else {
-          userCache[value].push(socket.id);
-        }
-        return next();
+      let deviceToken = socket.handshake.query.deviceToken;
+      // async function device(deviceToken) {
+      const device = await Device.findOne({
+        deviceToken: deviceToken,
+        isDeleted: false,
+      }).lean();
+      if (!device) {
+        throw new AuthFailedError(
+          ERROR_MESSAGES.DEVICE_NOT_FOUND,
+          STATUS_CODES.ACTION_FAILED
+        );
       }
-      device(socket.handshake.query.deviceToken);
+      let value = device.deviceToken;
+      if (!userCache[value]) {
+        userCache[value] = [socket.id];
+      } else {
+        userCache[value].push(socket.id);
+      }
+      return next();
+      // }
+      // device();
     } else {
       throw new AuthFailedError(
         ERROR_MESSAGES.AUTHENTICATION_FAILED,
