@@ -27,6 +27,7 @@ export const addDevice = async (deviceToken, code) => {
     //     );
     //   }
     // }
+    console.log(screen.contentPlaying, "screeeen");
     device.content =
       screen && screen.contentPlaying ? screen.contentPlaying : [];
   }
