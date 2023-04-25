@@ -48,7 +48,7 @@ export const connectSocket = (server) => {
         if (!userCache[value]) {
           userCache[value] = [socket.id];
         } else {
-          userCache[value] = [socket.id];
+          userCache[value].push(socket.id);
         }
         return next();
       }
