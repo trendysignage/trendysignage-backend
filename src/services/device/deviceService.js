@@ -14,19 +14,19 @@ export const addDevice = async (deviceToken, code) => {
       deviceCode: code,
     });
   } else {
-    if (device.screen) {
-      screen = await Screen.findOneAndUpdate(
-        { _id: device.screen, isDeleted: false },
-        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
-        { new: true, lean: 1 }
-      );
-      if (!screen) {
-        throw new AuthFailedError(
-          ERROR_MESSAGES.SCREEN_NOT_FOUND,
-          STATUS_CODES.ACTION_FAILED
-        );
-      }
-    }
+    // if (device.screen) {
+    //   screen = await Screen.findOneAndUpdate(
+    //     { _id: device.screen, isDeleted: false },
+    //     { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+    //     { new: true, lean: 1 }
+    //   );
+    //   if (!screen) {
+    //     throw new AuthFailedError(
+    //       ERROR_MESSAGES.SCREEN_NOT_FOUND,
+    //       STATUS_CODES.ACTION_FAILED
+    //     );
+    //   }
+    // }
     device.content =
       screen && screen.contentPlaying ? screen.contentPlaying : [];
   }

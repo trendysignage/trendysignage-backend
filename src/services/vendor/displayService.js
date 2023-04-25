@@ -282,7 +282,7 @@ export const publish = async (vendorId, body) => {
   for (const id of body.screenIds) {
     const screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },
-      { $addToSet: { contentPlaying: content } },
+      { $set: { contentPlaying: content } },
       { new: true, lean: 1 }
     )
       .lean()

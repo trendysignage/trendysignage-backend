@@ -25,7 +25,7 @@ let userCache = {};
 export const connectSocket = (server) => {
   io.attach(server, {
     cors: {
-      origin: ["http://localhost:3000"],
+      origin: "*",
       credentials: true,
     },
   });

@@ -12,7 +12,7 @@ import { requestHandler, routeNotFoundHandler } from "./middlewares/common.js";
 
 const app = express();
 
-app.use(express.static("public/"));
+app.use(express.static("public/", { maxAge: 360000000 }));
 
 app.use(i18n.init);
 
