@@ -15,9 +15,9 @@ const app = express();
 app.use(
   express.static("public/", {
     maxAge: 864000,
-    setHeaders: (res) => {
-      res.set("Cache-Control", "public, max-age=864000");
-    },
+    // setHeaders: (res) => {
+    //   res.set("Cache-Control", "public, max-age=864000");
+    // },
   })
 );
 
