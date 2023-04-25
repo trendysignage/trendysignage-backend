@@ -16,7 +16,7 @@ app.use(
   express.static("public/", {
     maxAge: 864000,
     setHeaders: (res) => {
-      res.setHeader("Cache-Control", "public, max-age=864000");
+      res.set("Cache-Control", "public, max-age=864000");
     },
   })
 );
