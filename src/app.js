@@ -14,10 +14,10 @@ const app = express();
 
 app.use(
   express.static("public/", {
-    maxAge: 864000,
-    // setHeaders: (res) => {
-    //   res.set("Cache-Control", "public, max-age=864000");
-    // },
+    maxAge: "1d",
+    setHeaders: function (res, path) {
+      res.setHeader("Cache-Control", "public, max-age=86400"); // cache for 1 day
+    },
   })
 );
 
