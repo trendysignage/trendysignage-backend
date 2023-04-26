@@ -15,7 +15,7 @@ export const deviceCode = catchAsync(async (req, res) => {
 
 export const getScreens = catchAsync(async (req, res) => {
   const screen = await displayService.getScreens(
-    req?.query?.search,
+    req?.query,
     req.token.vendor._id
   );
   return successResponse(

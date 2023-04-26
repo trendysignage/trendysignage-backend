@@ -68,29 +68,6 @@ export const connectSocket = (server) => {
         io.to(id).emit("receiveContent", defaultContent);
       }
     });
-    // socket.on("sendContent", async (data) => {
-    //   if (!data.screenId && !data.mediaId && !data.duration) {
-    //     throw new AuthFailedError(
-    //       "data is missing",
-    //       STATUS_CODES.ACTION_FAILED
-    //     );
-    //   }
-    //   let receiverId = [];
-    //   for (const id of data.screenId) {
-    //     let receiver = await socketService.getDevice(id);
-    //     receiverId.push(receiver);
-    //   }
-    //   let content = await socketService.getContent(
-    //     socket.handshake?.query?.token,
-    //     data.mediaId
-    //   );
-
-    //   if (userCache[receiverId]) {
-    //     userCache[receiverId].map(async (id) => {
-    //       io.to(id).emit("receiveContent", content, data.duration);
-    //     });
-    //   }
-    // });
     socket.on("error", function (error) {
       console.error(error, "something went wrong in socket...");
     });

@@ -23,7 +23,7 @@ export const deviceCode = async (vendorId, code) => {
   );
 };
 
-export const getScreens = async (search, vendorId) => {
+export const getScreens = async (query, vendorId) => {
   let screens = await Screen.find({
     vendor: vendorId,
     isDeleted: false,
@@ -31,9 +31,11 @@ export const getScreens = async (search, vendorId) => {
     .lean()
     .populate({ path: "device" })
     .sort({ createdAt: -1 });
-  if (search) {
+  // .skip(query.page * query.limit)
+  // .limit(query.limit);
+  if (query.search) {
     screens = screens.filter((i) =>
-      JSON.stringify(i.name.toLowerCase()).includes(search.toLowerCase())
+      JSON.stringify(i.name.toLowerCase()).includes(query.search.toLowerCase())
     );
   }
   return screens;

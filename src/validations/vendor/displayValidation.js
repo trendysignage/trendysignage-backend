@@ -11,6 +11,8 @@ export const deviceCode = {
 export const getScreens = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),
+    page: Joi.number().allow("").default(0),
+    limit: Joi.number().allow("").default(10),
   }),
 };
 
