@@ -2,17 +2,12 @@ import mongoose from "mongoose";
 
 const compositionSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    layout: { type: String, required: true },
-    tags: [{ type: String }],
-    media: [
-      {
-        title: { type: String },
-        duration: { type: Number },
-        priority: { type: Number },
-        zone: { type: Number },
-      },
-    ],
+    name: { type: String, required: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+    layout: { type: mongoose.Schema.Types.ObjectId, ref: "layouts" },
+    content: {},
+    duration: { type: Number },
+    referenceUrl: [{ type: String }],
     isDefault: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
   },

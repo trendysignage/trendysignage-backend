@@ -7,7 +7,7 @@ export const defaultComposition = {
     title: Joi.string().required(),
     duration: Joi.number().required(),
     type: Joi.string()
-      .valid(...Object.values(MEDIA_TYPE))
+      // .valid(...Object.values(MEDIA_TYPE))
       .required(),
   }),
 };

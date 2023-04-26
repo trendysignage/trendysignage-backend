@@ -17,7 +17,7 @@ const vendorSchema = new mongoose.Schema(
     defaultComposition: {
       media: {
         title: { type: String },
-        type: { type: String, enum: [...Object.values(MEDIA_TYPE)] },
+        type: { type: String /* enum: [...Object.values(MEDIA_TYPE)]  */ },
       },
       duration: { type: Number },
     },
@@ -25,7 +25,7 @@ const vendorSchema = new mongoose.Schema(
       {
         // baseUrl: { type: String },
         title: { type: String },
-        type: { type: String, enum: [...Object.values(MEDIA_TYPE)] },
+        type: { type: String /* enum: [...Object.values(MEDIA_TYPE)]  */ },
         properties: { type: String },
         tags: [{ type: String }],
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },

@@ -7,6 +7,12 @@ export const MEDIA_TYPE = {
   APP: "app",
 };
 
+export const COMPOSITION_LAYOUT = {
+  SINGLE_LANDSCAPE: "Single Zone Landscape",
+  TWO_LANDSCAPE: "Two Landscape",
+  THREE_LANDSCAPE: "Three Landscape",
+};
+
 export const TOKEN_TYPE = {
   ACCESS: "access",
   REFRESH: "refresh",

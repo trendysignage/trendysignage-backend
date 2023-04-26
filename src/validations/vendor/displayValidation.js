@@ -61,7 +61,7 @@ export const getMedia = {
 export const addMedia = {
   body: Joi.object().keys({
     type: Joi.string()
-      .valid(...Object.values(MEDIA_TYPE))
+      // .valid(...Object.values(MEDIA_TYPE))
       .required(),
     properties: Joi.string().required(),
     tags: Joi.array().items(Joi.string().required()).default([]),
