@@ -11,6 +11,7 @@ router
   .all(auth())
   .get(layoutController.layouts)
   .post(validate(layoutValidation.addLayout), layoutController.addLayout)
+  .put(validate(layoutValidation.editLayout), layoutController.editLayout)
   .delete(
     validate(layoutValidation.deleteLayout),
     layoutController.deleteLayout

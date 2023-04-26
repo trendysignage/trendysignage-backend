@@ -33,3 +33,13 @@ export const deleteLayout = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const editLayout = catchAsync(async (req, res) => {
+  await layoutService.editLayout(req.token.vendor._id, req.body);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

@@ -47,3 +47,33 @@ export const deleteLayout = async (vendorId, layoutId) => {
     { new: 1, lean: 1 }
   );
 };
+
+export const editLayout = async (vendorId, body) => {
+  let data = {
+    title: body.title,
+    screenType: body.screenType,
+    screenResolution: body.screenResolution,
+    zones: body.zones,
+  };
+  const layout = await Layout.findOne({
+    _id: body.layoutId,
+    isDeleted: false,
+  });
+  if (!layout) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.LAYOUT_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  if (!layout.createdBy || JSON.stringify(layout.createdBy) !== vendorId) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.UNAUTHORIZED,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  await Layout.updateOne(
+    { _id: body.layoutId, isDeleted: false },
+    { $set: data },
+    { new: 1, lean: 1 }
+  );
+};

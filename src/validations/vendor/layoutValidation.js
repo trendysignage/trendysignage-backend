@@ -25,3 +25,22 @@ export const deleteLayout = {
     layoutId: JOI.OBJECTID,
   }),
 };
+
+export const editLayout = {
+  body: Joi.object().keys({
+    layoutId: JOI.OBJECTID,
+    title: Joi.string().required(),
+    screenType: Joi.string().required(),
+    screenResolution: Joi.string().required(),
+    zones: Joi.array()
+      .items({
+        name: Joi.string().required(),
+        x: Joi.number().required(),
+        y: Joi.number().required(),
+        height: Joi.number().required(),
+        width: Joi.number().required(),
+        content: Joi.any().allow(""),
+      })
+      .required(),
+  }),
+};
