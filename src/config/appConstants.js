@@ -82,6 +82,8 @@ const ERROR_MESSAGES = {
   WRONG_DEVICE_CODE: "The Device code you entered is wrong, please try again.",
   DEFAULT_MEDIA:
     "The media you are trying to delete is set as default composition and thus cannot be deleted.",
+  LAYOUT_FAILED: "Failed to create Layout, Please try again!",
+  LAYOUT_NOT_FOUND: "Layout not found.",
 };
 
 const STATUS_CODES = {

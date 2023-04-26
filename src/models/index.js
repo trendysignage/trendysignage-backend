@@ -5,5 +5,6 @@ import { App } from "./appModel.js";
 import { Composition } from "./compositionModel.js";
 import { Device } from "./deviceModel.js";
 import { Screen } from "./screenModel.js";
+import { Layout } from "./layoutModel.js";
 
-export { Token, Vendor, Admin, App, Composition, Device, Screen };
+export { Token, Vendor, Admin, App, Composition, Device, Screen, Layout };

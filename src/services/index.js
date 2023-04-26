@@ -4,6 +4,7 @@ import * as vendorAuthService from "./vendor/authService.js";
 import * as tokenService from "./tokenService.js";
 import * as socketService from "./socketService.js";
 import * as profileService from "./vendor/profileService.js";
+import * as layoutService from "./vendor/layoutService.js";
 
 export {
   displayService,
@@ -12,4 +13,5 @@ export {
   vendorAuthService,
   tokenService,
   socketService,
+  layoutService,
 };
