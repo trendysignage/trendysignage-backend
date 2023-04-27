@@ -5,7 +5,7 @@ const layoutSchema = new mongoose.Schema(
     title: { type: String, required: true },
     screenType: { type: String, required: true }, //landscape, potrait
     screenResolution: { type: String, required: true },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     zones: [
       {
         name: { type: String, required: true },

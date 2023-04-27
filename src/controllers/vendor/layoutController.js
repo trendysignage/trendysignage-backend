@@ -24,6 +24,16 @@ export const addLayout = catchAsync(async (req, res) => {
   );
 });
 
+export const editLayout = catchAsync(async (req, res) => {
+  await layoutService.editLayout(req.token.vendor._id, req.body);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
 export const deleteLayout = catchAsync(async (req, res) => {
   await layoutService.deleteLayout(req.token.vendor._id, req.query.layoutId);
   return successResponse(
@@ -34,8 +44,25 @@ export const deleteLayout = catchAsync(async (req, res) => {
   );
 });
 
-export const editLayout = catchAsync(async (req, res) => {
-  await layoutService.editLayout(req.token.vendor._id, req.body);
+export const getComposition = catchAsync(async (req, res) => {
+  const compositions = await layoutService.getComposition(
+    req.token.vendor._id,
+    req.query
+  );
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    compositions
+  );
+});
+
+export const addComposition = catchAsync(async (req, res) => {
+  const composition = await layoutService.addComposition(
+    req.token.vendor._id,
+    req.body
+  );
   return successResponse(
     res,
     res,

@@ -7,7 +7,7 @@ import { layoutValidation } from "../../validations/index.js";
 const router = express.Router();
 
 router
-  .route("/layouts")
+  .route("/")
   .all(auth())
   .get(layoutController.layouts)
   .post(validate(layoutValidation.addLayout), layoutController.addLayout)
@@ -15,6 +15,18 @@ router
   .delete(
     validate(layoutValidation.deleteLayout),
     layoutController.deleteLayout
+  );
+
+router
+  .route("/composition")
+  .all(auth())
+  .get(
+    validate(layoutValidation.getComposition),
+    layoutController.getComposition
+  )
+  .post(
+    validate(layoutValidation.addComposition),
+    layoutController.addComposition
   );
 
 export default router;

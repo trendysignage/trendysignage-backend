@@ -44,3 +44,35 @@ export const editLayout = {
       .required(),
   }),
 };
+
+export const getComposition = {
+  query: Joi.object().keys({
+    search: Joi.string().allow(""),
+    page: Joi.number().allow("").default(0),
+    limit: Joi.number().allow("").default(10),
+  }),
+};
+
+export const addComposition = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    layoutId: JOI.OBJECTID,
+    zones: Joi.array()
+      .items({
+        name: Joi.string().required(),
+        content: Joi.array().items({
+          url: Joi.string().required(),
+          type: Joi.string()
+            .valid(...Object.values(MEDIA_TYPE))
+            .required(),
+          maintainAspectRatio: Joi.boolean().required().default(false),
+          fitToScreen: Joi.boolean().required().default(true),
+          crop: Joi.boolean().required().default(false),
+          duration: Joi.number().required(),
+        }),
+      })
+      .required(),
+    duration: Joi.number().required(),
+    referenceUrl: Joi.array().items(Joi.string().required()).required(),
+  }),
+};
