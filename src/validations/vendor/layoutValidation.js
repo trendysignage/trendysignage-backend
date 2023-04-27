@@ -45,7 +45,7 @@ export const editLayout = {
   }),
 };
 
-export const getComposition = {
+export const getCompositions = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),
     page: Joi.number().allow("").default(0),
@@ -60,8 +60,9 @@ export const addComposition = {
     zones: Joi.array()
       .items({
         name: Joi.string().required(),
+        zoneId: JOI.OBJECTID,
         content: Joi.array().items({
-          url: Joi.string().required(),
+          url: Joi.string().allow(""),
           type: Joi.string()
             .valid(...Object.values(MEDIA_TYPE))
             .required(),

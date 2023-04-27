@@ -7,7 +7,8 @@ const compositionSchema = new mongoose.Schema(
     layout: { type: mongoose.Schema.Types.ObjectId, ref: "layouts" },
     zones: [
       {
-        name: { type: String },
+        name: { type: String }, //zone1, xyz
+        zoneId: { type: String },
         content: [
           {
             url: { type: String },

@@ -44,8 +44,8 @@ export const deleteLayout = catchAsync(async (req, res) => {
   );
 });
 
-export const getComposition = catchAsync(async (req, res) => {
-  const compositions = await layoutService.getComposition(
+export const getCompositions = catchAsync(async (req, res) => {
+  const compositions = await layoutService.getCompositions(
     req.token.vendor._id,
     req.query
   );

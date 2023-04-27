@@ -84,7 +84,7 @@ export const deleteLayout = async (vendorId, layoutId) => {
   );
 };
 
-export const getComposition = async (vendorId, query) => {
+export const getCompositions = async (vendorId, query) => {
   let compositions = await Composition.find({
     createdBy: vendorId,
     isDeleted: false,

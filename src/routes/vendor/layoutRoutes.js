@@ -3,6 +3,7 @@ import { validate } from "../../middlewares/validate.js";
 import auth from "../../middlewares/auth.js";
 import { layoutController } from "../../controllers/index.js";
 import { layoutValidation } from "../../validations/index.js";
+import upload from "../../middlewares/multer.js";
 
 const router = express.Router();
 
@@ -18,11 +19,11 @@ router
   );
 
 router
-  .route("/composition")
+  .route("/compositions")
   .all(auth())
   .get(
-    validate(layoutValidation.getComposition),
-    layoutController.getComposition
+    validate(layoutValidation.getCompositions),
+    layoutController.getCompositions
   )
   .post(
     validate(layoutValidation.addComposition),
