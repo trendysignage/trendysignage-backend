@@ -18,6 +18,13 @@ router
     layoutController.deleteLayout
   );
 
+router.post(
+  "/upload",
+  auth(),
+  upload.single("file"),
+  layoutController.uploadFile
+);
+
 router
   .route("/compositions")
   .all(auth())

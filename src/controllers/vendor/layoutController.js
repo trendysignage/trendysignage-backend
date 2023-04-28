@@ -44,6 +44,16 @@ export const deleteLayout = catchAsync(async (req, res) => {
   );
 });
 
+export const uploadFile = catchAsync(async (req, res) => {
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    req.file.path.substring("public".length)
+  );
+});
+
 export const getCompositions = catchAsync(async (req, res) => {
   const compositions = await layoutService.getCompositions(
     req.token.vendor._id,
