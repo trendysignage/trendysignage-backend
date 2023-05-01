@@ -17,7 +17,6 @@ const scheduleSchema = new mongoose.Schema(
       },
     ],
     screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],
-    duration: { type: Number },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
