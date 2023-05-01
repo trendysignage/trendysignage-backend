@@ -101,6 +101,23 @@ export const getCompositions = async (vendorId, query) => {
   return compositions;
 };
 
+export const getComposition = async (compositionId) => {
+  const composition = await Composition.findOne({
+    _id: compositionId,
+    isDeleted: false,
+  })
+    .lean()
+    .populate([{ path: "layout" }, { path: "createdBy" }]);
+
+  if (!composition) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return composition;
+};
+
 export const addComposition = async (vendorId, body) => {
   const data = {
     name: body.name,
@@ -122,4 +139,42 @@ export const addComposition = async (vendorId, body) => {
     { $addToSet: { compositions: composition._id } },
     { new: 1, lean: 1 }
   );
+};
+
+export const editComposition = async (vendorId, body) => {
+  const data = {
+    name: body.name,
+    createdBy: vendorId,
+    zones: body.zones,
+    duration: body.duration,
+    referenceUrl: body.referenceUrl,
+  };
+  const composition = await Composition.findOneAndUpdate(
+    {
+      _id: body.compositionId,
+      isDeleted: false,
+    },
+    { $set: data },
+    { new: 1, lean: 1 }
+  );
+  if (!composition) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const deleteComposition = async (compositionId) => {
+  const composition = await Composition.findOneAndUpdate(
+    { _id: compositionId, isDeleted: false },
+    { $set: { isDeleted: true } },
+    { new: 1, lean: 1 }
+  );
+  if (!composition) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };

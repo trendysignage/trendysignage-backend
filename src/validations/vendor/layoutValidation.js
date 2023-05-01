@@ -77,3 +77,34 @@ export const addComposition = {
     referenceUrl: Joi.array().items(Joi.string().required()).required(),
   }),
 };
+
+export const editComposition = {
+  body: Joi.object().keys({
+    compositionId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    zones: Joi.array()
+      .items({
+        name: Joi.string().required(),
+        zoneId: JOI.OBJECTID,
+        content: Joi.array().items({
+          url: Joi.string().allow(""),
+          type: Joi.string()
+            .valid(...Object.values(MEDIA_TYPE))
+            .required(),
+          maintainAspectRatio: Joi.boolean().required().default(false),
+          fitToScreen: Joi.boolean().required().default(true),
+          crop: Joi.boolean().required().default(false),
+          duration: Joi.number().required(),
+        }),
+      })
+      .required(),
+    duration: Joi.number().required(),
+    referenceUrl: Joi.array().items(Joi.string().required()).required(),
+  }),
+};
+
+export const deleteComposition = {
+  query: Joi.object().keys({
+    compositionId: JOI.OBJECTID,
+  }),
+};

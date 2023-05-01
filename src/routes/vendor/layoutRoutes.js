@@ -31,10 +31,26 @@ router
   .get(
     validate(layoutValidation.getCompositions),
     layoutController.getCompositions
+  );
+
+router
+  .route("/composition")
+  .all(auth())
+  .get(
+    validate(layoutValidation.deleteComposition),
+    layoutController.getComposition
   )
   .post(
     validate(layoutValidation.addComposition),
     layoutController.addComposition
+  )
+  .put(
+    validate(layoutValidation.editComposition),
+    layoutController.editComposition
+  )
+  .delete(
+    validate(layoutValidation.deleteComposition),
+    layoutController.deleteComposition
   );
 
 export default router;

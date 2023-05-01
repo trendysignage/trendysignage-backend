@@ -84,6 +84,7 @@ const ERROR_MESSAGES = {
     "The media you are trying to delete is set as default composition and thus cannot be deleted.",
   LAYOUT_FAILED: "Failed to create Layout, Please try again!",
   LAYOUT_NOT_FOUND: "Layout not found.",
+  COMPOSITION_NOT_FOUND: "Composition not found.",
 };
 
 const STATUS_CODES = {
