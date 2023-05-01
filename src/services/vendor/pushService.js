@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Composition, Schedule, Vendor } from "../../models/index.js";
+import { Composition, Schedule, Vendor, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { emit } from "../socketService.js";
 
@@ -50,6 +50,24 @@ export const addSchedule = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  if (body.screens) {
+    for (const s of body.screens) {
+      const screen = await Screen.findOneAndUpdate(
+        {
+          _id: s,
+          isDeleted: false,
+        },
+        { $set: { schedule: schedule._id } },
+        { new: true, lean: 1 }
+      );
+      if (!screen) {
+        throw new AuthFailedError(
+          ERROR_MESSAGES.SCREEN_NOT_FOUND,
+          STATUS_CODES.ACTION_FAILED
+        );
+      }
+    }
+  }
   for (const c of body.sequence) {
     const composition = await Composition.findOneAndUpdate(
       { _id: c.composition },
@@ -92,6 +110,24 @@ export const editSchedule = async (vendorId, body) => {
       ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
+  }
+
+  for (const id of body.screens) {
+    const screen = await Screen.findOne({
+      _id: id,
+      isDeleted: false,
+    })
+      .lean()
+      .populate({ path: "device" });
+
+    if (!screen) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCREEN_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+
+    await emit(screen.device.deviceToken, schedule);
   }
 };
 

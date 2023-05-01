@@ -21,6 +21,7 @@ const screenSchema = new mongoose.Schema(
       },
     ],
     groups: [{ type: String }],
+    schedule: { type: mongoose.Schema.Types.ObjectId, ref: "schedules" },
     deviceCode: { type: String, required: true },
     device: { type: mongoose.Schema.Types.ObjectId, ref: "devices" },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },

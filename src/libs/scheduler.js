@@ -1,9 +1,19 @@
-// import cron from "node-cron";
+import cron from "node-cron";
+import { Schedule, Screen } from "../models/index.js";
 
-// const task = () => {
-//   console.log("running cron");
-// };
+const task = async () => {
+  const screens = await Screen.find({
+    isDeleted: false,
+    schedule: { $exists: true },
+  }).lean();
+  for (const s of screens) {
+    let schedule = await Schedule.findOne({ _id: s.schedule }).lean();
+    schedule.sequence = schedule.sequence.filter(
+      (seq) => seq.endTime > new Date()
+    );
+  }
+};
 
-// const job = cron.schedule("*/5 * * * * *", task);
-// // job.start();
-// export default job;
+cron.schedule("*/2 * * * * *", task);
+
+export default cron;
