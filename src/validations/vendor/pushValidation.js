@@ -17,7 +17,7 @@ export const getSchedule = {
 export const addSchedule = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    screens: Joi.array().items(JOI.OBJECTID).required(),
+    screens: Joi.array().items(JOI.OBJECTID),
     sequence: Joi.array()
       .items({
         name: Joi.string().required(),
