@@ -34,6 +34,7 @@ export const editSchedule = {
   body: Joi.object().keys({
     scheduleId: JOI.OBJECTID,
     name: Joi.string().required(),
+    screens: Joi.array().items(JOI.OBJECTID),
     sequence: Joi.array()
       .items({
         name: Joi.string().required(),

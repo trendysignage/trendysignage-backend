@@ -134,6 +134,7 @@ export const deleteScreen = async (vendorId, screenId) => {
     },
     { new: true, lean: 1 }
   );
+  await Vendor.findByIdAndUpdate(vendorId, { $pull: { screens: screen._id } });
   await emit(device.deviceToken, "", "delete");
 };
 

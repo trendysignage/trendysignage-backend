@@ -179,7 +179,7 @@ export const deleteComposition = async (vendorId, compositionId) => {
   }
   await Vendor.updateOne(
     { _id: vendorId },
-    { $pull: { compositions: { _id: composition._id } } },
+    { $pull: { compositions: composition._id } },
     { new: 1, lean: 1 }
   );
 };

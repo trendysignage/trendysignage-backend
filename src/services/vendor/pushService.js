@@ -75,6 +75,7 @@ export const editSchedule = async (vendorId, body) => {
     name: body.name,
     sequence: body.sequence,
     createdBy: vendorId,
+    screens: body.screens,
   };
 
   const schedule = await Schedule.findOneAndUpdate(
@@ -114,7 +115,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
   await Vendor.findByIdAndUpdate(
     vendorId,
     {
-      $pull: { schedules: { _id: scheduleId } },
+      $pull: { schedules: scheduleId },
     },
     { new: 1, lean: 1 }
   );
