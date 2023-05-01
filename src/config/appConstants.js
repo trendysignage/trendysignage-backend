@@ -85,6 +85,7 @@ const ERROR_MESSAGES = {
   LAYOUT_FAILED: "Failed to create Layout, Please try again!",
   LAYOUT_NOT_FOUND: "Layout not found.",
   COMPOSITION_NOT_FOUND: "Composition not found.",
+  SCHEDULE_NOT_FOUND: "Schedule not found.",
 };
 
 const STATUS_CODES = {

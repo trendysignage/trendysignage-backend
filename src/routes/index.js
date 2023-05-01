@@ -5,6 +5,7 @@ import deviceRoute from "./device/deviceRoutes.js";
 import vendorAuth from "./vendor/authRoutes.js";
 import profileRoute from "./vendor/profileRoutes.js";
 import layoutRoute from "./vendor/layoutRoutes.js";
+import pushRoute from "./vendor/pushRoutes.js";
 
 const router = express.Router();
 
@@ -28,6 +29,10 @@ const defaultRoutes = [
   {
     path: "/vendor/layouts",
     route: layoutRoute,
+  },
+  {
+    path: "/vendor/push",
+    route: pushRoute,
   },
 ];
 

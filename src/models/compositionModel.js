@@ -23,6 +23,7 @@ const compositionSchema = new mongoose.Schema(
       },
     ],
     duration: { type: Number },
+    schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: "schedules" }],
     referenceUrl: [{ type: String }],
     isDefault: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },

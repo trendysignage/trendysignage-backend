@@ -107,7 +107,10 @@ export const editComposition = catchAsync(async (req, res) => {
 });
 
 export const deleteComposition = catchAsync(async (req, res) => {
-  await layoutService.deleteComposition(req.query.compositionId);
+  await layoutService.deleteComposition(
+    req.token.vendor._id,
+    req.query.compositionId
+  );
   return successResponse(
     res,
     res,

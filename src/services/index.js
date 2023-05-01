@@ -5,6 +5,7 @@ import * as tokenService from "./tokenService.js";
 import * as socketService from "./socketService.js";
 import * as profileService from "./vendor/profileService.js";
 import * as layoutService from "./vendor/layoutService.js";
+import * as pushService from "./vendor/pushService.js";
 
 export {
   displayService,
@@ -14,4 +15,5 @@ export {
   tokenService,
   socketService,
   layoutService,
+  pushService,
 };

@@ -6,5 +6,16 @@ import { Composition } from "./compositionModel.js";
 import { Device } from "./deviceModel.js";
 import { Screen } from "./screenModel.js";
 import { Layout } from "./layoutModel.js";
+import { Schedule } from "./scheduleModel.js";
 
-export { Token, Vendor, Admin, App, Composition, Device, Screen, Layout };
+export {
+  Token,
+  Vendor,
+  Admin,
+  App,
+  Composition,
+  Device,
+  Screen,
+  Layout,
+  Schedule,
+};

@@ -3,6 +3,7 @@ import * as deviceController from "./device/deviceController.js";
 import * as vendorAuthController from "./vendor/authController.js";
 import * as profileController from "./vendor/profileController.js";
 import * as layoutController from "./vendor/layoutController.js";
+import * as pushController from "./vendor/pushController.js";
 
 export {
   displayController,
@@ -10,4 +11,5 @@ export {
   vendorAuthController,
   profileController,
   layoutController,
+  pushController,
 };

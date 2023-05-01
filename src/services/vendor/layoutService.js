@@ -165,7 +165,7 @@ export const editComposition = async (vendorId, body) => {
   }
 };
 
-export const deleteComposition = async (compositionId) => {
+export const deleteComposition = async (vendorId, compositionId) => {
   const composition = await Composition.findOneAndUpdate(
     { _id: compositionId, isDeleted: false },
     { $set: { isDeleted: true } },
@@ -177,4 +177,9 @@ export const deleteComposition = async (compositionId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  await Vendor.updateOne(
+    { _id: vendorId },
+    { $pull: { compositions: { _id: composition._id } } },
+    { new: 1, lean: 1 }
+  );
 };
