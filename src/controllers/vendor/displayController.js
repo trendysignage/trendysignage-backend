@@ -69,11 +69,7 @@ export const getScreen = catchAsync(async (req, res) => {
 });
 
 export const getMedia = catchAsync(async (req, res) => {
-  const media = await displayService.getMedia(
-    req.headers.host,
-    req.query,
-    req.token.vendor._id
-  );
+  const media = await displayService.getMedia(req.query, req.token.vendor._id);
   return successResponse(
     req,
     res,

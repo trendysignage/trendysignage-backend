@@ -154,7 +154,7 @@ export const getScreen = async (screenId) => {
   return screen;
 };
 
-export const getMedia = async (host, query, vendorId) => {
+export const getMedia = async (query, vendorId) => {
   let vendor = await Vendor.findById(vendorId)
     .lean()
     .select("media")
