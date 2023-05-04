@@ -35,7 +35,7 @@ export const addSequence = {
     name: Joi.string().required(),
     timings: Joi.array()
       .items({
-        compositionId: JOI.OBJECTID,
+        composition: JOI.OBJECTID,
         startTime: Joi.date().required(),
         endTime: Joi.date().required(),
       })
@@ -49,7 +49,7 @@ export const editSequence = {
     sequenceId: JOI.OBJECTID,
     name: Joi.string().required(),
     timings: Joi.array().items({
-      compositionId: JOI.OBJECTID,
+      composition: JOI.OBJECTID,
       startTime: Joi.date().required(),
       endTime: Joi.date().required(),
     }),
@@ -60,5 +60,13 @@ export const deleteSequence = {
   query: Joi.object().keys({
     scheduleId: JOI.OBJECTID,
     sequenceId: JOI.OBJECTID,
+  }),
+};
+
+export const dates = {
+  body: Joi.object().keys({
+    dates: Joi.array().items(Joi.date().required()).required(),
+    sequenceId: JOI.OBJECTID,
+    scheduleId: JOI.OBJECTID,
   }),
 };

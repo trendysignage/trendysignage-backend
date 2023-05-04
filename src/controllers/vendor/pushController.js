@@ -98,3 +98,13 @@ export const deleteSequence = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const dates = catchAsync(async (req, res) => {
+  await pushService.dates(req.token.vendor._id, req.body);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

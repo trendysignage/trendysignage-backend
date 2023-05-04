@@ -30,4 +30,11 @@ router
     pushController.deleteSequence
   );
 
+router.post(
+  "/dates",
+  auth(),
+  validate(pushValidation.dates),
+  pushController.dates
+);
+
 export default router;
