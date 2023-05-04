@@ -1,5 +1,6 @@
 import cron from "node-cron";
-import { Schedule, Screen } from "../models/index.js";
+import { Device, Schedule, Screen } from "../models/index.js";
+import { emit } from "../services/socketService.js";
 
 const task = async () => {
   const screens = await Screen.find({
@@ -8,9 +9,18 @@ const task = async () => {
   }).lean();
   for (const s of screens) {
     let schedule = await Schedule.findOne({ _id: s.schedule }).lean();
+    let device = await Device.findOne({
+      _id: s.device,
+      isDeleted: false,
+    }).lean();
+
     schedule.sequence = schedule.sequence.filter(
-      (seq) => seq.endTime > new Date()
+      (seq) => seq.endTime > new Date() && seq.startTime < new Date()
     );
+
+    if (schedule.sequence.length) {
+      await emit(device.deviceToken, schedule.sequence);
+    }
   }
 };
 

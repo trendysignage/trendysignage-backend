@@ -7,13 +7,17 @@ const scheduleSchema = new mongoose.Schema(
     sequence: [
       {
         name: { type: String, required: true },
-        date: { type: String },
-        startTime: { type: Date },
-        endTime: { type: Date },
-        composition: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "compositions",
-        },
+        timings: [
+          {
+            composition: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "compositions",
+            },
+            startTime: { type: Date },
+            endTime: { type: Date },
+          },
+        ],
+        dates: [{ type: Date }],
       },
     ],
     screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],

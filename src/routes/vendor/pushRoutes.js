@@ -19,4 +19,15 @@ router
   .put(validate(pushValidation.editSchedule), pushController.editSchedule)
   .delete(validate(pushValidation.getSchedule), pushController.deleteSchedule);
 
+router
+  .route("/sequence")
+  .all(auth())
+  .get(validate(pushValidation.deleteSequence), pushController.getSequence)
+  .post(validate(pushValidation.addSequence), pushController.addSequence)
+  .put(validate(pushValidation.editSequence), pushController.editSequence)
+  .delete(
+    validate(pushValidation.deleteSequence),
+    pushController.deleteSequence
+  );
+
 export default router;

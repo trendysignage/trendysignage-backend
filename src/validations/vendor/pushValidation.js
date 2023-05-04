@@ -18,15 +18,6 @@ export const addSchedule = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     screens: Joi.array().items(JOI.OBJECTID),
-    sequence: Joi.array()
-      .items({
-        name: Joi.string().required(),
-        date: Joi.string().required(),
-        startTime: Joi.string().required(),
-        endTime: Joi.string().required(),
-        composition: JOI.OBJECTID,
-      })
-      .required(),
   }),
 };
 
@@ -34,15 +25,40 @@ export const editSchedule = {
   body: Joi.object().keys({
     scheduleId: JOI.OBJECTID,
     name: Joi.string().required(),
-    screens: Joi.array().items(JOI.OBJECTID),
-    sequence: Joi.array()
+    screens: Joi.array().items(JOI.OBJECTID).required(),
+  }),
+};
+
+export const addSequence = {
+  body: Joi.object().keys({
+    scheduleId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    timings: Joi.array()
       .items({
-        name: Joi.string().required(),
-        date: Joi.string().required(),
-        startTime: Joi.string().required(),
-        endTime: Joi.string().required(),
-        composition: JOI.OBJECTID,
+        compositionId: JOI.OBJECTID,
+        startTime: Joi.date().required(),
+        endTime: Joi.date().required(),
       })
       .required(),
+  }),
+};
+
+export const editSequence = {
+  body: Joi.object().keys({
+    scheduleId: JOI.OBJECTID,
+    sequenceId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    timings: Joi.array().items({
+      compositionId: JOI.OBJECTID,
+      startTime: Joi.date().required(),
+      endTime: Joi.date().required(),
+    }),
+  }),
+};
+
+export const deleteSequence = {
+  query: Joi.object().keys({
+    scheduleId: JOI.OBJECTID,
+    sequenceId: JOI.OBJECTID,
   }),
 };

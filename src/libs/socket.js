@@ -71,12 +71,14 @@ export const connectSocket = (server) => {
     socket.on("error", function (error) {
       console.error(error, "something went wrong in socket...");
     });
+    
     socket.on("disconnect", async (data) => {
       userCache[socket.handshake.query.deviceToken] = userCache[
         socket.handshake.query.deviceToken
       ].filter((socketId) => socketId !== socket.id);
       console.log("disconneted", userCache);
     });
+
   });
 };
 

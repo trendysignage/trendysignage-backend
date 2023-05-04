@@ -41,7 +41,6 @@ export const addSchedule = async (vendorId, body) => {
     name: body.name,
     screens: body.screens,
     createdBy: vendorId,
-    sequence: body.sequence,
   };
   const schedule = await Schedule.create(data);
   if (!schedule) {
@@ -68,19 +67,6 @@ export const addSchedule = async (vendorId, body) => {
       }
     }
   }
-  for (const c of body.sequence) {
-    const composition = await Composition.findOneAndUpdate(
-      { _id: c.composition },
-      { $addToSet: { schedules: schedule._id } },
-      { new: 1, lean: 1 }
-    );
-    if (!composition) {
-      throw new AuthFailedError(
-        ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
-        STATUS_CODES.ACTION_FAILED
-      );
-    }
-  }
   await Vendor.findByIdAndUpdate(
     vendorId,
     { $addToSet: { schedules: schedule._id } },
@@ -89,19 +75,18 @@ export const addSchedule = async (vendorId, body) => {
 };
 
 export const editSchedule = async (vendorId, body) => {
-  let data = {
-    name: body.name,
-    sequence: body.sequence,
-    createdBy: vendorId,
-    screens: body.screens,
-  };
-
   const schedule = await Schedule.findOneAndUpdate(
     {
       _id: body.scheduleId,
+      createdBy: vendorId,
       isDeleted: false,
     },
-    { $set: data },
+    {
+      $set: {
+        name: body.name,
+        screens: body.screens,
+      },
+    },
     { new: true, lean: 1 }
   );
 
@@ -113,21 +98,20 @@ export const editSchedule = async (vendorId, body) => {
   }
 
   for (const id of body.screens) {
-    const screen = await Screen.findOne({
-      _id: id,
-      isDeleted: false,
-    })
-      .lean()
-      .populate({ path: "device" });
-
+    const screen = await Screen.findOneAndUpdate(
+      {
+        _id: id,
+        isDeleted: false,
+      },
+      { $set: { schedule: schedule._id } },
+      { new: 1, lean: 1 }
+    ).lean();
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,
         STATUS_CODES.ACTION_FAILED
       );
     }
-
-    await emit(screen.device.deviceToken, schedule);
   }
 };
 
@@ -148,6 +132,11 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     );
   }
 
+  await Screen.findOneAndUpdate(
+    { schedule: schedule._id },
+    { $unset: { schedule: "" } }
+  );
+
   await Vendor.findByIdAndUpdate(
     vendorId,
     {
@@ -155,4 +144,96 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     },
     { new: 1, lean: 1 }
   );
+};
+
+export const getSequence = async (query) => {
+  const schedule = await Schedule.findOne(
+    {
+      _id: query.scheduleId,
+      isDeleted: false,
+      "sequence._id": query.sequenceId,
+    },
+    { "sequence.$": 1 }
+  ).lean();
+
+  if (!schedule) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  return schedule;
+};
+
+export const addSequence = async (vendorId, body) => {
+  let data = {
+    name: body.name,
+    timings: body.timings,
+  };
+  const schedule = await Schedule.findOneAndUpdate(
+    {
+      _id: body.scheduleId,
+      createdBy: vendorId,
+      isDeleted: false,
+    },
+    { $push: { sequence: data } },
+    { new: true, lean: 1 }
+  );
+  if (!schedule) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return schedule;
+};
+
+export const editSequence = async (vendorId, body) => {
+  const schedule = await Schedule.findOneAndUpdate(
+    {
+      _id: body.scheduleId,
+      "sequence._id": body.sequenceId,
+      createdBy: vendorId,
+      isDeleted: false,
+    },
+    {
+      $set: {
+        "sequence.$.name": body.name,
+        "sequence.$.timings": body.timings,
+      },
+    },
+    { new: true, lean: 1 }
+  );
+
+  if (!schedule) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  return schedule;
+};
+
+export const deleteSequence = async (vendorId, query) => {
+  const schedule = await Schedule.findOneAndUpdate(
+    {
+      _id: query.scheduleId,
+      "sequence._id": query.sequenceId,
+      createdBy: vendorId,
+      isDeleted: false,
+    },
+    { $pull: { sequence: { _id: query.sequenceId } } },
+    { new: true, lean: 1 }
+  );
+
+  if (!schedule) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  return schedule;
 };

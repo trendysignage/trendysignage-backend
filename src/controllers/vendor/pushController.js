@@ -57,3 +57,44 @@ export const deleteSchedule = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const getSequence = catchAsync(async (req, res) => {
+  const sequence = await pushService.getSequence(req.query);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    sequence
+  );
+});
+
+export const addSequence = catchAsync(async (req, res) => {
+  await pushService.addSequence(req.token.vendor._id, req.body);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const editSequence = catchAsync(async (req, res) => {
+  await pushService.editSequence(req.token.vendor._id, req.body);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const deleteSequence = catchAsync(async (req, res) => {
+  await pushService.deleteSequence(req.token.vendor._id, req.query);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
