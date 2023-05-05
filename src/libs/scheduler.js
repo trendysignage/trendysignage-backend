@@ -40,7 +40,7 @@ const task = async (req, res) => {
         _id: s.device,
         isDeleted: false,
       }).lean();
-      if (schedule.sequence) {
+      if (schedule) {
         console.log("emitting.......");
         await emit(device.deviceToken, schedule.sequence);
       }

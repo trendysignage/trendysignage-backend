@@ -171,8 +171,11 @@ export const getMedia = async (query, vendorId) => {
   }
   if (query?.search) {
     vendor.media = vendor.media.filter((i) =>
-      JSON.stringify(i.title.toLowerCase()).includes(search.toLowerCase())
+      JSON.stringify(i.title.toLowerCase()).includes(query.search.toLowerCase())
     );
+  }
+  if (query.type) {
+    vendor.media = vendor.media.filter((i) => i.type == query.type);
   }
   // vendor.host = host;
   return vendor;
