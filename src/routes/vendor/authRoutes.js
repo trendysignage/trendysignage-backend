@@ -18,4 +18,11 @@ router.post(
   vendorAuthController.signup
 );
 
+router.post(
+  "/otp",
+  auth(),
+  validate(vendorAuthValidation.verify),
+  vendorAuthController.verify
+);
+
 export default router;

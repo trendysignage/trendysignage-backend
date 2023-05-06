@@ -40,3 +40,20 @@ export const signup = async (email, password, name) => {
   });
   return vendor;
 };
+
+export const verify = async (_id, tokenOtp, bodyOtp, tokenId) => {
+  if (!(tokenOtp == bodyOtp)) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.OTP_FAILED,
+      STATUS_CODES.AUTH_FAILED
+    );
+  }
+  const updateVendor = await Vendor.findByIdAndUpdate(
+    _id,
+    {
+      $set: { isVerified: true },
+    },
+    { new: true, lean: true }
+  );
+  return updateVendor;
+};

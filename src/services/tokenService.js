@@ -103,7 +103,7 @@ export const logout = async (tokenId) => {
 export const isVerified = async (token) => {
   const data = await Token.findOneAndUpdate(
     token,
-    { $set: { isVerified: true } },
+    { $set: { isVerified: true }, $unset: { otp: "" } },
     { new: true, lean: true }
   );
   return data;

@@ -57,3 +57,18 @@ export const signup = catchAsync(async (req, res) => {
     { token, vendor }
   );
 });
+
+export const verify = catchAsync(async (req, res) => {
+  const { otp, vendor, token } = req.token;
+  const tokenOtp = otp.code;
+  const bodyOtp = req.body.otp;
+  const data = await vendorAuthService.verify(vendor._id, tokenOtp, bodyOtp);
+  await tokenService.isVerified(token);
+  formatVendor(data);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

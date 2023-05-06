@@ -20,3 +20,9 @@ export const signup = {
     // deviceToken: Joi.string().required(),
   }),
 };
+
+export const verify = {
+  body: Joi.object().keys({
+    otp: Joi.number().required(),
+  }),
+};

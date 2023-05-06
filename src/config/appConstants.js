@@ -87,6 +87,7 @@ const ERROR_MESSAGES = {
   COMPOSITION_NOT_FOUND: "Composition not found.",
   SCHEDULE_NOT_FOUND: "Schedule not found.",
   OTP_EXPIRED: "OTP has expired, please try again.",
+  OTP_FAILED: "Incorrect OTP",
 };
 
 const STATUS_CODES = {
