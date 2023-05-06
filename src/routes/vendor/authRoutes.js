@@ -12,4 +12,10 @@ router.post(
   vendorAuthController.login
 );
 
+router.post(
+  "/signup",
+  validate(vendorAuthValidation.signup),
+  vendorAuthController.signup
+);
+
 export default router;

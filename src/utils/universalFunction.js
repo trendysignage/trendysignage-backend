@@ -34,4 +34,11 @@ const generateDeviceCode = async () => {
   return code;
 };
 
-export { catchAsync, pick, generateDeviceCode };
+const generateOtp = () => {
+  const code = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
+  const otpExpires = new Date();
+  otpExpires.setSeconds(otpExpires.getSeconds() + 240);
+  return { code, expiresAt: otpExpires };
+};
+
+export { catchAsync, pick, generateDeviceCode, generateOtp };

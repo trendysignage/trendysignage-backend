@@ -6,6 +6,7 @@ const tokenSchema = new mongoose.Schema(
     token: { type: String, unique: true, required: true },
     vendor: { type: mongoose.SchemaTypes.ObjectId, ref: "vendors" },
     admin: { type: mongoose.SchemaTypes.ObjectId, ref: "admins" },
+    otp: {},
     role: {
       type: String,
       enum: [...Object.values(USER_TYPE)],

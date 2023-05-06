@@ -10,3 +10,13 @@ export const login = {
     // deviceToken: Joi.string().required(),
   }),
 };
+
+export const signup = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    role: JOI.ROLE,
+    email: Joi.string().email().lowercase().trim().required(),
+    password: JOI.PASSWORD,
+    // deviceToken: Joi.string().required(),
+  }),
+};

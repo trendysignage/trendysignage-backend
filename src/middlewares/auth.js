@@ -24,10 +24,18 @@ const verifyCallback =
     if (token.role === USER_TYPE.ADMIN && !token.admin) {
       return reject(new AuthFailedError());
     } else {
+      if (token.otp && token.otp.expiresAt < new Date()) {
+        return reject(
+          new AuthFailedError(
+            ERROR_MESSAGES.OTP_EXPIRED,
+            STATUS_CODES.AUTH_FAILED
+          )
+        );
+      }
       if (!token.isVerified) {
         return reject(
           new AuthFailedError(
-            ERROR_MESSAGES.IS_VERIFIED,
+            ERROR_MESSAGES.ACCOUNT_NOT_VERIFIED,
             STATUS_CODES.AUTH_FAILED
           )
         );

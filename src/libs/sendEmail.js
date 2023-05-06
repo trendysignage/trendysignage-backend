@@ -1,41 +1,19 @@
-require("dotenv").config();
-const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
+import dotenv from "dotenv";
+dotenv.config();
+import nodemailer from "nodemailer";
 
-exports.createTransporter = async () => {
-  const oauth2Client = new OAuth2(
-    process.env.CLIENT_ID,
-    process.env.CLIENT_SECRET,
-    "https://developers.google.com/oauthplayground"
-  );
-
-  oauth2Client.setCredentials({
-    refresh_token: process.env.REFRESH_TOKEN,
-  });
-  const accessToken = await new Promise((resolve, reject) => {
-    oauth2Client.getAccessToken((err, token) => {
-      if (err) {
-        reject("Failed to create access token :(");
-      }
-      resolve(token);
-    });
-  });
+const createTransporter = async () => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      type: "OAuth2",
-      user: process.env.EMAIL,
-      accessToken,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      refreshToken: process.env.REFRESH_TOKEN,
+      user: process.env.EMAIL, // Your Gmail ID
+      pass: process.env.PASSWORD, // Your Gmail Password
     },
   });
   return transporter;
 };
 
-exports.sendEmail = async (emailOptions) => {
-  let emailTransporter = await exports.createTransporter();
+export const sendEmail = async (emailOptions) => {
+  let emailTransporter = await createTransporter();
   await emailTransporter.sendMail(emailOptions);
 };

@@ -8,7 +8,7 @@ const vendorSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       trim: true,
-      unique: true,
+      sparse: true,
     },
     socialId: {
       googleId: { type: String },

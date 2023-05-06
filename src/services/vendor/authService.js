@@ -22,3 +22,21 @@ export const login = async (email, password) => {
   }
   return vendor;
 };
+
+export const signup = async (email, password, name) => {
+  if (
+    await Vendor.findOne({ email: email, isDeleted: false, isVerified: true })
+  ) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.EMAIL_ALREADY_EXIST,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  let pass = await bcrypt.hash(password, 8);
+  const vendor = await Vendor.create({
+    name,
+    email,
+    password: pass,
+  });
+  return vendor;
+};

@@ -86,6 +86,7 @@ const ERROR_MESSAGES = {
   LAYOUT_NOT_FOUND: "Layout not found.",
   COMPOSITION_NOT_FOUND: "Composition not found.",
   SCHEDULE_NOT_FOUND: "Schedule not found.",
+  OTP_EXPIRED: "OTP has expired, please try again.",
 };
 
 const STATUS_CODES = {
