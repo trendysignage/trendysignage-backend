@@ -1,6 +1,7 @@
 import { vendorAuthService, tokenService } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import {
+  ERROR_MESSAGES,
   STATUS_CODES,
   SUCCESS_MESSAGES,
   USER_TYPE,
@@ -8,6 +9,7 @@ import {
 import { catchAsync, generateOtp } from "../../utils/universalFunction.js";
 import { formatVendor } from "../../utils/formatResponse.js";
 import { sendEmail } from "../../libs/sendEmail.js";
+import { AuthFailedError } from "../../utils/errors.js";
 
 export const login = catchAsync(async (req, res) => {
   let { email, password } = req.body;
@@ -59,11 +61,19 @@ export const signup = catchAsync(async (req, res) => {
 });
 
 export const verify = catchAsync(async (req, res) => {
-  const { otp, vendor, token } = req.token;
-  const tokenOtp = otp.code;
-  const bodyOtp = req.body.otp;
-  const data = await vendorAuthService.verify(vendor._id, tokenOtp, bodyOtp);
-  await tokenService.isVerified(token);
+  const { otp, vendor, _id } = req.token;
+  if (!otp) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.OTP_ALREADY_VERIFIED,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  const data = await vendorAuthService.verify(
+    vendor._id,
+    otp.code,
+    req.body.otp
+  );
+  await tokenService.isVerified(_id);
   formatVendor(data);
   return successResponse(
     req,

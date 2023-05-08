@@ -88,6 +88,7 @@ const ERROR_MESSAGES = {
   SCHEDULE_NOT_FOUND: "Schedule not found.",
   OTP_EXPIRED: "OTP has expired, please try again.",
   OTP_FAILED: "Incorrect OTP",
+  OTP_ALREADY_VERIFIED: "Already verified, you can sign in!",
 };
 
 const STATUS_CODES = {

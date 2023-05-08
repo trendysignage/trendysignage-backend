@@ -19,7 +19,7 @@ router.post(
 );
 
 router.post(
-  "/otp",
+  "/verifyOtp",
   auth(),
   validate(vendorAuthValidation.verify),
   vendorAuthController.verify
