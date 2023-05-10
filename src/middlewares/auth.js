@@ -47,21 +47,23 @@ const verifyCallback =
       if (token.isDeleted) {
         return reject(new AuthFailedError());
       }
-      if (token.vendor.isDeleted) {
-        return reject(
-          new AuthFailedError(
-            ERROR_MESSAGES.VENDOR_NOT_FOUND,
-            STATUS_CODES.AUTH_FAILED
-          )
-        );
-      }
-      if (!token.vendor.isVerified) {
-        return reject(
-          new AuthFailedError(
-            ERROR_MESSAGES.ACCOUNT_NOT_VERIFIED,
-            STATUS_CODES.AUTH_FAILED
-          )
-        );
+      if (token.vendor) {
+        if (token.vendor.isDeleted) {
+          return reject(
+            new AuthFailedError(
+              ERROR_MESSAGES.VENDOR_NOT_FOUND,
+              STATUS_CODES.AUTH_FAILED
+            )
+          );
+        }
+        if (!token.vendor.isVerified) {
+          return reject(
+            new AuthFailedError(
+              ERROR_MESSAGES.ACCOUNT_NOT_VERIFIED,
+              STATUS_CODES.AUTH_FAILED
+            )
+          );
+        }
       }
     }
 

@@ -21,4 +21,9 @@ const formatVendor = (vendor) => {
   delete vendor.password;
 };
 
-export { converStringToDate, localtime, utcTime, formatVendor };
+const formatAdmin = (admin) => {
+  delete admin.__v;
+  delete admin.password;
+};
+
+export { converStringToDate, localtime, utcTime, formatVendor, formatAdmin };

@@ -1,7 +1,10 @@
 import express from "express";
 import { validate } from "../../middlewares/validate.js";
 import auth from "../../middlewares/auth.js";
-import { vendorAuthController } from "../../controllers/index.js";
+import {
+  commonController,
+  vendorAuthController,
+} from "../../controllers/index.js";
 import { vendorAuthValidation } from "../../validations/index.js";
 
 const router = express.Router();
@@ -24,6 +27,8 @@ router.post(
   validate(vendorAuthValidation.verify),
   vendorAuthController.verify
 );
+
+router.post("/logout", auth(), commonController.logout);
 
 router.post(
   "/forgotPassword",
