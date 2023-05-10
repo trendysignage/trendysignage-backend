@@ -31,3 +31,18 @@ export const defaultComposition = async (vendorId, body) => {
     }
   }
 };
+
+export const getVendorByEmail = async (email) => {
+  const user = await Vendor.findOne({
+    email: email,
+    isDeleted: false,
+    isVerified: true,
+  }).lean();
+  if (!user) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return user;
+};

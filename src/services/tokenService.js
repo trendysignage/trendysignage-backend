@@ -10,9 +10,11 @@ import {
 } from "../config/appConstants.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { Token } from "../models/index.js";
+import { profileService } from "./index.js";
 
 export const generateToken = (data, secret = config.jwt.secret) => {
   const payload = {
+    user: data.user,
     exp: data.tokenExpires.unix(),
     type: data.tokenType,
     id: data.tokenId,
@@ -110,4 +112,29 @@ export const isVerified = async (token) => {
     { new: true, lean: true }
   );
   return data;
+};
+
+export const generateResetPasswordToken = async (email) => {
+  const user = await profileService.getVendorByEmail(email);
+  var tokenId = new ObjectID();
+  const tokenExpires = moment().add(
+    config.jwt.resetPasswordExpirationMinutes,
+    "day"
+  );
+
+  const resetPasswordToken = generateToken({
+    tokenId: tokenId,
+    user: user._id,
+    tokenExpires,
+    tokenType: TOKEN_TYPE.RESET_PASSWORD,
+  });
+  await saveToken({
+    token: resetPasswordToken,
+    tokenExpires,
+    tokenId,
+    tokenType: TOKEN_TYPE.RESET_PASSWORD,
+    userType: USER_TYPE.VENDOR,
+    user: user,
+  });
+  return resetPasswordToken;
 };

@@ -25,4 +25,10 @@ router.post(
   vendorAuthController.verify
 );
 
+router.post(
+  "/forgotPassword",
+  validate(vendorAuthValidation.forgotPassword),
+  vendorAuthController.forgotPassword
+);
+
 export default router;

@@ -82,3 +82,9 @@ export const verify = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const forgotPassword = catchAsync(async (req, res) => {
+  const resetPass = await tokenService.generateResetPasswordToken(
+    req.body.email
+  );
+});

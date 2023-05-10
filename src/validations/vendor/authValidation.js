@@ -5,7 +5,7 @@ import { objectId } from "../custom.validation.js";
 export const login = {
   body: Joi.object().keys({
     role: JOI.ROLE,
-    email: Joi.string().email().lowercase().trim().required(),
+    email: JOI.EMAIL,
     password: JOI.PASSWORD,
     // deviceToken: Joi.string().required(),
   }),
@@ -15,7 +15,7 @@ export const signup = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     role: JOI.ROLE,
-    email: Joi.string().email().lowercase().trim().required(),
+    email: JOI.EMAIL,
     password: JOI.PASSWORD,
     // deviceToken: Joi.string().required(),
   }),
@@ -24,5 +24,11 @@ export const signup = {
 export const verify = {
   body: Joi.object().keys({
     otp: Joi.number().required(),
+  }),
+};
+
+export const forgotPassword = {
+  body: Joi.object().keys({
+    email: JOI.EMAIL,
   }),
 };
