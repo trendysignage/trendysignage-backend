@@ -11,3 +11,12 @@ export const defaultComposition = {
       .required(),
   }),
 };
+
+export const editProfile = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    profilePic: Joi.string().required(),
+    phoneNumber: Joi.number(),
+    countryCode: Joi.number(),
+  }),
+};

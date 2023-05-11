@@ -57,3 +57,21 @@ export const verify = async (_id, tokenOtp, bodyOtp, tokenId) => {
   );
   return updateVendor;
 };
+
+export const changePassword = async (vendorId, body) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  if (!(await bcrypt.compare(body.oldPassword, vendor.password))) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.WRONG_PASSWORD,
+      STATUS_CODES.AUTH_FAILED
+    );
+  }
+  let newPass = await bcrypt.hash(body.newPassword, 8);
+  await Vendor.findByIdAndUpdate(vendorId, { $set: { password: newPass } });
+};

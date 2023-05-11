@@ -32,3 +32,10 @@ export const forgotPassword = {
     email: JOI.EMAIL,
   }),
 };
+
+export const changePassword = {
+  body: Joi.object().keys({
+    oldPassword: Joi.string().required(),
+    newPassword: Joi.string().required(),
+  }),
+};

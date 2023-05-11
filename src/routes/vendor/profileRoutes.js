@@ -13,4 +13,10 @@ router.put(
   profileController.defaultComposition
 );
 
+router
+  .route("/")
+  .all(auth())
+  .get(profileController.getProfile)
+  .put(validate(profileValidation.editProfile), profileController.editProfile);
+
 export default router;

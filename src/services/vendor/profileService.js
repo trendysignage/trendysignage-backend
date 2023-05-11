@@ -46,3 +46,38 @@ export const getVendorByEmail = async (email) => {
   }
   return user;
 };
+
+export const getProfile = async (vendorId) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return vendor;
+};
+
+export const editProfile = async (vendorId, body) => {
+  let dataToBeUpdated = {
+    name: body.name,
+    profilePic: body.profilePic,
+  };
+  if (body.phoneNumber && body.countryCode) {
+    dataToBeUpdated.phoneNumber = body.phoneNumber;
+    dataToBeUpdated.countryCode = body.countryCode;
+  }
+  const vendor = await Vendor.findByIdAndUpdate(
+    vendorId,
+    {
+      $set: dataToBeUpdated,
+    },
+    { new: 1, lean: 1 }
+  );
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};

@@ -88,3 +88,13 @@ export const forgotPassword = catchAsync(async (req, res) => {
     req.body.email
   );
 });
+
+export const changePassword = catchAsync(async (req, res) => {
+  await vendorAuthService.changePassword(req.token.vendor._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

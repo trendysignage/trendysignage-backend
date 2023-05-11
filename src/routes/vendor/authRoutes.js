@@ -30,6 +30,13 @@ router.post(
 
 router.post("/logout", auth(), commonController.logout);
 
+router.put(
+  "/changePassword",
+  auth(),
+  validate(vendorAuthValidation.changePassword),
+  vendorAuthController.changePassword
+);
+
 router.post(
   "/forgotPassword",
   validate(vendorAuthValidation.forgotPassword),
