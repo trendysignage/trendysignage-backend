@@ -7,6 +7,7 @@ import * as profileService from "./vendor/profileService.js";
 import * as layoutService from "./vendor/layoutService.js";
 import * as pushService from "./vendor/pushService.js";
 import * as adminAuthService from "./admin/authService.js";
+import * as adminVendorService from "./admin/vendorService.js";
 
 export {
   displayService,
@@ -18,4 +19,5 @@ export {
   layoutService,
   pushService,
   adminAuthService,
+  adminVendorService,
 };

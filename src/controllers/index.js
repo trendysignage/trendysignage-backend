@@ -6,6 +6,7 @@ import * as layoutController from "./vendor/layoutController.js";
 import * as pushController from "./vendor/pushController.js";
 import * as adminAuthController from "./admin/authController.js";
 import * as commonController from "./commonController.js";
+import * as adminVendorController from "./admin/vendorController.js";
 
 export {
   displayController,
@@ -16,4 +17,5 @@ export {
   pushController,
   adminAuthController,
   commonController,
+  adminVendorController,
 };

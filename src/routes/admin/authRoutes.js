@@ -23,6 +23,8 @@ router.put(
   adminAuthController.changePassword
 );
 
+router.get("/dashboard", auth(USER_TYPE.ADMIN), adminAuthController.dashboard);
+
 router.post("/logout", auth(), commonController.logout);
 
 export default router;

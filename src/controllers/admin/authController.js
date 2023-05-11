@@ -31,3 +31,14 @@ export const changePassword = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const dashboard = catchAsync(async (req, res) => {
+  const dashboard = await adminAuthService.dashboard();
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    dashboard
+  );
+});
