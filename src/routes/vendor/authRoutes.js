@@ -1,5 +1,5 @@
 import express from "express";
-import { validate } from "../../middlewares/validate.js";
+import { validate, validateView } from "../../middlewares/validate.js";
 import auth from "../../middlewares/auth.js";
 import {
   commonController,
@@ -42,5 +42,18 @@ router.post(
   validate(vendorAuthValidation.forgotPassword),
   vendorAuthController.forgotPassword
 );
+
+router
+  .route("/resetPassword")
+  .get(
+    validateView(vendorAuthValidation.forgotPage),
+    vendorAuthController.forgotPage
+  )
+  .post(
+    validateView(vendorAuthValidation.resetPassword),
+    vendorAuthController.resetPassword
+  );
+
+router.get("/verifyResetPasswordToken", vendorAuthController.verifyToken);
 
 export default router;

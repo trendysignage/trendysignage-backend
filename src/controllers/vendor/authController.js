@@ -1,4 +1,8 @@
-import { vendorAuthService, tokenService } from "../../services/index.js";
+import {
+  vendorAuthService,
+  tokenService,
+  profileService,
+} from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import {
   ERROR_MESSAGES,
@@ -8,8 +12,9 @@ import {
 } from "../../config/appConstants.js";
 import { catchAsync, generateOtp } from "../../utils/universalFunction.js";
 import { formatVendor } from "../../utils/formatResponse.js";
-import { sendEmail } from "../../libs/sendEmail.js";
+import { sendEmail, forgotPasswordEmail } from "../../libs/sendEmail.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import config from "../../config/config.js";
 
 export const login = catchAsync(async (req, res) => {
   let { email, password } = req.body;
@@ -83,9 +88,91 @@ export const verify = catchAsync(async (req, res) => {
   );
 });
 
+//---------forgot password-------------//
 export const forgotPassword = catchAsync(async (req, res) => {
-  const resetPass = await tokenService.generateResetPasswordToken(
-    req.body.email
+  const { email } = req.body;
+  const resetPasswordToken = await tokenService.generateResetPasswordToken(
+    email
+  );
+  const user = await profileService.getVendorByEmail(email);
+  await forgotPasswordEmail(email, resetPasswordToken, user.name);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.MAIL_SENT
+  );
+});
+
+export const forgotPage = async (req, res) => {
+  try {
+    const tokenData = await tokenService.verifyResetPasswordToken(
+      req.query.token
+    );
+    if (tokenData) {
+      return res.render("./forgotPassword/forgotPassword", {
+        title: "Forgot Password",
+        token: req.query.token,
+        projectName: config.projectName,
+      });
+    }
+    return res.render("commonMessage", {
+      title: "Forgot Password",
+      errorMessage: "Sorry, this link has been expired",
+      projectName: config.projectName,
+    });
+  } catch (err) {
+    res.render("commonMessage", {
+      title: "Forgot Password",
+      errorMessage: "Sorry, this link has been expired",
+      projectName: config.projectName,
+    });
+  }
+};
+
+export const resetPassword = catchAsync(async (req, res) => {
+  try {
+    const token = await tokenService.verifyResetPasswordToken(req.query.token);
+    if (!token) {
+      return res.render("commonMessage", {
+        title: "Forgot Password",
+        errorMessage: "Sorry, this link has been expired",
+        projectName: config.projectName,
+      });
+    }
+
+    const { password } = req.body;
+    await vendorAuthService.resetPassword(
+      token.vendor._id,
+      password,
+      token._id
+    );
+    return res.render("commonMessage", {
+      title: "Forgot Password",
+      successMessage: "Your password is successfully changed",
+      projectName: config.projectName,
+    });
+  } catch (err) {
+    console.log(err);
+    res.render("commonMessage", {
+      title: "Forgot Password",
+      errorMessage: err,
+      projectName: config.projectName,
+    });
+  }
+});
+//-------------------------------------//
+
+export const verifyToken = catchAsync(async (req, res) => {
+  const token = await tokenService.verifyResetPasswordToken(
+    req.headers.authorization
+  );
+  await tokenService.getTokenById(token.type, token.id);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
   );
 });
 

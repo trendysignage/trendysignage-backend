@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Vendor, Screen, Device } from "../../models/index.js";
+import { Vendor, Screen, Device, Token } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import bcrypt from "bcryptjs";
 
@@ -56,6 +56,15 @@ export const verify = async (_id, tokenOtp, bodyOtp, tokenId) => {
     { new: true, lean: true }
   );
   return updateVendor;
+};
+
+export const resetPassword = async (vendorId, newPassword, tokenId) => {
+  let updatedPassword = await bcrypt.hash(newPassword, 8);
+  const user = await Vendor.findByIdAndUpdate(vendorId, {
+    $set: { password: updatedPassword },
+  });
+  await Token.deleteOne({ _id: tokenId });
+  return user;
 };
 
 export const changePassword = async (vendorId, body) => {

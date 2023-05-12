@@ -59,4 +59,8 @@ export default {
   baseurl: envVars.API_BASE_URL,
   projectName: envVars.PROJECT_NAME,
   panelurl: envVars.ADMIN_BASE_URL,
+  smtp: {
+    email: envVars.EMAIL,
+    password: envVars.PASSWORD,
+  },
 };

@@ -1,0 +1,87 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+    xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+        rel="stylesheet">
+    <title>
+        {{title}}
+
+    </title>
+
+    <head>
+       
+
+        <style type="text/css">
+            body {
+                font-family: 'Montserrat', sans-serif;
+
+                margin: 0;
+                padding: 0;
+            }
+
+            @media (max-width:649px) {
+                .full-width {
+                    width: 100% !important;
+                }
+            }
+        </style>
+    </head>
+
+<body style="padding-left:15px; padding-right:15px;" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0"
+    offset="0">
+    <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <table class="full-width" style="max-width:600px; width:100%; padding: 35px;" border="0" cellpadding="0"
+                    cellspacing="0">
+                    <tr>
+                        <td style="text-align: center;  ">
+                            <a href="javascript://">
+
+
+                                <img style="max-width:250px;" src="">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" text-align:center; font-size: 18px; font-weight: 700; line-height: 32px; 
+                     color: #000; padding-top: 30px;">
+                            
+                        </td>
+                    </tr>
+        </tr>
+
+        <tr>
+            {{#if successMessage}}
+            <td
+                style="color: rgba(59, 110, 0, 0.8);   font-size: 14px;  line-height: 24px;  text-align: center; padding-top: 20px;">
+                <span style="font-weight: bold;">
+                    {{successMessage}}
+            </span>
+            {{else}}
+            <td
+                style="color: rgba(145, 5, 5, 0.8);   font-size: 14px;  line-height: 24px;  text-align: center; padding-top: 20px;">
+                <span style="font-weight: bold;">
+                    {{errorMessage}}
+            </span>
+            {{/if}}
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center; font-weight: 700; color: #000;line-height: 24px;">
+                {{projectName}}</td>
+        </tr>
+
+    </table>
+    </td>
+    </tr>
+    </table>
+
+</body>
+
+</html>

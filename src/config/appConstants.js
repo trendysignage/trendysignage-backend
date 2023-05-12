@@ -57,6 +57,7 @@ const JOI = {
 const SUCCESS_MESSAGES = {
   SUCCESS: "Success",
   LOGOUT: "User successfully logged out",
+  MAIL_SENT: "Mail sent successfully",
 };
 
 const ERROR_MESSAGES = {
@@ -89,6 +90,7 @@ const ERROR_MESSAGES = {
   OTP_EXPIRED: "OTP has expired, please try again.",
   OTP_FAILED: "Incorrect OTP",
   OTP_ALREADY_VERIFIED: "Already verified, you can sign in!",
+  TOKEN_NOT_FOUND: "Token not found!",
 };
 
 const STATUS_CODES = {

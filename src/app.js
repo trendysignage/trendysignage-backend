@@ -9,10 +9,15 @@ import routes from "./routes/index.js";
 import { errorHandler, authLimiter } from "./middlewares/common.js";
 import i18n from "./middlewares/i18n.js";
 import { requestHandler, routeNotFoundHandler } from "./middlewares/common.js";
+import path from "path";
+const __dirname = path.resolve();
 
 const app = express();
 
 app.set("etag", true);
+
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "/views"));
 
 app.use(
   express.static("public/", {

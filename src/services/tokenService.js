@@ -139,3 +139,24 @@ export const generateResetPasswordToken = async (email) => {
   });
   return resetPasswordToken;
 };
+
+export const verifyResetPasswordToken = async (token) => {
+  try {
+    jwt.verify(token, config.jwt.secret);
+    const data = await Token.findOne({ token }).lean();
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getTokenById = async (type, _id) => {
+  const token = await Token.findOne({ type, _id });
+  if (!token) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.TOKEN_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return token;
+};

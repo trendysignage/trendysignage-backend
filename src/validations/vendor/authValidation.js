@@ -33,6 +33,22 @@ export const forgotPassword = {
   }),
 };
 
+export const forgotPage = {
+  query: Joi.object().keys({
+    token: Joi.string().required(),
+  }),
+};
+
+export const resetPassword = {
+  body: Joi.object().keys({
+    password: JOI.PASSWORD,
+    confirmPassword: JOI.PASSWORD,
+  }),
+  query: Joi.object().keys({
+    token: Joi.string().required(),
+  }),
+};
+
 export const changePassword = {
   body: Joi.object().keys({
     oldPassword: Joi.string().required(),
