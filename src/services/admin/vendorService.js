@@ -32,6 +32,15 @@ export const deleteVendor = async (_id) => {
 };
 
 export const list = async (query) => {
-  const vendors = await Vendor.find({ isDeleted: false }).lean();
+  let vendors = await Vendor.find({ isDeleted: false })
+    .lean()
+    .skip(query.page * query.limit)
+    .limit(query.limit);
+
+  if (query.search) {
+    vendors = vendors.filter((id) =>
+      JSON.stringify(id.name.toLowerCase()).includes(query.search.toLowerCase())
+    );
+  }
   return vendors;
 };
