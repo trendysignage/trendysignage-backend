@@ -7,6 +7,7 @@ import profileRoute from "./vendor/profileRoutes.js";
 import layoutRoute from "./vendor/layoutRoutes.js";
 import pushRoute from "./vendor/pushRoutes.js";
 import adminAuthRoute from "./admin/authRoutes.js";
+import adminVendorRoute from "./admin/vendorRoutes.js";
 
 const router = express.Router();
 
@@ -38,6 +39,10 @@ const defaultRoutes = [
   {
     path: "/admin/auth",
     route: adminAuthRoute,
+  },
+  {
+    path: "/admin/vendor",
+    route: adminVendorRoute,
   },
 ];
 
