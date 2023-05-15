@@ -16,6 +16,17 @@ export const getVendor = catchAsync(async (req, res) => {
   );
 });
 
+export const addVendor = catchAsync(async (req, res) => {
+  const { name, email, password, screens } = req.body;
+  await adminVendorService.addVendor(name, email, password, screens);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
 export const deleteVendor = catchAsync(async (req, res) => {
   await adminVendorService.deleteVendor(req.query.vendorId);
   return successResponse(

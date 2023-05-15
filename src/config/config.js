@@ -55,6 +55,7 @@ export default {
       envVars.JWT_RESET_PASSWORD_EXPIRATION_MINUTES,
     verifyEmailExpirationMinutes: envVars.JWT_VERIFY_EMAIL_EXPIRATION_MINUTES,
   },
+  defaultComposition: envVars.DEFAULT_URL,
   fcm: envVars.SERVER_KEY,
   baseurl: envVars.API_BASE_URL,
   projectName: envVars.PROJECT_NAME,

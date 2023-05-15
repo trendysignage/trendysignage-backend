@@ -1,6 +1,8 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import config from "../../config/config.js";
 import { Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import bcrypt from "bcryptjs";
 
 export const getVendor = async (_id) => {
   const vendor = await Vendor.findOne({ _id, isDeleted: false }).lean();
@@ -11,6 +13,24 @@ export const getVendor = async (_id) => {
     );
   }
   return vendor;
+};
+
+export const addVendor = async (name, email, pass, screens) => {
+  let password = await bcrypt.hash(pass, 8);
+  const vendor = await Vendor.create({
+    name,
+    email,
+    password,
+    isVerified: true,
+    defaultComposition: config.defaultComposition,
+    totalScreens: screens,
+  });
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SERVER_ERROR,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };
 
 export const deleteVendor = async (_id) => {
@@ -44,3 +64,9 @@ export const list = async (query) => {
   }
   return vendors;
 };
+
+async function up() {
+  await Vendor.updateMany({}, { $set: { totalScreens: 5 } });
+}
+
+up();

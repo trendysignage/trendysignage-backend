@@ -43,6 +43,7 @@ const vendorSchema = new mongoose.Schema(
     ],
     schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: "schedules" }],
     screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],
+    totalScreens: { type: Number, default: 1 },
     country: { type: String },
     countryCode: { type: Number },
     phoneNumber: { type: Number },
