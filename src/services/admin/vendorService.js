@@ -64,9 +64,3 @@ export const list = async (query) => {
   }
   return vendors;
 };
-
-async function up() {
-  await Vendor.updateMany({}, { $set: { totalScreens: 5 } });
-}
-
-up();
