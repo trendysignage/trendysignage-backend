@@ -274,16 +274,30 @@ export const publish = async (vendorId, body) => {
     _id: vendorId,
     isDeleted: false,
   }).lean();
-  vendor.media = vendor.media.filter(
-    (id) => JSON.stringify(id._id) === JSON.stringify(body.mediaId)
-  );
-  let content = {
-    media: vendor.media[0],
-    duration: body.duration,
-    startTime: new Date(),
-    endTime: new Date(),
-    createdAt: new Date(),
-  };
+  let content;
+  if (body.type === "media") {
+    vendor.media = vendor.media.filter(
+      (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
+    );
+    content = {
+      media: vendor.media[0],
+      duration: body.duration,
+      startTime: new Date(),
+      endTime: new Date(),
+      createdAt: new Date(),
+    };
+  } else {
+    vendor.compositions = vendor.compositions.filter(
+      (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
+    );
+    content = {
+      media: vendor.compositions[0],
+      duration: body.duration,
+      startTime: new Date(),
+      endTime: new Date(),
+      createdAt: new Date(),
+    };
+  }
   content.endTime.setMinutes(content.startTime.getMinutes() + body.duration);
   for (const id of body.screenIds) {
     const screen = await Screen.findOneAndUpdate(

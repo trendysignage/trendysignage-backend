@@ -85,7 +85,8 @@ export const deleteMedia = {
 
 export const publish = {
   body: Joi.object().keys({
-    mediaId: JOI.OBJECTID,
+    id: JOI.OBJECTID,
+    type: Joi.string().valid("media", "composition").required(),
     duration: Joi.number().default(1).min(1).required(),
     screenIds: Joi.array().items(JOI.OBJECTID).required(),
   }),
