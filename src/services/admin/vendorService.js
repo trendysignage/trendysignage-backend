@@ -5,7 +5,12 @@ import { AuthFailedError } from "../../utils/errors.js";
 import bcrypt from "bcryptjs";
 
 export const getVendor = async (_id) => {
-  const vendor = await Vendor.findOne({ _id, isDeleted: false }).lean();
+  const vendor = await Vendor.findOne({ _id, isDeleted: false })
+    .lean()
+    .populate([
+      { path: "screens", populate: { path: "schedule" } },
+      { path: "schedules" },
+    ]);
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
