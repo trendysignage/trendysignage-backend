@@ -91,3 +91,9 @@ export const publish = {
     screenIds: Joi.array().items(JOI.OBJECTID).required(),
   }),
 };
+
+export const mediaFile = {
+  query: Joi.object().keys({
+    path: Joi.string().required(),
+  }),
+};

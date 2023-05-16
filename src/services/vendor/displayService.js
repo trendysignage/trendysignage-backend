@@ -2,6 +2,7 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { emit } from "../socketService.js";
+import path from "path";
 
 export const deviceCode = async (vendorId, code) => {
   if (
@@ -315,4 +316,10 @@ export const publish = async (vendorId, body) => {
     }
     await emit(screen.device?.deviceToken, content);
   }
+};
+
+export const mediaFile = async (filePath) => {
+  filePath = `public${filePath}`;
+  const file = path.resolve(filePath);
+  return file;
 };

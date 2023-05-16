@@ -58,4 +58,11 @@ router.post(
   displayController.publish
 );
 
+router.get(
+  "/mediaFile",
+  auth(),
+  validate(displayValidation.mediaFile),
+  displayController.mediaFile
+);
+
 export default router;
