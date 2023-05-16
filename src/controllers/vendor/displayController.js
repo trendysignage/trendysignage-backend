@@ -124,5 +124,5 @@ export const mediaFile = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query.path
   );
-  res.statusCode(STATUS_CODES.SUCCESS).sendFile(file);
+  res.sendFile(file);
 });
