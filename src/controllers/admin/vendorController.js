@@ -38,8 +38,8 @@ export const deleteVendor = catchAsync(async (req, res) => {
 });
 
 export const list = catchAsync(async (req, res) => {
-  const vendors = await adminVendorService.list(req.query);
-  vendors.map((vendor) => {
+  const data = await adminVendorService.list(req.query);
+  data.vendors.map((vendor) => {
     formatVendor(vendor);
   });
   return successResponse(
@@ -47,6 +47,6 @@ export const list = catchAsync(async (req, res) => {
     res,
     STATUS_CODES.SUCCESS,
     SUCCESS_MESSAGES.SUCCESS,
-    vendors
+    data
   );
 });

@@ -57,15 +57,22 @@ export const deleteVendor = async (_id) => {
 };
 
 export const list = async (query) => {
-  let vendors = await Vendor.find({ isDeleted: false })
-    .lean()
-    .skip(query.page * query.limit)
-    .limit(query.limit);
-
+  let data = { isDeleted: false };
   if (query.search) {
-    vendors = vendors.filter((id) =>
-      JSON.stringify(id.name.toLowerCase()).includes(query.search.toLowerCase())
-    );
+    let searchRegex = RegExp(query.search, "i");
+
+    data = {
+      ...data,
+      $or: [{ name: { $regex: searchRegex } }],
+    };
   }
-  return vendors;
+  let [vendors, count] = await Promise.all([
+    Vendor.find(data)
+      .lean()
+      .skip(query.page * query.limit)
+      .limit(query.limit),
+    Vendor.countDocuments(data),
+  ]);
+
+  return { vendors, count };
 };
