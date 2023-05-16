@@ -318,8 +318,7 @@ export const publish = async (vendorId, body) => {
   }
 };
 
-export const mediaFile = async (filePath) => {
-  console.log(filePath);
+export const mediaFile = async (vendorId, filePath) => {
   filePath = "public/" + filePath;
   const file = path.resolve(filePath);
   if (!file) {
