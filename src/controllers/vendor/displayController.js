@@ -120,9 +120,6 @@ export const publish = catchAsync(async (req, res) => {
 });
 
 export const mediaFile = catchAsync(async (req, res) => {
-  const file = await displayService.mediaFile(
-    req.token.vendor._id,
-    req.query.path
-  );
+  const file = await displayService.mediaFile(req.query.path);
   res.sendFile(file);
 });

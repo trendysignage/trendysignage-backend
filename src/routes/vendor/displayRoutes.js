@@ -60,7 +60,6 @@ router.post(
 
 router.get(
   "/mediaFile",
-  auth(),
   validate(displayValidation.mediaFile),
   displayController.mediaFile
 );
