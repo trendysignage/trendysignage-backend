@@ -319,7 +319,7 @@ export const publish = async (vendorId, body) => {
 };
 
 export const mediaFile = async (filePath) => {
-  filePath = `public${filePath}`;
+  filePath = `public/${filePath}`;
   const file = path.resolve(filePath);
   if (!file) {
     throw new Error("File not found");
