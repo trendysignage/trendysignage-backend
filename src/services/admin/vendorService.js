@@ -63,7 +63,10 @@ export const list = async (query) => {
 
     data = {
       ...data,
-      $or: [{ name: { $regex: searchRegex } }],
+      $or: [
+        { name: { $regex: searchRegex } },
+        { email: { $regex: searchRegex } },
+      ],
     };
   }
   let [vendors, count] = await Promise.all([
