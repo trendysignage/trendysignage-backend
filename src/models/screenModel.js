@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { SUBSCRIPTION_STATUS } from "../config/appConstants.js";
 
 const screenSchema = new mongoose.Schema(
   {
@@ -25,6 +26,14 @@ const screenSchema = new mongoose.Schema(
     deviceCode: { type: String, required: true },
     device: { type: mongoose.Schema.Types.ObjectId, ref: "devices" },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
+    subscription: {
+      amount: { type: Number },
+      status: {
+        type: String,
+        enum: [...Object.values(SUBSCRIPTION_STATUS)],
+        default: SUBSCRIPTION_STATUS.PENDING,
+      },
+    },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }

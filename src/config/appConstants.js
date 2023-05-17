@@ -7,6 +7,13 @@ export const MEDIA_TYPE = {
   APP: "app",
 };
 
+export const SUBSCRIPTION_STATUS = {
+  EXPIRING: "expiring soon",
+  INACTIVE: "inactive",
+  ACTIVE: "active",
+  PENDING: "payment pending",
+};
+
 export const COMPOSITION_LAYOUT = {
   SINGLE_LANDSCAPE: "Single Zone Landscape",
   TWO_LANDSCAPE: "Two Landscape",
