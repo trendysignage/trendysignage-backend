@@ -17,6 +17,10 @@ const pick = (object, keys) => {
   }, {});
 };
 
+const paginationOptions = (page, limit) => {
+  return { sort: { _id: -1 }, skip: page * limit, limit: limit, lean: true };
+};
+
 const generateDeviceCode = async () => {
   let code = "";
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -41,4 +45,4 @@ const generateOtp = () => {
   return { code, expiresAt: otpExpires };
 };
 
-export { catchAsync, pick, generateDeviceCode, generateOtp };
+export { catchAsync, pick, generateDeviceCode, generateOtp, paginationOptions };

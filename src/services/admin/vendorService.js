@@ -3,6 +3,7 @@ import config from "../../config/config.js";
 import { Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import bcrypt from "bcryptjs";
+import { paginationOptions } from "../../utils/universalFunction.js";
 
 export const getVendor = async (_id) => {
   const vendor = await Vendor.findOne({ _id, isDeleted: false })
@@ -70,10 +71,7 @@ export const list = async (query) => {
     };
   }
   let [vendors, count] = await Promise.all([
-    Vendor.find(data)
-      .lean()
-      .skip(query.page * query.limit)
-      .limit(query.limit),
+    Vendor.find(data, {}, paginationOptions(query.page, query.limit)),
     Vendor.countDocuments(data),
   ]);
 
