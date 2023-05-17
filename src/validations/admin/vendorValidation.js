@@ -21,6 +21,6 @@ export const list = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),
     page: JOI.PAGE,
-    Limit: JOI.LIMIT,
+    limit: JOI.LIMIT,
   }),
 };
