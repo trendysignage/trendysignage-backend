@@ -31,7 +31,7 @@ const screenSchema = new mongoose.Schema(
       status: {
         type: String,
         enum: [...Object.values(SUBSCRIPTION_STATUS)],
-        default: SUBSCRIPTION_STATUS.PENDING,
+        default: SUBSCRIPTION_STATUS.ACTIVE,
       },
     },
     isDeleted: { type: Boolean, default: false },
