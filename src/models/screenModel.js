@@ -18,6 +18,7 @@ const screenSchema = new mongoose.Schema(
         duration: { type: Number },
         startTime: { type: Date, default: new Date() },
         endTime: { type: Date },
+        type: { type: String },
         createdAt: { type: Date, default: new Date() },
       },
     ],

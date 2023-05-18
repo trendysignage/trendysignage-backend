@@ -284,6 +284,7 @@ export const publish = async (vendorId, body) => {
       media: vendor.media[0],
       duration: body.duration,
       startTime: new Date(),
+      type: "media",
       endTime: new Date(),
       createdAt: new Date(),
     };
@@ -294,6 +295,7 @@ export const publish = async (vendorId, body) => {
     content = {
       media: vendor.compositions[0],
       duration: body.duration,
+      type: "composition",
       startTime: new Date(),
       endTime: new Date(),
       createdAt: new Date(),
