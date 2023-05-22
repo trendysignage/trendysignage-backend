@@ -77,7 +77,11 @@ export const addDevice1 = async (deviceToken, code) => {
             STATUS_CODES.ACTION_FAILED
           );
         }
-        device.composition = composition ? composition : [];
+        device.composition = JSON.parse(JSON.stringify(screen.contentPlaying));
+
+        screen.contentPlaying
+          ? (device.composition[0].media = composition)
+          : [];
       }
     }
   }
