@@ -83,18 +83,19 @@ export const getDefault = async (vendorId) => {
   return vendor.defaultComposition;
 };
 
-export const emit = async (value, content, data, type, androidComposition) => {
+export const emit = async (value, content, data, type) => {
   if (!data) {
     if (type === CONTENT_TYPE.COMPOSITION) {
       userCache[value]?.map((id) => {
         console.log(id, "yese emitititting android comp");
         io.to(id).emit("receiveComposition", androidComposition);
       });
+    } else {
+      userCache[value]?.map((id) => {
+        console.log(id, "yese emitititt");
+        io.to(id).emit("receiveContent", content);
+      });
     }
-    userCache[value]?.map((id) => {
-      console.log(id, "yese emitititt");
-      io.to(id).emit("receiveContent", content);
-    });
   } else {
     userCache[value]?.map((id) => {
       io.to(id).emit("disconnectDevice", "Disconnected");
