@@ -39,9 +39,13 @@ export const addDevice = async (deviceToken, code) => {
       const composition = await Composition.findById(
         screen.contentPlaying[0].media
       );
-      device.composition = screen.contentPlaying ? screen.contentPlaying : [];
+      let compositions = screen.contentPlaying ? screen.contentPlaying : [];
+      if (compositions.length) {
+        compositions[0].media = composition;
+      }
+      device.compositions = compositions ? compositions : [];
     }
-    console.log(device.composition, "composit");
+    console.log("device content ", device.content);
   }
   return device;
 };
