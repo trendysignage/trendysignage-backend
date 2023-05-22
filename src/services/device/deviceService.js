@@ -1,9 +1,5 @@
-import {
-  CONTENT_TYPE,
-  ERROR_MESSAGES,
-  STATUS_CODES,
-} from "../../config/appConstants.js";
-import { Vendor, Device, Screen, Composition } from "../../models/index.js";
+import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import { Vendor, Device, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const addDevice = async (deviceToken, code) => {
@@ -31,21 +27,8 @@ export const addDevice = async (deviceToken, code) => {
         );
       }
     }
-    device.content = screen.contentPlaying ? screen.contentPlaying : [];
-    device.composition = [];
-
-    if (
-      screen.contentPlaying.length &&
-      screen.contentPlaying[0].type === CONTENT_TYPE.COMPOSITION
-    ) {
-      const composition = await Composition.findById(
-        screen.contentPlaying[0]?.media
-      ).lean();
-
-      device.composition = JSON.parse(JSON.stringify(screen.contentPlaying));
-
-      device.composition[0].media = composition;
-    }
+    device.content =
+      screen && screen.contentPlaying ? screen.contentPlaying : [];
   }
   return device;
 };
