@@ -38,14 +38,14 @@ export const addDevice = async (deviceToken, code) => {
       device.content = screen.contentPlaying ? screen.contentPlaying : [];
       const composition = await Composition.findById(
         screen.contentPlaying[0].media
-      );
+      ).lean();
       let compositions = screen.contentPlaying ? screen.contentPlaying : [];
       if (compositions.length) {
         compositions[0].media = composition;
       }
       device.compositions = compositions ? compositions : [];
     }
-    console.log("device content ", device.content);
+    console.log("device content ", screen.contentPlaying);
   }
   return device;
 };
