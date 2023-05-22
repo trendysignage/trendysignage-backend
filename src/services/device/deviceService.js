@@ -32,6 +32,7 @@ export const addDevice = async (deviceToken, code) => {
       }
     }
     device.content = screen.contentPlaying ? screen.contentPlaying : [];
+    device.content[0].type = "media";
     device.composition = [];
 
     if (screen.contentPlaying[0].type === CONTENT_TYPE.COMPOSITION) {
