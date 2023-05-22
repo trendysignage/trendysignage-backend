@@ -1,4 +1,8 @@
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import {
+  CONTENT_TYPE,
+  ERROR_MESSAGES,
+  STATUS_CODES,
+} from "../../config/appConstants.js";
 import { Vendor, Device, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
@@ -27,8 +31,13 @@ export const addDevice = async (deviceToken, code) => {
         );
       }
     }
-    device.content =
-      screen && screen.contentPlaying ? screen.contentPlaying : [];
+    if (screen.contentPlaying[0].type === CONTENT_TYPE.MEDIA) {
+      device.content = screen.contentPlaying ? screen.contentPlaying : [];
+      device.composition = [];
+    } else {
+      device.content = [];
+      device.composition = screen.contentPlaying ? screen.contentPlaying : [];
+    }
   }
   return device;
 };

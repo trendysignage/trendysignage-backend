@@ -43,6 +43,11 @@ export const SOCIAL = {
   APPLE: "apple",
 };
 
+export const CONTENT_TYPE = {
+  MEDIA: "media",
+  COMPOSITION: "composition",
+};
+
 const JOI = {
   EMAIL: Joi.string().email().lowercase().trim().required(),
   PASSWORD: Joi.string().min(6).required(),
