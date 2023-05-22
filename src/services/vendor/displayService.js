@@ -320,6 +320,7 @@ export const publish = async (vendorId, body) => {
     }
     await emit(screen.device?.deviceToken, content);
   }
+  console.log(content, "conttttttt ======>>>>>");
 };
 
 export const mediaFile = async (filePath) => {
