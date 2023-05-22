@@ -32,16 +32,15 @@ export const addDevice = async (deviceToken, code) => {
       }
     }
     device.content = screen.contentPlaying ? screen.contentPlaying : [];
-    if (screen.contentPlaying[0].type === CONTENT_TYPE.MEDIA) {
-      device.composition = [];
-    } else {
+    device.composition = [];
+    if (screen.contentPlaying[0].type === CONTENT_TYPE.COMPOSITION) {
       const composition = await Composition.findById(
         screen.contentPlaying[0].media
       ).lean();
-      device.composition = device.content ? device.content : [];
-      if (device.composition.length) {
-        device.composition[0].media = composition ? composition : [];
-      }
+      device.composition = device.content;
+      device.composition.length
+        ? (device.composition[0].media = composition)
+        : (device.composition = []);
     }
     console.log("device content =====[=???", screen.contentPlaying);
   }
