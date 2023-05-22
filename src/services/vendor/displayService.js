@@ -292,10 +292,10 @@ export const publish = async (vendorId, body) => {
       createdAt: new Date(),
     };
   } else {
-    console.log(vendor.compositions, "compsotiionnggggssss");
     vendor.compositions = vendor.compositions.filter(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
+    console.log(vendor.compositions, "compsotiionnggggssss");
     content = {
       media: vendor.compositions[0],
       duration: body.duration,
