@@ -44,7 +44,7 @@ export const addDevice = async (deviceToken, code) => {
 
       device.composition = JSON.parse(JSON.stringify(screen.contentPlaying));
 
-      device.composition[0]?.media = composition;
+      device.composition[0].media = composition;
     }
   }
   return device;
