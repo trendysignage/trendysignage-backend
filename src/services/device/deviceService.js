@@ -33,16 +33,18 @@ export const addDevice = async (deviceToken, code) => {
     }
     device.content = screen.contentPlaying ? screen.contentPlaying : [];
     device.composition = [];
+
     if (screen.contentPlaying[0].type === CONTENT_TYPE.COMPOSITION) {
       const composition = await Composition.findById(
         screen.contentPlaying[0].media
       ).lean();
+
       device.composition = screen.contentPlaying;
-      // device.composition.length
-      //   ? (device.composition[0].media = composition)
-      //   : (device.composition = []);
+      //
+
+      device.composition[0].media = composition;
     }
-    console.log("device content =====[=???", screen.contentPlaying);
+    console.log("device content =====[=???", JSON.stringify(device));
   }
   return device;
 };
