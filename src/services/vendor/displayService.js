@@ -274,7 +274,9 @@ export const publish = async (vendorId, body) => {
   let vendor = await Vendor.findOne({
     _id: vendorId,
     isDeleted: false,
-  }).lean();
+  })
+    .lean()
+    .populate([{ path: "composition" }]);
   let content;
   if (body.type === "media") {
     vendor.media = vendor.media.filter(
