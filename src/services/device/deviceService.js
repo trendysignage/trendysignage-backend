@@ -43,7 +43,7 @@ export const addDevice = async (deviceToken, code) => {
         device.composition[0].media = composition ? composition : [];
       }
     }
-    console.log("device content ", screen.contentPlaying);
+    console.log("device content =====[=???", screen.contentPlaying);
   }
   return device;
 };
