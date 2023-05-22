@@ -291,7 +291,6 @@ export const publish = async (vendorId, body) => {
       createdAt: new Date(),
     };
   } else {
-    console.log(vendor.compositions, "compositioonsssssss===>>>>>>");
     vendor.compositions = vendor.compositions.filter(
       (id) => JSON.stringify(id) === JSON.stringify(body.id)
     );
@@ -321,7 +320,6 @@ export const publish = async (vendorId, body) => {
     }
     await emit(screen.device?.deviceToken, content);
   }
-  console.log(content, "conttttttt ======>>>>>");
 };
 
 export const mediaFile = async (filePath) => {
