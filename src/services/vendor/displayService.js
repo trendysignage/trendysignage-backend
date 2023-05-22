@@ -276,7 +276,7 @@ export const publish = async (vendorId, body) => {
     isDeleted: false,
   })
     .lean()
-    .populate([{ path: "composition" }]);
+    .populate({ path: "compositions" });
   let content;
   if (body.type === "media") {
     vendor.media = vendor.media.filter(
