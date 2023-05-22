@@ -274,9 +274,12 @@ export const publish = async (vendorId, body) => {
   let vendor = await Vendor.findOne({
     _id: vendorId,
     isDeleted: false,
-  }).lean();
-  // .populate({ path: "compositions" });
+  })
+    .lean()
+    .populate({ path: "compositions" });
+
   let content;
+  let compositionForAndroid;
 
   if (body.type === "media") {
     vendor.media = vendor.media.filter(
@@ -292,9 +295,17 @@ export const publish = async (vendorId, body) => {
     };
   } else {
     vendor.compositions = vendor.compositions.filter(
-      (id) => JSON.stringify(id) === JSON.stringify(body.id)
+      (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
     content = {
+      media: vendor.compositions[0]._id,
+      duration: body.duration,
+      type: "composition",
+      startTime: new Date(),
+      endTime: new Date(),
+      createdAt: new Date(),
+    };
+    compositionForAndroid = {
       media: vendor.compositions[0],
       duration: body.duration,
       type: "composition",
@@ -318,7 +329,13 @@ export const publish = async (vendorId, body) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-    await emit(screen.device?.deviceToken, content);
+    await emit(
+      screen.device?.deviceToken,
+      content,
+      "",
+      body.type,
+      compositionForAndroid
+    );
   }
 };
 

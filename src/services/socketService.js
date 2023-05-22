@@ -2,6 +2,7 @@ import {
   ERROR_MESSAGES,
   STATUS_CODES,
   DEVICE_TYPE,
+  CONTENT_TYPE,
 } from "../config/appConstants.js";
 import { Vendor, Token, Device, Screen } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
@@ -82,12 +83,19 @@ export const getDefault = async (vendorId) => {
   return vendor.defaultComposition;
 };
 
-export const emit = async (value, content, data) => {
+export const emit = async (value, content, data, type, androidComposition) => {
   if (!data) {
-    userCache[value]?.map((id) => {
-      console.log(id, "yese emitititt");
-      io.to(id).emit("receiveContent", content);
-    });
+    if (type === CONTENT_TYPE.MEDIA) {
+      userCache[value]?.map((id) => {
+        console.log(id, "yese emitititt");
+        io.to(id).emit("receiveContent", content);
+      });
+    } else {
+      userCache[value]?.map((id) => {
+        console.log(id, "yese emitititt android compostitionssss");
+        io.to(id).emit("receiveContent", androidComposition);
+      });
+    }
   } else {
     userCache[value]?.map((id) => {
       io.to(id).emit("disconnectDevice", "Disconnected");

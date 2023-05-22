@@ -10,4 +10,8 @@ router
   .route("/")
   .post(validate(deviceValidation.addDevice), deviceController.addDevice);
 
+router
+  .route("/add")
+  .post(validate(deviceValidation.addDevice), deviceController.addDevice1);
+
 export default router;
