@@ -31,14 +31,17 @@ export const addDevice = async (deviceToken, code) => {
         );
       }
     }
+    device.content = screen.contentPlaying ? screen.contentPlaying : [];
     if (screen.contentPlaying[0].type === CONTENT_TYPE.MEDIA) {
-      device.content = screen.contentPlaying ? screen.contentPlaying : [];
       device.composition = [];
     } else {
-      device.content = screen.contentPlaying ? screen.contentPlaying : [];
       const composition = await Composition.findById(
         screen.contentPlaying[0].media
       ).lean();
+      device.composition = device.content;
+      if (device.composition.length) {
+        device.composition[0].media = composition ? composition : [];
+      }
     }
     console.log("device content ", screen.contentPlaying);
   }
