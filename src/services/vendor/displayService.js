@@ -278,6 +278,7 @@ export const publish = async (vendorId, body) => {
     .lean()
     .populate({ path: "compositions" });
   let content;
+
   if (body.type === "media") {
     vendor.media = vendor.media.filter(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
@@ -291,6 +292,7 @@ export const publish = async (vendorId, body) => {
       createdAt: new Date(),
     };
   } else {
+    console.log(vendor.compositions, "compsotiionnggggssss");
     vendor.compositions = vendor.compositions.filter(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
