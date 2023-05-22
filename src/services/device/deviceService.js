@@ -40,8 +40,7 @@ export const addDevice = async (deviceToken, code) => {
         screen.contentPlaying[0].media
       );
       device.composition = screen.contentPlaying ? screen.contentPlaying : [];
-      device.composition[0].media = device.composition ? composition : [];
-      device.content = screen.contentPlaying ? screen.contentPlaying : [];
+      // device.composition[0].media = device.composition ? composition : [];
     }
     console.log(device.content, "conttettnttt");
   }
