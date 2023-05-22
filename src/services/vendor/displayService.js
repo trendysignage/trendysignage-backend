@@ -293,7 +293,7 @@ export const publish = async (vendorId, body) => {
   } else {
     console.log(vendor.compositions, "compositioonsssssss===>>>>>>");
     vendor.compositions = vendor.compositions.filter(
-      (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
+      (id) => JSON.stringify(id) === JSON.stringify(body.id)
     );
     content = {
       media: vendor.compositions[0],
