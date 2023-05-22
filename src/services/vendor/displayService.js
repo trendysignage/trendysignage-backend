@@ -274,9 +274,8 @@ export const publish = async (vendorId, body) => {
   let vendor = await Vendor.findOne({
     _id: vendorId,
     isDeleted: false,
-  })
-    .lean()
-    .populate({ path: "compositions" });
+  }).lean();
+  // .populate({ path: "compositions" });
   let content;
 
   if (body.type === "media") {
@@ -295,7 +294,6 @@ export const publish = async (vendorId, body) => {
     vendor.compositions = vendor.compositions.filter(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
-    console.log(vendor.compositions, "compsotiionnggggssss");
     content = {
       media: vendor.compositions[0],
       duration: body.duration,
