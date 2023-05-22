@@ -88,7 +88,7 @@ export const emit = async (value, content, data, type) => {
     if (type === CONTENT_TYPE.COMPOSITION) {
       userCache[value]?.map((id) => {
         console.log(id, "yese emitititting android comp");
-        io.to(id).emit("receiveComposition", androidComposition);
+        io.to(id).emit("receiveComposition", content);
       });
     } else {
       userCache[value]?.map((id) => {
