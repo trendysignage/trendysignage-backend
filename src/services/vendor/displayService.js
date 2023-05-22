@@ -294,6 +294,7 @@ export const publish = async (vendorId, body) => {
     vendor.compositions = vendor.compositions.filter(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
+    console.log(vendor.compositions, "compsssss");
     content = {
       media: vendor.compositions[0],
       duration: body.duration,
