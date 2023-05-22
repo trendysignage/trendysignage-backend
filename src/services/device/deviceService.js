@@ -64,7 +64,10 @@ export const addDevice1 = async (deviceToken, code) => {
     }
     device.content = [];
     device.composition = [];
-    if (screen.contentPlaying[0].type === CONTENT_TYPE.MEDIA) {
+    if (
+      screen.contentPlaying &&
+      screen.contentPlaying[0].type === CONTENT_TYPE.MEDIA
+    ) {
       device.content = screen.contentPlaying ? screen.contentPlaying : [];
     } else {
       const composition = await Composition.findById(
