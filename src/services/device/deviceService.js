@@ -3,7 +3,7 @@ import {
   ERROR_MESSAGES,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import { Vendor, Device, Screen } from "../../models/index.js";
+import { Vendor, Device, Screen, Composition } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const addDevice = async (deviceToken, code) => {
@@ -36,6 +36,10 @@ export const addDevice = async (deviceToken, code) => {
       device.composition = [];
     } else {
       device.content = screen.contentPlaying ? screen.contentPlaying : [];
+      const composition = await Composition.findById(
+        screen.contentPlaying[0].media
+      );
+      console.log(composition, "jhhjhhhh");
       device.composition = screen.contentPlaying ? screen.contentPlaying : [];
     }
   }
