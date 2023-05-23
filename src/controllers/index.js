@@ -7,6 +7,7 @@ import * as pushController from "./vendor/pushController.js";
 import * as adminAuthController from "./admin/authController.js";
 import * as commonController from "./commonController.js";
 import * as adminVendorController from "./admin/vendorController.js";
+import * as adminResellerController from "./admin/resellerController.js";
 
 export {
   displayController,
@@ -18,4 +19,5 @@ export {
   adminAuthController,
   commonController,
   adminVendorController,
+  adminResellerController,
 };

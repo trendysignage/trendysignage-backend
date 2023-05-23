@@ -8,6 +8,7 @@ import layoutRoute from "./vendor/layoutRoutes.js";
 import pushRoute from "./vendor/pushRoutes.js";
 import adminAuthRoute from "./admin/authRoutes.js";
 import adminVendorRoute from "./admin/vendorRoutes.js";
+import adminResellerRoute from "./admin/resellerRoutes.js";
 
 const router = express.Router();
 
@@ -43,6 +44,10 @@ const defaultRoutes = [
   {
     path: "/admin/vendor",
     route: adminVendorRoute,
+  },
+  {
+    path: "/admin/reseller",
+    route: adminResellerRoute,
   },
 ];
 

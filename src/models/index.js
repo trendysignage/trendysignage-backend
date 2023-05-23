@@ -7,6 +7,7 @@ import { Device } from "./deviceModel.js";
 import { Screen } from "./screenModel.js";
 import { Layout } from "./layoutModel.js";
 import { Schedule } from "./scheduleModel.js";
+import { Reseller } from "./resellerModels.js";
 
 export {
   Token,
@@ -18,4 +19,5 @@ export {
   Screen,
   Layout,
   Schedule,
+  Reseller,
 };

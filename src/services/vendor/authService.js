@@ -2,6 +2,7 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor, Screen, Device, Token } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import bcrypt from "bcryptjs";
+import { generateId } from "../../utils/universalFunction.js";
 
 export const login = async (email, password) => {
   const vendor = await Vendor.findOne({
@@ -33,7 +34,9 @@ export const signup = async (email, password, name) => {
     );
   }
   let pass = await bcrypt.hash(password, 8);
+  const id = await generateId();
   const vendor = await Vendor.create({
+    id,
     name,
     email,
     password: pass,

@@ -3,7 +3,10 @@ import config from "../../config/config.js";
 import { Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import bcrypt from "bcryptjs";
-import { paginationOptions } from "../../utils/universalFunction.js";
+import {
+  generateId,
+  paginationOptions,
+} from "../../utils/universalFunction.js";
 
 export const getVendor = async (_id) => {
   const vendor = await Vendor.findOne({ _id, isDeleted: false })
@@ -23,7 +26,15 @@ export const getVendor = async (_id) => {
 
 export const addVendor = async (name, email, pass, screens) => {
   let password = await bcrypt.hash(pass, 8);
+  if (await Vendor.findOne({ email, isDeleted: false, isVerified: true })) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.EMAIL_ALREADY_EXIST,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  const id = await generateId();
   const vendor = await Vendor.create({
+    id,
     name,
     email,
     password,
@@ -77,3 +88,14 @@ export const list = async (query) => {
 
   return { vendors, count };
 };
+
+async function updateVendor() {
+  const vendors = await Vendor.find({ isDeleted: false }).lean();
+
+  vendors.map(async (v) => {
+    const id = await generateId();
+    await Vendor.findByIdAndUpdate(v._id, { $set: { id } });
+  });
+}
+
+updateVendor();

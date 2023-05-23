@@ -1,4 +1,4 @@
-import { Device } from "../models/index.js";
+import { Device, Reseller, Vendor } from "../models/index.js";
 
 const catchAsync = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch((err) => {
@@ -38,6 +38,17 @@ const generateDeviceCode = async () => {
   return code;
 };
 
+const generateId = async () => {
+  let id = 0;
+  do {
+    id = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
+  } while (
+    (await Reseller.findOne({ id, isDeleted: false }),
+    await Vendor.findOne({ id, isDeleted: false }))
+  );
+  return id;
+};
+
 const generateOtp = () => {
   const code = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
   const otpExpires = new Date();
@@ -45,4 +56,11 @@ const generateOtp = () => {
   return { code, expiresAt: otpExpires };
 };
 
-export { catchAsync, pick, generateDeviceCode, generateOtp, paginationOptions };
+export {
+  catchAsync,
+  pick,
+  generateDeviceCode,
+  generateOtp,
+  paginationOptions,
+  generateId,
+};
