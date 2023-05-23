@@ -38,6 +38,13 @@ export const addReseller = async (body) => {
   };
   query.vendors && body.clients;
 
+  if (await Reseller.findOne({ email: body.email, isDeleted: false })) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.EMAIL_ALREADY_EXIST,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
   const reseller = await Reseller.create(query);
 
   if (!reseller) {
