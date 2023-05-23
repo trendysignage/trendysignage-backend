@@ -21,7 +21,7 @@ export const list = async (query) => {
   }
   let [reseller, count] = await Promise.all([
     Reseller.find(data, {}, paginationOptions(query.page, query.limit)),
-    Reseller.countDocuments(data),
+    Reseller.countDocuments(data.isDeleted),
   ]);
 
   return { reseller, count };
