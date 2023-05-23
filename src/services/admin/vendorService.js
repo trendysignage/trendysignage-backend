@@ -88,14 +88,3 @@ export const list = async (query) => {
 
   return { vendors, count };
 };
-
-async function updateVendor() {
-  const vendors = await Vendor.find({ isDeleted: false }).lean();
-
-  vendors.map(async (v) => {
-    const id = await generateId();
-    await Vendor.findByIdAndUpdate(v._id, { $set: { id } });
-  });
-}
-
-updateVendor();
