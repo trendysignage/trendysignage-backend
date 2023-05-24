@@ -6,7 +6,7 @@ export const list = {
   query: Joi.object().keys({
     search: Joi.string()
       .allow("")
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+      .replace(/([.*+?^${}()|[\]\\])/g, "\\$1"),
     page: JOI.PAGE,
     limit: JOI.LIMIT,
   }),
