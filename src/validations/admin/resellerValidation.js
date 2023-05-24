@@ -4,7 +4,9 @@ import { objectId } from "../custom.validation.js";
 
 export const list = {
   query: Joi.object().keys({
-    search: Joi.string().allow(""),
+    search: Joi.string()
+      .allow("")
+      .regex(/[a-zA-Z]/),
     page: JOI.PAGE,
     limit: JOI.LIMIT,
   }),
