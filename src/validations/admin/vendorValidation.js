@@ -19,7 +19,7 @@ export const addVendor = {
 
 export const list = {
   query: Joi.object().keys({
-    search: Joi.string().allow(""),
+    search: JOI.SEARCH,
     page: JOI.PAGE,
     limit: JOI.LIMIT,
   }),

@@ -57,6 +57,7 @@ const JOI = {
     .message("Please enter a valid phone number"),
   LIMIT: Joi.number().default(10),
   PAGE: Joi.number().default(0),
+  SEARCH: Joi.string().allow("").replace("(", "\\(").replace(")", "\\)"),
   OBJECTID: Joi.string().custom(objectId).required(),
   DEVICE_TYPE: Joi.string()
     .valid(...Object.values(DEVICE_TYPE))
