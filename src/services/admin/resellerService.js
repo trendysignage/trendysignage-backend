@@ -10,20 +10,26 @@ import { escapeRegex } from "../../validations/custom.validation.js";
 export const list = async (query) => {
   let data = { isDeleted: false };
   if (query.search) {
-    let searchRegex = new RegExp(query.search, "ig");
-
-    data = {
-      ...data,
-      $or: [
-        { name: { $regex: searchRegex } },
-        { email: { $regex: searchRegex } },
-      ],
-    };
+    // let searchRegex = new RegExp(query.search, "ig");
+    // data = {
+    //   ...data,
+    //   $or: [
+    //     { name: { $regex: searchRegex } },
+    //     { email: { $regex: searchRegex } },
+    //   ],
+    // };
   }
   let [reseller, count] = await Promise.all([
     Reseller.find(data, {}, paginationOptions(query.page, query.limit)),
     Reseller.countDocuments({ isDeleted: data.isDeleted }),
   ]);
+  if (query.search) {
+    reseller = reseller.filter(
+      (i) =>
+        i.name.toLowerCase().includes(query.search.toLowerCase()) ||
+        i.email.toLowerCase().includes(query.search.toLowerCase())
+    );
+  }
 
   return { reseller, count };
 };
