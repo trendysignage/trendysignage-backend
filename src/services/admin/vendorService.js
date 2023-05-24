@@ -7,6 +7,7 @@ import {
   generateId,
   paginationOptions,
 } from "../../utils/universalFunction.js";
+import { escapeRegex } from "../../validations/custom.validation.js";
 
 export const getVendor = async (_id) => {
   const vendor = await Vendor.findOne({ _id, isDeleted: false })
@@ -71,6 +72,8 @@ export const deleteVendor = async (_id) => {
 export const list = async (query) => {
   let data = { isDeleted: false };
   if (query.search) {
+    query.search = escapeRegex(query.search);
+
     let searchRegex = RegExp(query.search, "i");
 
     data = {

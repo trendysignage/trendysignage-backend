@@ -5,10 +5,12 @@ import {
   generateId,
   paginationOptions,
 } from "../../utils/universalFunction.js";
+import { escapeRegex } from "../../validations/custom.validation.js";
 
 export const list = async (query) => {
   let data = { isDeleted: false };
   if (query.search) {
+    query.search = escapeRegex(query.search);
     let searchRegex = new RegExp(query.search, "ig");
 
     data = {
