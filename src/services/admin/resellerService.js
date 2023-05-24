@@ -9,7 +9,7 @@ import {
 export const list = async (query) => {
   let data = { isDeleted: false };
   if (query.search) {
-    let searchRegex = RegExp(query.search, "i");
+    let searchRegex = new RegExp(query.search, "ig");
 
     data = {
       ...data,
