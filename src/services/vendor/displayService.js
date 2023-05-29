@@ -31,9 +31,9 @@ export const getScreens = async (query, vendorId) => {
   })
     .lean()
     .populate({ path: "device" })
-    .sort({ createdAt: -1 });
-  // .skip(query.page * query.limit)
-  // .limit(query.limit);
+    .sort({ createdAt: -1 })
+    .skip(query.page * query.limit)
+    .limit(query.limit);
   if (query.search) {
     screens = screens.filter((i) =>
       JSON.stringify(i.name.toLowerCase()).includes(query.search.toLowerCase())
@@ -81,6 +81,7 @@ export const addScreen = async (vendorId, body) => {
     );
   }
   vendor.defaultComposition.isDefault = true;
+  console.log(vendor.defaultComposition);
   await emit(device.deviceToken, vendor.defaultComposition);
 };
 
