@@ -29,12 +29,16 @@ export const getSchedule = catchAsync(async (req, res) => {
 });
 
 export const addSchedule = catchAsync(async (req, res) => {
-  await pushService.addSchedule(req.token.vendor._id, req.body);
+  const schedule = await pushService.addSchedule(
+    req.token.vendor._id,
+    req.body
+  );
   return successResponse(
     res,
     res,
     STATUS_CODES.SUCCESS,
-    SUCCESS_MESSAGES.SUCCESS
+    SUCCESS_MESSAGES.SUCCESS,
+    schedule
   );
 });
 

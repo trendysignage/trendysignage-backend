@@ -74,6 +74,7 @@ export const addSchedule = async (vendorId, body) => {
     { $addToSet: { schedules: schedule._id } },
     { new: 1, lean: 1 }
   );
+  return schedule;
 };
 
 export const editSchedule = async (vendorId, body) => {
