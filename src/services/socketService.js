@@ -1,10 +1,9 @@
 import {
   ERROR_MESSAGES,
   STATUS_CODES,
-  DEVICE_TYPE,
   CONTENT_TYPE,
 } from "../config/appConstants.js";
-import { Vendor, Token, Device, Screen } from "../models/index.js";
+import { Vendor, Device, Screen } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { io, userCache } from "../libs/socket.js";
 
@@ -100,5 +99,26 @@ export const emit = async (value, content, data, type) => {
     userCache[value]?.map((id) => {
       io.to(id).emit("disconnectDevice", "Disconnected");
     });
+  }
+};
+
+export const uptimeReport = async (deviceToken, timezone) => {
+  const device = await Device.findOne({ deviceToken, isDeleted: false }).lean();
+  if (device) {
+    const screen = await Screen.findOne({ device: device._id }).lean();
+    if (screen) {
+      screen.startUptimeTracking(timezone);
+    }
+  }
+};
+
+export const stopTracking = async (deviceToken, timezone) => {
+  const device = await Device.findOne({ deviceToken, isDeleted: false }).lean();
+  if (device) {
+    const screen = await Screen.findOne({ device: device._id }).lean();
+    if (screen) {
+      screen.stopUptimeTracking(timezone);
+      await screen.save();
+    }
   }
 };
