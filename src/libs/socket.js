@@ -76,10 +76,12 @@ export const connectSocket = (server) => {
     });
 
     socket.on("disconnect", async (data) => {
-      // await socketService.stopTracking(socket.handshake.query.deviceToken, socket.handshake.query.timezone);
-      userCache[socket.handshake.query.deviceToken] = userCache[
-        socket.handshake.query.deviceToken
-      ].filter((socketId) => socketId !== socket.id);
+      let deviceToken = socket.handshake.query.deviceToken;
+      // let timezone = socket.handshake.query.timezone;
+      // await socketService.stopTracking(deviceToken, timezone);
+      userCache[deviceToken] = userCache[deviceToken].filter(
+        (socketId) => socketId !== socket.id
+      );
       console.log("disconneted", userCache);
     });
   });
