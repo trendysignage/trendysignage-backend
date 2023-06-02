@@ -1,6 +1,54 @@
 import Joi from "joi";
 import { objectId } from "../validations/custom.validation.js";
 
+export const ADMIN_PERMISSIONS = {
+  view: { type: Boolean, default: true },
+  add: { type: Boolean, default: true },
+  edit: { type: Boolean, default: true },
+  delete: { type: Boolean, default: true },
+};
+
+export const PERMISSIONS = {
+  view: { type: Boolean, default: false },
+  add: { type: Boolean, default: false },
+  edit: { type: Boolean, default: false },
+  delete: { type: Boolean, default: false },
+};
+
+export const ADMIN_PERMISSION_MENU = {
+  SCREEN: ADMIN_PERMISSIONS,
+  ASSETS: ADMIN_PERMISSIONS,
+  COMPOSITION: ADMIN_PERMISSIONS,
+  SCHEDULE: ADMIN_PERMISSIONS,
+  APPS: ADMIN_PERMISSIONS,
+  QUICKPLAY: ADMIN_PERMISSIONS,
+  REPORTS: ADMIN_PERMISSIONS,
+};
+
+export const PERMISSION_MENU = {
+  SCREEN: PERMISSIONS,
+  ASSETS: PERMISSIONS,
+  COMPOSITION: PERMISSIONS,
+  SCHEDULE: PERMISSIONS,
+  APPS: PERMISSIONS,
+  QUICKPLAY: PERMISSIONS,
+  REPORTS: PERMISSIONS,
+};
+
+export const ROLES_SCHEMA = {
+  ADMIN: ADMIN_PERMISSION_MENU,
+  OPERATOR: PERMISSION_MENU,
+  MANAGER: PERMISSION_MENU,
+  EDITOR: PERMISSION_MENU,
+};
+
+export const ROLE = {
+  ADMIN: "ADMIN",
+  OPERATOR: "OPERATOR",
+  MANAGER: "MANAGER",
+  EDITOR: "EDITOR",
+};
+
 export const MEDIA_TYPE = {
   IMAGE: "image",
   VIDEO: "video",
@@ -65,7 +113,37 @@ const JOI = {
   ROLE: Joi.string()
     .valid(...Object.values(USER_TYPE))
     .required(),
+  BOOLEAN: Joi.boolean().required(),
 };
+
+export const screenPermissions = Joi.object()
+  .keys({
+    view: JOI.BOOLEAN,
+    add: JOI.BOOLEAN,
+    edit: JOI.BOOLEAN,
+    delete: JOI.BOOLEAN,
+  })
+  .required();
+
+export const roleSchema = Joi.object()
+  .keys({
+    SCREEN: screenPermissions,
+    ASSETS: screenPermissions,
+    COMPOSITION: screenPermissions,
+    SCHEDULE: screenPermissions,
+    APPS: screenPermissions,
+    QUICKPLAY: screenPermissions,
+    REPORTS: screenPermissions,
+  })
+  .required();
+
+export const editRoleSchema = Joi.object()
+  .keys({
+    OPERATOR: roleSchema,
+    MANAGER: roleSchema,
+    EDITOR: roleSchema,
+  })
+  .required();
 
 const SUCCESS_MESSAGES = {
   SUCCESS: "Success",

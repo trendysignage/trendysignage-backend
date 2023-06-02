@@ -19,4 +19,10 @@ router
   .get(profileController.getProfile)
   .put(validate(profileValidation.editProfile), profileController.editProfile);
 
+router
+  .route("/roles")
+  .all(auth())
+  .get(profileController.getRoles)
+  .put(validate(profileValidation.editRole), profileController.editRole);
+
 export default router;

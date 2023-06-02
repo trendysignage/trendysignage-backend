@@ -1,4 +1,8 @@
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import {
+  ERROR_MESSAGES,
+  ROLE,
+  STATUS_CODES,
+} from "../../config/appConstants.js";
 import { Vendor, Screen, Device } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { emit } from "../socketService.js";
@@ -81,3 +85,21 @@ export const editProfile = async (vendorId, body) => {
     );
   }
 };
+
+export const getRoles = async (vendorId) => {
+  const vendor = await Vendor.findById(vendorId, { roles: 1 }, { lean: 1 });
+  delete vendor.roles.ADMIN;
+  return vendor;
+};
+
+export const editRole = async (vendorId, body) => {
+  const vendor = await Vendor.findByIdAndUpdate(vendorId, {
+    $set: { roles: body },
+  });
+};
+
+async function update() {
+  await Vendor.updateMany({}, { role: ROLE.ADMIN });
+}
+
+update();

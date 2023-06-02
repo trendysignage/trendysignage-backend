@@ -35,3 +35,24 @@ export const editProfile = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const getRoles = catchAsync(async (req, res) => {
+  const roles = await profileService.getRoles(req.token.vendor._id);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    roles
+  );
+});
+
+export const editRole = catchAsync(async (req, res) => {
+  await profileService.editRole(req.token.vendor._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

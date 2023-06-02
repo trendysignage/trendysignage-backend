@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MEDIA_TYPE } from "../config/appConstants.js";
+import { MEDIA_TYPE, ROLE, ROLES_SCHEMA } from "../config/appConstants.js";
 
 const vendorSchema = new mongoose.Schema(
   {
@@ -49,6 +49,8 @@ const vendorSchema = new mongoose.Schema(
       startDate: { type: Date },
       endDate: { type: Date },
     },
+    role: { type: String, default: ROLE.ADMIN },
+    roles: ROLES_SCHEMA,
     totalScreens: { type: Number, default: 1 },
     country: { type: String },
     countryCode: { type: Number },
