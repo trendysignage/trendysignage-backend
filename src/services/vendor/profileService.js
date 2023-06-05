@@ -98,9 +98,9 @@ export const editRole = async (vendorId, body) => {
   });
 };
 
-// async function update() {
-//   console.log("profileService");
-//   await Vendor.updateMany({}, { role: ROLE.ADMIN });
-// }
+async function update() {
+  console.log("profileService");
+  await Vendor.updateMany({}, { role: ROLE.ADMIN });
+}
 
-// update();
+update();
