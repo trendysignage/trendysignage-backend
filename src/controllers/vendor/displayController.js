@@ -80,7 +80,7 @@ export const getMedia = catchAsync(async (req, res) => {
 });
 
 export const addMedia = catchAsync(async (req, res) => {
-  console.log("uploaded successfully");
+  console.log("<<--------------uploaded successfully--------------->>");
   await displayService.addMedia(req.token.vendor._id, req.body, req.file);
   return successResponse(
     req,
