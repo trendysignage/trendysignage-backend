@@ -49,9 +49,7 @@ const screenSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Screen = mongoose.model("screens", screenSchema);
-
-screenSchema.methods.startUptimeTracking = function (timezone) {
+screenSchema.methods.startUptimeTracking = async function (timezone) {
   if (!this.isConnected) {
     this.connectionStartTime = localtime(new Date(), timezone);
     this.isConnected = true;
@@ -59,7 +57,7 @@ screenSchema.methods.startUptimeTracking = function (timezone) {
   return this.save();
 };
 
-screenSchema.methods.stopUptimeTracking = function (timezone) {
+screenSchema.methods.stopUptimeTracking = async function (timezone) {
   if (this.connectionStartTime) {
     const now = new Date(localtime(new Date(), timezone));
     const today = localtime(new Date(), timezone).split("T")[0]; // Get today's date in YYYY-MM-DD format
@@ -88,5 +86,7 @@ screenSchema.methods.stopUptimeTracking = function (timezone) {
     return this.save();
   }
 };
+
+const Screen = mongoose.model("screens", screenSchema);
 
 export { Screen };
