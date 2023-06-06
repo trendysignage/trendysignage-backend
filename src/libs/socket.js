@@ -59,7 +59,7 @@ export const connectSocket = (server) => {
     return next();
   }).on("connection", async (socket) => {
     let deviceToken = socket.handshake.query.deviceToken;
-    // let timezone = socket.handshake.query.timezone;
+    let timezone = /* socket.handshake.query.timezone */ "Asia/Kolkata";
     console.log(userCache, "userCachhheeeeee", deviceToken);
     userCache[deviceToken].map(async (id) => {
       const vendorId = await socketService.getVendor(deviceToken);
@@ -69,7 +69,7 @@ export const connectSocket = (server) => {
         io.to(id).emit("receiveContent", defaultContent);
       }
     });
-    // await socketService.uptimeReport(deviceToken, timezone);
+    await socketService.uptimeReport(deviceToken, timezone);
 
     socket.on("error", function (error) {
       console.error(error, "something went wrong in socket...");
@@ -77,8 +77,8 @@ export const connectSocket = (server) => {
 
     socket.on("disconnect", async (data) => {
       let deviceToken = socket.handshake.query.deviceToken;
-      // let timezone = socket.handshake.query.timezone;
-      // await socketService.stopTracking(deviceToken, timezone);
+      let timezone = /* socket.handshake.query.timezone */ "Asia/Kolkata";
+      await socketService.stopTracking(deviceToken, timezone);
       userCache[deviceToken] = userCache[deviceToken].filter(
         (socketId) => socketId !== socket.id
       );
