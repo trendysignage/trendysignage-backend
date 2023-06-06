@@ -1,11 +1,16 @@
 import { catchAsync } from "../../utils/universalFunction.js";
-import { profileService } from "../../services/index.js";
+import { profileService, logService } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 import { formatVendor } from "../../utils/formatResponse.js";
 
 export const defaultComposition = catchAsync(async (req, res) => {
   await profileService.defaultComposition(req.token.vendor._id, req.body);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.DEFAULT_COMPOSITION,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -28,6 +33,11 @@ export const getProfile = catchAsync(async (req, res) => {
 
 export const editProfile = catchAsync(async (req, res) => {
   await profileService.editProfile(req.token.vendor._id, req.body);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.EDIT_PROFILE,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -49,6 +59,11 @@ export const getRoles = catchAsync(async (req, res) => {
 
 export const editRole = catchAsync(async (req, res) => {
   await profileService.editRole(req.token.vendor._id, req.body);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.EDIT_ROLES,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,

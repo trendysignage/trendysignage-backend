@@ -9,6 +9,7 @@ import * as pushService from "./vendor/pushService.js";
 import * as adminAuthService from "./admin/authService.js";
 import * as adminVendorService from "./admin/vendorService.js";
 import * as adminResellerService from "./admin/resellerService.js";
+import * as logService from "./logService.js";
 
 export {
   displayService,
@@ -22,4 +23,5 @@ export {
   adminAuthService,
   adminVendorService,
   adminResellerService,
+  logService,
 };

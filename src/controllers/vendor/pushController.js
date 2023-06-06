@@ -1,5 +1,5 @@
 import { catchAsync } from "../../utils/universalFunction.js";
-import { pushService } from "../../services/index.js";
+import { pushService, logService } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 
@@ -33,6 +33,11 @@ export const addSchedule = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.body
   );
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.ADD_SCHEDULE,
+  //   req.headers.timezone
+  // );
   return successResponse(
     res,
     res,
@@ -44,6 +49,11 @@ export const addSchedule = catchAsync(async (req, res) => {
 
 export const editSchedule = catchAsync(async (req, res) => {
   await pushService.editSchedule(req.token.vendor._id, req.body);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.EDIT_SCHEDULE,
+  //   req.headers.timezone
+  // );
   return successResponse(
     res,
     res,
@@ -54,6 +64,11 @@ export const editSchedule = catchAsync(async (req, res) => {
 
 export const deleteSchedule = catchAsync(async (req, res) => {
   await pushService.deleteSchedule(req.token.vendor._id, req.query.scheduleId);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.DELETE_SCHEDULE,
+  //   req.headers.timezone
+  // );
   return successResponse(
     res,
     res,

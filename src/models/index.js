@@ -8,6 +8,7 @@ import { Screen } from "./screenModel.js";
 import { Layout } from "./layoutModel.js";
 import { Schedule } from "./scheduleModel.js";
 import { Reseller } from "./resellerModels.js";
+import { Logs } from "./logsModel.js";
 
 export {
   Token,
@@ -20,4 +21,5 @@ export {
   Layout,
   Schedule,
   Reseller,
+  Logs,
 };

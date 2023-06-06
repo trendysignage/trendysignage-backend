@@ -1,5 +1,5 @@
 import { catchAsync } from "../../utils/universalFunction.js";
-import { displayService } from "../../services/index.js";
+import { displayService, logService } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 
@@ -29,6 +29,11 @@ export const getScreens = catchAsync(async (req, res) => {
 
 export const addScreen = catchAsync(async (req, res) => {
   const screen = await displayService.addScreen(req.token.vendor._id, req.body);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.ADDED_SCREEN,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -39,6 +44,11 @@ export const addScreen = catchAsync(async (req, res) => {
 
 export const editScreen = catchAsync(async (req, res) => {
   await displayService.editScreen(req.token.vendor._id, req.body);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.EDIT_SCREEN,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -49,6 +59,11 @@ export const editScreen = catchAsync(async (req, res) => {
 
 export const deleteScreen = catchAsync(async (req, res) => {
   await displayService.deleteScreen(req.token.vendor._id, req.query.screenId);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.DELETE_SCREEN,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -82,6 +97,11 @@ export const getMedia = catchAsync(async (req, res) => {
 export const addMedia = catchAsync(async (req, res) => {
   console.log("<<--------------uploaded successfully--------------->>");
   await displayService.addMedia(req.token.vendor._id, req.body, req.file);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.ADD_MEDIA,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -92,6 +112,11 @@ export const addMedia = catchAsync(async (req, res) => {
 
 export const editMedia = catchAsync(async (req, res) => {
   await displayService.editMedia(req.token.vendor._id, req.body, req.file);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.EDIT_MEDIA,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -102,6 +127,11 @@ export const editMedia = catchAsync(async (req, res) => {
 
 export const deleteMedia = catchAsync(async (req, res) => {
   await displayService.deleteMedia(req.token.vendor._id, req.query.mediaId);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.DELETE_MEDIA,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
@@ -112,6 +142,19 @@ export const deleteMedia = catchAsync(async (req, res) => {
 
 export const publish = catchAsync(async (req, res) => {
   await displayService.publish(req.token.vendor._id, req.body);
+  // if (req.body.type === "media") {
+  //   await logService.createLog(
+  //     req.token.vendor._id,
+  //     SUCCESS_MESSAGES.PUBLISHED_MEDIA,
+  //     req.headers.timezone
+  //   );
+  // } else {
+  //   await logService.createLog(
+  //     req.token.vendor._id,
+  //     SUCCESS_MESSAGES.PUBLISHED_COMPOSITION,
+  //     req.headers.timezone
+  //   );
+  // }
   return successResponse(
     req,
     res,

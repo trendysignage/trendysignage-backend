@@ -149,6 +149,25 @@ const SUCCESS_MESSAGES = {
   SUCCESS: "Success",
   LOGOUT: "User successfully logged out",
   MAIL_SENT: "Mail sent successfully",
+  LOGIN: "successfully Logged in",
+  ADDED_SCREEN: "successfully added a new screen",
+  EDIT_SCREEN: "successfully edited a screen",
+  DELETE_SCREEN: "deleted a screen",
+  ADD_MEDIA: "successfully added new media",
+  EDIT_MEDIA: "successfully edited a media file",
+  DELETE_MEDIA: "deleted a media file",
+  PUBLISHED_MEDIA: "successfully published media to a screen",
+  PUBLISHED_COMPOSITION: "successfully published composition to a screen",
+  ADD_COMPOSITION: "successfully added a new composition",
+  EDIT_COMPOSITION: "successfully edited a composition",
+  DELETE_COMPOSITION: "deleted a composition",
+  DEFAULT_COMPOSITION:
+    "successfully changed the default composition for a screen",
+  EDIT_PROFILE: "edited their profile",
+  EDIT_ROLES: "edited a role",
+  ADD_SCHEDULE: "successfully added a new schedule",
+  EDIT_SCHEDULE: "edited a schedule",
+  DELETE_SCHEDULE: "deleted a schedule",
 };
 
 const ERROR_MESSAGES = {

@@ -2,6 +2,7 @@ import {
   vendorAuthService,
   tokenService,
   profileService,
+  logService,
 } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import {
@@ -26,9 +27,12 @@ export const login = catchAsync(async (req, res) => {
     USER_TYPE.VENDOR
     // req.body.deviceToken
   );
-
   const updateToken = await tokenService.isVerified(token);
-
+  // await logService.createLog(
+  //   vendor._id,
+  //   SUCCESS_MESSAGES.LOGIN,
+  //   req.headers.timezone
+  // );
   return successResponse(
     req,
     res,
