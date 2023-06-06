@@ -71,3 +71,19 @@ export const editRole = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const auditReport = catchAsync(async (req, res) => {
+  const logs = await logService.getLogs(req.token.vendor._id, req.query);
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.GET_AUDIT_LOGS,
+  //   req.headers.timezone
+  // );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    logs
+  );
+});

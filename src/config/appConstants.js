@@ -168,6 +168,7 @@ const SUCCESS_MESSAGES = {
   ADD_SCHEDULE: "successfully added a new schedule",
   EDIT_SCHEDULE: "edited a schedule",
   DELETE_SCHEDULE: "deleted a schedule",
+  GET_AUDIT_LOGS: "successfully fetched audit logs",
 };
 
 const ERROR_MESSAGES = {

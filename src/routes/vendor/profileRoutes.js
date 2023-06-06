@@ -25,4 +25,11 @@ router
   .get(profileController.getRoles)
   .put(validate(profileValidation.editRole), profileController.editRole);
 
+router.get(
+  "/auditLogs",
+  auth(),
+  validate(profileValidation.auditReport),
+  profileController.auditReport
+);
+
 export default router;

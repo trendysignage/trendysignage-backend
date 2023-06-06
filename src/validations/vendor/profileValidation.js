@@ -31,3 +31,12 @@ export const editProfile = {
 export const editRole = {
   body: editRoleSchema.required(),
 };
+
+export const auditReport = {
+  query: Joi.object().keys({
+    page: JOI.PAGE,
+    limit: JOI.LIMIT,
+    startDate: Joi.date().required(),
+    endDate: Joi.date().required()
+  }),
+};
