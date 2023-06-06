@@ -73,14 +73,16 @@ export const getDefault = async (vendorId) => {
     _id: vendorId,
     isDeleted: false,
   }).lean();
-  console.log(vendor, "venodrrrrrrrr");
+
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
-  vendor.defaultComposition.isDefault = true;
+  if (vendor.defaultComposition) {
+    vendor.defaultComposition.isDefault = true;
+  }
   return vendor.defaultComposition;
 };
 
