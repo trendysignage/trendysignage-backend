@@ -107,7 +107,6 @@ export const uptimeReport = async (deviceToken, timezone) => {
   const device = await Device.findOne({ deviceToken, isDeleted: false }).lean();
   if (device) {
     const screen = await Screen.findOne({ device: device._id }).lean();
-    await Screen.updateMany({});
     if (screen) {
       await screen.startUptimeTracking(timezone);
     }
