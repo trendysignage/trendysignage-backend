@@ -109,7 +109,7 @@ export const emit = async (value, content, data, type) => {
 export const uptimeReport = async (deviceToken, timezone) => {
   const device = await Device.findOne({ deviceToken, isDeleted: false }).lean();
   if (device) {
-    const screen = await Screen.findOne({ device: device._id }).lean();
+    const screen = await Screen.findOne({ device: device._id });
     if (screen) {
       await screen.startUptimeTracking(timezone);
     }
@@ -119,7 +119,7 @@ export const uptimeReport = async (deviceToken, timezone) => {
 export const stopTracking = async (deviceToken, timezone) => {
   const device = await Device.findOne({ deviceToken, isDeleted: false }).lean();
   if (device) {
-    const screen = await Screen.findOne({ device: device._id }).lean();
+    const screen = await Screen.findOne({ device: device._id });
     if (screen) {
       await screen.stopUptimeTracking(timezone);
       await screen.save();

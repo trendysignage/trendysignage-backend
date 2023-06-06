@@ -65,6 +65,7 @@ export const connectSocket = (server) => {
       const vendorId = await socketService.getVendor(deviceToken);
       if (vendorId) {
         const defaultContent = await socketService.getDefault(vendorId);
+        defaultContent
         console.log("emitteddd", defaultContent);
         io.to(id).emit("receiveContent", defaultContent);
       }
