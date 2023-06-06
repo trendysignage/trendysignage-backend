@@ -6,6 +6,7 @@ import {
 import { Vendor, Device, Screen } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { io, userCache } from "../libs/socket.js";
+const screen = new Screen();
 
 export const getVendor = async (deviceToken) => {
   const device = await Device.findOne({
