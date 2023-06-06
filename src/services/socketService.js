@@ -108,7 +108,7 @@ export const uptimeReport = async (deviceToken, timezone) => {
   if (device) {
     const screen = await Screen.findOne({ device: device._id }).lean();
     if (screen) {
-      await screen.startUptimeTracking(timezone);
+      await screen.startUptimeTracking("Asia/Kolkata");
     }
   }
 };
