@@ -51,7 +51,7 @@ const screenSchema = new mongoose.Schema(
 
 screenSchema.methods.startUptimeTracking = function (timezone) {
   if (!this.isConnected) {
-    this.connectionStartTime = new Date(localtime(new Date(), timezone));
+    this.connectionStartTime = localtime(new Date(), timezone);
     this.isConnected = true;
   }
   return this.save();
