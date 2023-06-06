@@ -108,7 +108,7 @@ export const uptimeReport = async (deviceToken, timezone) => {
   if (device) {
     const screen = await Screen.findOne({ device: device._id }).lean();
     if (screen) {
-      screen.startUptimeTracking(timezone);
+      await screen.startUptimeTracking(timezone);
     }
   }
 };
@@ -118,7 +118,7 @@ export const stopTracking = async (deviceToken, timezone) => {
   if (device) {
     const screen = await Screen.findOne({ device: device._id }).lean();
     if (screen) {
-      screen.stopUptimeTracking(timezone);
+      await screen.stopUptimeTracking(timezone);
       await screen.save();
     }
   }
