@@ -1,14 +1,15 @@
 import { STATUS_CODES, ERROR_MESSAGES } from "../config/appConstants.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { Logs } from "../models/index.js";
-import { utcTime } from "../utils/formatResponse.js";
+import { localtime, utcTime } from "../utils/formatResponse.js";
 import { paginationOptions } from "../utils/universalFunction.js";
 
 export const createLog = async (vendorId, data, timezone) => {
+  let createdAt = utcTime(new Date(), timezone);
   const log = await Logs.create({
     vendor: vendorId,
     title: data,
-    createdAt: utcTime(new Date(), timezone),
+    createdAt,
   });
   if (!log) {
     throw new AuthFailedError(
@@ -19,7 +20,7 @@ export const createLog = async (vendorId, data, timezone) => {
   return log;
 };
 
-export const getLogs = async (vendorId, query) => {
+export const getLogs = async (vendorId, query, timezone) => {
   const logs = await Logs.find(
     {
       vendor: vendorId,
@@ -29,6 +30,8 @@ export const getLogs = async (vendorId, query) => {
     {},
     paginationOptions(query.page, query.limit)
   ).lean();
-
+  logs.map((log) => {
+    log.createdAt = localtime(log.createdAt, timezone);
+  });
   return logs;
 };

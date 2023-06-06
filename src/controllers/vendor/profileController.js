@@ -73,7 +73,11 @@ export const editRole = catchAsync(async (req, res) => {
 });
 
 export const auditReport = catchAsync(async (req, res) => {
-  const logs = await logService.getLogs(req.token.vendor._id, req.query);
+  const logs = await logService.getLogs(
+    req.token.vendor._id,
+    req.query,
+    req.headers.timezone
+  );
   // await logService.createLog(
   //   req.token.vendor._id,
   //   SUCCESS_MESSAGES.GET_AUDIT_LOGS,
