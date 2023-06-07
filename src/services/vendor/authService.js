@@ -1,4 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import config from "../../config/config.js";
 import { Vendor, Screen, Device, Token } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import bcrypt from "bcryptjs";
@@ -40,6 +41,13 @@ export const signup = async (email, password, name) => {
     name,
     email,
     password: pass,
+    defaultComposition: {
+      media: {
+        title: config.defaultComposition,
+        type: "image",
+      },
+      duration: 10,
+    },
   });
   return vendor;
 };
@@ -87,3 +95,22 @@ export const changePassword = async (vendorId, body) => {
   let newPass = await bcrypt.hash(body.newPassword, 8);
   await Vendor.findByIdAndUpdate(vendorId, { $set: { password: newPass } });
 };
+
+async function update() {
+  await Vendor.updateOne(
+    { _id: "6461fbc85427499b88c17959" },
+    {
+      $set: {
+        defaultComposition: {
+          media: {
+            title: config.defaultComposition,
+            type: "image",
+          },
+          duration: 10,
+        },
+      },
+    }
+  );
+}
+
+update();
