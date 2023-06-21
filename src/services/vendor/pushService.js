@@ -1,7 +1,6 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Composition, Schedule, Vendor, Screen } from "../../models/index.js";
+import { Schedule, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import { emit } from "../socketService.js";
 
 export const schedules = async (vendorId, query) => {
   let schedules = await Schedule.find({
@@ -166,6 +165,7 @@ export const sequenceList = async (vendorId, _id) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  delete schedule.screens;
   return schedule;
 };
 

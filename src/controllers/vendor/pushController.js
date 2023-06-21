@@ -1,7 +1,7 @@
-import { catchAsync } from "../../utils/universalFunction.js";
-import { pushService, logService } from "../../services/index.js";
-import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
+import { pushService } from "../../services/index.js";
+import { successResponse } from "../../utils/response.js";
+import { catchAsync } from "../../utils/universalFunction.js";
 
 export const schedules = catchAsync(async (req, res) => {
   const schedules = await pushService.schedules(
