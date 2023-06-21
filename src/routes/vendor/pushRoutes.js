@@ -20,6 +20,11 @@ router
   .delete(validate(pushValidation.getSchedule), pushController.deleteSchedule);
 
 router
+  .route("/sequenceList")
+  .all(auth())
+  .get(validate(pushValidation.getSchedule), pushController.sequenceList);
+
+router
   .route("/sequence")
   .all(auth())
   .get(validate(pushValidation.deleteSequence), pushController.getSequence)

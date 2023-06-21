@@ -149,6 +149,26 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
   );
 };
 
+export const sequenceList = async (vendorId, _id) => {
+  const schedule = await Schedule.findOne(
+    {
+      _id,
+      isDeleted: false,
+    },
+    { sequence: 1, screens: 1 }
+  )
+    .lean()
+    .populate([{ path: "sequence.timings.composition" }, { path: "screens" }]);
+
+  if (!schedule) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  return schedule;
+};
+
 export const getSequence = async (query) => {
   const schedule = await Schedule.findOne(
     {

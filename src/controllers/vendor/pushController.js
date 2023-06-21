@@ -77,6 +77,20 @@ export const deleteSchedule = catchAsync(async (req, res) => {
   );
 });
 
+export const sequenceList = catchAsync(async (req, res) => {
+  const sequences = await pushService.sequenceList(
+    req.token.vendor._id,
+    req.query.scheduleId
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    sequences
+  );
+});
+
 export const getSequence = catchAsync(async (req, res) => {
   const sequence = await pushService.getSequence(req.query);
   return successResponse(
