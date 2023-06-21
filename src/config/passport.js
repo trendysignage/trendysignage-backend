@@ -1,8 +1,8 @@
-import { Strategy, ExtractJwt } from "passport-jwt";
-import config from "./config.js";
-import { TOKEN_TYPE, USER_TYPE } from "./appConstants.js";
+import { ExtractJwt, Strategy } from "passport-jwt";
 import { Token } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
+import { TOKEN_TYPE, USER_TYPE } from "./appConstants.js";
+import config from "./config.js";
 
 const jwtOptions = {
   secretOrKey: config.jwt.secret,

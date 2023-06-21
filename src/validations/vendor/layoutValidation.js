@@ -1,6 +1,5 @@
 import Joi from "joi";
 import { JOI, MEDIA_TYPE } from "../../config/appConstants.js";
-import { objectId } from "../custom.validation.js";
 
 export const addLayout = {
   body: Joi.object().keys({

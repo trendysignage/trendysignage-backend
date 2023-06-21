@@ -1,21 +1,20 @@
 import {
-  vendorAuthService,
-  tokenService,
-  profileService,
-  logService,
-} from "../../services/index.js";
-import { successResponse } from "../../utils/response.js";
-import {
   ERROR_MESSAGES,
   STATUS_CODES,
   SUCCESS_MESSAGES,
   USER_TYPE,
 } from "../../config/appConstants.js";
-import { catchAsync, generateOtp } from "../../utils/universalFunction.js";
-import { formatVendor } from "../../utils/formatResponse.js";
-import { sendEmail, forgotPasswordEmail } from "../../libs/sendEmail.js";
-import { AuthFailedError } from "../../utils/errors.js";
 import config from "../../config/config.js";
+import { forgotPasswordEmail } from "../../libs/sendEmail.js";
+import {
+  profileService,
+  tokenService,
+  vendorAuthService,
+} from "../../services/index.js";
+import { AuthFailedError } from "../../utils/errors.js";
+import { formatVendor } from "../../utils/formatResponse.js";
+import { successResponse } from "../../utils/response.js";
+import { catchAsync, generateOtp } from "../../utils/universalFunction.js";
 
 export const login = catchAsync(async (req, res) => {
   let { email, password } = req.body;

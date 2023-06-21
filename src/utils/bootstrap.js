@@ -1,4 +1,4 @@
-import { Token, Admin, Vendor } from "../models/index.js";
+import { Admin, Vendor } from "../models/index.js";
 
 const Run = async () => {
   /*-------------------------------------------------------------------------------

@@ -5,7 +5,6 @@ import {
   generateId,
   paginationOptions,
 } from "../../utils/universalFunction.js";
-import { escapeRegex } from "../../validations/custom.validation.js";
 
 export const list = async (query) => {
   let data = { isDeleted: false };

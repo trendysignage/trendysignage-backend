@@ -1,15 +1,19 @@
+import compression from "compression";
+import cors from "cors";
 import express from "express";
 import mongoSanitize from "express-mongo-sanitize";
-import cors from "cors";
-import passport from "passport";
 import morgan from "morgan";
-import compression from "compression";
-import { jwtStrategy } from "./config/passport.js";
-import routes from "./routes/index.js";
-import { errorHandler, authLimiter } from "./middlewares/common.js";
-import i18n from "./middlewares/i18n.js";
-import { requestHandler, routeNotFoundHandler } from "./middlewares/common.js";
+import passport from "passport";
 import path from "path";
+import { jwtStrategy } from "./config/passport.js";
+import {
+  authLimiter,
+  errorHandler,
+  requestHandler,
+  routeNotFoundHandler,
+} from "./middlewares/common.js";
+import i18n from "./middlewares/i18n.js";
+import routes from "./routes/index.js";
 const __dirname = path.resolve();
 
 const app = express();

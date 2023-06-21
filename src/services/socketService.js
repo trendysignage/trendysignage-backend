@@ -1,12 +1,11 @@
 import {
+  CONTENT_TYPE,
   ERROR_MESSAGES,
   STATUS_CODES,
-  CONTENT_TYPE,
 } from "../config/appConstants.js";
-import { Vendor, Device, Screen } from "../models/index.js";
-import { AuthFailedError } from "../utils/errors.js";
 import { io, userCache } from "../libs/socket.js";
-const screen = new Screen();
+import { Device, Screen, Vendor } from "../models/index.js";
+import { AuthFailedError } from "../utils/errors.js";
 
 export const getVendor = async (deviceToken) => {
   const device = await Device.findOne({

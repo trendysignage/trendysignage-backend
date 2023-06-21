@@ -1,11 +1,5 @@
 import Joi from "joi";
-import {
-  JOI,
-  MEDIA_TYPE,
-  ROLE,
-  editRoleSchema,
-} from "../../config/appConstants.js";
-import { objectId } from "../custom.validation.js";
+import { JOI, editRoleSchema } from "../../config/appConstants.js";
 
 export const defaultComposition = {
   body: Joi.object().keys({
@@ -37,6 +31,6 @@ export const auditReport = {
     page: JOI.PAGE,
     limit: JOI.LIMIT,
     startDate: Joi.date().required(),
-    endDate: Joi.date().required()
+    endDate: Joi.date().required(),
   }),
 };

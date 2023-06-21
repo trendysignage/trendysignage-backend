@@ -1,6 +1,5 @@
 import Joi from "joi";
-import { JOI, MEDIA_TYPE } from "../../config/appConstants.js";
-import { objectId } from "../custom.validation.js";
+import { JOI } from "../../config/appConstants.js";
 
 export const deviceCode = {
   body: Joi.object().keys({

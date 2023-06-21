@@ -1,8 +1,8 @@
+import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import config from "../../config/config.js";
-import { Vendor, Screen, Device, Token } from "../../models/index.js";
+import { Token, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import bcrypt from "bcryptjs";
 import { generateId } from "../../utils/universalFunction.js";
 
 export const login = async (email, password) => {

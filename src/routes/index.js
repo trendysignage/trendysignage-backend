@@ -1,14 +1,14 @@
 import express from "express";
 
-import displayRoute from "./vendor/displayRoutes.js";
+import adminAuthRoute from "./admin/authRoutes.js";
+import adminResellerRoute from "./admin/resellerRoutes.js";
+import adminVendorRoute from "./admin/vendorRoutes.js";
 import deviceRoute from "./device/deviceRoutes.js";
 import vendorAuth from "./vendor/authRoutes.js";
-import profileRoute from "./vendor/profileRoutes.js";
+import displayRoute from "./vendor/displayRoutes.js";
 import layoutRoute from "./vendor/layoutRoutes.js";
+import profileRoute from "./vendor/profileRoutes.js";
 import pushRoute from "./vendor/pushRoutes.js";
-import adminAuthRoute from "./admin/authRoutes.js";
-import adminVendorRoute from "./admin/vendorRoutes.js";
-import adminResellerRoute from "./admin/resellerRoutes.js";
 
 const router = express.Router();
 

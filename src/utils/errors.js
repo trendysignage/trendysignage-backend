@@ -1,6 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../config/appConstants.js";
 
-
 class ValidationError extends Error {
   constructor(
     data,
@@ -61,4 +60,4 @@ class AuthFailedError extends Error {
   }
 }
 
-export { ValidationError, OperationalError, NotFoundError, AuthFailedError };
+export { AuthFailedError, NotFoundError, OperationalError, ValidationError };

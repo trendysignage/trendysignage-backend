@@ -1,8 +1,8 @@
-import { catchAsync } from "../../utils/universalFunction.js";
-import { layoutService, logService } from "../../services/index.js";
-import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
+import { layoutService } from "../../services/index.js";
 import { formatVendor } from "../../utils/formatResponse.js";
+import { successResponse } from "../../utils/response.js";
+import { catchAsync } from "../../utils/universalFunction.js";
 
 export const layouts = catchAsync(async (req, res) => {
   const layouts = await layoutService.layouts();

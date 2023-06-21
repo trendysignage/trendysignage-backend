@@ -1,5 +1,5 @@
-import Joi from "joi";
 import dotenv from "dotenv";
+import Joi from "joi";
 import path from "path";
 const __dirname = path.resolve();
 

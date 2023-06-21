@@ -21,4 +21,4 @@ const password = (value, helpers) => {
   return value;
 };
 
-export { objectId, password, escapeRegex };
+export { escapeRegex, objectId, password };

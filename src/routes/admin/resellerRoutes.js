@@ -1,9 +1,9 @@
 import express from "express";
-import { validate } from "../../middlewares/validate.js";
-import { adminResellerController } from "../../controllers/index.js";
-import { adminResellerValidation } from "../../validations/index.js";
 import { USER_TYPE } from "../../config/appConstants.js";
+import { adminResellerController } from "../../controllers/index.js";
 import auth from "../../middlewares/auth.js";
+import { validate } from "../../middlewares/validate.js";
+import { adminResellerValidation } from "../../validations/index.js";
 
 const router = express.Router();
 

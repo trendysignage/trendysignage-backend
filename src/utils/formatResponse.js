@@ -26,4 +26,4 @@ const formatAdmin = (admin) => {
   delete admin.password;
 };
 
-export { converStringToDate, localtime, utcTime, formatVendor, formatAdmin };
+export { converStringToDate, formatAdmin, formatVendor, localtime, utcTime };

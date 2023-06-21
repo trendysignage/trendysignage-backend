@@ -1,8 +1,8 @@
 import passport from "passport";
 import {
-  USER_TYPE,
   ERROR_MESSAGES,
   STATUS_CODES,
+  USER_TYPE,
 } from "../config/appConstants.js";
 import { AuthFailedError } from "../utils/errors.js";
 

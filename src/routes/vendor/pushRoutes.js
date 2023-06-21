@@ -1,7 +1,7 @@
 import express from "express";
-import { validate } from "../../middlewares/validate.js";
-import auth from "../../middlewares/auth.js";
 import { pushController } from "../../controllers/index.js";
+import auth from "../../middlewares/auth.js";
+import { validate } from "../../middlewares/validate.js";
 import { pushValidation } from "../../validations/index.js";
 
 const router = express.Router();

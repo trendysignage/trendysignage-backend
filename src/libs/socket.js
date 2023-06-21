@@ -1,14 +1,8 @@
 import { Server } from "socket.io";
-import jwt from "jsonwebtoken";
-import config from "../config/config.js";
-import {
-  ERROR_MESSAGES,
-  STATUS_CODES,
-  USER_TYPE,
-} from "../config/appConstants.js";
+import { ERROR_MESSAGES, STATUS_CODES } from "../config/appConstants.js";
+import { Device } from "../models/index.js";
 import { socketService } from "../services/index.js";
 import { AuthFailedError } from "../utils/errors.js";
-import { Token, Vendor, Device } from "../models/index.js";
 const io = new Server();
 
 let userCache = {};

@@ -1,8 +1,8 @@
-import { catchAsync } from "../../utils/universalFunction.js";
-import { profileService, logService } from "../../services/index.js";
-import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
+import { logService, profileService } from "../../services/index.js";
 import { formatVendor } from "../../utils/formatResponse.js";
+import { successResponse } from "../../utils/response.js";
+import { catchAsync } from "../../utils/universalFunction.js";
 
 export const defaultComposition = catchAsync(async (req, res) => {
   await profileService.defaultComposition(req.token.vendor._id, req.body);

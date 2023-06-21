@@ -1,9 +1,9 @@
 import express from "express";
-import { validate } from "../../middlewares/validate.js";
-import auth from "../../middlewares/auth.js";
 import { displayController } from "../../controllers/index.js";
-import { displayValidation } from "../../validations/index.js";
+import auth from "../../middlewares/auth.js";
 import upload from "../../middlewares/multer.js";
+import { validate } from "../../middlewares/validate.js";
+import { displayValidation } from "../../validations/index.js";
 
 const router = express.Router();
 

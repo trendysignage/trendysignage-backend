@@ -1,8 +1,8 @@
 import cron from "node-cron";
+import { STATUS_CODES } from "../config/appConstants.js";
 import { Device, Schedule, Screen } from "../models/index.js";
 import { emit } from "../services/socketService.js";
 import { AuthFailedError } from "../utils/errors.js";
-import { STATUS_CODES } from "../config/appConstants.js";
 
 const task = async (req, res) => {
   try {

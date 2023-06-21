@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-dotenv.config();
-import nodemailer from "nodemailer";
 import fs from "fs";
-import path from "path";
 import Handlebars from "handlebars";
+import nodemailer from "nodemailer";
+import path from "path";
 import config from "../config/config.js";
+dotenv.config();
 const __dirname = path.resolve();
 
 var resetPassword = fs.readFileSync(

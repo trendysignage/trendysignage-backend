@@ -58,9 +58,9 @@ const generateOtp = () => {
 
 export {
   catchAsync,
-  pick,
   generateDeviceCode,
+  generateId,
   generateOtp,
   paginationOptions,
-  generateId,
+  pick,
 };

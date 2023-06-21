@@ -1,13 +1,6 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import {
-  Vendor,
-  Screen,
-  Device,
-  Layout,
-  Composition,
-} from "../../models/index.js";
+import { Composition, Layout, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import { emit } from "../socketService.js";
 
 export const layouts = async () => {
   const layouts = await Layout.find({ isDeleted: false }).lean();

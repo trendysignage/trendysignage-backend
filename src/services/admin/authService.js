@@ -1,7 +1,7 @@
+import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Admin, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import bcrypt from "bcryptjs";
 
 export const login = async (email, password) => {
   const admin = await Admin.findOne({ email: email }).lean();

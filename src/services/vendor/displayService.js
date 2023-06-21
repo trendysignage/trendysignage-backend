@@ -1,8 +1,8 @@
+import path from "path";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Vendor, Screen, Device } from "../../models/index.js";
+import { Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { emit } from "../socketService.js";
-import path from "path";
 
 export const deviceCode = async (vendorId, code) => {
   if (

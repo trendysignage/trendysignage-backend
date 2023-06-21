@@ -1,15 +1,15 @@
-import moment from "moment";
 import jwt from "jsonwebtoken";
+import moment from "moment";
 import { ObjectId as ObjectID } from "mongodb";
-import config from "../config/config.js";
 import {
-  TOKEN_TYPE,
-  STATUS_CODES,
-  USER_TYPE,
   ERROR_MESSAGES,
+  STATUS_CODES,
+  TOKEN_TYPE,
+  USER_TYPE,
 } from "../config/appConstants.js";
-import { AuthFailedError } from "../utils/errors.js";
+import config from "../config/config.js";
 import { Token } from "../models/index.js";
+import { AuthFailedError } from "../utils/errors.js";
 import { profileService } from "./index.js";
 
 export const generateToken = (data, secret = config.jwt.secret) => {

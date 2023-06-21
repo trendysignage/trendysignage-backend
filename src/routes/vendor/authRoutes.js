@@ -1,10 +1,10 @@
 import express from "express";
-import { validate, validateView } from "../../middlewares/validate.js";
-import auth from "../../middlewares/auth.js";
 import {
   commonController,
   vendorAuthController,
 } from "../../controllers/index.js";
+import auth from "../../middlewares/auth.js";
+import { validate, validateView } from "../../middlewares/validate.js";
 import { vendorAuthValidation } from "../../validations/index.js";
 
 const router = express.Router();

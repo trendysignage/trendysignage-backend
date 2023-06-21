@@ -3,7 +3,7 @@ import {
   ERROR_MESSAGES,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import { Vendor, Device, Screen, Composition } from "../../models/index.js";
+import { Composition, Device, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const addDevice = async (deviceToken, code) => {

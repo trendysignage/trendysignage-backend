@@ -1,7 +1,7 @@
-import { catchAsync } from "../../utils/universalFunction.js";
-import { displayService, logService } from "../../services/index.js";
-import { successResponse } from "../../utils/response.js";
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
+import { displayService } from "../../services/index.js";
+import { successResponse } from "../../utils/response.js";
+import { catchAsync } from "../../utils/universalFunction.js";
 
 export const deviceCode = catchAsync(async (req, res) => {
   await displayService.deviceCode(req.token.vendor._id, req.body.code);
