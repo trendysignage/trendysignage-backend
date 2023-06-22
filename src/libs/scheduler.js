@@ -46,6 +46,7 @@ const task = async (req, res) => {
       }).lean();
 
       if (schedule) {
+        console.log("schedulleeee runninggggggggggg");
         schedule.sequence.map(async (seq) => {
           content = {
             media: seq?.timings[0]?.composition,
