@@ -45,7 +45,6 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
-      console.log("not yet workingggg", schedule);
       if (schedule) {
         console.log("schedulleeee runninggggggggggg");
         schedule.sequence.map(async (seq) => {
