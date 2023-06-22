@@ -315,6 +315,15 @@ export const publish = async (vendorId, body) => {
     )
       .lean()
       .populate({ path: "device" });
+
+    // const screen = await Screen.findOneAndUpdate(
+    //   { _id: id, isDeleted: false },
+    //   { $push: { contentPlaying: content } },
+    //   { new: true, lean: 1 }
+    // )
+    //   .lean()
+    //   .populate({ path: "device" });
+
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,

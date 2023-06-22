@@ -10,6 +10,7 @@ const task = async (req, res) => {
       isDeleted: false,
       schedule: { $exists: true },
     }).lean();
+
     for (const s of screens) {
       let schedule = await Schedule.findOne(
         {
@@ -35,14 +36,28 @@ const task = async (req, res) => {
             },
           },
         }
-      );
+      )
+        .populate({ path: "sequence.timings.composition" })
+        .lean();
+
       let device = await Device.findOne({
         _id: s.device,
         isDeleted: false,
       }).lean();
+
       if (schedule) {
-        console.log("emitting.......");
-        await emit(device.deviceToken, schedule.sequence);
+        schedule.sequence.map(async (seq) => {
+          content = {
+            media: seq?.timings[0]?.composition,
+            duration: body.duration,
+            type: "composition",
+            startTime: seq?.timings[0]?.startTime,
+            endTime: seq?.timings[0]?.endTime,
+            createdAt: new Date(),
+          };
+          console.log("emitting.......");
+          await emit(device.deviceToken, schedule.sequence);
+        });
       }
     }
   } catch (err) {
