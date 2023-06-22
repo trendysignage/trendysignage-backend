@@ -51,9 +51,9 @@ export const addDevice1 = async (deviceToken, code) => {
   } else {
     if (device.screen) {
       screen = await Screen.findOne(
-        { _id: device.screen, isDeleted: false },
-        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
-        { new: true, lean: 1 }
+        { _id: device.screen, isDeleted: false }
+        /* { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+        { new: true, lean: 1 } */
       );
       if (!screen) {
         throw new AuthFailedError(
