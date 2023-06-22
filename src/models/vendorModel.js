@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MEDIA_TYPE, ROLE, ROLES_SCHEMA } from "../config/appConstants.js";
+import { ROLE, ROLES_SCHEMA } from "../config/appConstants.js";
 
 const vendorSchema = new mongoose.Schema(
   {

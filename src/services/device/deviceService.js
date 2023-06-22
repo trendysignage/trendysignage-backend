@@ -51,9 +51,9 @@ export const addDevice1 = async (deviceToken, code) => {
   } else {
     if (device.screen) {
       screen = await Screen.findOne(
-        { _id: device.screen, isDeleted: false }
-        /* { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
-        { new: true, lean: 1 } */
+        { _id: device.screen, isDeleted: false },
+        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+        { new: true, lean: 1 }
       );
       if (!screen) {
         throw new AuthFailedError(
@@ -66,7 +66,7 @@ export const addDevice1 = async (deviceToken, code) => {
     device.composition = [];
     if (screen && screen.contentPlaying) {
       if (screen?.contentPlaying[0]?.type === CONTENT_TYPE.MEDIA) {
-        device.content = screen.contentPlaying ? screen.contentPlaying : [];
+        device.content = screen.contentPlaying ?? [];
       } else {
         const composition = await Composition.findById(
           screen?.contentPlaying[0]?.media
