@@ -173,7 +173,7 @@ export const getMedia = async (query, vendorId) => {
     .populate({
       path: "media.createdBy",
       select: ["_id", "name"],
-      options: paginationOptions(query.page, query.limit),
+      options: { skip: query.page * query.limit, limit: query.limit },
     });
 
   if (!vendor) {
