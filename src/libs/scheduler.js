@@ -46,7 +46,9 @@ const task = async (req, res) => {
       }).lean();
 
       console.log(new Date(), "schedule runninggg");
-      console.log(await Schedule.findById("64956b6244820ef3369f8cec"));
+      console.log(
+        await Schedule.findById("64956b6244820ef3369f8cec", { sequence: 1 })
+      );
       if (schedule) {
         schedule.sequence.map(async (seq) => {
           content = {
