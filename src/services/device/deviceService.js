@@ -33,6 +33,7 @@ export const addDevice = async (deviceToken, code) => {
         );
       }
       if (screen && screen.schedule) {
+        const timezone = "Asia/Kolkata";
         const currentTime = new Date(localtime(new Date(), timezone) + "Z");
 
         let schedule = await Schedule.findOne(
@@ -138,6 +139,8 @@ export const addDevice1 = async (deviceToken, code) => {
       }
     }
     if (screen && screen.schedule) {
+      const timezone = "Asia/Kolkata";
+
       const currentTime = new Date(localtime(new Date(), timezone) + "Z");
       let schedule = await Schedule.findOne(
         {
