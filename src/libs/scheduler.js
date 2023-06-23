@@ -20,8 +20,12 @@ const task = async (req, res) => {
           "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
           "sequence.timings": {
             $elemMatch: {
-              startTime: { $gte: localtime(new Date(), timezone) },
-              endTime: { $lte: localtime(new Date(), timezone) },
+              startTime: {
+                $gte: new Date(localtime(new Date(), timezone) + "Z"),
+              },
+              endTime: {
+                $lte: new Date(localtime(new Date(), timezone) + "Z"),
+              },
             },
           },
         },
@@ -31,8 +35,12 @@ const task = async (req, res) => {
               dates: { $in: [new Date().toISOString().split("T")[0]] },
               timings: {
                 $elemMatch: {
-                  startTime: { $gte: localtime(new Date(), timezone) },
-                  endTime: { $lte: localtime(new Date(), timezone) },
+                  startTime: {
+                    $gte: new Date(localtime(new Date(), timezone) + "Z"),
+                  },
+                  endTime: {
+                    $lte: new Date(localtime(new Date(), timezone) + "Z"),
+                  },
                 },
               },
             },
@@ -56,9 +64,10 @@ const task = async (req, res) => {
                 $in: [new Date().toISOString().split("T")[0]],
               },
               "sequence.timings.startTime": {
-                $gte: localtime(new Date(), timezone),
                 // $elemMatch: {
-                // startTime: { $gte: localtime(new Date(), timezone) },
+                startTime: {
+                  $gte: new Date(localtime(new Date(), timezone) + "Z"),
+                },
                 // endTime: { $lte: localtime(new Date(), timezone) },
                 // },
               },
