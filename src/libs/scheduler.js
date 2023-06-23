@@ -36,13 +36,17 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
-      console.log(JSON.stringify(schedule), "workingggf");
+      console.log(JSON.stringify(schedule), "workingggg");
 
       if (schedule) {
         schedule.sequence.map(async (seq) => {
+          let diffMiliSeconds = Math.abs(
+            seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
+          );
+          let diffSeconds = Math.floor(diffMiliSeconds / 1000);
           content = {
             media: seq?.timings[0]?.composition,
-            duration: body.duration,
+            duration: diffSeconds,
             type: "composition",
             startTime: seq?.timings[0]?.startTime,
             endTime: seq?.timings[0]?.endTime,
