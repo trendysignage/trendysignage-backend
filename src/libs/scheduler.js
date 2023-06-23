@@ -48,25 +48,7 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
-      console.log(
-        JSON.stringify(
-          await Schedule.findOne(
-            {
-              _id: "64956b6244820ef3369f8cec",
-              "sequence.dates": {
-                $in: [new Date().toISOString().split("T")[0]],
-              },
-              "sequence.timings": {
-                $elemMatch: {
-                  startTime: { $lte: currentTime },
-                  endTime: { $gte: currentTime },
-                },
-              },
-            },
-            { sequence: 1 }
-          )
-        )
-      );
+      console.log(schedule);
 
       if (schedule) {
         schedule.sequence.map(async (seq) => {
