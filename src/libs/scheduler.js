@@ -55,12 +55,12 @@ const task = async (req, res) => {
               "sequence.dates": {
                 $in: [new Date().toISOString().split("T")[0]],
               },
-              // "sequence.timings": {
-              //   $elemMatch: {
-              //     startTime: { $gte: localtime(new Date(), timezone) },
-              //     endTime: { $lte: localtime(new Date(), timezone) },
-              //   },
-              // },
+              "sequence.timings": {
+                $elemMatch: {
+                  startTime: { $gte: localtime(new Date(), timezone) },
+                  // endTime: { $lte: localtime(new Date(), timezone) },
+                },
+              },
             },
             { sequence: 1 }
           )
