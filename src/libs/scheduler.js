@@ -47,7 +47,11 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
-      console.log(localtime(new Date(), timezone));
+      console.log(
+        JSON.stringify(
+          await Schedule.findById("64956b6244820ef3369f8cec", { sequence: 1 })
+        )
+      );
 
       if (schedule) {
         schedule.sequence.map(async (seq) => {
