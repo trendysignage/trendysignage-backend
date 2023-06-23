@@ -3,9 +3,12 @@ import { STATUS_CODES } from "../config/appConstants.js";
 import { Device, Schedule, Screen } from "../models/index.js";
 import { emit } from "../services/socketService.js";
 import { AuthFailedError } from "../utils/errors.js";
+import { localtime, utcTime } from "../utils/formatResponse.js";
 
 const task = async (req, res) => {
   try {
+    console.log(req?.headers, "headerss incominggg");
+    const timezone = req?.headers?.timezone ?? "Asia/Kolkata";
     const screens = await Screen.find({
       isDeleted: false,
       schedule: { $exists: true },
@@ -18,8 +21,8 @@ const task = async (req, res) => {
           "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
           "sequence.timings": {
             $elemMatch: {
-              startTime: { $lte: new Date() },
-              endTime: { $gte: new Date() },
+              startTime: { $lte: localtime(new Date(), timezone) },
+              endTime: { $gte: localtime(new Date(), timezone) },
             },
           },
         },
@@ -29,8 +32,8 @@ const task = async (req, res) => {
               dates: { $in: [new Date().toISOString().split("T")[0]] },
               timings: {
                 $elemMatch: {
-                  startTime: { $lte: new Date() },
-                  endTime: { $gte: new Date() },
+                  startTime: { $lte: localtime(new Date(), timezone) },
+                  endTime: { $gte: localtime(new Date(), timezone) },
                 },
               },
             },
@@ -61,7 +64,7 @@ const task = async (req, res) => {
             type: "composition",
             startTime: seq?.timings[0]?.startTime,
             endTime: seq?.timings[0]?.endTime,
-            createdAt: new Date(),
+            createdAt: utcTime(new Date(), timezone),
           };
           console.log("emitting.......");
           await emit(device.deviceToken, schedule.sequence);
