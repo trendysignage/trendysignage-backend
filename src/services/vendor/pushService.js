@@ -223,7 +223,12 @@ export const addSequence = async (vendorId, body, timezone) => {
   return schedule;
 };
 
-export const editSequence = async (vendorId, body) => {
+export const editSequence = async (vendorId, body, timezone) => {
+  body.timings.forEach((i) => {
+    i.startTime = localtime(i.startTime, timezone);
+    i.endTime = localtime(i.endTime, timezone);
+  });
+
   const schedule = await Schedule.findOneAndUpdate(
     {
       _id: body.scheduleId,
