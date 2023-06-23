@@ -201,10 +201,12 @@ export const addSequence = async (vendorId, body, timezone) => {
     i.startTime = utcTime(i.startTime, timezone);
     i.endTime = utcTime(i.endTime, timezone);
   });
+
   let data = {
     name: body.name,
     timings: body.timings,
   };
+
   const schedule = await Schedule.findOneAndUpdate(
     {
       _id: body.scheduleId,
@@ -214,6 +216,7 @@ export const addSequence = async (vendorId, body, timezone) => {
     { $push: { sequence: data } },
     { new: true, lean: 1 }
   );
+
   if (!schedule) {
     throw new AuthFailedError(
       ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
