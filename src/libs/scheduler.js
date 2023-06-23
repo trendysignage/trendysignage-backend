@@ -53,7 +53,7 @@ const task = async (req, res) => {
             createdAt: utcTime(new Date(), timezone),
           };
           console.log("emitting.......");
-          await emit(device.deviceToken, schedule.sequence);
+          await emit(device.deviceToken, content);
         });
       }
     }
