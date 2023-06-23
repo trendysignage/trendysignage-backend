@@ -167,11 +167,7 @@ export const getMedia = async (query, vendorId) => {
     data = { ...data, "vendor.media": { $regex: { type: query.type } } };
   }
 
-  let vendor = await Vendor.findOne(
-    data,
-    {},
-    { sort: { "media.createdAt": -1 } }
-  )
+  let vendor = await Vendor.findOne(data)
     .lean()
     .select("media")
     .populate({
@@ -189,6 +185,8 @@ export const getMedia = async (query, vendorId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+
+  vendor.media = vendor.media.sort((a, b) => b.createdAt - a.createdAt);
 
   return vendor;
 };
