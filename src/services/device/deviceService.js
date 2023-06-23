@@ -60,6 +60,7 @@ export const addDevice = async (deviceToken, code) => {
               seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
             );
             let diffSeconds = Math.floor(diffMiliSeconds / 1000);
+
             content.push({
               media: seq?.timings[0]?.composition,
               duration: diffSeconds,
@@ -68,17 +69,18 @@ export const addDevice = async (deviceToken, code) => {
               endTime: seq?.timings[0]?.endTime,
               createdAt: utcTime(new Date(), timezone),
             });
-            if (device.content) {
-              device.content.push(JSON.parse(JSON.stringify(content)));
-            } else {
-              device.content = JSON.parse(JSON.stringify(content));
-            }
+
+            // if (device.content) {
+            //   device.content.push(JSON.parse(JSON.stringify(content)));
+            // } else {
+            //   device.content = JSON.parse(JSON.stringify(content));
+            // }
           });
         }
       }
     }
-    // device.content =
-    // screen && screen.contentPlaying ? screen.contentPlaying : [];
+    device.content =
+      screen && screen.contentPlaying ? screen.contentPlaying : [];
   }
   return device;
 };
@@ -162,21 +164,21 @@ export const addDevice1 = async (deviceToken, code) => {
     //     .populate({ path: "sequence.timings.composition" })
     //     .lean();
 
-    //   let content;
+    //   let content= [];
     //   if (schedule) {
     //     schedule.sequence.map(async (seq) => {
     //       let diffMiliSeconds = Math.abs(
     //         seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
     //       );
     //       let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-    //       content = {
+    //       content.push({
     //         media: seq?.timings[0]?.composition,
     //         duration: diffSeconds,
     //         type: "composition",
     //         startTime: seq?.timings[0]?.startTime,
     //         endTime: seq?.timings[0]?.endTime,
     //         createdAt: utcTime(new Date(), timezone),
-    //       };
+    //       });
     //       device.composition.push(JSON.parse(JSON.stringify(content)));
     //     });
     //   }

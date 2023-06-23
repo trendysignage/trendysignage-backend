@@ -36,21 +36,21 @@ const task = async (req, res) => {
         _id: s.device,
         isDeleted: false,
       }).lean();
-
+      let content = [];
       if (schedule) {
         schedule.sequence.map(async (seq) => {
           let diffMiliSeconds = Math.abs(
             seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
           );
           let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-          let content = {
+          content.push({
             media: seq?.timings[0]?.composition,
             duration: diffSeconds,
             type: "composition",
             startTime: seq?.timings[0]?.startTime,
             endTime: seq?.timings[0]?.endTime,
             createdAt: utcTime(new Date(), timezone),
-          };
+          });
           console.log("emitting.......");
           await emit(device.deviceToken, content);
         });
