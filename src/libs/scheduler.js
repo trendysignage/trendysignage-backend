@@ -58,10 +58,8 @@ const task = async (req, res) => {
               },
               "sequence.timings": {
                 $elemMatch: {
-                  startTime: {
-                    $gte: new Date(localtime(new Date(), timezone) + "Z"),
-                  },
-                  // endTime: { $lte: localtime(new Date(), timezone) },
+                  startTime: { $gte: currentTime },
+                  endTime: { $lte: currentTime },
                 },
               },
             },
