@@ -36,7 +36,7 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
-      console.log(schedule);
+      console.log(JSON.stringify(schedule), "workingggf");
 
       if (schedule) {
         schedule.sequence.map(async (seq) => {
