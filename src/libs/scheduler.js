@@ -49,7 +49,21 @@ const task = async (req, res) => {
 
       console.log(
         JSON.stringify(
-          await Schedule.findById("64956b6244820ef3369f8cec", { sequence: 1 })
+          await Schedule.findOne(
+            {
+              _id: "64956b6244820ef3369f8cec",
+              "sequence.dates": {
+                $in: [new Date().toISOString().split("T")[0]],
+              },
+              "sequence.timings": {
+                $elemMatch: {
+                  startTime: { $gte: localtime(new Date(), timezone) },
+                  endTime: { $lte: localtime(new Date(), timezone) },
+                },
+              },
+            },
+            { sequence: 1 }
+          )
         )
       );
 
