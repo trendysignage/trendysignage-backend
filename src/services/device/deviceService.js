@@ -52,7 +52,7 @@ export const addDevice = async (deviceToken, code) => {
           .populate({ path: "sequence.timings.composition" })
           .lean();
 
-        let content;
+        let content = [];
 
         if (schedule) {
           schedule?.sequence?.map(async (seq) => {
@@ -60,14 +60,14 @@ export const addDevice = async (deviceToken, code) => {
               seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
             );
             let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-            content = {
+            content.push({
               media: seq?.timings[0]?.composition,
               duration: diffSeconds,
               type: "composition",
               startTime: seq?.timings[0]?.startTime,
               endTime: seq?.timings[0]?.endTime,
               createdAt: utcTime(new Date(), timezone),
-            };
+            });
             if (device.content) {
               device.content.push(JSON.parse(JSON.stringify(content)));
             } else {
