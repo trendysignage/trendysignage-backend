@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import app from "./app.js";
 import config from "./config/config.js";
-// import "./libs/scheduler.js";
+import "./libs/scheduler.js";
 import * as socket from "./libs/socket.js";
 import CreateAdmin from "./utils/bootstrap.js";
 
