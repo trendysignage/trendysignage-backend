@@ -20,8 +20,8 @@ const task = async (req, res) => {
           "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
           "sequence.timings": {
             $elemMatch: {
-              startTime: { $lte: localtime(new Date(), timezone) },
-              endTime: { $gte: localtime(new Date(), timezone) },
+              startTime: { $gte: localtime(new Date(), timezone) },
+              endTime: { $lte: localtime(new Date(), timezone) },
             },
           },
         },
@@ -31,8 +31,8 @@ const task = async (req, res) => {
               dates: { $in: [new Date().toISOString().split("T")[0]] },
               timings: {
                 $elemMatch: {
-                  startTime: { $lte: localtime(new Date(), timezone) },
-                  endTime: { $gte: localtime(new Date(), timezone) },
+                  startTime: { $gte: localtime(new Date(), timezone) },
+                  endTime: { $lte: localtime(new Date(), timezone) },
                 },
               },
             },
@@ -46,12 +46,6 @@ const task = async (req, res) => {
         _id: s.device,
         isDeleted: false,
       }).lean();
-
-      console.log(
-        JSON.stringify(
-          await Schedule.findById("64956b6244820ef3369f8cec", { sequence: 1 })
-        )
-      );
 
       if (schedule) {
         schedule.sequence.map(async (seq) => {
