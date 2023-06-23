@@ -103,7 +103,8 @@ export const getSequence = catchAsync(async (req, res) => {
 });
 
 export const addSequence = catchAsync(async (req, res) => {
-  await pushService.addSequence(req.token.vendor._id, req.body);
+  const timezone = req.headers?.timezone ?? "Asia/Kolkata";
+  await pushService.addSequence(req.token.vendor._id, req.body, timezone);
   return successResponse(
     res,
     res,

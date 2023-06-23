@@ -1,6 +1,7 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Schedule, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { localtime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 
 export const schedules = async (vendorId, query) => {
@@ -195,7 +196,11 @@ export const getSequence = async (query) => {
   return schedule;
 };
 
-export const addSequence = async (vendorId, body) => {
+export const addSequence = async (vendorId, body, timezone) => {
+  body.timings.forEach((i) => {
+    i.startTime = localtime(i.startTime, timezone);
+    i.endTime = localtime(i.endTime, timezone);
+  });
   let data = {
     name: body.name,
     timings: body.timings,
