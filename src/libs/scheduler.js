@@ -64,12 +64,12 @@ const task = async (req, res) => {
                 $in: [new Date().toISOString().split("T")[0]],
               },
               "sequence.timings": {
-                // $elemMatch: {
-                startTime: {
-                  $gte: new Date(localtime(new Date(), timezone) + "Z"),
+                $elemMatch: {
+                  startTime: {
+                    $gte: new Date(localtime(new Date(), timezone) + "Z"),
+                  },
+                  // endTime: { $lte: localtime(new Date(), timezone) },
                 },
-                // endTime: { $lte: localtime(new Date(), timezone) },
-                // },
               },
             },
             { sequence: 1 }
