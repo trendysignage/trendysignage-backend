@@ -174,7 +174,6 @@ export const getMedia = async (query, vendorId) => {
       path: "media.createdBy",
       select: ["_id", "name"],
       options: {
-        sort: { _id: -1 },
         skip: query.page * query.limit,
         limit: query.limit,
       },
