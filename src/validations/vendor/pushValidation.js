@@ -4,6 +4,8 @@ import { JOI } from "../../config/appConstants.js";
 export const schedules = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),
+    page: JOI.PAGE,
+    limit: JOI.LIMIT,
   }),
 };
 

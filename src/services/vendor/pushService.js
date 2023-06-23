@@ -1,20 +1,24 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Schedule, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { paginationOptions } from "../../utils/universalFunction.js";
 
 export const schedules = async (vendorId, query) => {
-  let schedules = await Schedule.find({
+  let data = {
     createdBy: vendorId,
     isDeleted: false,
-  })
-    .lean()
-    .populate({ path: "sequence.timings.composition" });
+  };
 
   if (query.search) {
-    schedules = schedules.filter((s) =>
-      JSON.stringify(s.name.toLowerCase()).includes(query.search.toLowerCase())
-    );
+    let searchReg = RegExp(query.search, "i");
+    data = { ...data, name: { $regex: searchReg } };
   }
+
+  let schedules = await Schedule.find(
+    data,
+    {},
+    paginationOptions(query.page, query.limit)
+  ).populate({ path: "sequence.timings.composition" });
 
   return schedules;
 };
