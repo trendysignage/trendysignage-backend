@@ -47,6 +47,8 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
+      console.log(localtime(new Date(), timezone));
+
       if (schedule) {
         schedule.sequence.map(async (seq) => {
           content = {
