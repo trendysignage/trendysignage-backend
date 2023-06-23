@@ -130,7 +130,7 @@ export const addDevice1 = async (deviceToken, code) => {
           endTime: seq?.timings[0]?.endTime,
           createdAt: utcTime(new Date(), timezone),
         };
-        device.composition = JSON.parse(JSON.stringify(content));
+        device.composition.push(JSON.parse(JSON.stringify(content)));
       });
     }
   }
