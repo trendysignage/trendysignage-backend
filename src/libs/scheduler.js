@@ -7,7 +7,6 @@ import { localtime, utcTime } from "../utils/formatResponse.js";
 
 const task = async (req, res) => {
   try {
-    console.log(req?.headers, "headerss incominggg");
     const timezone = req?.headers?.timezone ?? "Asia/Kolkata";
     const screens = await Screen.find({
       isDeleted: false,
@@ -48,7 +47,7 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
-      console.log(new Date(), "schedule runninggg");
+      console.log(localtime(new Date(), "Asia/Kolkata"), "schedule runninggg");
       console.log(
         JSON.stringify(
           await Schedule.findById("64956b6244820ef3369f8cec", {
