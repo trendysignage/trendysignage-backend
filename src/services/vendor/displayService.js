@@ -2,6 +2,7 @@ import path from "path";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { paginationOptions } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
 
 export const deviceCode = async (vendorId, code) => {
@@ -25,20 +26,19 @@ export const deviceCode = async (vendorId, code) => {
 };
 
 export const getScreens = async (query, vendorId) => {
-  let screens = await Screen.find({
-    vendor: vendorId,
-    isDeleted: false,
-  })
-    .lean()
-    .populate({ path: "device" })
-    .sort({ createdAt: -1 })
-    .skip(query.page * query.limit)
-    .limit(query.limit);
+  let data = { vendor: vendorId, isDeleted: false };
+
   if (query.search) {
-    screens = screens.filter((i) =>
-      JSON.stringify(i.name.toLowerCase()).includes(query.search.toLowerCase())
-    );
+    let searchReg = RegExp(query.search, "i");
+    data = { ...data, name: { $regex: searchReg } };
   }
+
+  let screens = await Screen.find(
+    data,
+    {},
+    paginationOptions(query.page, query.limit)
+  ).sort({ createdAt: -1 });
+
   return screens;
 };
 
@@ -157,29 +157,32 @@ export const getScreen = async (screenId) => {
 };
 
 export const getMedia = async (query, vendorId) => {
-  let vendor = await Vendor.findById(vendorId)
+  let data = { _id: vendorId, isDeleted: false };
+
+  if (query.search) {
+    let searchReg = RegExp(query.search, "i");
+    data = { ...data, "vendor.media": { title: searchReg } };
+  }
+  if (query.type) {
+    data = { ...data, "vendor.media": { type: query.type } };
+  }
+
+  let vendor = await Vendor.findOne(data)
     .lean()
     .select("media")
     .populate({
       path: "media.createdBy",
       select: ["_id", "name"],
-      options: { skip: query.page * query.limit, limit: query.limit },
+      options: paginationOptions(query.page, query.limit),
     });
+
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
-  if (query.type) {
-    vendor.media = vendor.media.filter((i) => i.type == query.type);
-  }
-  if (query?.search) {
-    vendor.media = vendor.media.filter((i) =>
-      JSON.stringify(i.title.toLowerCase()).includes(query.search.toLowerCase())
-    );
-  }
-  // vendor.host = host;
+
   return vendor;
 };
 
