@@ -26,19 +26,7 @@ const task = async (req, res) => {
             },
           },
         },
-        {
-          sequence: {
-            $elemMatch: {
-              dates: { $in: [new Date().toISOString().split("T")[0]] },
-              timings: {
-                $elemMatch: {
-                  startTime: { $lte: currentTime },
-                  endTime: { $gte: currentTime },
-                },
-              },
-            },
-          },
-        }
+        { "sequence.timings.$": 1 }
       )
         .populate({ path: "sequence.timings.composition" })
         .lean();
