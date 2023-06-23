@@ -170,7 +170,7 @@ export const getMedia = async (query, vendorId) => {
   let vendor = await Vendor.findOne(data)
     .lean()
     .select("media")
-    .sort({ "media._id": -1 })
+    .sort({ "media.createdAt": -1 })
     .populate({
       path: "media.createdBy",
       select: ["_id", "name"],
