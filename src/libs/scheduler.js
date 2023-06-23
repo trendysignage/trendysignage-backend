@@ -44,7 +44,7 @@ const task = async (req, res) => {
             seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
           );
           let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-          content = {
+          let content = {
             media: seq?.timings[0]?.composition,
             duration: diffSeconds,
             type: "composition",
