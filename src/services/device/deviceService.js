@@ -31,6 +31,45 @@ export const addDevice = async (deviceToken, code) => {
           STATUS_CODES.ACTION_FAILED
         );
       }
+      if (screen && screen.schedule) {
+        const currentTime = new Date(localtime(new Date(), timezone) + "Z");
+
+        let schedule = await Schedule.findOne(
+          {
+            _id: screen.schedule,
+            "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
+            "sequence.timings": {
+              $elemMatch: {
+                startTime: { $lte: currentTime },
+                endTime: { $gte: currentTime },
+              },
+            },
+          },
+          { "sequence.timings.$": 1 }
+        )
+          .populate({ path: "sequence.timings.composition" })
+          .lean();
+
+        let content;
+
+        if (schedule) {
+          schedule?.sequence?.map(async (seq) => {
+            let diffMiliSeconds = Math.abs(
+              seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
+            );
+            let diffSeconds = Math.floor(diffMiliSeconds / 1000);
+            content = {
+              media: seq?.timings[0]?.composition,
+              duration: diffSeconds,
+              type: "composition",
+              startTime: seq?.timings[0]?.startTime,
+              endTime: seq?.timings[0]?.endTime,
+              createdAt: utcTime(new Date(), timezone),
+            };
+            device.content.push(JSON.parse(JSON.stringify(content)));
+          });
+        }
+      }
     }
     device.content =
       screen && screen.contentPlaying ? screen.contentPlaying : [];
@@ -116,22 +155,23 @@ export const addDevice1 = async (deviceToken, code) => {
         .lean();
 
       let content;
-
-      schedule.sequence.map(async (seq) => {
-        let diffMiliSeconds = Math.abs(
-          seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
-        );
-        let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-        content = {
-          media: seq?.timings[0]?.composition,
-          duration: diffSeconds,
-          type: "composition",
-          startTime: seq?.timings[0]?.startTime,
-          endTime: seq?.timings[0]?.endTime,
-          createdAt: utcTime(new Date(), timezone),
-        };
-        device.composition.push(JSON.parse(JSON.stringify(content)));
-      });
+      if (schedule) {
+        schedule.sequence.map(async (seq) => {
+          let diffMiliSeconds = Math.abs(
+            seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
+          );
+          let diffSeconds = Math.floor(diffMiliSeconds / 1000);
+          content = {
+            media: seq?.timings[0]?.composition,
+            duration: diffSeconds,
+            type: "composition",
+            startTime: seq?.timings[0]?.startTime,
+            endTime: seq?.timings[0]?.endTime,
+            createdAt: utcTime(new Date(), timezone),
+          };
+          device.composition.push(JSON.parse(JSON.stringify(content)));
+        });
+      }
     }
   }
 
