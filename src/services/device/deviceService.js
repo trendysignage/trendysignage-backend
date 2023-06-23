@@ -142,45 +142,45 @@ export const addDevice1 = async (deviceToken, code) => {
           : [];
       }
     }
-    if (screen && screen.schedule) {
-      const timezone = "Asia/Kolkata";
+    // if (screen && screen.schedule) {
+    //   const timezone = "Asia/Kolkata";
 
-      const currentTime = new Date(localtime(new Date(), timezone) + "Z");
-      let schedule = await Schedule.findOne(
-        {
-          _id: screen.schedule,
-          "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
-          "sequence.timings": {
-            $elemMatch: {
-              startTime: { $lte: currentTime },
-              endTime: { $gte: currentTime },
-            },
-          },
-        },
-        { "sequence.timings.$": 1 }
-      )
-        .populate({ path: "sequence.timings.composition" })
-        .lean();
+    //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
+    //   let schedule = await Schedule.findOne(
+    //     {
+    //       _id: screen.schedule,
+    //       "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
+    //       "sequence.timings": {
+    //         $elemMatch: {
+    //           startTime: { $lte: currentTime },
+    //           endTime: { $gte: currentTime },
+    //         },
+    //       },
+    //     },
+    //     { "sequence.timings.$": 1 }
+    //   )
+    //     .populate({ path: "sequence.timings.composition" })
+    //     .lean();
 
-      let content;
-      if (schedule) {
-        schedule.sequence.map(async (seq) => {
-          let diffMiliSeconds = Math.abs(
-            seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
-          );
-          let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-          content = {
-            media: seq?.timings[0]?.composition,
-            duration: diffSeconds,
-            type: "composition",
-            startTime: seq?.timings[0]?.startTime,
-            endTime: seq?.timings[0]?.endTime,
-            createdAt: utcTime(new Date(), timezone),
-          };
-          device.composition.push(JSON.parse(JSON.stringify(content)));
-        });
-      }
-    }
+    //   let content;
+    //   if (schedule) {
+    //     schedule.sequence.map(async (seq) => {
+    //       let diffMiliSeconds = Math.abs(
+    //         seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
+    //       );
+    //       let diffSeconds = Math.floor(diffMiliSeconds / 1000);
+    //       content = {
+    //         media: seq?.timings[0]?.composition,
+    //         duration: diffSeconds,
+    //         type: "composition",
+    //         startTime: seq?.timings[0]?.startTime,
+    //         endTime: seq?.timings[0]?.endTime,
+    //         createdAt: utcTime(new Date(), timezone),
+    //       };
+    //       device.composition.push(JSON.parse(JSON.stringify(content)));
+    //     });
+    //   }
+    // }
   }
 
   console.log(JSON.stringify(device));
