@@ -21,8 +21,8 @@ const task = async (req, res) => {
           "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
           "sequence.timings": {
             $elemMatch: {
-              startTime: { $gte: currentTime },
-              endTime: { $lte: currentTime },
+              startTime: { $lte: currentTime },
+              endTime: { $gte: currentTime },
             },
           },
         },
@@ -32,8 +32,8 @@ const task = async (req, res) => {
               dates: { $in: [new Date().toISOString().split("T")[0]] },
               timings: {
                 $elemMatch: {
-                  startTime: { $gte: currentTime },
-                  endTime: { $lte: currentTime },
+                  startTime: { $lte: currentTime },
+                  endTime: { $gte: currentTime },
                 },
               },
             },
