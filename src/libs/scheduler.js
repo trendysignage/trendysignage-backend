@@ -13,6 +13,7 @@ const task = async (req, res) => {
       schedule: { $exists: true },
     }).lean();
 
+    const currentTime = new Date(localtime(new Date(), timezone) + "Z");
     for (const s of screens) {
       let schedule = await Schedule.findOne(
         {
@@ -20,12 +21,8 @@ const task = async (req, res) => {
           "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
           "sequence.timings": {
             $elemMatch: {
-              startTime: {
-                $gte: new Date(localtime(new Date(), timezone) + "Z"),
-              },
-              endTime: {
-                $lte: new Date(localtime(new Date(), timezone) + "Z"),
-              },
+              startTime: { $gte: currentTime },
+              endTime: { $lte: currentTime },
             },
           },
         },
@@ -35,12 +32,8 @@ const task = async (req, res) => {
               dates: { $in: [new Date().toISOString().split("T")[0]] },
               timings: {
                 $elemMatch: {
-                  startTime: {
-                    $gte: new Date(localtime(new Date(), timezone) + "Z"),
-                  },
-                  endTime: {
-                    $lte: new Date(localtime(new Date(), timezone) + "Z"),
-                  },
+                  startTime: { $gte: currentTime },
+                  endTime: { $lte: currentTime },
                 },
               },
             },
