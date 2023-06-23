@@ -5,7 +5,7 @@ import {
 } from "../../config/appConstants.js";
 import { Composition, Device, Schedule, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import { localtime } from "../../utils/formatResponse.js";
+import { localtime, utcTime } from "../../utils/formatResponse.js";
 
 export const addDevice = async (deviceToken, code) => {
   let screen;
