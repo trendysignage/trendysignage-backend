@@ -14,6 +14,7 @@ const task = async (req, res) => {
     }).lean();
 
     const currentTime = new Date(localtime(new Date(), timezone) + "Z");
+
     for (const s of screens) {
       let schedule = await Schedule.findOne(
         {
@@ -35,8 +36,6 @@ const task = async (req, res) => {
         _id: s.device,
         isDeleted: false,
       }).lean();
-
-      console.log(JSON.stringify(schedule), "workingggg");
 
       if (schedule) {
         schedule.sequence.map(async (seq) => {
