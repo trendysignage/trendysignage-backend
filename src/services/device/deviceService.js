@@ -77,8 +77,8 @@ export const addDevice = async (deviceToken, code) => {
         }
       }
     }
-    device.content =
-      screen && screen.contentPlaying ? screen.contentPlaying : [];
+    // device.content =
+    //   screen && screen.contentPlaying ? screen.contentPlaying : [];
   }
   return device;
 };
