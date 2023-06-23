@@ -1,6 +1,7 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Composition, Layout, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { paginationOptions } from "../../utils/universalFunction.js";
 
 export const layouts = async () => {
   const layouts = await Layout.find({ isDeleted: false }).lean();
@@ -78,19 +79,19 @@ export const deleteLayout = async (vendorId, layoutId) => {
 };
 
 export const getCompositions = async (vendorId, query) => {
-  let compositions = await Composition.find({
-    createdBy: vendorId,
-    isDeleted: false,
-  })
-    .lean()
-    .populate({ path: "layout" })
-    .skip(query.page * query.limit)
-    .limit(query.limit);
+  let data = { createdBy: vendorId, isDeleted: false };
+
   if (query.search) {
-    compositions = compositions.filter((c) =>
-      JSON.stringify(c.name.toLowerCase()).includes(query.search.toLowerCase())
-    );
+    let searchReg = RegExp(query.search, "i");
+    data = { ...data, name: { $regex: searchReg } };
   }
+
+  let compositions = await Composition.find(
+    data,
+    {},
+    paginationOptions(query.page, query.limit)
+  ).populate({ path: "layout" });
+
   return compositions;
 };
 
