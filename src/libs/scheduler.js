@@ -38,7 +38,7 @@ const task = async (req, res) => {
       }).lean();
       let content = [];
       if (schedule) {
-        schedule.sequence.map(async (seq) => {
+        schedule.sequence?.map(async (seq) => {
           let diffMiliSeconds = Math.abs(
             seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
           );
