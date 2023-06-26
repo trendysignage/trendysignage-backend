@@ -1,8 +1,7 @@
 import { Server } from "socket.io";
-import { ERROR_MESSAGES, STATUS_CODES } from "../config/appConstants.js";
+import { ERROR_MESSAGES } from "../config/appConstants.js";
 import { Device } from "../models/index.js";
 import { socketService } from "../services/index.js";
-import { AuthFailedError } from "../utils/errors.js";
 const io = new Server();
 
 let userCache = {};
@@ -36,10 +35,7 @@ export const connectSocket = (server) => {
         isDeleted: false,
       }).lean();
       if (!device) {
-        throw new AuthFailedError(
-          ERROR_MESSAGES.DEVICE_NOT_FOUND,
-          STATUS_CODES.ACTION_FAILED
-        );
+        return next(new Error(ERROR_MESSAGES.DEVICE_NOT_FOUND));
       }
       let value = device.deviceToken;
       if (!userCache[value]) {
