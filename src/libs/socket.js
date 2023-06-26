@@ -25,7 +25,10 @@ export const connectSocket = (server) => {
   });
   io.use(async function (socket, next) {
     console.log("user is trying to connect");
-    if (socket.handshake.query.deviceToken) {
+    if (
+      socket.handshake.query.deviceToken &&
+      socket.handshake.query.deviceToken !== "undefined"
+    ) {
       console.log(socket.handshake.query);
       let deviceToken = socket.handshake.query.deviceToken;
       console.log("device entered", deviceToken);
