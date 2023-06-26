@@ -7,7 +7,7 @@ import { Composition, Device, Schedule, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime, utcTime } from "../../utils/formatResponse.js";
 
-export const addDevice = async (deviceToken, code) => {
+export const addDevice = async (deviceToken, code, timezone) => {
   let screen;
   let device = await Device.findOne({
     deviceToken: deviceToken,
@@ -33,7 +33,6 @@ export const addDevice = async (deviceToken, code) => {
         );
       }
       if (screen && screen.schedule) {
-        const timezone = "Asia/Kolkata";
         const currentTime = new Date(localtime(new Date(), timezone) + "Z");
 
         let schedule = await Schedule.findOne(
@@ -85,7 +84,7 @@ export const addDevice = async (deviceToken, code) => {
   return device;
 };
 
-export const addDevice1 = async (deviceToken, code) => {
+export const addDevice1 = async (deviceToken, code, timezone) => {
   let screen;
 
   let device = await Device.findOne({
@@ -145,7 +144,6 @@ export const addDevice1 = async (deviceToken, code) => {
       }
     }
     // if (screen && screen.schedule) {
-    //   const timezone = "Asia/Kolkata";
 
     //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
     //   let schedule = await Schedule.findOne(

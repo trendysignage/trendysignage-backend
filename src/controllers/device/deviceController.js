@@ -8,9 +8,11 @@ import {
 
 export const addDevice = catchAsync(async (req, res) => {
   const deviceCode = await generateDeviceCode();
+  const timezone = req.headers.timezone ?? "Asia/Kolkata";
   const device = await deviceService.addDevice(
     req.body.deviceToken,
-    deviceCode
+    deviceCode,
+    timezone
   );
   return successResponse(
     req,
@@ -23,9 +25,11 @@ export const addDevice = catchAsync(async (req, res) => {
 
 export const addDevice1 = catchAsync(async (req, res) => {
   const deviceCode = await generateDeviceCode();
+  const timezone = req.headers.timezone ?? "Asia/Kolkata";
   const device = await deviceService.addDevice1(
     req.body.deviceToken,
-    deviceCode
+    deviceCode,
+    timezone
   );
   return successResponse(
     req,
