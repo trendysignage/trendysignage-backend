@@ -281,8 +281,9 @@ export const deleteSequence = async (vendorId, query) => {
 };
 
 export const dates = async (vendorId, body) => {
+  let schedule;
   for (const seq of body.scheduleArray) {
-    const schedule = await Schedule.findOneAndUpdate(
+    schedule = await Schedule.findOneAndUpdate(
       {
         _id: body.scheduleId,
         createdBy: vendorId,
