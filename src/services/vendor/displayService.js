@@ -315,6 +315,7 @@ export const publish = async (vendorId, body) => {
     };
   }
   content.endTime.setSeconds(content.startTime.getSeconds() + body.duration);
+
   for (const id of body.screenIds) {
     const screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },

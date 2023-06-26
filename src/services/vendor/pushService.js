@@ -281,21 +281,25 @@ export const deleteSequence = async (vendorId, query) => {
 };
 
 export const dates = async (vendorId, body) => {
-  const schedule = await Schedule.findOneAndUpdate(
-    {
-      _id: body.scheduleId,
-      createdBy: vendorId,
-      "sequence._id": body.sequenceId,
-      isDeleted: false,
-    },
-    { $set: { "sequence.$.dates": body.dates } },
-    { new: true, lean: 1 }
-  );
-  if (!schedule) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
+  for (const seq of body.scheduleArray) {
+    const schedule = await Schedule.findOneAndUpdate(
+      {
+        _id: body.scheduleId,
+        createdBy: vendorId,
+        "sequence._id": seq.sequenceId,
+        isDeleted: false,
+      },
+      { $set: { "sequence.$.dates": seq.dates } },
+      { new: true, lean: 1 }
     );
+
+    if (!schedule) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
   }
+
   return schedule;
 };

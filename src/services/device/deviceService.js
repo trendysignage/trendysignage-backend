@@ -9,10 +9,12 @@ import { localtime, utcTime } from "../../utils/formatResponse.js";
 
 export const addDevice = async (deviceToken, code, timezone) => {
   let screen;
+
   let device = await Device.findOne({
     deviceToken: deviceToken,
     isDeleted: false,
   }).lean();
+
   if (!device) {
     device = await Device.create({
       deviceToken: deviceToken,
@@ -26,12 +28,14 @@ export const addDevice = async (deviceToken, code, timezone) => {
         { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
         { new: true, lean: 1 }
       ); */
+
       if (!screen) {
         throw new AuthFailedError(
           ERROR_MESSAGES.SCREEN_NOT_FOUND,
           STATUS_CODES.ACTION_FAILED
         );
       }
+
       if (screen && screen.schedule) {
         const currentTime = new Date(localtime(new Date(), timezone) + "Z");
 

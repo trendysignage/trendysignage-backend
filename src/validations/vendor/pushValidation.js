@@ -66,8 +66,10 @@ export const deleteSequence = {
 
 export const dates = {
   body: Joi.object().keys({
-    dates: Joi.array().items(Joi.date().required()).required(),
-    sequenceId: JOI.OBJECTID,
     scheduleId: JOI.OBJECTID,
+    scheduleArray: Joi.array().items({
+      sequenceId: JOI.OBJECTID,
+      dates: Joi.array().items(Joi.date().required()).required(),
+    }),
   }),
 };
