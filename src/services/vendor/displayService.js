@@ -37,7 +37,9 @@ export const getScreens = async (query, vendorId) => {
     data,
     {},
     paginationOptions(query.page, query.limit)
-  ).sort({ createdAt: -1 });
+  )
+    .sort({ createdAt: -1 })
+    .populate({ path: "device" });
 
   return screens;
 };
