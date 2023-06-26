@@ -26,8 +26,8 @@ export const connectSocket = (server) => {
   io.use(async function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query.deviceToken) {
-      console.log("device entered");
       let deviceToken = socket.handshake.query.deviceToken;
+      console.log("device entered", deviceToken);
       const device = await Device.findOne({
         deviceToken: deviceToken,
         isDeleted: false,
