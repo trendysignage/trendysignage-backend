@@ -49,7 +49,7 @@ export const connectSocket = (server) => {
     return next();
   }).on("connection", async (socket) => {
     let deviceToken = socket.handshake.query.deviceToken;
-    let timezone = /* socket.handshake.query.timezone */ "Asia/Kolkata";
+    let timezone = socket.handshake.query.timezone ?? "Asia/Kolkata";
     console.log(userCache, "userCachhheeeeee", deviceToken);
     userCache[deviceToken].map(async (id) => {
       const vendorId = await socketService.getVendor(deviceToken);
