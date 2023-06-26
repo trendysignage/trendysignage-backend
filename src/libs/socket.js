@@ -63,6 +63,7 @@ export const connectSocket = (server) => {
 
     socket.on("error", function (error) {
       console.error(error, "something went wrong in socket...");
+      return next(new Error(error));
     });
 
     socket.on("disconnect", async (data) => {
