@@ -48,7 +48,7 @@ export const connectSocket = (server) => {
         userCache[value].push(socket.id);
       }
     } else {
-      return next(new Error("Authentication error"));
+      throw new Error(ERROR_MESSAGES.AUTHENTICATION_FAILED);
     }
     return next();
   }).on("connection", async (socket) => {
