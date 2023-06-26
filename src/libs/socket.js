@@ -26,6 +26,7 @@ export const connectSocket = (server) => {
   io.use(async function (socket, next) {
     console.log("user is trying to connect");
     if (socket.handshake.query.deviceToken) {
+      console.log(socket.handshake.query);
       let deviceToken = socket.handshake.query.deviceToken;
       console.log("device entered", deviceToken);
       const device = await Device.findOne({
@@ -45,9 +46,9 @@ export const connectSocket = (server) => {
         userCache[value].push(socket.id);
       }
     } else {
-      throw new AuthFailedError(
+      throw new Error(
         ERROR_MESSAGES.AUTHENTICATION_FAILED,
-        STATUS_CODES.ACTION_FAILED
+        ERROR_MESSAGES.AUTHENTICATION_FAILED
       );
     }
     return next();
