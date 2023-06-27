@@ -226,9 +226,3 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
-
-async function up() {
-  await Screen.updateMany({}, { $unset: { schedule: "" } });
-}
-
-up();
