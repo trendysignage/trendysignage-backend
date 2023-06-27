@@ -86,7 +86,13 @@ export const addDevice = async (deviceToken, code, timezone) => {
 
     let screencontent = (screen && screen?.contentPlaying) ?? [];
 
-    console.log(screen, "fulllerrrr");
+    console.log(
+      await Screen.findOne(
+        { _id: "649b049f6dc989de54e60e88" },
+        { contentPlaying: 1 }
+      ),
+      "fulllerrrr"
+    );
 
     device.content = JSON.parse(JSON.stringify(content)) ?? screencontent ?? [];
   }
