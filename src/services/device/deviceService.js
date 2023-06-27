@@ -15,16 +15,15 @@ export const addDevice = async (deviceToken, code, timezone) => {
     isDeleted: false,
   }).lean();
 
-  console.log(device, "deviceeee");
   if (!device) {
     device = await Device.create({
       deviceToken: deviceToken,
       deviceCode: code,
     });
   } else {
-    device.content = [];
-    let content = [];
+    console.log(device.screen, "screeen");
     if (device.screen) {
+      let content = [];
       screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
       /*  screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
