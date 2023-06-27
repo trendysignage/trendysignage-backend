@@ -15,6 +15,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
     isDeleted: false,
   }).lean();
 
+  console.log(device, "deviceeee");
   if (!device) {
     device = await Device.create({
       deviceToken: deviceToken,
@@ -86,7 +87,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
 
     let screencontent = (screen && screen?.contentPlaying) ?? [];
 
-    console.log(screen, "fulllerrrr");
     device.content = JSON.parse(JSON.stringify(content)) ?? screencontent ?? [];
   }
   return device;
