@@ -22,6 +22,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
     });
   } else {
     device.content = [];
+    let content = [];
     if (device.screen) {
       screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
       /*  screen = await Screen.findOneAndUpdate(
@@ -36,7 +37,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
           STATUS_CODES.ACTION_FAILED
         );
       }
-      let content = [];
 
       if (screen && screen.schedule) {
         const currentTime = new Date(localtime(new Date(), timezone) + "Z");
