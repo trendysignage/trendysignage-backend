@@ -29,7 +29,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
         { new: true, lean: 1 }
       ); */
-      console.log(screen, "screeeeeen");
+
       if (!screen) {
         throw new AuthFailedError(
           ERROR_MESSAGES.SCREEN_NOT_FOUND,
@@ -84,7 +84,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
     }
 
     let screencontent = (screen && screen?.contentPlaying) ?? [];
-
+    console.log(screencontent, "contetntt");
     device.content = JSON.parse(JSON.stringify(content)) ?? screencontent ?? [];
   }
   return device;
