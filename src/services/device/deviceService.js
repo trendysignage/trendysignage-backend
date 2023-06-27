@@ -21,7 +21,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
       deviceCode: code,
     });
   } else {
-    console.log(device.screen, "screeen");
     let content = [];
     if (device.screen) {
       screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
@@ -30,7 +29,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
         { new: true, lean: 1 }
       ); */
-
+      console.log(screen, "screeeeeen");
       if (!screen) {
         throw new AuthFailedError(
           ERROR_MESSAGES.SCREEN_NOT_FOUND,
