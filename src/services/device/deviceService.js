@@ -21,6 +21,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
       deviceCode: code,
     });
   } else {
+    console.log(device, "deviceeeee");
     device.content = [];
     let content = [];
     if (device.screen) {
