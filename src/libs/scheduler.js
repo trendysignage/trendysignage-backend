@@ -65,13 +65,13 @@ const task = async (req, res) => {
         } else {
           console.log("emitting.......");
           await emit(device.deviceToken, content);
-          // await Screen.updateOne(
-          //   {
-          //     _id: s._id,
-          //   },
-          //   { $push: { contentPlaying: content } },
-          //   { new: 1, lean: 1 }
-          // );
+          await Screen.updateOne(
+            {
+              _id: s._id,
+            },
+            { $push: { contentPlaying: content } },
+            { new: 1, lean: 1 }
+          );
         }
       }
     }
@@ -81,6 +81,6 @@ const task = async (req, res) => {
   }
 };
 
-cron.schedule("*/2 * * * * *", task);
+cron.schedule("*/5 * * * *", task);
 
 export default cron;
