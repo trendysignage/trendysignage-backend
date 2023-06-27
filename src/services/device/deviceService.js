@@ -229,9 +229,3 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
-
-async function upp() {
-  await Screen.updateMany({}, { $set: { contentPlaying: [] } });
-}
-
-upp()
