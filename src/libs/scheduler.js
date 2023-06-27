@@ -54,8 +54,10 @@ const task = async (req, res) => {
         };
 
         if (
-          !JSON.stringify(s.contentPlaying)?.includes(JSON.stringify(content))
+          JSON.stringify(s.contentPlaying)?.includes(JSON.stringify(content))
         ) {
+          console.log("nottttt updating.......");
+        } else {
           console.log("emitting.......");
           await emit(device.deviceToken, content);
           await Screen.updateOne(
