@@ -21,7 +21,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
       deviceCode: code,
     });
   } else {
-    console.log(device, "deviceeeee");
     device.content = [];
     let content = [];
     if (device.screen) {
@@ -230,3 +229,9 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
+
+async function upp() {
+  await Screen.updateMany({}, { $set: { contentPlaying: [] } });
+}
+
+upp()
