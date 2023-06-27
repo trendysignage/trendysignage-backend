@@ -21,6 +21,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
       deviceCode: code,
     });
   } else {
+    device.content = [];
     if (device.screen) {
       screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
       /*  screen = await Screen.findOneAndUpdate(
@@ -64,26 +65,29 @@ export const addDevice = async (deviceToken, code, timezone) => {
             );
             let diffSeconds = Math.floor(diffMiliSeconds / 1000);
 
-            content.push({
-              media: seq?.timings[0]?.composition,
-              duration: diffSeconds,
-              type: "composition",
-              startTime: seq?.timings[0]?.startTime,
-              endTime: seq?.timings[0]?.endTime,
-              createdAt: utcTime(new Date(), timezone),
-            });
+            content = [
+              {
+                media: seq?.timings[0]?.composition,
+                duration: diffSeconds,
+                type: "composition",
+                startTime: seq?.timings[0]?.startTime,
+                endTime: seq?.timings[0]?.endTime,
+                createdAt: utcTime(new Date(), timezone),
+              },
+            ];
 
             // if (device.content) {
             //   device.content.push(JSON.parse(JSON.stringify(content)));
             // } else {
-            //   device.content = JSON.parse(JSON.stringify(content));
             // }
           });
         }
       }
     }
-    device.content =
+    let screencontent =
       screen && screen.contentPlaying ? screen.contentPlaying : [];
+
+    device.content = JSON.parse(JSON.stringify(content)) ?? screencontent;
   }
   return device;
 };
