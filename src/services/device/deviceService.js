@@ -133,6 +133,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       if (screen?.contentPlaying[0]?.type === CONTENT_TYPE.MEDIA) {
         device.content = screen.contentPlaying ?? [];
       } else {
+        console.log(screen.contentPlaying[0], "contetntt PLayinyyy");
         const composition = await Composition.findById(
           screen?.contentPlaying[0]?.media
         ).lean();
