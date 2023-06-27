@@ -22,8 +22,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
     });
   } else {
     console.log(device.screen, "screeen");
+    let content = [];
     if (device.screen) {
-      let content = [];
       screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
       /*  screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
