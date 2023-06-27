@@ -36,6 +36,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
           STATUS_CODES.ACTION_FAILED
         );
       }
+      let content = [];
 
       if (screen && screen.schedule) {
         const currentTime = new Date(localtime(new Date(), timezone) + "Z");
@@ -55,8 +56,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
         )
           .populate({ path: "sequence.timings.composition" })
           .lean();
-
-        let content = [];
 
         if (schedule) {
           schedule?.sequence?.map(async (seq) => {
