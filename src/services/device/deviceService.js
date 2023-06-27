@@ -226,12 +226,3 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
-
-async function upd() {
-  await Screen.updateOne(
-    { _id: "649b049f6dc989de54e60e88" },
-    { $unset: { schedule: "" } }
-  );
-}
-
-upd();
