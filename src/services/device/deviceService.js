@@ -84,8 +84,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
     }
 
     let screencontent = (screen && screen?.contentPlaying) ?? [];
-    console.log(screencontent, "contetntt");
     device.content = JSON.parse(JSON.stringify(content)) ?? screencontent ?? [];
+    console.log(content, "contetntt");
   }
   return device;
 };
