@@ -36,24 +36,36 @@ const task = async (req, res) => {
         _id: s.device,
         isDeleted: false,
       }).lean();
-      let content = [];
+
       if (schedule) {
-        schedule.sequence?.map(async (seq) => {
-          let diffMiliSeconds = Math.abs(
-            seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
-          );
-          let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-          content.push({
-            media: seq?.timings[0]?.composition,
-            duration: diffSeconds,
-            type: "composition",
-            startTime: seq?.timings[0]?.startTime,
-            endTime: seq?.timings[0]?.endTime,
-            createdAt: utcTime(new Date(), timezone),
-          });
+        let diffMiliSeconds = Math.abs(
+          schedule?.sequence[0]?.timings[0]?.startTime -
+            schedule?.sequence[0]?.timings[0]?.endTime
+        );
+        let diffSeconds = Math.floor(diffMiliSeconds / 1000);
+
+        let content = {
+          media: schedule?.sequence[0]?.timings[0]?.composition,
+          duration: diffSeconds,
+          type: "composition",
+          startTime: schedule?.sequence[0]?.timings[0]?.startTime,
+          endTime: schedule?.sequence[0]?.timings[0]?.endTime,
+          createdAt: utcTime(new Date(), timezone),
+        };
+
+        if (
+          !JSON.stringify(s.contentPlaying)?.includes(JSON.stringify(content))
+        ) {
           console.log("emitting.......");
           await emit(device.deviceToken, content);
-        });
+          await Screen.updateOne(
+            {
+              _id: s._id,
+            },
+            { $push: { contentPlaying: content } },
+            { new: 1, lean: 1 }
+          );
+        }
       }
     }
   } catch (err) {

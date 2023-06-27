@@ -83,10 +83,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
         }
       }
     }
-    let screencontent =
-      screen && screen.contentPlaying ? screen.contentPlaying : [];
+    let screencontent = screen?.contentPlaying ?? [];
 
-    device.content = JSON.parse(JSON.stringify(content)) ?? screencontent;
+    device.content = JSON.parse(JSON.stringify(content)) ?? screencontent ?? [];
   }
   return device;
 };
@@ -191,5 +190,39 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
   }
 
   console.log(JSON.stringify(device));
+  return device;
+};
+
+export const addDev = async (deviceToken, code, timezone) => {
+  let screen;
+
+  let device = await Device.findOne({
+    deviceToken: deviceToken,
+    isDeleted: false,
+  }).lean();
+
+  if (!device) {
+    device = await Device.create({
+      deviceToken: deviceToken,
+      deviceCode: code,
+    });
+  } else {
+    if (device.screen) {
+      // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });y
+      screen = await Screen.findOneAndUpdate(
+        { _id: device.screen, isDeleted: false },
+        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+        { new: true, lean: 1 }
+      );
+
+      if (!screen) {
+        throw new AuthFailedError(
+          ERROR_MESSAGES.SCREEN_NOT_FOUND,
+          STATUS_CODES.ACTION_FAILED
+        );
+      }
+    }
+    device.content = screen?.contentPlaying ?? [];
+  }
   return device;
 };
