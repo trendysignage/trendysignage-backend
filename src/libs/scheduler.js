@@ -53,6 +53,11 @@ const task = async (req, res) => {
           createdAt: utcTime(new Date(), timezone),
         };
 
+        console.log(
+          JSON.stringify(s.contentPlaying)?.includes(JSON.stringify(content)),
+          "iss working??"
+        );
+
         if (
           JSON.stringify(s.contentPlaying)?.includes(JSON.stringify(content))
         ) {
