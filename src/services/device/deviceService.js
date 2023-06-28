@@ -139,7 +139,9 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           device.content.push(item);
         } else {
           console.log(item, "contetntt PLayinyyy");
-          const composition = await Composition.findById(item?.media).lean();
+          const composition = await Composition.findById(
+            item?.media._id
+          ).lean();
 
           if (!composition) {
             throw new AuthFailedError(
@@ -148,13 +150,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
             );
           }
 
-          device.composition = JSON.parse(
-            JSON.stringify(screen.contentPlaying)
-          );
-
-          screen.contentPlaying
-            ? (device.composition[0].media = composition)
-            : [];
+          device.composition.push(item);
         }
       }
     }
