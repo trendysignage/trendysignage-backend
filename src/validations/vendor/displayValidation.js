@@ -86,7 +86,7 @@ export const publish = {
   body: Joi.object().keys({
     id: JOI.OBJECTID,
     type: Joi.string().valid("media", "composition").required(),
-    duration: Joi.number().default(600).min(600).required(),
+    duration: Joi.number().default(60).min(60).required(),
     screenIds: Joi.array().items(JOI.OBJECTID).required(),
   }),
 };
