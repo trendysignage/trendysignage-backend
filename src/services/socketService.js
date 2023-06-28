@@ -61,10 +61,10 @@ export const getContent = async (vendorId, mediaId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  vendor.media = vendor.media.filter(
+  vendor.media = vendor.media.find(
     (m) => JSON.stringify(m._id) === JSON.stringify(mediaId)
   );
-  return vendor.media[0];
+  return vendor.media;
 };
 
 export const getDefault = async (vendorId) => {
