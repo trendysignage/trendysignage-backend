@@ -36,7 +36,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         {
           $pull: {
             contentPlaying: {
-              endTime: { $lt: localtime(new Date(), timezone) },
+              endTime: { $lt: new Date(localtime(new Date(), timezone) + "Z") },
             },
           },
         },
@@ -128,22 +128,22 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
         device?.vendor?.defaultComposition?.media?.title;
     }
     if (device.screen) {
-      screen = await Screen.findOne({
-        _id: device.screen,
-        isDeleted: false,
-      });
+      // screen = await Screen.findOne({
+      //   _id: device.screen,
+      //   isDeleted: false,
+      // });
 
-      // screen = await Screen.findOneAndUpdate(
-      //   { _id: device.screen, isDeleted: false },
-      //   {
-      //     $pull: {
-      //       contentPlaying: {
-      //         endTime: { $lt: localtime(new Date(), timezone) },
-      //       },
-      //     },
-      //   },
-      //   { new: true, lean: 1 }
-      // );
+      screen = await Screen.findOneAndUpdate(
+        { _id: device.screen, isDeleted: false },
+        {
+          $pull: {
+            contentPlaying: {
+              endTime: { $lt: new Date(localtime(new Date(), timezone) + "Z") },
+            },
+          },
+        },
+        { new: true, lean: 1 }
+      );
 
       if (!screen) {
         throw new AuthFailedError(
