@@ -332,7 +332,7 @@ export const publish = async (vendorId, body, timezone) => {
 
     const screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },
-      { $push: contentPlaying },
+      { $push: { contentPlaying: contentPlaying } },
       { new: true, lean: 1 }
     )
       .lean()
