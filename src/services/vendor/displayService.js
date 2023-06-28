@@ -298,11 +298,17 @@ export const publish = async (vendorId, body, timezone) => {
     vendor.media = vendor.media.find(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
+    if (!vendor.media) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.WRONG_TYPE_OR_ID,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
     contentPlaying = {
       media: vendor.media,
       duration: body.duration,
-      startTime: new Date(localtime(new Date(), timezone) + "Z"),
       type: "media",
+      startTime: new Date(localtime(new Date(), timezone) + "Z"),
       endTime: new Date(localtime(new Date(), timezone) + "Z"),
       createdAt: new Date(localtime(new Date(), timezone) + "Z"),
     };
@@ -310,6 +316,12 @@ export const publish = async (vendorId, body, timezone) => {
     vendor.compositions = vendor.compositions.find(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
+    if (!vendor.compositions) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.WRONG_TYPE_OR_ID,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
     contentPlaying = {
       media: vendor.compositions,
       duration: body.duration,
