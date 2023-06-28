@@ -330,12 +330,12 @@ export const publish = async (vendorId, body, timezone) => {
 
     const screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },
-      { $push: { contentPlaying: content } },
+      { $push: { contentPlaying: { content } } },
       { new: true, lean: 1 }
     )
       .lean()
       .populate({ path: "device" });
-
+console.log(screen.contentPlaying, "contetnPLaying")
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,
