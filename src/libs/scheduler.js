@@ -16,6 +16,7 @@ const checkContent = (a, b) => {
 
 const task = async (req, res) => {
   try {
+    console.log("---------------------running cron task----------------------");
     const timezone = req?.headers?.timezone ?? "Asia/Kolkata";
     const screens = await Screen.find({
       isDeleted: false,
@@ -63,7 +64,6 @@ const task = async (req, res) => {
         };
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
-          console.log("emitting frommmmmmm schedullleeerrrrrr.......");
           await emit(device.deviceToken, content);
           await Screen.findOneAndUpdate(
             {
@@ -81,6 +81,6 @@ const task = async (req, res) => {
   }
 };
 
-cron.schedule("*/1 * * * *", task);
+cron.schedule("*/5 * * * * *", task);
 
 export default cron;
