@@ -13,7 +13,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
   let device = await Device.findOne({
     deviceToken: deviceToken,
     isDeleted: false,
-  }).lean();
+  })
+    .lean()
+    .populate({ path: "vendor" });
 
   if (!device) {
     device = await Device.create({
