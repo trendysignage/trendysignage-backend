@@ -6,6 +6,7 @@ import { AuthFailedError } from "../utils/errors.js";
 import { localtime, utcTime } from "../utils/formatResponse.js";
 
 const checkContent = (a, b) => {
+  console.log(a, b);
   return (
     a.media === b.media &&
     a.duration === b.duration &&
@@ -70,13 +71,13 @@ const task = async (req, res) => {
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("emitting.......");
           await emit(device.deviceToken, content);
-          await Screen.updateOne(
-            {
-              _id: s._id,
-            },
-            { $push: { contentPlaying: content } },
-            { new: 1, lean: 1 }
-          );
+          // await Screen.updateOne(
+          //   {
+          //     _id: s._id,
+          //   },
+          //   { $push: { contentPlaying: content } },
+          //   { new: 1, lean: 1 }
+          // );
         }
       }
     }
@@ -86,6 +87,6 @@ const task = async (req, res) => {
   }
 };
 
-// cron.schedule("*/1 * * * *", task);
+cron.schedule("*/2 * * * *", task);
 
 export default cron;
