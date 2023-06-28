@@ -64,7 +64,7 @@ const task = async (req, res) => {
         };
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
-          console.log("emitting.......");
+          console.log("emitting frommmmmmm schedullleeerrrrrr.......");
           await emit(device.deviceToken, content);
           await Screen.updateOne(
             {
