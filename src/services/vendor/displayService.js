@@ -2,7 +2,6 @@ import path from "path";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import { utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
 
@@ -299,10 +298,10 @@ export const publish = async (vendorId, body, timezone) => {
     contentPlaying = {
       media: vendor.media[0],
       duration: body.duration,
-      startTime: utcTime(new Date(), timezone),
+      startTime: localtime(new Date(), timezone),
       type: "media",
-      endTime: utcTime(new Date(), timezone),
-      createdAt: utcTime(new Date(), timezone),
+      endTime: localtime(new Date(), timezone),
+      createdAt: localtime(new Date(), timezone),
     };
   } else {
     vendor.compositions = vendor.compositions.filter(
@@ -312,9 +311,9 @@ export const publish = async (vendorId, body, timezone) => {
       media: vendor.compositions[0],
       duration: body.duration,
       type: "composition",
-      startTime: utcTime(new Date(), timezone),
-      endTime: utcTime(new Date(), timezone),
-      createdAt: utcTime(new Date(), timezone),
+      startTime: localtime(new Date(), timezone),
+      endTime: localtime(new Date(), timezone),
+      createdAt: localtime(new Date(), timezone),
     };
   }
 
