@@ -319,21 +319,21 @@ export const publish = async (vendorId, body) => {
   content.endTime.setSeconds(content.startTime.getSeconds() + body.duration);
 
   for (const id of body.screenIds) {
-    const screen = await Screen.findOneAndUpdate(
-      { _id: id, isDeleted: false },
-      { $set: { contentPlaying: content } },
-      { new: true, lean: 1 }
-    )
-      .lean()
-      .populate({ path: "device" });
-
     // const screen = await Screen.findOneAndUpdate(
     //   { _id: id, isDeleted: false },
-    //   { $push: { contentPlaying: content } },
+    //   { $set: { contentPlaying: content } },
     //   { new: true, lean: 1 }
     // )
     //   .lean()
     //   .populate({ path: "device" });
+
+    const screen = await Screen.findOneAndUpdate(
+      { _id: id, isDeleted: false },
+      { $push: { contentPlaying: content } },
+      { new: true, lean: 1 }
+    )
+      .lean()
+      .populate({ path: "device" });
 
     if (!screen) {
       throw new AuthFailedError(
