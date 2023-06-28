@@ -356,3 +356,8 @@ export const mediaFile = async (filePath) => {
   }
   return file;
 };
+
+async function uuu() {
+  await Screen.updateMany({}, { $set: { contentPlaying: [] } });
+}
+uuu;
