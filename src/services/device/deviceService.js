@@ -23,12 +23,12 @@ export const addDevice = async (deviceToken, code, timezone) => {
   } else {
     let content = [];
     if (device.screen) {
-      screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
-      /*  screen = await Screen.findOneAndUpdate(
+      // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
+      screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
         { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
         { new: true, lean: 1 }
-      ); */
+      );
 
       if (!screen) {
         throw new AuthFailedError(
