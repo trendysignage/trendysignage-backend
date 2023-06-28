@@ -128,22 +128,22 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
         device?.vendor?.defaultComposition?.media?.title;
     }
     if (device.screen) {
-      // screen = await Screen.findOne({
-      //   _id: device.screen,
-      //   isDeleted: false,
-      // }).populate({ path: "schedule" });
+      screen = await Screen.findOne({
+        _id: device.screen,
+        isDeleted: false,
+      });
 
-      screen = await Screen.findOneAndUpdate(
-        { _id: device.screen, isDeleted: false },
-        {
-          $pull: {
-            contentPlaying: {
-              endTime: { $lt: localtime(new Date(), timezone) },
-            },
-          },
-        },
-        { new: true, lean: 1 }
-      );
+      // screen = await Screen.findOneAndUpdate(
+      //   { _id: device.screen, isDeleted: false },
+      //   {
+      //     $pull: {
+      //       contentPlaying: {
+      //         endTime: { $lt: localtime(new Date(), timezone) },
+      //       },
+      //     },
+      //   },
+      //   { new: true, lean: 1 }
+      // );
 
       if (!screen) {
         throw new AuthFailedError(
@@ -164,7 +164,6 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           item.endTime = localtime(item.endTime, timezone);
           device.content.push(item);
         } else {
-          console.log(item, "contetntt PLayinyyy");
           // const composition = await Composition.findById(
           //   item?.media._id
           // ).lean();
@@ -182,7 +181,6 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       }
     }
   }
-  console.log(device.composition, "cpoomppppp");
 
   delete device.vendor;
   return device;
