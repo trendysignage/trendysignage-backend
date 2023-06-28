@@ -134,26 +134,28 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     device.composition = [];
 
     if (screen && screen.contentPlaying) {
-      if (screen?.contentPlaying[0]?.type === CONTENT_TYPE.MEDIA) {
-        device.content = screen.contentPlaying ?? [];
-      } else {
-        console.log(screen.contentPlaying[0], "contetntt PLayinyyy");
-        const composition = await Composition.findById(
-          screen?.contentPlaying[0]?.media
-        ).lean();
+      for (const item of screen.contentPlaying) {
+        if (item.type === CONTENT_TYPE.MEDIA) {
+          device.content.push(item);
+        } else {
+          console.log(item, "contetntt PLayinyyy");
+          const composition = await Composition.findById(item?.media).lean();
 
-        if (!composition) {
-          throw new AuthFailedError(
-            ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
-            STATUS_CODES.ACTION_FAILED
+          if (!composition) {
+            throw new AuthFailedError(
+              ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+              STATUS_CODES.ACTION_FAILED
+            );
+          }
+
+          device.composition = JSON.parse(
+            JSON.stringify(screen.contentPlaying)
           );
+
+          screen.contentPlaying
+            ? (device.composition[0].media = composition)
+            : [];
         }
-
-        device.composition = JSON.parse(JSON.stringify(screen.contentPlaying));
-
-        screen.contentPlaying
-          ? (device.composition[0].media = composition)
-          : [];
       }
     }
   }

@@ -141,7 +141,8 @@ export const deleteMedia = catchAsync(async (req, res) => {
 });
 
 export const publish = catchAsync(async (req, res) => {
-  await displayService.publish(req.token.vendor._id, req.body);
+  const timezone = req.headers?.timezone ?? "Asia/Kolkata";
+  await displayService.publish(req.token.vendor._id, req.body, timezone);
   // if (req.body.type === "media") {
   //   await logService.createLog(
   //     req.token.vendor._id,

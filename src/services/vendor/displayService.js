@@ -2,6 +2,7 @@ import path from "path";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
 
@@ -281,7 +282,7 @@ export const deleteMedia = async (vendorId, mediaId) => {
   );
 };
 
-export const publish = async (vendorId, body) => {
+export const publish = async (vendorId, body, timezone) => {
   let vendor = await Vendor.findOne({
     _id: vendorId,
     isDeleted: false,
@@ -298,10 +299,10 @@ export const publish = async (vendorId, body) => {
     content = {
       media: vendor.media[0],
       duration: body.duration,
-      startTime: new Date(),
+      startTime: utcTime(new Date(), timezone),
       type: "media",
-      endTime: new Date(),
-      createdAt: new Date(),
+      endTime: utcTime(new Date(), timezone),
+      createdAt: utcTime(new Date(), timezone),
     };
   } else {
     vendor.compositions = vendor.compositions.filter(
@@ -311,9 +312,9 @@ export const publish = async (vendorId, body) => {
       media: vendor.compositions[0],
       duration: body.duration,
       type: "composition",
-      startTime: new Date(),
-      endTime: new Date(),
-      createdAt: new Date(),
+      startTime: utcTime(new Date(), timezone),
+      endTime: utcTime(new Date(), timezone),
+      createdAt: utcTime(new Date(), timezone),
     };
   }
   content.endTime.setSeconds(content.startTime.getSeconds() + body.duration);
