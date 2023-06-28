@@ -5,6 +5,15 @@ import { emit } from "../services/socketService.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { localtime, utcTime } from "../utils/formatResponse.js";
 
+const checkContent = (a, b) => {
+  return (
+    a.media === b.media &&
+    a.duration === b.duration &&
+    a.startTime === b.startTime &&
+    a.endTime === b.endTime
+  );
+};
+
 const task = async (req, res) => {
   try {
     const timezone = req?.headers?.timezone ?? "Asia/Kolkata";
@@ -54,15 +63,11 @@ const task = async (req, res) => {
         };
 
         console.log(
-          JSON.stringify(s.contentPlaying)?.includes(JSON.stringify(content)),
+          !s.contentPlaying.some((item) => checkContent(item, content)),
           "iss working??"
         );
 
-        if (
-          JSON.stringify(s.contentPlaying)?.includes(JSON.stringify(content))
-        ) {
-          console.log("nottttt updating.......");
-        } else {
+        if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("emitting.......");
           await emit(device.deviceToken, content);
           await Screen.updateOne(
@@ -81,6 +86,6 @@ const task = async (req, res) => {
   }
 };
 
-// cron.schedule("*/1 * * * *", task);
+cron.schedule("*/1 * * * *", task);
 
 export default cron;
