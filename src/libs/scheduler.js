@@ -65,7 +65,7 @@ const task = async (req, res) => {
         console.log(content, "contettnttt from schedulerr");
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
-          console.log("emitting frommmmmmm schedullleeerrrrrr.......");
+          console.log("emitting frommmmmmm schedullleeerrrrrr.......", s);
           await emit(device.deviceToken, content);
           await Screen.findOneAndUpdate(
             {
