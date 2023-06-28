@@ -23,6 +23,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
       deviceCode: code,
     });
   } else {
+    console.log(device.vendor, "vendddd");
     device.defaultComposition = device.vendor.defaultComposition.media.title;
     device.content = [];
     if (device.screen) {
