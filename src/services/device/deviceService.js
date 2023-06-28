@@ -1,8 +1,4 @@
-import {
-  CONTENT_TYPE,
-  ERROR_MESSAGES,
-  STATUS_CODES,
-} from "../../config/appConstants.js";
+import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Device, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
@@ -153,27 +149,27 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       }
     }
 
-    device.content = [];
+    // device.content = [];
     device.composition = [];
 
     if (screen && screen.contentPlaying) {
       for (const item of screen.contentPlaying) {
-        if (item.type === CONTENT_TYPE.MEDIA) {
-          device.content.push(item);
-        } else {
-          // const composition = await Composition.findById(
-          //   item?.media._id
-          // ).lean();
+        // if (item.type === CONTENT_TYPE.MEDIA) {
+        // device.content.push(item);
+        // } else {
+        // const composition = await Composition.findById(
+        //   item?.media._id
+        // ).lean();
 
-          // if (!composition) {
-          //   throw new AuthFailedError(
-          //     ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
-          //     STATUS_CODES.ACTION_FAILED
-          //   );
-          // }
+        // if (!composition) {
+        //   throw new AuthFailedError(
+        //     ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+        //     STATUS_CODES.ACTION_FAILED
+        //   );
+        // }
 
-          device.composition.push(item);
-        }
+        device.composition.push(item);
+        // }
       }
     }
   }
