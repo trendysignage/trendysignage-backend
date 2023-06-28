@@ -344,7 +344,7 @@ export const publish = async (vendorId, body, timezone) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-    await emit(screen.device?.deviceToken, content, "", body.type);
+    await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
   }
 };
 
