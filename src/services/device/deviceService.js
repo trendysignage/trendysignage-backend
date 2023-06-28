@@ -182,6 +182,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       }
     }
   }
+  console.log(device.composition, "cpoomppppp");
 
   delete device.vendor;
   return device;
