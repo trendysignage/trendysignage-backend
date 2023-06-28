@@ -151,6 +151,8 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           //     STATUS_CODES.ACTION_FAILED
           //   );
           // }
+          item.startTime = localtime(item.startTime, timezone);
+          item.endTime = localtime(item.endTime, timezone);
           device.composition.push(item);
         }
       }
