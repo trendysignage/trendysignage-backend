@@ -325,7 +325,9 @@ export const publish = async (vendorId, body, timezone) => {
   );
 
   for (const id of body.screenIds) {
-    let screen = await Screen.findOne({ _id: id, isDeleted: false });
+    let screen = await Screen.findOne({ _id: id, isDeleted: false }).populate({
+      path: "device",
+    });
     if (body.type === CONTENT_TYPE.MEDIA) {
       const index = screen.contentPlaying.findIndex(
         (item) => item.type === CONTENT_TYPE.MEDIA
