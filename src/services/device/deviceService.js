@@ -23,9 +23,10 @@ export const addDevice = async (deviceToken, code, timezone) => {
       deviceCode: code,
     });
   } else {
-    console.log(device?.vendor?.defaultComposition, "vendddd");
-    device.defaultComposition =
-      device?.vendor?.defaultComposition?.media?.title;
+    if (device.vendor) {
+      device.defaultComposition =
+        device?.vendor?.defaultComposition?.media?.title;
+    }
     device.content = [];
     if (device.screen) {
       // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
@@ -115,8 +116,10 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       deviceCode: code,
     });
   } else {
-    device.defaultComposition =
-      device?.vendor?.defaultComposition?.media?.title;
+    if (device.vendor) {
+      device.defaultComposition =
+        device?.vendor?.defaultComposition?.media?.title;
+    }
     if (device.screen) {
       // screen = await Screen.findOne({
       //   _id: device.screen,
