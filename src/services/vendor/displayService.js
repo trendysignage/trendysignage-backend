@@ -338,7 +338,6 @@ export const publish = async (vendorId, body, timezone) => {
     }
     screen.contentPlaying.push(contentPlaying);
     screen = await screen.save();
-    console.log(screen, "ffffffff");
     // const screen = await Screen.findOneAndUpdate(
     //   { _id: id, isDeleted: false },
     //   { $push: { contentPlaying: contentPlaying } },
