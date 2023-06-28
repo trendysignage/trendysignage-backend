@@ -356,13 +356,3 @@ export const mediaFile = async (filePath) => {
   }
   return file;
 };
-
-async function updt() {
-  console.log("updating screeenss");
-  await Screen.findOneAndUpdate(
-    { _id: "649bd8794aa1a7b8fd5e013b" },
-    { $set: { contentPlaying: [] } }
-  );
-}
-
-updt();
