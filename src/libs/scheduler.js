@@ -6,7 +6,7 @@ import { AuthFailedError } from "../utils/errors.js";
 import { localtime, utcTime } from "../utils/formatResponse.js";
 
 const checkContent = (a, b) => {
-  console.log(a, b);
+  console.log(a, b, "item and contenttttt");
   return (
     a.media === b.media &&
     a.duration === b.duration &&
