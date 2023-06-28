@@ -3,7 +3,7 @@ import {
   ERROR_MESSAGES,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import { Composition, Device, Schedule, Screen } from "../../models/index.js";
+import { Device, Schedule, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime, utcTime } from "../../utils/formatResponse.js";
 
@@ -141,24 +141,22 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           device.content.push(item);
         } else {
           console.log(item, "contetntt PLayinyyy");
-          const composition = await Composition.findById(
-            item?.media._id
-          ).lean();
+          // const composition = await Composition.findById(
+          //   item?.media._id
+          // ).lean();
 
-          if (!composition) {
-            throw new AuthFailedError(
-              ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
-              STATUS_CODES.ACTION_FAILED
-            );
-          }
-
+          // if (!composition) {
+          //   throw new AuthFailedError(
+          //     ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+          //     STATUS_CODES.ACTION_FAILED
+          //   );
+          // }
           device.composition.push(item);
         }
       }
     }
   }
 
-  console.log(JSON.stringify(device));
   delete device.vendor;
   return device;
 };
