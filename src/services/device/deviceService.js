@@ -104,6 +104,8 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     .lean()
     .populate({ path: "vendor" });
 
+  device.defaultComposition = device.vendor.defaultComposition.media.title;
+
   if (!device) {
     device = await Device.create({
       deviceToken: deviceToken,
@@ -157,6 +159,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
   }
 
   console.log(JSON.stringify(device));
+  delete device.vendor;
   return device;
 };
 
