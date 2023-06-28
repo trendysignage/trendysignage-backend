@@ -86,6 +86,6 @@ const task = async (req, res) => {
   }
 };
 
-cron.schedule("*/1 * * * *", task);
+// cron.schedule("*/1 * * * *", task);
 
 export default cron;
