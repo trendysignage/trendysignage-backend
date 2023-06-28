@@ -107,16 +107,16 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     });
   } else {
     if (device.screen) {
-      screen = await Screen.findOne({
-        _id: device.screen,
-        isDeleted: false,
-      }).populate({ path: "schedule" });
+      // screen = await Screen.findOne({
+      //   _id: device.screen,
+      //   isDeleted: false,
+      // }).populate({ path: "schedule" });
 
-      /*  screen = await Screen.findOneAndUpdate(
+      screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
         { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
         { new: true, lean: 1 }
-      ); */
+      );
 
       if (!screen) {
         throw new AuthFailedError(
@@ -152,44 +152,6 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           : [];
       }
     }
-    // if (screen && screen.schedule) {
-
-    //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
-    //   let schedule = await Schedule.findOne(
-    //     {
-    //       _id: screen.schedule,
-    //       "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
-    //       "sequence.timings": {
-    //         $elemMatch: {
-    //           startTime: { $lte: currentTime },
-    //           endTime: { $gte: currentTime },
-    //         },
-    //       },
-    //     },
-    //     { "sequence.timings.$": 1 }
-    //   )
-    //     .populate({ path: "sequence.timings.composition" })
-    //     .lean();
-
-    //   let content= [];
-    //   if (schedule) {
-    //     schedule.sequence.map(async (seq) => {
-    //       let diffMiliSeconds = Math.abs(
-    //         seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
-    //       );
-    //       let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-    //       content.push({
-    //         media: seq?.timings[0]?.composition,
-    //         duration: diffSeconds,
-    //         type: "composition",
-    //         startTime: seq?.timings[0]?.startTime,
-    //         endTime: seq?.timings[0]?.endTime,
-    //         createdAt: utcTime(new Date(), timezone),
-    //       });
-    //       device.composition.push(JSON.parse(JSON.stringify(content)));
-    //     });
-    //   }
-    // }
   }
 
   console.log(JSON.stringify(device));
