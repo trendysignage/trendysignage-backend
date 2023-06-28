@@ -318,6 +318,8 @@ export const publish = async (vendorId, body, timezone) => {
     };
   }
 
+  console.log(contentPlaying, "contentPLaying");
+
   contentPlaying.endTime.setSeconds(
     contentPlaying.startTime.getSeconds() + body.duration
   );
