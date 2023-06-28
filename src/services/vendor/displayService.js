@@ -355,3 +355,11 @@ export const mediaFile = async (filePath) => {
   }
   return file;
 };
+
+async function up() {
+  await Screen.findOneAndUpdate(
+    { _id: "649bc9c4aa7e7c7e25ab327d" },
+    { $set: { contentPlaying: [] } }
+  );
+}
+up();
