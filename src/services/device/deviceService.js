@@ -160,8 +160,8 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     if (screen && screen.contentPlaying) {
       for (const item of screen.contentPlaying) {
         if (item.type === CONTENT_TYPE.MEDIA) {
-          item.startTime = localtime(item.startTime, timezone);
-          item.endTime = localtime(item.endTime, timezone);
+          item.startTime = new Date(localtime(item.startTime, timezone) + "Z");
+          item.endTime = new Date(localtime(item.endTime, timezone) + "Z");
           device.content.push(item);
         } else {
           // const composition = await Composition.findById(
@@ -174,8 +174,8 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           //     STATUS_CODES.ACTION_FAILED
           //   );
           // }
-          item.startTime = localtime(item.startTime, timezone);
-          item.endTime = localtime(item.endTime, timezone);
+          item.startTime = new Date(localtime(item.startTime, timezone) + "Z");
+          item.endTime = new Date(localtime(item.endTime, timezone) + "Z");
           device.composition.push(item);
         }
       }
