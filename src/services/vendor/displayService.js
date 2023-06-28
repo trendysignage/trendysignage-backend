@@ -2,6 +2,7 @@ import path from "path";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { localtime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
 
