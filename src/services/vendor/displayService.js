@@ -299,10 +299,10 @@ export const publish = async (vendorId, body, timezone) => {
     contentPlaying = {
       media: vendor.media[0],
       duration: body.duration,
-      startTime: localtime(new Date(), timezone),
+      startTime: new Date(localtime(new Date(), timezone) + "Z"),
       type: "media",
-      endTime: localtime(new Date(), timezone),
-      createdAt: localtime(new Date(), timezone),
+      endTime: new Date(localtime(new Date(), timezone) + "Z"),
+      createdAt: new Date(localtime(new Date(), timezone) + "Z"),
     };
   } else {
     vendor.compositions = vendor.compositions.filter(
@@ -312,9 +312,9 @@ export const publish = async (vendorId, body, timezone) => {
       media: vendor.compositions[0],
       duration: body.duration,
       type: "composition",
-      startTime: localtime(new Date(), timezone),
-      endTime: localtime(new Date(), timezone),
-      createdAt: localtime(new Date(), timezone),
+      startTime: new Date(localtime(new Date(), timezone) + "Z"),
+      endTime: new Date(localtime(new Date(), timezone) + "Z"),
+      createdAt: new Date(localtime(new Date(), timezone) + "Z"),
     };
   }
 
