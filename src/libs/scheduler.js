@@ -8,10 +8,10 @@ import { localtime, utcTime } from "../utils/formatResponse.js";
 const checkContent = (a, b) => {
   console.log(a, b, "item and contenttttt");
   return (
-    a.media === b.media &&
-    a.duration === b.duration &&
-    a.startTime === b.startTime &&
-    a.endTime === b.endTime
+    JSON.stringify(a.media) == JSON.stringify(b.media) &&
+    a.duration == b.duration &&
+    JSON.stringify(a.startTime) == JSON.stringify(b.startTime) &&
+    JSON.stringify(a.endTime) == JSON.stringify(b.endTime)
   );
 };
 
