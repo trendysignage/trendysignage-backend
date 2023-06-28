@@ -1,5 +1,9 @@
 import path from "path";
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import {
+  CONTENT_TYPE,
+  ERROR_MESSAGES,
+  STATUS_CODES,
+} from "../../config/appConstants.js";
 import { Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
@@ -321,21 +325,22 @@ export const publish = async (vendorId, body, timezone) => {
   );
 
   for (const id of body.screenIds) {
+    const screen = await Screen.findOne({ _id: id, isDeleted: false });
+    const index = screen.contentPlaying.findIndex(
+      (item) => item.type === CONTENT_TYPE.MEDIA
+    );
+    if (index !== -1) {
+      screen.contentPlaying.splice(index, 1);
+    }
+    screen.contentPlaying.push(contentPlaying);
+    screen = await screen.save();
     // const screen = await Screen.findOneAndUpdate(
     //   { _id: id, isDeleted: false },
-    //   { $set: { contentPlaying: content } },
+    //   { $push: { contentPlaying: contentPlaying } },
     //   { new: true, lean: 1 }
     // )
     //   .lean()
     //   .populate({ path: "device" });
-
-    const screen = await Screen.findOneAndUpdate(
-      { _id: id, isDeleted: false },
-      { $push: { contentPlaying: contentPlaying } },
-      { new: true, lean: 1 }
-    )
-      .lean()
-      .populate({ path: "device" });
 
     if (!screen) {
       throw new AuthFailedError(
