@@ -317,10 +317,11 @@ export const publish = async (vendorId, body, timezone) => {
       createdAt: utcTime(new Date(), timezone),
     };
   }
+
   contentPlaying.endTime.setSeconds(
     contentPlaying.startTime.getSeconds() + body.duration
   );
-  console.log(contentPlaying, "contetnt playinggg");
+
   for (const id of body.screenIds) {
     // const screen = await Screen.findOneAndUpdate(
     //   { _id: id, isDeleted: false },

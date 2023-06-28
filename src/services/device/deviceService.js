@@ -159,6 +159,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     if (screen && screen.contentPlaying) {
       console.log(screen, "ccontteettnn");
       for (const item of screen.contentPlaying) {
+        console.log(item, "iteememmmmmmmmm");
         if (item.type === CONTENT_TYPE.MEDIA) {
           item.startTime = localtime(item.startTime, timezone);
           item.endTime = localtime(item.endTime, timezone);
