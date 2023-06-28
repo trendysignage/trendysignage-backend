@@ -33,7 +33,13 @@ export const addDevice = async (deviceToken, code, timezone) => {
 
       screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
-        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+        {
+          $pull: {
+            contentPlaying: {
+              endTime: { $lt: localtime(new Date(), timezone) },
+            },
+          },
+        },
         { new: true, lean: 1 }
       );
 
@@ -129,7 +135,13 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
 
       screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
-        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+        {
+          $pull: {
+            contentPlaying: {
+              endTime: { $lt: localtime(new Date(), timezone) },
+            },
+          },
+        },
         { new: true, lean: 1 }
       );
 
