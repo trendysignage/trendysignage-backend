@@ -203,7 +203,7 @@ const ERROR_MESSAGES = {
   OTP_ALREADY_VERIFIED: "Already verified, you can sign in!",
   TOKEN_NOT_FOUND: "Token not found!",
   WRONG_TYPE_OR_ID:
-    "The type or id of the content you are trying to publish is incorrect!",
+    "The Type or Id of the content you are trying to publish is incorrect!",
 };
 
 const STATUS_CODES = {
