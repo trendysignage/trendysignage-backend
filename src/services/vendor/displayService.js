@@ -294,7 +294,7 @@ export const publish = async (vendorId, body, timezone) => {
 
   let contentPlaying;
 
-  if (body.type === "media") {
+  if (body.type === CONTENT_TYPE.MEDIA) {
     vendor.media = vendor.media.find(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
