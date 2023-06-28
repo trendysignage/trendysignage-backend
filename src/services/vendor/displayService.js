@@ -290,13 +290,13 @@ export const publish = async (vendorId, body, timezone) => {
     .lean()
     .populate({ path: "compositions" });
 
-  let content;
+  let contentPlaying;
 
   if (body.type === "media") {
     vendor.media = vendor.media.filter(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
-    content = {
+    contentPlaying = {
       media: vendor.media[0],
       duration: body.duration,
       startTime: utcTime(new Date(), timezone),
@@ -308,7 +308,7 @@ export const publish = async (vendorId, body, timezone) => {
     vendor.compositions = vendor.compositions.filter(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
-    content = {
+    contentPlaying = {
       media: vendor.compositions[0],
       duration: body.duration,
       type: "composition",
@@ -318,7 +318,7 @@ export const publish = async (vendorId, body, timezone) => {
     };
   }
   content.endTime.setSeconds(content.startTime.getSeconds() + body.duration);
-
+  console.log(contentPlaying, "contetnt playinggg");
   for (const id of body.screenIds) {
     // const screen = await Screen.findOneAndUpdate(
     //   { _id: id, isDeleted: false },
@@ -330,12 +330,12 @@ export const publish = async (vendorId, body, timezone) => {
 
     const screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },
-      { $push: { contentPlaying: content } },
+      { $push: { contentPlaying } },
       { new: true, lean: 1 }
     )
       .lean()
       .populate({ path: "device" });
-    console.log(screen.contentPlaying, "contetnPLaying");
+
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,
