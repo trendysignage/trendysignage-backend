@@ -291,11 +291,11 @@ export const publish = async (vendorId, body, timezone) => {
   let contentPlaying;
 
   if (body.type === "media") {
-    vendor.media = vendor.media.filter(
+    vendor.media = vendor.media.find(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
     contentPlaying = {
-      media: vendor.media[0],
+      media: vendor.media,
       duration: body.duration,
       startTime: new Date(localtime(new Date(), timezone) + "Z"),
       type: "media",
@@ -303,11 +303,11 @@ export const publish = async (vendorId, body, timezone) => {
       createdAt: new Date(localtime(new Date(), timezone) + "Z"),
     };
   } else {
-    vendor.compositions = vendor.compositions.filter(
+    vendor.compositions = vendor.compositions.find(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
     );
     contentPlaying = {
-      media: vendor.compositions[0],
+      media: vendor.compositions,
       duration: body.duration,
       type: "composition",
       startTime: new Date(localtime(new Date(), timezone) + "Z"),
