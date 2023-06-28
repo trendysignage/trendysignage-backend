@@ -84,7 +84,6 @@ export const addScreen = async (vendorId, body) => {
     );
   }
   vendor.defaultComposition.isDefault = true;
-  console.log(vendor.defaultComposition);
   await emit(device.deviceToken, vendor.defaultComposition);
 };
 
@@ -263,7 +262,6 @@ export const deleteMedia = async (vendorId, mediaId) => {
   vendor.media = vendor.media.filter(
     (id) => JSON.stringify(id._id) === JSON.stringify(mediaId)
   );
-  console.log(vendor.media, "medd");
   if (vendor.media[0].isDefault) {
     throw new AuthFailedError(
       ERROR_MESSAGES.DEFAULT_MEDIA,
@@ -317,8 +315,6 @@ export const publish = async (vendorId, body, timezone) => {
       createdAt: new Date(localtime(new Date(), timezone) + "Z"),
     };
   }
-
-  console.log(contentPlaying, "contentPLaying");
 
   contentPlaying.endTime.setSeconds(
     contentPlaying.startTime.getSeconds() + body.duration

@@ -152,7 +152,6 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
         );
       }
     }
-    console.log(screen, "screeeeeeeeeeeeen");
 
     device.content = [];
     device.composition = [];
