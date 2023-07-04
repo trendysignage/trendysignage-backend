@@ -11,6 +11,7 @@ const screenSchema = new mongoose.Schema(
     defaultComposition: {
       media: {},
       duration: { type: String },
+      type: { type: String },
     },
     contentPlaying: [
       {

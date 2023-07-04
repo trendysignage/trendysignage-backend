@@ -3,11 +3,8 @@ import { JOI, editRoleSchema } from "../../config/appConstants.js";
 
 export const defaultComposition = {
   body: Joi.object().keys({
-    title: Joi.string().required(),
+    compositionId: JOI.OBJECTID,
     duration: Joi.number().required(),
-    type: Joi.string()
-      // .valid(...Object.values(MEDIA_TYPE))
-      .required(),
   }),
 };
 

@@ -32,6 +32,13 @@ router.get(
   displayController.getScreen
 );
 
+router.put(
+  "/defaultComposition",
+  auth(),
+  validate(displayValidation.changeDefaultComposition),
+  displayController.changeDefaultComposition
+);
+
 router
   .route("/media")
   .all(auth())

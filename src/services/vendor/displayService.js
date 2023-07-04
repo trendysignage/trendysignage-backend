@@ -4,7 +4,7 @@ import {
   ERROR_MESSAGES,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import { Device, Screen, Vendor } from "../../models/index.js";
+import { Composition, Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
@@ -160,6 +160,46 @@ export const getScreen = async (screenId) => {
     );
   }
   return screen;
+};
+
+export const changeDefaultComposition = async (vendorId, body) => {
+  const composition = await Composition.findOne({
+    _id: body.compositionId,
+    isDeleted: false,
+  }).lean();
+
+  if (!composition) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  const defaultComposition = {
+    media: composition,
+    duration: body.duration,
+  };
+
+  const screen = await Screen.findOneAndUpdate(
+    {
+      _id: body.screenId,
+      isDeleted: false,
+    },
+    { $set: { defaultComposition } }
+  )
+    .lean()
+    .populate({ path: "device" });
+
+  if (!screen) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCREEN_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  if (screen.device) {
+    await emit(screen.device?.deviceToken, screen.defaultComposition);
+  }
 };
 
 export const getMedia = async (query, vendorId) => {

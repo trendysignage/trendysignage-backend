@@ -49,6 +49,14 @@ export const getScreen = {
   }),
 };
 
+export const changeDefaultComposition = {
+  body: Joi.object().keys({
+    screenId: JOI.OBJECTID,
+    compositionId: JOI.OBJECTID,
+    duration: Joi.string().required(),
+  }),
+};
+
 export const getMedia = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),

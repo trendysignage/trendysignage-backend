@@ -83,6 +83,16 @@ export const getScreen = catchAsync(async (req, res) => {
   );
 });
 
+export const changeDefaultComposition = catchAsync(async (req, res) => {
+  await displayService.changeDefaultComposition(req.token.vendor._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
 export const getMedia = catchAsync(async (req, res) => {
   const media = await displayService.getMedia(req.query, req.token.vendor._id);
   return successResponse(
