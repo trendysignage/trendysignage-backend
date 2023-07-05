@@ -127,10 +127,7 @@ export const stopTracking = async (deviceToken, timezone) => {
 };
 
 export const getScreen = async (deviceToken) => {
-  const device = await Device.findOne(
-    { deviceToken, isDeleted: false },
-    { screen: 1 }
-  )
+  const device = await Device.findOne({ deviceToken, isDeleted: false })
     .lean()
     .populate({ path: "screen" });
 
