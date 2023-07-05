@@ -176,5 +176,6 @@ export const publish = catchAsync(async (req, res) => {
 
 export const mediaFile = catchAsync(async (req, res) => {
   const file = await displayService.mediaFile(req.query.path);
+  console.log(file);
   res.sendFile(file);
 });
