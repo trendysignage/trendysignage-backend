@@ -109,7 +109,7 @@ export const uptimeReport = async (vendorId, query) => {
         $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
       },
     },
-    { "uptimeReport.$": 1 },
+    { screen: 1, "uptimeReport.$": 1 },
     paginationOptions(query.page, query.limit)
   );
 
