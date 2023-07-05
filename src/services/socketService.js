@@ -9,7 +9,7 @@ import { AuthFailedError } from "../utils/errors.js";
 
 export const getVendor = async (deviceToken) => {
   const device = await Device.findOne({
-    deviceToken: deviceToken,
+    deviceToken,
     isDeleted: false,
   }).lean();
   if (!device) {

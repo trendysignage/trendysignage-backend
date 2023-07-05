@@ -50,26 +50,26 @@ export const connectSocket = (server) => {
   }).on("connection", async (socket) => {
     let deviceToken = socket.handshake.query.deviceToken;
     let timezone = socket.handshake.query.timezone ?? "Asia/Kolkata";
-    console.log(userCache, "userCachhheeeeee", deviceToken);
+    const device = await socketService.getVendor(deviceToken);
+    if (device) {
+      userCache[deviceToken].map(async (id) => {
+        const vendorId = await socketService.getVendor(deviceToken);
+        const screen = await socketService.getScreen(deviceToken);
 
-    userCache[deviceToken].map(async (id) => {
-      const vendorId = await socketService.getVendor(deviceToken);
-      const screen = await socketService.getScreen(deviceToken);
+        const defaultContent = {};
+        if (screen && screen?.defaultComposition) {
+          screen.defaultComposition.isDefault = true;
+          defaultContent = screen?.defaultComposition;
+          console.log("emitteddd", defaultContent);
+        } else {
+          defaultContent = await socketService.getDefault(vendorId);
+          console.log("emitteddd", defaultContent);
+        }
 
-      const defaultContent = {};
-      if (screen && screen?.defaultComposition) {
-        screen.defaultComposition.isDefault = true;
-        defaultContent = screen?.defaultComposition;
-        console.log("emitteddd", defaultContent);
-      } else {
-        defaultContent = await socketService.getDefault(vendorId);
-        console.log("emitteddd", defaultContent);
-      }
-
-      io.to(id).emit("receiveContent", defaultContent);
-    });
-    await socketService.uptimeReport(deviceToken, timezone);
-
+        io.to(id).emit("receiveContent", defaultContent);
+      });
+      await socketService.uptimeReport(deviceToken, timezone);
+    }
     socket.on("error", function (error) {
       console.error(error, "something went wrong in socket...");
       return next(new Error(error));
