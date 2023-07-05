@@ -57,7 +57,7 @@ export const connectSocket = (server) => {
       const screen = await socketService.getScreen(deviceToken);
 
       const defaultContent = {};
-      console.log(screen.defaultComposition, "defaulttttttttttt");
+      console.log(screen, "defaulttttttttttt", deviceToken);
       if (vendorId && !screen?.defaultComposition) {
         defaultContent = await socketService.getDefault(vendorId);
         console.log("emitteddd", defaultContent);
