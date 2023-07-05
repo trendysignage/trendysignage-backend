@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Composition, Vendor } from "../../models/index.js";
+import { Composition, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { emit } from "../socketService.js";
 
@@ -97,4 +97,20 @@ export const editRole = async (vendorId, body) => {
   const vendor = await Vendor.findByIdAndUpdate(vendorId, {
     $set: { roles: body },
   });
+};
+
+export const uptimeReport = async (vendorId, query) => {
+  const reports = await Screen.find(
+    {
+      isDeleted: false,
+      vendor: vendorId,
+      "uptimeReport.day": {
+        $gte: query.startDate,
+        $lte: query.endDate,
+      },
+    },
+    { "uptimeReport.$": 1 }
+  );
+
+  return reports;
 };

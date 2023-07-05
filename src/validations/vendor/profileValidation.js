@@ -23,7 +23,7 @@ export const editRole = {
   body: editRoleSchema.required(),
 };
 
-export const auditReport = {
+export const reports = {
   query: Joi.object().keys({
     page: JOI.PAGE,
     limit: JOI.LIMIT,

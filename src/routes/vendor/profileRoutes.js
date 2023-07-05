@@ -28,8 +28,15 @@ router
 router.get(
   "/auditLogs",
   auth(),
-  validate(profileValidation.auditReport),
+  validate(profileValidation.reports),
   profileController.auditReport
+);
+
+router.get(
+  "/uptimeReport",
+  auth(),
+  validate(profileValidation.reports),
+  profileController.uptimeReport
 );
 
 export default router;
