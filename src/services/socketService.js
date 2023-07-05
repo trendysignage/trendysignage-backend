@@ -134,5 +134,5 @@ export const getScreen = async (deviceToken) => {
     .lean()
     .populate({ path: "screen" });
 
-    return device.screen;
+  return device?.screen;
 };

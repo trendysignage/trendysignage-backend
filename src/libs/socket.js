@@ -58,12 +58,12 @@ export const connectSocket = (server) => {
 
       const defaultContent = {};
 
-      if (vendorId && !screen.defaultComposition) {
+      if (vendorId && !screen?.defaultComposition) {
         defaultContent = await socketService.getDefault(vendorId);
         console.log("emitteddd", defaultContent);
       } else {
         screen.defaultComposition.isDefault = true;
-        defaultContent = screen.defaultComposition;
+        defaultContent = screen?.defaultComposition;
         console.log("emitteddd", defaultContent);
       }
 
