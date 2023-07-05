@@ -51,13 +51,23 @@ export const connectSocket = (server) => {
     let deviceToken = socket.handshake.query.deviceToken;
     let timezone = socket.handshake.query.timezone ?? "Asia/Kolkata";
     console.log(userCache, "userCachhheeeeee", deviceToken);
+
     userCache[deviceToken].map(async (id) => {
       const vendorId = await socketService.getVendor(deviceToken);
-      if (vendorId) {
-        const defaultContent = await socketService.getDefault(vendorId);
+      const screen = await socketService.getScreen(deviceToken);
+
+      const defaultContent = {};
+
+      if (vendorId && !screen.defaultComposition) {
+        defaultContent = await socketService.getDefault(vendorId);
         console.log("emitteddd", defaultContent);
-        io.to(id).emit("receiveContent", defaultContent);
+      } else {
+        screen.defaultComposition.isDefault = true;
+        defaultContent = screen.defaultComposition;
+        console.log("emitteddd", defaultContent);
       }
+
+      io.to(id).emit("receiveContent", defaultContent);
     });
     await socketService.uptimeReport(deviceToken, timezone);
 
