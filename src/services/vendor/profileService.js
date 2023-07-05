@@ -1,6 +1,7 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Composition, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { paginationOptions } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
 
 export const defaultComposition = async (vendorId, body) => {
@@ -109,7 +110,8 @@ export const uptimeReport = async (vendorId, query) => {
         $lte: query.endDate,
       },
     },
-    { "uptimeReport.$": 1 }
+    { "uptimeReport.$": 1 },
+    paginationOptions(query.page, query.limit)
   );
 
   return reports;
