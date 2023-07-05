@@ -27,7 +27,7 @@ export const reports = {
   query: Joi.object().keys({
     page: JOI.PAGE,
     limit: JOI.LIMIT,
-    startDate: Joi.date().required(),
-    endDate: Joi.date().required(),
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
   }),
 };
