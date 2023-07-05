@@ -101,6 +101,7 @@ export const editRole = async (vendorId, body) => {
 };
 
 export const uptimeReport = async (vendorId, query) => {
+  console.log(query, "qqq");
   const reports = await Screen.find(
     {
       isDeleted: false,
