@@ -125,7 +125,7 @@ export const uptimeReport = async (vendorId, query) => {
       device: 1,
     },
     paginationOptions(query.page, query.limit)
-  ).populate([{ path: "device" }, { path: "schedule" }]);
+  ).populate([{ path: "device" }, { path: "schedule", select: ["-screens"] }]);
 
   return reports;
 };
