@@ -39,11 +39,11 @@ router.get(
   profileController.uptimeReport
 );
 
-router.get(
-  "/mediaReport",
-  auth(),
-  validate(profileValidation.reports),
-  profileController.mediaReport
-);
+// router.get(
+//   "/mediaReport",
+//   auth(),
+//   validate(profileValidation.reports),
+//   profileController.mediaReport
+// );
 
 export default router;
