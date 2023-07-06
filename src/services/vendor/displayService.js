@@ -209,11 +209,6 @@ export const getMedia = async (query, vendorId) => {
     let searchReg = RegExp(query.search, "i");
     data = { ...data, "media.type": { $regex: searchReg } };
   }
-  if (query.type) {
-    data = { ...data, "media.type": query.type };
-  }
-
-  console.log(data, "ddddd");
 
   let vendor = await Vendor.findOne(data)
     .lean()
@@ -235,6 +230,9 @@ export const getMedia = async (query, vendorId) => {
   }
 
   vendor.media = vendor.media.sort((a, b) => b.createdAt - a.createdAt);
+  if (query.type) {
+    vendor.media = vendor.media.filter((i) => i.type === query.type);
+  }
 
   return vendor;
 };
