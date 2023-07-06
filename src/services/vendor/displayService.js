@@ -226,6 +226,8 @@ export const getMedia = async (query, vendorId) => {
       },
     });
 
+    console.log(vendor, "vvvvvvvvvvv")
+
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
