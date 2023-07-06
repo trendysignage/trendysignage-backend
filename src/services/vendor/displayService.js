@@ -203,36 +203,64 @@ export const changeDefaultComposition = async (vendorId, body) => {
 };
 
 export const getMedia = async (query, vendorId) => {
-  let data = { _id: vendorId, isDeleted: false };
+  let vendor;
+  if (!query.type) {
+    let data = { _id: vendorId, isDeleted: false };
 
-  if (query.search) {
-    let searchReg = RegExp(query.search, "i");
-    data = { ...data, "media.title": { $regex: searchReg } };
-  }
+    if (query.search) {
+      let searchReg = RegExp(query.search, "i");
+      data = { ...data, "media.title": { $regex: searchReg } };
+    }
 
-  let vendor = await Vendor.findOne(data)
-    .lean()
-    .select("media")
-    .populate({
-      path: "media.createdBy",
-      select: ["_id", "name"],
-      options: {
-        skip: query.page * query.limit,
-        limit: query.limit,
-      },
-    });
+    vendor = await Vendor.findOne(data)
+      .lean()
+      .select("media")
+      .populate({
+        path: "media.createdBy",
+        select: ["_id", "name"],
+        options: {
+          skip: query.page * query.limit,
+          limit: query.limit,
+        },
+      });
 
-  if (!vendor) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.VENDOR_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
+    if (!vendor) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.VENDOR_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
 
-  vendor.media = vendor.media.sort((a, b) => b.createdAt - a.createdAt);
+    vendor.media = vendor.media.sort((a, b) => b.createdAt - a.createdAt);
+  } else {
+    let data = { _id: vendorId, isDeleted: false };
 
-  if (query.type) {
+    vendor = await Vendor.findOne(data)
+      .lean()
+      .select("media")
+      .populate({
+        path: "media.createdBy",
+        select: ["_id", "name"],
+        options: {
+          skip: query.page * query.limit,
+          limit: query.limit,
+        },
+      });
+
+    if (!vendor) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.VENDOR_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+
+    vendor.media = vendor.media.sort((a, b) => b.createdAt - a.createdAt);
     vendor.media = vendor.media.filter((i) => i.type === query.type);
+    if (query.search) {
+      vendor.media = vendor.media.filter((i) =>
+        JSON.stringify(i.title).includes(query.search)
+      );
+    }
   }
 
   return vendor;
