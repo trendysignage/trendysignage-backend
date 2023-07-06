@@ -25,13 +25,15 @@ export const getLogs = async (vendorId, query, timezone) => {
     {
       vendor: vendorId,
       isDeleted: false,
-      createdAt: { $gte: query.startDate, $lt: query.endDate },
+      createdAt: { $gte: query.startDate, $lte: query.endDate },
     },
     {},
     paginationOptions(query.page, query.limit)
   ).lean();
+
   logs.map((log) => {
     log.createdAt = localtime(log.createdAt, timezone);
   });
+
   return logs;
 };

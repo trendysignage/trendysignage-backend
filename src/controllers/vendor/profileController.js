@@ -110,3 +110,22 @@ export const uptimeReport = catchAsync(async (req, res) => {
     report
   );
 });
+
+export const mediaReport = catchAsync(async (req, res) => {
+  const report = await profileService.mediaReport(
+    req.token.vendor._id,
+    req.query
+  );
+  // await logService.createLog(
+  //   req.token.vendor._id,
+  //   SUCCESS_MESSAGES.GET_AUDIT_LOGS,
+  //   req.headers.timezone
+  // );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    report
+  );
+});

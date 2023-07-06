@@ -129,3 +129,9 @@ export const uptimeReport = async (vendorId, query) => {
 
   return reports;
 };
+
+export const mediaReport = async (vendorId, query) => {
+  const reports = await Vendor.findById(vendorId, { media: 1 }).lean();
+
+  return reports;
+};

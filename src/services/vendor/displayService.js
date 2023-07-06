@@ -152,7 +152,7 @@ export const getScreen = async (screenId) => {
     isDeleted: false,
   })
     .lean()
-    .populate({ path: "device" });
+    .populate([{ path: "device" }, { path: "schedule" }]);
   if (!screen) {
     throw new AuthFailedError(
       ERROR_MESSAGES.SCREEN_NOT_FOUND,
