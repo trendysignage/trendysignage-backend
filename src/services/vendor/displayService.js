@@ -218,10 +218,6 @@ export const getMedia = async (query, vendorId) => {
       .populate({
         path: "media.createdBy",
         select: ["_id", "name"],
-        options: {
-          skip: query.page * query.limit,
-          limit: query.limit,
-        },
       });
 
     if (!vendor) {
@@ -232,6 +228,7 @@ export const getMedia = async (query, vendorId) => {
     }
 
     vendor.media = vendor.media.sort((a, b) => b.createdAt - a.createdAt);
+    vendor.media = vendor.media.slice(query.page * query.limit, query.limit);
   } else {
     let data = { _id: vendorId, isDeleted: false };
 
@@ -241,10 +238,6 @@ export const getMedia = async (query, vendorId) => {
       .populate({
         path: "media.createdBy",
         select: ["_id", "name"],
-        options: {
-          skip: query.page * query.limit,
-          limit: query.limit,
-        },
       });
 
     if (!vendor) {
@@ -261,6 +254,7 @@ export const getMedia = async (query, vendorId) => {
         JSON.stringify(i.title).includes(query.search)
       );
     }
+    vendor.media = vendor.media.slice(query.page * query.limit, query.limit);
   }
 
   return vendor;
