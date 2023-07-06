@@ -210,7 +210,7 @@ export const getMedia = async (query, vendorId) => {
     data = { ...data, "media.title": { $regex: searchReg } };
   }
 
-  let vendor = await Vendor.findOne(data, { "media.$": 1 })
+  let vendor = await Vendor.findOne(data)
     .lean()
     .select("media")
     .populate({
