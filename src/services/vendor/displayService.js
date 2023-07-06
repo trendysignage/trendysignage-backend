@@ -211,7 +211,7 @@ export const getMedia = async (query, vendorId) => {
   }
   if (query.type) {
     let searchReg = RegExp(query.type, "i");
-    data = { ...data, media: { type: { $regex: searchReg } } };
+    data = { ...data, "media.type": { $regex: searchReg } };
   }
 
   console.log(data, "ddddd");
