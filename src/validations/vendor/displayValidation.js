@@ -62,7 +62,7 @@ export const getMedia = {
     search: Joi.string().allow(""),
     page: Joi.number().allow("").default(0),
     limit: Joi.number().allow("").default(10),
-    type: Joi.string().allow("").valid("image", "video"),
+    type: Joi.string().allow("").valid("image", "video", "apps"),
   }),
 };
 
