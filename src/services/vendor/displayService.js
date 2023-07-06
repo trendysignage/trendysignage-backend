@@ -214,6 +214,8 @@ export const getMedia = async (query, vendorId) => {
     data = { ...data, "vendor.media": { type: { $regex: searchReg } } };
   }
 
+  console.log(data, "ddddd");
+
   let vendor = await Vendor.findOne(data)
     .lean()
     .select("media")
@@ -225,8 +227,6 @@ export const getMedia = async (query, vendorId) => {
         limit: query.limit,
       },
     });
-
-    console.log(vendor, "vvvvvvvvvvv")
 
   if (!vendor) {
     throw new AuthFailedError(
