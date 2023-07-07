@@ -161,5 +161,5 @@ export const addUser = async (vendorId, body) => {
     vendor: vendorId,
   });
 
-  return user;
+  return user.toObject();
 };
