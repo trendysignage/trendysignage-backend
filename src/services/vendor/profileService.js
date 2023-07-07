@@ -152,20 +152,13 @@ export const addUser = async (vendorId, body) => {
 
   const password = await bcrypt.hash(body.password, 8);
 
-  const vendor = await Vendor.findById(vendorId).lean();
-
-  const roles = vendor?.roles[body.role];
-
-  console.log(roles, "rolesssss");
-
   const user = await Vendor.create({
     name: body.name,
     email: body.email,
     password,
     role: body.role,
     groups: body.groups,
-    roles,
-    vendor: vendor._id,
+    vendor: vendorId,
   });
 
   return user;
