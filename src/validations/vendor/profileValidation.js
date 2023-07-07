@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { JOI, ROLE, editRoleSchema } from "../../config/appConstants.js";
+import { objectId } from "../custom.validation.js";
 
 export const defaultComposition = {
   body: Joi.object().keys({
