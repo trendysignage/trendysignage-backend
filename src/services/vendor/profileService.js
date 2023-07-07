@@ -138,7 +138,11 @@ export const mediaReport = async (vendorId, query) => {
 };
 
 export const getUsers = async (vendor) => {
-  const users = await Vendor.find({ vendor, isDeleted: false }).lean();
+  const users = await Vendor.find({
+    vendor,
+    isDeleted: false,
+    isVerified: true,
+  }).lean();
 
   return users;
 };
