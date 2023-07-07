@@ -155,3 +155,23 @@ export const addUser = catchAsync(async (req, res) => {
     user
   );
 });
+
+export const editUser = catchAsync(async (req, res) => {
+  await profileService.editUser(req.token.vendor._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const deleteUser = catchAsync(async (req, res) => {
+  await profileService.deleteUser(req.token.vendor._id, req.query.userId);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

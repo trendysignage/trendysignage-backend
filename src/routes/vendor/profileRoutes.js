@@ -50,6 +50,8 @@ router
   .route("/users")
   .all(auth())
   .get(profileController.getUsers)
-  .post(validate(profileValidation.addUser), profileController.addUser);
+  .post(validate(profileValidation.addUser), profileController.addUser)
+  .put(validate(profileValidation.editUser), profileController.editUser)
+  .delete(validate(profileValidation.deleteUser), profileController.deleteUser);
 
 export default router;

@@ -167,10 +167,50 @@ export const addUser = async (vendorId, body) => {
     email: body.email,
     password,
     role: body.role,
-    groups: body.groups,
+    userGroups: body.groups,
     vendor: vendorId,
     isVerified: true,
   });
 
   return user.toObject();
+};
+
+export const editUser = async (vendorId, body) => {
+  const user = await Vendor.findOneAndUpdate(
+    { _id: body.userId, vendor: vendorId, isDeleted: false },
+    {
+      $set: {
+        name: body.name,
+        role: body.role,
+        userGroups: body.groups,
+      },
+    },
+    { new: 1, lean: 1 }
+  );
+
+  if (!user) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const deleteUser = async (vendorId, _id) => {
+  const user = await Vendor.findOneAndUpdate(
+    {
+      vendor: vendorId,
+      isDeleted: false,
+      _id,
+    },
+    { $set: { isDeleted: true } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!user) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };

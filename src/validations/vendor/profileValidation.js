@@ -1,6 +1,5 @@
 import Joi from "joi";
 import { JOI, ROLE, editRoleSchema } from "../../config/appConstants.js";
-import { objectId } from "../custom.validation.js";
 
 export const defaultComposition = {
   body: Joi.object().keys({
@@ -38,11 +37,26 @@ export const addUser = {
     name: Joi.string().required(),
     email: JOI.EMAIL,
     password: JOI.PASSWORD,
-    groups: Joi.array()
-      .items(Joi.string().custom(objectId).allow(""))
-      .default([]),
+    groups: Joi.array().items(JOI.OBJECTID).required(),
     role: Joi.string()
       .valid(...Object.values(ROLE))
       .required(),
+  }),
+};
+
+export const editUser = {
+  body: Joi.object().keys({
+    userId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    groups: Joi.array().items(JOI.OBJECTID).required(),
+    role: Joi.string()
+      .valid(...Object.values(ROLE))
+      .required(),
+  }),
+};
+
+export const deleteUser = {
+  query: Joi.object().keys({
+    userId: JOI.OBJECTID,
   }),
 };
