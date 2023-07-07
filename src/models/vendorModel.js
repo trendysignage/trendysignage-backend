@@ -53,7 +53,7 @@ const vendorSchema = new mongoose.Schema(
       },
     ],
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
-    userGroups: [{ type: String }],
+    userGroups: [{ type: mongoose.Schema.Types.ObjectId }],
     role: { type: String, default: ROLE.ADMIN },
     roles: ROLES_SCHEMA,
     totalScreens: { type: Number, default: 1 },

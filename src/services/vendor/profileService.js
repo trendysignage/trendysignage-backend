@@ -256,3 +256,96 @@ export const disableUser = async (vendorId, _id) => {
     );
   }
 };
+
+export const getGroups = async (vendorId) => {
+  const vendor = await Vendor.findById(vendorId, { groups: 1 }).lean();
+
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  return vendor;
+};
+
+export const addGroups = async (vendorId) => {
+  const groups = [
+    {
+      name: body.name,
+      description: body.description,
+    },
+  ];
+
+  const vendor = await Vendor.findByIdAndUpdate(
+    vendorId,
+    {
+      $push: { groups },
+    },
+    { new: 1, lean: 1 }
+  );
+
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  return vendor;
+};
+
+export const editGroups = async (vendorId, body) => {
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      _id: vendorId,
+      "groups._id": body.groupId,
+    },
+    {
+      $set: {
+        "groups.$.name": body.name,
+        "groups.$.description": body.description,
+      },
+    },
+    { new: 1, lean: 1 }
+  );
+
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.GROUP_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const deleteGroup = async (vendorId, groupId) => {
+  const screen = await Screen.findOne({ groups: groupId }).lean();
+
+  if (screen) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.GROUP_ASSOCIATED_TO_SCREEN,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      _id: vendorId,
+      "groups._id": groupId,
+    },
+    {
+      $pull: {
+        groups: { _id: groupId },
+      },
+    },
+    { new: 1, lean: 1 }
+  );
+
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.GROUP_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};

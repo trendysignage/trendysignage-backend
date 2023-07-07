@@ -78,3 +78,24 @@ export const disableUser = {
     userId: JOI.OBJECTID,
   }),
 };
+
+export const addGroups = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+  }),
+};
+
+export const editGroup = {
+  body: Joi.object().keys({
+    groupId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+  }),
+};
+
+export const deleteGroup = {
+  query: Joi.object().keys({
+    groupId: JOI.OBJECTID,
+  }),
+};

@@ -68,4 +68,15 @@ router.put(
   profileController.disableUser
 );
 
+router
+  .route("/groups")
+  .all(auth())
+  .get(profileController.getGroups)
+  .post(validate(profileValidation.addGroups), profileController.addGroups)
+  .put(validate(profileValidation.editGroup), profileController.editGroups)
+  .delete(
+    validate(profileValidation.deleteGroup),
+    profileController.deleteGroup
+  );
+
 export default router;

@@ -24,7 +24,7 @@ const screenSchema = new mongoose.Schema(
         createdAt: { type: Date, default: new Date() },
       },
     ],
-    groups: [{ type: String }],
+    groups: [{ type: mongoose.Schema.Types.ObjectId }],
     schedule: { type: mongoose.Schema.Types.ObjectId, ref: "schedules" },
     deviceCode: { type: String, required: true },
     device: { type: mongoose.Schema.Types.ObjectId, ref: "devices" },

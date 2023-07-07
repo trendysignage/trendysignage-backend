@@ -196,6 +196,8 @@ const ERROR_MESSAGES = {
     "The media you are trying to delete is set as default composition and thus cannot be deleted.",
   LAYOUT_FAILED: "Failed to create Layout, Please try again!",
   LAYOUT_NOT_FOUND: "Layout not found.",
+  GROUP_NOT_FOUND: "Group not found.",
+  GROUP_ASSOCIATED_TO_SCREEN: "This group has screen(s) associated",
   COMPOSITION_NOT_FOUND: "Composition not found.",
   SCHEDULE_NOT_FOUND: "Schedule not found.",
   OTP_EXPIRED: "OTP has expired, please try again.",

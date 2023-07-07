@@ -195,3 +195,46 @@ export const disableUser = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const getGroups = catchAsync(async (req, res) => {
+  const groups = await profileService.getGroups(req.token.vendor._id);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    groups
+  );
+});
+
+export const addGroups = catchAsync(async (req, res) => {
+  const groups = await profileService.addGroups(req.token.vendor._id, req.body);
+  formatVendor(groups);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    groups
+  );
+});
+
+export const editGroups = catchAsync(async (req, res) => {
+  await profileService.editGroups(req.token.vendor._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const deleteGroup = catchAsync(async (req, res) => {
+  await profileService.deleteGroup(req.token.vendor._id, req.query.groupId);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
