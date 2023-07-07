@@ -1,5 +1,4 @@
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
-import { Vendor } from "../../models/vendorModel.js";
 import { logService, profileService } from "../../services/index.js";
 import { formatVendor } from "../../utils/formatResponse.js";
 import { successResponse } from "../../utils/response.js";
@@ -196,8 +195,3 @@ export const disableUser = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
-
-async function ch() {
-  await Vendor.updateMany({}, { $set: { isEnabled: true } });
-}
-ch();
