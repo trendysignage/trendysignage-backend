@@ -156,6 +156,8 @@ export const addUser = async (vendorId, body) => {
 
   const roles = vendor?.roles[body.role];
 
+  console.log(roles, "rolesssss");
+
   const user = await Vendor.create({
     name: body.name,
     email: body.email,
