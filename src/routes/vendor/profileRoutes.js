@@ -54,4 +54,18 @@ router
   .put(validate(profileValidation.editUser), profileController.editUser)
   .delete(validate(profileValidation.deleteUser), profileController.deleteUser);
 
+router.put(
+  "/changeUserPassword",
+  auth(),
+  validate(profileValidation.changePassword),
+  profileController.changePassword
+);
+
+router.put(
+  "/diableUser",
+  auth(),
+  validate(profileValidation.disableUser),
+  profileController.disableUser
+);
+
 export default router;

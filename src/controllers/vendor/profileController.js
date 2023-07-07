@@ -175,3 +175,23 @@ export const deleteUser = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const changePassword = catchAsync(async (req, res) => {
+  await profileService.changePassword(req.token.vendor._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const disableUser = catchAsync(async (req, res) => {
+  await profileService.disableUser(req.token.vendor._id, req.body.userId);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

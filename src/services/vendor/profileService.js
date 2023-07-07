@@ -171,6 +171,7 @@ export const addUser = async (vendorId, body) => {
     userGroups: body.groups,
     vendor: vendorId,
     isVerified: true,
+    isEnabled: true,
   });
 
   return user.toObject();
@@ -205,6 +206,46 @@ export const deleteUser = async (vendorId, _id) => {
       _id,
     },
     { $set: { isDeleted: true } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!user) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const changePassword = async (vendorId, body) => {
+  const password = bcrypt.hash(body.password, 8);
+
+  const user = await Vendor.findOneAndUpdate(
+    {
+      _id: body.userId,
+      vendor: vendorId,
+      isDeleted: false,
+    },
+    { $set: { password } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!user) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const disableUser = async (vendorId, _id) => {
+  const user = await Vendor.findOneAndUpdate(
+    {
+      _id,
+      vendor: vendorId,
+      isDeleted: false,
+    },
+    { $set: { isEnabled: false } },
     { new: 1, lean: 1 }
   );
 

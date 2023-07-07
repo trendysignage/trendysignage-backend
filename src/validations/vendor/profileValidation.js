@@ -65,3 +65,16 @@ export const deleteUser = {
     userId: JOI.OBJECTID,
   }),
 };
+
+export const changePassword = {
+  body: Joi.object().keys({
+    userId: JOI.OBJECTID,
+    password: JOI.PASSWORD,
+  }),
+};
+
+export const disableUser = {
+  body: Joi.object().keys({
+    userId: JOI.OBJECTID,
+  }),
+};
