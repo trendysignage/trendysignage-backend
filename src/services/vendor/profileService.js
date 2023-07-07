@@ -137,6 +137,12 @@ export const mediaReport = async (vendorId, query) => {
   return reports;
 };
 
+export const getUsers = async (vendor) => {
+  const users = await Vendor.find({ vendor, isDeleted: false }).lean();
+
+  return users;
+};
+
 export const addUser = async (vendorId, body) => {
   if (
     await Vendor.findOne({
@@ -159,6 +165,7 @@ export const addUser = async (vendorId, body) => {
     role: body.role,
     groups: body.groups,
     vendor: vendorId,
+    isVerified: true,
   });
 
   return user.toObject();
