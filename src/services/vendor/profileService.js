@@ -96,9 +96,10 @@ export const getRoles = async (vendorId) => {
 };
 
 export const editRole = async (vendorId, body) => {
-  const vendor = await Vendor.findByIdAndUpdate(vendorId, {
-    $set: { roles: body },
-  });
+  await Vendor.updateMany(
+    { $or: [{ vendor: vendorId }, { _id: vendorId }] },
+    { $set: { roles: body } }
+  );
 };
 
 export const uptimeReport = async (vendorId, query) => {
