@@ -46,4 +46,10 @@ router.get(
 //   profileController.mediaReport
 // );
 
+router
+  .route("/users")
+  .all(auth())
+  .get(profileController.getUsers)
+  .post(validate(profileValidation.addUser), profileController.addUser);
+
 export default router;

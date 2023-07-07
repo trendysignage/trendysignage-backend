@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Composition, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
@@ -134,4 +135,35 @@ export const mediaReport = async (vendorId, query) => {
   const reports = await Vendor.findById(vendorId, { media: 1 }).lean();
 
   return reports;
+};
+
+export const addUser = async (vendorId, body) => {
+  if (
+    await Vendor.findOne({
+      email: body.email,
+      isDeleted: false,
+    }).lean()
+  ) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.EMAIL_ALREADY_EXIST,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  const password = await bcrypt.hash(body.password, 8);
+
+  const vendor = await Vendor.findById(vendorId).lean();
+
+  const roles = vendor?.roles[body.role];
+
+  const user = await Vendor.create({
+    email: body.email,
+    password,
+    role: body.role,
+    groups: body.groups,
+    roles,
+    vendor: vendor._id,
+  });
+
+  return user;
 };

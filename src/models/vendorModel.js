@@ -46,6 +46,13 @@ const vendorSchema = new mongoose.Schema(
       startDate: { type: Date },
       endDate: { type: Date },
     },
+    groups: [
+      {
+        name: { type: String },
+        description: { type: String },
+      },
+    ],
+    vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     role: { type: String, default: ROLE.ADMIN },
     roles: ROLES_SCHEMA,
     totalScreens: { type: Number, default: 1 },

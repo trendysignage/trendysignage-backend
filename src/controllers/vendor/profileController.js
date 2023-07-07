@@ -129,3 +129,15 @@ export const mediaReport = catchAsync(async (req, res) => {
     report
   );
 });
+
+export const addUser = catchAsync(async (req, res) => {
+  const user = await profileService.addUser(req.token.vendor._id, req.body);
+  formatVendor(user);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    user
+  );
+});
