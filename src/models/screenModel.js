@@ -10,7 +10,7 @@ const screenSchema = new mongoose.Schema(
     tags: [{ type: String }],
     defaultComposition: {
       media: {},
-      duration: { type: String },
+      duration: { type: Number },
       type: { type: String },
     },
     contentPlaying: [
