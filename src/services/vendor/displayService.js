@@ -75,7 +75,7 @@ export const addScreen = async (vendorId, body) => {
   });
   device = await Device.findOneAndUpdate(
     { deviceCode: body.code, isDeleted: false },
-    { $set: { isVerified: true, screen: screen._id } },
+    { $set: { isVerified: true, screen: screen._id, vendor: vendorId } },
     { new: true, lean: true }
   );
   let vendor = await Vendor.findOneAndUpdate(
