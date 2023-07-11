@@ -353,7 +353,7 @@ export const addQuickplay = async (vendorId, body, timezone) => {
   }
   const startTime = new Date(localtime(new Date(), timezone) + "Z");
   const endTime = new Date(localtime(new Date(), timezone) + "Z");
-  endTime = endTime.setSeconds(endTime.getSeconds() + body.duration);
+  endTime.setSeconds(endTime.getSeconds() + body.duration);
 
   const quickplay = await Quickplay.create({
     createdBy: vendorId,
