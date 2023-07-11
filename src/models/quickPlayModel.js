@@ -6,6 +6,8 @@ const quickplaySchema = new mongoose.Schema(
     screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     composition: { type: mongoose.Schema.Types.ObjectId, ref: "compositions" },
+    startTime: { type: Date },
+    endTime: { type: Date },
     duration: { type: Number, default: 600 },
     tags: [{ type: String }],
     isDeleted: { type: Boolean, default: false },

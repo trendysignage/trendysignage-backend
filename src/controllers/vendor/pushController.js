@@ -156,7 +156,12 @@ export const getQuickplay = catchAsync(async (req, res) => {
 });
 
 export const addQuickplay = catchAsync(async (req, res) => {
-  const data = await pushService.addQuickplay(req.token.vendor._id, req.body);
+  const timezone = req.headers.timezone ?? "Asia/Kolkata";
+  const data = await pushService.addQuickplay(
+    req.token.vendor._id,
+    req.body,
+    timezone
+  );
   return successResponse(
     res,
     res,

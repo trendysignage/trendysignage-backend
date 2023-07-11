@@ -7,7 +7,7 @@ import {
   Vendor,
 } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import { utcTime } from "../../utils/formatResponse.js";
+import { localtime, utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 
 export const schedules = async (vendorId, query) => {
@@ -333,7 +333,7 @@ export const getQuickplay = async (vendorId, query) => {
   return quickplay;
 };
 
-export const addQuickplay = async (vendorId, body) => {
+export const addQuickplay = async (vendorId, body, timezone) => {
   for (const _id of body.screens) {
     if (!(await Screen.findOne({ _id, isDeleted: false }))) {
       throw new AuthFailedError(
@@ -351,6 +351,9 @@ export const addQuickplay = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  const startTime = new Date(localtime(new Date(), timezone) + "Z");
+  const endTime = new Date(localtime(new Date(), timezone) + "Z");
+  endTime = endTime.setSeconds(endTime.getSeconds() + body.duration);
 
   const quickplay = await Quickplay.create({
     createdBy: vendorId,
@@ -359,6 +362,8 @@ export const addQuickplay = async (vendorId, body) => {
     name: body.name,
     composition: body.composition,
     tags: body.tags,
+    startTime,
+    endTime,
   });
 
   return quickplay;
