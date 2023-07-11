@@ -181,6 +181,8 @@ export const changeDefaultComposition = async (vendorId, body) => {
     type: "composition",
   };
 
+  defaultComposition.media.isDefault = true;
+
   const screen = await Screen.findOneAndUpdate(
     {
       _id: body.screenId,
