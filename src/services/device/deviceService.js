@@ -9,10 +9,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
   let device = await Device.findOne({
     deviceToken: deviceToken,
     isDeleted: false,
-  }).lean();
-  // .populate({ path: "vendor" });
-
-  console.log(device, "dddddddd");
+  })
+    .populate({ path: "vendor" })
+    .lean();
 
   if (!device) {
     device = await Device.create({
@@ -24,6 +23,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
       device.defaultComposition =
         device?.vendor?.defaultComposition?.media?.title;
     }
+    console.log(device.vendor, device, "cccccc");
     device.content = [];
     if (device.screen) {
       // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
