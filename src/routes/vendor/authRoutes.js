@@ -28,6 +28,12 @@ router.post(
   vendorAuthController.verify
 );
 
+router.post(
+  "/socialLogin",
+  validate(vendorAuthValidation.socialLogin),
+  vendorAuthController.socialLogin
+);
+
 router.post("/logout", auth(), commonController.logout);
 
 router.put(

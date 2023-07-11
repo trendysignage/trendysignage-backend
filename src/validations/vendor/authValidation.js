@@ -26,6 +26,14 @@ export const verify = {
   }),
 };
 
+export const socialLogin = {
+  body: Joi.object().keys({
+    name: Joi.string().allow(""),
+    email: JOI.EMAIL,
+    socialId: Joi.string().required(),
+  }),
+};
+
 export const forgotPassword = {
   body: Joi.object().keys({
     email: JOI.EMAIL,

@@ -70,6 +70,28 @@ export const verify = async (_id, tokenOtp, bodyOtp, tokenId) => {
   return updateVendor;
 };
 
+export const socialLogin = async (socialId, email, name) => {
+  let data = {
+    isDeleted: false,
+    isVerified: true,
+    $or: [{ email }, { "socialId.googleId": socialId }],
+  };
+
+  let vendor = await Vendor.findOne(data).lean();
+
+  if (!vendor) {
+    data = {
+      name,
+      email,
+      "socialId.googleId": socialId,
+      isVerified: true,
+    };
+    vendor = await Vendor.create(data);
+  }
+
+  return vendor;
+};
+
 export const resetPassword = async (vendorId, newPassword, tokenId) => {
   let updatedPassword = await bcrypt.hash(newPassword, 8);
   const user = await Vendor.findByIdAndUpdate(vendorId, {

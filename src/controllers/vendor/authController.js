@@ -57,7 +57,7 @@ export const signup = catchAsync(async (req, res) => {
 });
 
 export const verify = catchAsync(async (req, res) => {
-  const { otp, vendor, _id } = req.token;
+  const { otp, vendor, token } = req.token;
   if (!otp) {
     throw new AuthFailedError(
       ERROR_MESSAGES.OTP_ALREADY_VERIFIED,
@@ -69,13 +69,32 @@ export const verify = catchAsync(async (req, res) => {
     otp.code,
     req.body.otp
   );
-  await tokenService.isVerified(_id);
+  await tokenService.isVerified(token);
   formatVendor(data);
   return successResponse(
     req,
     res,
     STATUS_CODES.SUCCESS,
     SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const socialLogin = catchAsync(async (req, res) => {
+  const { socialId, name, email } = req.body;
+  const role = "vendor";
+  const vendor = await vendorAuthService.socialLogin(socialId, email, name);
+  const token = await tokenService.generateAuthToken(vendor, role, "");
+  await tokenService.isVerified(token.token);
+  formatVendor(vendor);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    {
+      token,
+      vendor,
+    }
   );
 });
 
