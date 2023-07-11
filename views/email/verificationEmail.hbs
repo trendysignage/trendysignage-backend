@@ -1,0 +1,75 @@
+<html lang="en" class="no-js">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+  </head>
+
+  <body style="height: 60vh;">
+    <div
+      style="text-align: center;
+	border: 1px solid #dbd8cf;
+		background: linear-gradient(#eee 0%, #fff 10%);
+		background: -ms-linear-gradient(#eee 0%,#fff 10%);
+		background: -moz-linear-gradient(#eee 0%,#fff 10%);
+		background: -webkit-linear-gradient(#eee 0%, #fff 10%);
+min-width: 600px;
+max-width: 700px;
+margin-left: auto;
+margin-right: auto;
+padding: 10px;"
+    >
+      <h1
+        style="font-weight: bold;
+font-size: 30px;
+color: #261134;"
+      >Verification Email</h1>
+      <p
+        style="font-weight: 600;
+font-size: 20px;
+color: #404040;"
+      >
+        Hello
+        {{userName}}, before being able to use your account you need to verify
+        that this is your email address. Here is the verification code you need
+        to verify your account.
+      </p>
+      <div
+        style="display: block; text-align: center; margin-bottom: 34px; 
+                  background:
+                  black;
+                  color:
+                  white;
+                  font-size:
+                  24px;
+                  font-weight:
+                  800;
+                  padding-top:
+                  15px;
+                  padding-bottom:
+                  15px;
+                  width:
+                  100px;
+                  text-align:
+                  center;           
+                  margin-left:
+                  auto;
+                  margin-right:
+                  auto; box-shadow: 0 0 12px rgb(0, 0, 0, 0.2);"
+      >
+        {{otp}}
+      </div>
+      <p
+        style="font-weight: 500;
+  font-size: 20px;
+  color: rgba(0,0,0,0.4);"
+      >
+        The verification code contained in this email is required to verify your
+        account. Do not share this code with anyone.
+      </p>
+    </div>
+  </body>
+
+</html>

@@ -50,7 +50,8 @@ const generateId = async () => {
 };
 
 const generateOtp = () => {
-  const code = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
+  // const code = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
+  const code = 22222;
   const otpExpires = new Date();
   otpExpires.setSeconds(otpExpires.getSeconds() + 240);
   return { code, expiresAt: otpExpires };

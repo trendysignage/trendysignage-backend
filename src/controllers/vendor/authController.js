@@ -5,7 +5,10 @@ import {
   USER_TYPE,
 } from "../../config/appConstants.js";
 import config from "../../config/config.js";
-import { forgotPasswordEmail } from "../../libs/sendEmail.js";
+import {
+  forgotPasswordEmail,
+  verificationEmail,
+} from "../../libs/sendEmail.js";
 import {
   profileService,
   tokenService,
@@ -21,12 +24,8 @@ export const login = catchAsync(async (req, res) => {
 
   const vendor = await vendorAuthService.login(email, password);
   formatVendor(vendor);
-  const token = await tokenService.generateAuthToken(
-    vendor,
-    USER_TYPE.VENDOR
-    // req.body.deviceToken
-  );
-  const updateToken = await tokenService.isVerified(token);
+  const token = await tokenService.generateAuthToken(vendor, USER_TYPE.VENDOR);
+  const updateToken = await tokenService.isVerified(token.token);
   // await logService.createLog(
   //   vendor._id,
   //   SUCCESS_MESSAGES.LOGIN,
@@ -46,24 +45,13 @@ export const signup = catchAsync(async (req, res) => {
   const vendor = await vendorAuthService.signup(email, password, name);
   formatVendor(vendor);
   const otp = generateOtp();
-  const token = await tokenService.generateAuthToken(
-    vendor,
-    role,
-    "req.body.deviceToken",
-    otp
-  );
-  console.log(otp);
-  // sendEmail({
-  //   from: process.env.EMAIL,
-  //   to: email,
-  //   subject: "OTP for Trendy signup",
-  //   text: otp,
-  // });
+  const token = await tokenService.generateAuthToken(vendor, role, "", otp);
+  verificationEmail(email, vendor.name, otp.code);
   return successResponse(
     req,
     res,
     STATUS_CODES.SUCCESS,
-    SUCCESS_MESSAGES.SUCCESS,
+    SUCCESS_MESSAGES.MAIL_SENT,
     { token, vendor }
   );
 });

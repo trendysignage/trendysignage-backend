@@ -7,6 +7,12 @@ import config from "../config/config.js";
 dotenv.config();
 const __dirname = path.resolve();
 
+var verification = fs.readFileSync(
+  path.join(__dirname, "/views/email/verificationEmail.hbs"),
+  "utf8"
+);
+var verificationEmailTemplate = Handlebars.compile(verification);
+
 var resetPassword = fs.readFileSync(
   path.join(__dirname, "/views/email/resetPassword.hbs"),
   "utf8"
@@ -46,6 +52,27 @@ export const forgotPasswordEmail = async (email, token, userName) => {
       title: "Forgot Password",
       token,
       userName,
+    }),
+  };
+  await sendEmail(info);
+};
+
+export const verificationEmail = async (email, userName, otp) => {
+  var info = {
+    from: `"TRENDYY ${config.smtp.email}`,
+    to: email,
+    subject: "Verification Email",
+    // attachments: [
+    //   {
+    //     filename: "logo.png",
+    //     path: __dirname + "/images/logo.png",
+    //     cid: "logo",
+    //   },
+    // ],
+    html: verificationEmailTemplate({
+      title: "Verification Email",
+      userName,
+      otp,
     }),
   };
   await sendEmail(info);

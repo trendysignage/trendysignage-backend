@@ -9,6 +9,7 @@ export const login = async (email, password) => {
   const vendor = await Vendor.findOne({
     email,
     isDeleted: false,
+    isVerified: true,
   }).lean();
   if (!vendor) {
     throw new AuthFailedError(

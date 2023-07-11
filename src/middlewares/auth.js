@@ -24,7 +24,7 @@ const verifyCallback =
     if (token.role === USER_TYPE.ADMIN && !token.admin) {
       return reject(new AuthFailedError());
     } else {
-      if (token.otp) {
+      if (token.otp && req.url === "/verifyOtp") {
         if (token.otp.expiresAt < new Date()) {
           return reject(
             new AuthFailedError(
