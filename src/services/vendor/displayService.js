@@ -23,12 +23,10 @@ export const deviceCode = async (vendorId, code) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  console.log(
-    await Device.findOneAndUpdate(
-      { deviceCode: code, isDeleted: false },
-      { $set: { vendor: vendorId } },
-      { new: true, lean: 1 }
-    )
+  await Device.findOneAndUpdate(
+    { deviceCode: code, isDeleted: false },
+    { $set: { vendor: vendorId } },
+    { new: true, lean: 1 }
   );
 };
 
