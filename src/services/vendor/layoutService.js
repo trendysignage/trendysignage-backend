@@ -120,6 +120,7 @@ export const addComposition = async (vendorId, body) => {
     zones: body.zones,
     duration: body.duration,
     referenceUrl: body.referenceUrl,
+    tags: body.tags,
   };
   const composition = await Composition.create(data);
   if (!composition) {

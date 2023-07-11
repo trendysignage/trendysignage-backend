@@ -73,6 +73,7 @@ export const addComposition = {
       })
       .required(),
     duration: Joi.number().required(),
+    tags: Joi.array().items(Joi.string().allow("")).allow("").default([]),
     referenceUrl: Joi.array().items(Joi.string().required()).required(),
   }),
 };
