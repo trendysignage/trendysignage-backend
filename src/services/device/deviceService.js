@@ -20,7 +20,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
     });
   } else {
     if (device.vendor) {
-      device.defaultComposition = device?.vendor?.defaultComposition?.media;
+      device.defaultComposition = device?.vendor?.defaultComposition;
     }
     device.content = [];
     if (device.screen) {
@@ -119,8 +119,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     });
   } else {
     if (device.vendor) {
-      device.defaultComposition =
-        device?.vendor?.defaultComposition?.media?.title;
+      device.defaultComposition = device?.vendor?.defaultComposition;
     }
     if (device.screen) {
       // screen = await Screen.findOne({
