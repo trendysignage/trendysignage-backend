@@ -94,6 +94,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
         item.endTime = localtime(item.endTime, timezone);
         return item;
       });
+      if (screen.defaultComposition) {
+        device.defaultComposition = screen?.defaultComposition;
+      }
     }
 
     device.content = screen?.contentPlaying ?? [];
@@ -144,6 +147,9 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           ERROR_MESSAGES.SCREEN_NOT_FOUND,
           STATUS_CODES.ACTION_FAILED
         );
+      }
+      if (screen.defaultComposition) {
+        device.defaultComposition = screen?.defaultComposition;
       }
     }
 
