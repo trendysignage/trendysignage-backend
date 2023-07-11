@@ -12,6 +12,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
   }).lean();
   // .populate({ path: "vendor" });
 
+  console.log(device, "dddddddd");
+
   if (!device) {
     device = await Device.create({
       deviceToken: deviceToken,
