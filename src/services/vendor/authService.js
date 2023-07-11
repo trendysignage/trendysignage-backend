@@ -47,6 +47,7 @@ export const signup = async (email, password, name) => {
         title: config.defaultComposition,
         type: "image",
       },
+      type: "media",
       duration: 10,
     },
   });

@@ -14,6 +14,7 @@ export const defaultComposition = async (vendorId, body) => {
   const defaultComposition = {
     media: composition,
     duration: body.duration,
+    type: "composition",
   };
 
   const vendor = await Vendor.findByIdAndUpdate(

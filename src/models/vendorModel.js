@@ -17,6 +17,7 @@ const vendorSchema = new mongoose.Schema(
     password: { type: String },
     defaultComposition: {
       media: {},
+      type: { type: String },
       duration: { type: Number },
     },
     media: [

@@ -178,6 +178,7 @@ export const changeDefaultComposition = async (vendorId, body) => {
   const defaultComposition = {
     media: composition,
     duration: body.duration,
+    type: "composition",
   };
 
   const screen = await Screen.findOneAndUpdate(
