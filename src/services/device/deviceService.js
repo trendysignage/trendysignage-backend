@@ -20,10 +20,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
     });
   } else {
     if (device.vendor) {
-      device.defaultComposition =
-        device?.vendor?.defaultComposition?.media?.title;
+      device.defaultComposition = device?.vendor?.defaultComposition?.media;
     }
-    console.log(device.vendor, device, "cccccc");
     device.content = [];
     if (device.screen) {
       // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
