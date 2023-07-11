@@ -44,7 +44,7 @@ export const getScreens = async (query, vendorId) => {
     paginationOptions(query.page, query.limit)
   )
     .sort({ createdAt: -1 })
-    .populate({ path: "device" });
+    .populate([{ path: "device" }, { path: "schedule" }]);
 
   return screens;
 };
