@@ -14,6 +14,7 @@ export const schedules = async (vendorId, query) => {
   let data = {
     createdBy: vendorId,
     isDeleted: false,
+    sequence: { $exists: true },
   };
 
   if (query.search) {
