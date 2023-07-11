@@ -42,4 +42,9 @@ router.post(
   pushController.dates
 );
 
+router
+  .route("/quickPlay")
+  .all(auth())
+  .get(validate(pushValidation.getQuickPlay), pushController.getQuickPlay);
+
 export default router;

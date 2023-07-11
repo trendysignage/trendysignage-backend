@@ -143,3 +143,14 @@ export const dates = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const getQuickPlay = catchAsync(async (req, res) => {
+  const data = await pushService.getQuickPlay(req.token.vendor._id, req.query);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    data
+  );
+});

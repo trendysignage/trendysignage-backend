@@ -73,3 +73,11 @@ export const dates = {
     }),
   }),
 };
+
+export const getQuickPlay = {
+  query: Joi.object().keys({
+    search: Joi.string().allow(""),
+    page: JOI.PAGE,
+    limit: JOI.LIMIT,
+  }),
+};

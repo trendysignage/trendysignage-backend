@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Schedule, Screen, Vendor } from "../../models/index.js";
+import { Quickplay, Schedule, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
@@ -303,4 +303,26 @@ export const dates = async (vendorId, body) => {
   }
 
   return schedule;
+};
+
+export const getQuickPlay = async (vendorId, query) => {
+  let data = {
+    isDeleted: false,
+    createdBy: vendorId,
+  };
+
+  if (query.search) {
+    let searchReg = RegExp(query.search, "i");
+    data = { ...data, name: { $regex: searchReg } };
+  }
+
+  const quickplay = await Quickplay.find(
+    data,
+    {},
+    paginationOptions(query.page, query.limit)
+  )
+    .populate({ path: "composition" })
+    .lean();
+
+  return quickplay;
 };
