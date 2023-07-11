@@ -144,13 +144,34 @@ export const dates = catchAsync(async (req, res) => {
   );
 });
 
-export const getQuickPlay = catchAsync(async (req, res) => {
-  const data = await pushService.getQuickPlay(req.token.vendor._id, req.query);
+export const getQuickplay = catchAsync(async (req, res) => {
+  const data = await pushService.getQuickplay(req.token.vendor._id, req.query);
   return successResponse(
     res,
     res,
     STATUS_CODES.SUCCESS,
     SUCCESS_MESSAGES.SUCCESS,
     data
+  );
+});
+
+export const addQuickplay = catchAsync(async (req, res) => {
+  const data = await pushService.addQuickplay(req.token.vendor._id, req.body);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    data
+  );
+});
+
+export const deleteQuickplay = catchAsync(async (req, res) => {
+  await pushService.deleteQuickplay(req.token.vendor._id, req.query.id);
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
   );
 });

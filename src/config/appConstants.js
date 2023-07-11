@@ -206,6 +206,7 @@ const ERROR_MESSAGES = {
   TOKEN_NOT_FOUND: "Token not found!",
   WRONG_TYPE_OR_ID:
     "The Type or Id of the content you are trying to publish is incorrect!",
+  QUICKPLAY_NOT_FOUND: "Quickplay not found",
 };
 
 const STATUS_CODES = {

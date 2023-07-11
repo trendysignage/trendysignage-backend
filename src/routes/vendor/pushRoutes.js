@@ -43,8 +43,13 @@ router.post(
 );
 
 router
-  .route("/quickPlay")
+  .route("/quickplay")
   .all(auth())
-  .get(validate(pushValidation.getQuickPlay), pushController.getQuickPlay);
+  .get(validate(pushValidation.getQuickplay), pushController.getQuickplay)
+  .post(validate(pushValidation.addQuickplay), pushController.addQuickplay)
+  .delete(
+    validate(pushValidation.deleteQuickplay),
+    pushController.deleteQuickplay
+  );
 
 export default router;

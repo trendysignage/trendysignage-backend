@@ -74,10 +74,26 @@ export const dates = {
   }),
 };
 
-export const getQuickPlay = {
+export const getQuickplay = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),
     page: JOI.PAGE,
     limit: JOI.LIMIT,
+  }),
+};
+
+export const addQuickplay = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    compositionId: JOI.OBJECTID,
+    duration: Joi.number().required().default(600),
+    screens: Joi.array().items(JOI.OBJECTID).required(),
+    tags: Joi.array().items(Joi.string().allow("")).default([]),
+  }),
+};
+
+export const deleteQuickplay = {
+  query: Joi.object().keys({
+    id: JOI.OBJECTID,
   }),
 };

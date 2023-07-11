@@ -1,5 +1,11 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Quickplay, Schedule, Screen, Vendor } from "../../models/index.js";
+import {
+  Composition,
+  Quickplay,
+  Schedule,
+  Screen,
+  Vendor,
+} from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
@@ -305,7 +311,7 @@ export const dates = async (vendorId, body) => {
   return schedule;
 };
 
-export const getQuickPlay = async (vendorId, query) => {
+export const getQuickplay = async (vendorId, query) => {
   let data = {
     isDeleted: false,
     createdBy: vendorId,
@@ -325,4 +331,54 @@ export const getQuickPlay = async (vendorId, query) => {
     .lean();
 
   return quickplay;
+};
+
+export const addQuickplay = async (vendorId, body) => {
+  for (const _id of body.screens) {
+    if (!(await Screen.findOne({ _id, isDeleted: false }))) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCREEN_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  }
+
+  if (
+    !(await Composition.findOne({ _id: body.compositionId, isDeleted: false }))
+  ) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  const quickplay = await Quickplay.create({
+    createdBy: vendorId,
+    screens: body.screens,
+    duration: body.duration,
+    name: body.name,
+    composition: body.composition,
+    tags: body.tags,
+  });
+
+  return quickplay;
+};
+
+export const deleteQuickplay = async (createdBy, _id) => {
+  const quickplay = await Quickplay.findOneAndUpdate(
+    {
+      _id,
+      createdBy,
+      isDeleted: false,
+    },
+    { $set: { isDeleted: true } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!quickplay) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.QUICKPLAY_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };
