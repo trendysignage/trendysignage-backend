@@ -22,6 +22,8 @@ const compositionSchema = new mongoose.Schema(
         ],
       },
     ],
+    groups: [{ type: mongoose.Schema.Types.ObjectId }],
+    tags: [{ type: String }],
     duration: { type: Number },
     schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: "schedules" }],
     referenceUrl: [{ type: String }],

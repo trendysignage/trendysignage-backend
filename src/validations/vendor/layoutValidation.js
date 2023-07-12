@@ -49,6 +49,10 @@ export const getCompositions = {
     search: Joi.string().allow(""),
     page: Joi.number().allow("").default(0),
     limit: Joi.number().allow("").default(10),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
+    groups: Joi.array()
+      .items(Joi.string().custom(objectId).allow(""))
+      .allow(""),
   }),
 };
 

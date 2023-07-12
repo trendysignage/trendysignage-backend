@@ -37,6 +37,21 @@ export const getScreens = async (query, vendorId) => {
     let searchReg = RegExp(query.search, "i");
     data = { ...data, name: { $regex: searchReg } };
   }
+  if (query.status) {
+    if (query.status === "live") {
+      data = { ...data, isConnected: true };
+    } else if (query.status === "offline") {
+      data = { ...data, isConnected: false };
+    } else {
+      data = { ...data, isDeleted: true };
+    }
+  }
+  if (query.tags) {
+    data = { ...data, tags: { $in: query.tags } };
+  }
+  if (query.groups) {
+    data = { ...data, groups: { $in: query.groups } };
+  }
 
   let screens = await Screen.find(
     data,
@@ -209,15 +224,25 @@ export const getMedia = async (query, vendorId) => {
   let vendor;
   if (!query.type) {
     let data = { _id: vendorId, isDeleted: false };
-
+    let projection = { media: 1 };
     if (query.search) {
       let searchReg = RegExp(query.search, "i");
       data = { ...data, "media.title": { $regex: searchReg } };
     }
-
-    vendor = await Vendor.findOne(data)
+    if (query.filterType) {
+      data = { ...data, "media.type": { $eq: query.filterType } };
+      projection = { "media.$": 1 };
+    }
+    if (query.tags) {
+      data = { ...data, "media.tags": { $in: query.tags } };
+      projection = { "media.$": 1 };
+    }
+    if (query.groups) {
+      data = { ...data, "media.groups": { $in: query.groups } };
+      projection = { "media.$": 1 };
+    }
+    vendor = await Vendor.findOne(data, projection)
       .lean()
-      .select("media")
       .populate({
         path: "media.createdBy",
         select: ["_id", "name"],

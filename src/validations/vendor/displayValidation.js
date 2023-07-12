@@ -12,6 +12,11 @@ export const getScreens = {
     search: Joi.string().allow(""),
     page: Joi.number().allow("").default(0),
     limit: Joi.number().allow("").default(10),
+    status: Joi.string().valid("live", "offline", "deactivated").allow(""),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
+    groups: Joi.array()
+      .items(Joi.string().custom(objectId).allow(""))
+      .allow(""),
   }),
 };
 
@@ -62,7 +67,12 @@ export const getMedia = {
     search: Joi.string().allow(""),
     page: Joi.number().allow("").default(0),
     limit: Joi.number().allow("").default(10),
-    type: Joi.string().allow("").valid("image", "video", "apps"),
+    type: Joi.string().allow("").valid("image", "video", "apps", "pdf"),
+    filterType: Joi.string().allow("").valid("image", "video", "apps", "pdf"),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
+    groups: Joi.array()
+      .items(Joi.string().custom(objectId).allow(""))
+      .allow(""),
   }),
 };
 
