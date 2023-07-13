@@ -21,6 +21,9 @@ export const schedules = async (vendorId, query) => {
     let searchReg = RegExp(query.search, "i");
     data = { ...data, name: { $regex: searchReg } };
   }
+  if (query.tags) {
+    data = { ...data, tags: { $in: query.tags } };
+  }
 
   let schedules = await Schedule.find(
     data,

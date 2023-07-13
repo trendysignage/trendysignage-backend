@@ -6,6 +6,7 @@ export const schedules = {
     search: Joi.string().allow(""),
     page: JOI.PAGE,
     limit: JOI.LIMIT,
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
 
