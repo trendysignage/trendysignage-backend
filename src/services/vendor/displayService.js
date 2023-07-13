@@ -233,7 +233,7 @@ export const getMedia = async (query, vendorId) => {
       data = { ...data, "media.type": { $eq: query.filterType } };
     }
     if (query.tags) {
-      data = { ...data, "media.tags": query.tags };
+      data = { ...data, media: { $elemMatch: { tags: { $in: query.tags } } } };
     }
     vendor = await Vendor.findOne(data, projection)
       .lean()
