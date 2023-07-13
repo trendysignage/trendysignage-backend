@@ -24,6 +24,7 @@ export const schedules = async (vendorId, query) => {
   if (query.tags) {
     data = { ...data, tags: { $in: query.tags } };
   }
+  console.log(data, "ddddd");
 
   let schedules = await Schedule.find(
     data,

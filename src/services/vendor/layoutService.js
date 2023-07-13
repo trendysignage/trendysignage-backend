@@ -88,9 +88,6 @@ export const getCompositions = async (vendorId, query) => {
   if (query.tags) {
     data = { ...data, tags: { $in: query.tags } };
   }
-  if (query.groups) {
-    data = { ...data, groups: { $in: query.groups } };
-  }
 
   let compositions = await Composition.find(
     data,

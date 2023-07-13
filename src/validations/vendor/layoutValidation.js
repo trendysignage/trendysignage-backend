@@ -51,9 +51,6 @@ export const getCompositions = {
     page: Joi.number().allow("").default(0),
     limit: Joi.number().allow("").default(10),
     tags: Joi.array().items(Joi.string().allow("")).allow(""),
-    groups: Joi.array()
-      .items(Joi.string().custom(objectId).allow(""))
-      .allow(""),
   }),
 };
 
@@ -78,7 +75,7 @@ export const addComposition = {
       })
       .required(),
     duration: Joi.number().required(),
-    tags: Joi.array().items(Joi.string().allow("")).allow("").default([]),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
     referenceUrl: Joi.array().items(Joi.string().required()).required(),
   }),
 };
