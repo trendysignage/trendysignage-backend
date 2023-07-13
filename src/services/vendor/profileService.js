@@ -271,7 +271,7 @@ export const getGroups = async (vendorId) => {
   return vendor;
 };
 
-export const addGroups = async (vendorId) => {
+export const addGroups = async (vendorId, body) => {
   const groups = [
     {
       name: body.name,
@@ -461,7 +461,7 @@ export const assign = async (vendor, body) => {
       );
     }
   }
-  
+
   await Profile.updateOne(
     { _id: profile._id },
     { $set: { screens: body.screens } },
