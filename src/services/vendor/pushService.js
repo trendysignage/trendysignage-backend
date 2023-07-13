@@ -9,6 +9,7 @@ import {
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime, utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
+import { emit } from "../socketService.js";
 
 export const schedules = async (vendorId, query) => {
   let data = {
@@ -369,6 +370,34 @@ export const addQuickplay = async (vendorId, body, timezone) => {
     startTime,
     endTime,
   });
+
+  for (const _id of body.screens) {
+    const composition = await Composition.findOne({
+      _id: body.composition,
+    }).lean();
+
+    let contentPlaying = {
+      media: composition,
+      duration: body.duration,
+      type: "composition",
+      startTime: new Date(localtime(new Date(), timezone) + "Z"),
+      endTime: new Date(localtime(new Date(), timezone) + "Z"),
+      createdAt: new Date(localtime(new Date(), timezone) + "Z"),
+    };
+
+    contentPlaying.endTime.setSeconds(
+      contentPlaying.startTime.getSeconds() + body.duration
+    );
+
+    const screen = await Screen.findOneAndUpdate(
+      { _id },
+      { $push: { contentPlaying } },
+      { new: 1, lean: 1 }
+    ).lean();
+
+    await emit(screen.device?.deviceToken, contentPlaying);
+    await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
+  }
 
   return quickplay;
 };
