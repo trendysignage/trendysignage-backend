@@ -79,4 +79,28 @@ router
     profileController.deleteGroup
   );
 
+router
+  .route("/deviceProfile")
+  .all(auth())
+  .get(profileController.getDeviceProfiles)
+  .post(
+    validate(profileValidation.addDeviceProfile),
+    profileController.addDeviceProfile
+  )
+  .put(
+    validate(profileValidation.editDeviceProfile),
+    profileController.editDeviceProfile
+  )
+  .delete(
+    validate(profileValidation.deleteDeviceProfile),
+    profileController.deleteDeviceProfile
+  );
+
+router.post(
+  "/assign",
+  auth(),
+  validate(profileValidation.assign),
+  profileController.assign
+);
+
 export default router;

@@ -43,6 +43,7 @@ const screenSchema = new mongoose.Schema(
         time: { type: Number, default: 0 },
       },
     ],
+    deviceProfile: { type: mongoose.Schema.Types.ObjectId, ref: "profiles" },
     connectionStartTime: { type: Date },
     isConnected: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },

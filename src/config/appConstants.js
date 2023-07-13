@@ -187,6 +187,7 @@ const ERROR_MESSAGES = {
   WRONG_TYPE_OR_ID:
     "The Type or Id of the content you are trying to publish is incorrect!",
   QUICKPLAY_NOT_FOUND: "Quickplay not found",
+  DEVICE_PROFILE_NOT_FOUND: "Device Profile not found",
 };
 
 const STATUS_CODES = {
@@ -239,6 +240,11 @@ const LOG_MESSAGES = {
   GET_QUICKPLAY: "successfully fetched all quickplays",
   ADD_QUICKPLAY: "successfully added a new quickplay",
   DELETE_QUICKPLAY: "successfully deleted a quickplay",
+  GET_PROFILES: "successfully fetched all device profiles",
+  ADD_PROFILE: "successfully added a new profile",
+  EDIT_PROFILE: "successfully edited a profile",
+  DELETE_PROFILE: "successfully deleted a profile",
+  ASSIGN_DEVICE_PROFILE: "successfully assigned device profile to screen",
 };
 
 export { ERROR_MESSAGES, JOI, STATUS_CODES, SUCCESS_MESSAGES, LOG_MESSAGES };

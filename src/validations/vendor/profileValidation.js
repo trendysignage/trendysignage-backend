@@ -99,3 +99,45 @@ export const deleteGroup = {
     groupId: JOI.OBJECTID,
   }),
 };
+
+export const addDeviceProfile = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    title: Joi.string().required(),
+    type: Joi.string().required(),
+    x: Joi.number().required(),
+    y: Joi.number().required(),
+    height: Joi.number().required(),
+    width: Joi.number().required(),
+    screenHealthIndicator: Joi.boolean().required().default(true),
+    orientation: Joi.string().valid("landscape", "portrait").required(),
+  }),
+};
+
+export const editDeviceProfile = {
+  body: Joi.object().keys({
+    profileId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    title: Joi.string().required(),
+    type: Joi.string().required(),
+    x: Joi.number().required(),
+    y: Joi.number().required(),
+    height: Joi.number().required(),
+    width: Joi.number().required(),
+    screenHealthIndicator: Joi.boolean().required().default(true),
+    orientation: Joi.string().valid("landscape", "portrait").required(),
+  }),
+};
+
+export const deleteDeviceProfile = {
+  query: Joi.object().keys({
+    profileId: JOI.OBJECTID,
+  }),
+};
+
+export const assign = {
+  body: Joi.object().keys({
+    profileId: JOI.OBJECTID,
+    screens: Joi.array().items(JOI.OBJECTID).required(),
+  }),
+};

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Composition, Screen, Vendor } from "../../models/index.js";
+import { Composition, Profile, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
@@ -349,4 +349,122 @@ export const deleteGroup = async (vendorId, groupId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+};
+
+export const getDeviceProfiles = async (vendor) => {
+  const profiles = await Profile.find({ vendor, isDeleted: false }).lean();
+
+  return profiles;
+};
+
+export const addDeviceProfile = async (vendor, body) => {
+  const profile = await Profile.create({
+    name: body.name,
+    logo: {
+      title: body.title,
+      type: body.type,
+      coordinates: {
+        x: body.x,
+        y: body.y,
+      },
+      dimensions: {
+        height: body.height,
+        width: body.width,
+      },
+      orientation: body.orientation,
+    },
+    vendor,
+    screenHealthIndicator: body.screenHealthIndicator,
+  });
+  return profile;
+};
+
+export const editDeviceProfile = async (vendor, body) => {
+  const dataToBeUpdated = {
+    name: body.name,
+    logo: {
+      title: body.title,
+      type: body.type,
+      coordinates: {
+        x: body.x,
+        y: body.y,
+      },
+      dimensions: {
+        height: body.height,
+        width: body.width,
+      },
+      orientation: body.orientation,
+    },
+    screenHealthIndicator: body.screenHealthIndicator,
+  };
+
+  const profile = await Profile.findOneAndUpdate(
+    {
+      _id: body.profileId,
+      isDeleted: false,
+      vendor,
+    },
+    { $set: dataToBeUpdated },
+    { new: 1, lean: 1 }
+  );
+
+  if (!profile) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEVICE_PROFILE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const deleteDeviceProfile = async (vendor, _id) => {
+  const profile = await Profile.findOneAndUpdate(
+    {
+      _id,
+      vendor,
+      isDeleted: false,
+    },
+    { $set: { isDeleted: true } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!profile) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEVICE_PROFILE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
+export const assign = async (vendor, body) => {
+  const profile = await Profile.findOne({
+    _id: body.profileId,
+    isDeleted: false,
+    vendor,
+  }).lean();
+
+  if (!profile) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEVICE_PROFILE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  for (const _id of body.screens) {
+    const screen = await Screen.findOneAndUpdate(
+      { _id, isDeleted: false },
+      { $set: { deviceProfile: profile } }
+    ).lean();
+    if (!screen) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCREEN_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  }
+  
+  await Profile.updateOne(
+    { _id: profile._id },
+    { $set: { screens: body.screens } },
+    { new: 1, lean: 1 }
+  );
 };

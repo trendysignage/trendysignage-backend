@@ -242,3 +242,86 @@ export const deleteGroup = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const getDeviceProfiles = catchAsync(async (req, res) => {
+  const profiles = await profileService.getDeviceProfiles(req.token.vendor._id);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.GET_PROFILES,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    profiles
+  );
+});
+
+export const addDeviceProfile = catchAsync(async (req, res) => {
+  const profile = await profileService.addDeviceProfile(
+    req.token.vendor._id,
+    req.body
+  );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.ADD_PROFILE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    profile
+  );
+});
+
+export const editDeviceProfile = catchAsync(async (req, res) => {
+  await profileService.editDeviceProfile(req.token.vendor._id, req.body);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.EDIT_PROFILE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const deleteDeviceProfile = catchAsync(async (req, res) => {
+  await profileService.deleteDeviceProfile(
+    req.token.vendor._id,
+    req.query.profileId
+  );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.DELETE_PROFILE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const assign = catchAsync(async (req, res) => {
+  await profileService.assign(req.token.vendor._id, req.body);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.ASSIGN_DEVICE_PROFILE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

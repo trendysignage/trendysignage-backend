@@ -10,6 +10,7 @@ import { Schedule } from "./scheduleModel.js";
 import { Screen } from "./screenModel.js";
 import { Token } from "./tokenModel.js";
 import { Vendor } from "./vendorModel.js";
+import { Profile } from "./deviceProfileModel.js";
 
 export {
   Admin,
@@ -24,4 +25,5 @@ export {
   Screen,
   Token,
   Vendor,
+  Profile,
 };
