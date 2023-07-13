@@ -4,28 +4,33 @@ import { AuthFailedError } from "../utils/errors.js";
 import { localtime, utcTime } from "../utils/formatResponse.js";
 import { paginationOptions } from "../utils/universalFunction.js";
 
-export const createLog = async (vendorId, data, timezone) => {
+export const createLog = async (vendorId, title, timezone) => {
   let createdAt = utcTime(new Date(), timezone);
   const log = await Logs.create({
     vendor: vendorId,
-    title: data,
+    title,
     createdAt,
   });
+
   if (!log) {
     throw new AuthFailedError(
       ERROR_MESSAGES.SERVER_ERROR,
       STATUS_CODES.ACTION_FAILED
     );
   }
+
   return log;
 };
 
 export const getLogs = async (vendorId, query, timezone) => {
+  const startDate = utcTime(query.startDate, timezone);
+  const endDate = utcTime(query.endDate, timezone);
+
   const logs = await Logs.find(
     {
       vendor: vendorId,
       isDeleted: false,
-      createdAt: { $gte: query.startDate, $lte: query.endDate },
+      createdAt: { $gte: startDate, $lte: endDate },
     },
     {},
     paginationOptions(query.page, query.limit)

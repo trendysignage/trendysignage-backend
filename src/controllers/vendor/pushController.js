@@ -1,5 +1,9 @@
-import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
-import { pushService } from "../../services/index.js";
+import {
+  LOG_MESSAGES,
+  STATUS_CODES,
+  SUCCESS_MESSAGES,
+} from "../../config/appConstants.js";
+import { logService, pushService } from "../../services/index.js";
 import { successResponse } from "../../utils/response.js";
 import { catchAsync } from "../../utils/universalFunction.js";
 
@@ -7,6 +11,11 @@ export const schedules = catchAsync(async (req, res) => {
   const schedules = await pushService.schedules(
     req.token.vendor._id,
     req.query
+  );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.GET_SCHEDULES,
+    req.headers.timezone ?? "Asia/Kolkata"
   );
   return successResponse(
     res,
@@ -33,11 +42,11 @@ export const addSchedule = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.body
   );
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.ADD_SCHEDULE,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.ADD_SCHEDULE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     res,
     res,
@@ -49,11 +58,11 @@ export const addSchedule = catchAsync(async (req, res) => {
 
 export const editSchedule = catchAsync(async (req, res) => {
   await pushService.editSchedule(req.token.vendor._id, req.body);
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.EDIT_SCHEDULE,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.EDIT_SCHEDULE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     res,
     res,
@@ -64,11 +73,11 @@ export const editSchedule = catchAsync(async (req, res) => {
 
 export const deleteSchedule = catchAsync(async (req, res) => {
   await pushService.deleteSchedule(req.token.vendor._id, req.query.scheduleId);
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.DELETE_SCHEDULE,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.DELETE_SCHEDULE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     res,
     res,
@@ -146,6 +155,11 @@ export const dates = catchAsync(async (req, res) => {
 
 export const getQuickplay = catchAsync(async (req, res) => {
   const data = await pushService.getQuickplay(req.token.vendor._id, req.query);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.GET_QUICKPLAY,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     res,
     res,
@@ -162,6 +176,11 @@ export const addQuickplay = catchAsync(async (req, res) => {
     req.body,
     timezone
   );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.ADD_QUICKPLAY,
+    timezone
+  );
   return successResponse(
     res,
     res,
@@ -173,6 +192,11 @@ export const addQuickplay = catchAsync(async (req, res) => {
 
 export const deleteQuickplay = catchAsync(async (req, res) => {
   await pushService.deleteQuickplay(req.token.vendor._id, req.query.id);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.DELETE_QUICKPLAY,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     res,
     res,

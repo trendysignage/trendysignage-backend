@@ -1,4 +1,8 @@
-import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
+import {
+  LOG_MESSAGES,
+  STATUS_CODES,
+  SUCCESS_MESSAGES,
+} from "../../config/appConstants.js";
 import { logService, profileService } from "../../services/index.js";
 import { formatVendor } from "../../utils/formatResponse.js";
 import { successResponse } from "../../utils/response.js";
@@ -6,11 +10,11 @@ import { catchAsync } from "../../utils/universalFunction.js";
 
 export const defaultComposition = catchAsync(async (req, res) => {
   await profileService.defaultComposition(req.token.vendor._id, req.body);
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.DEFAULT_COMPOSITION,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.DEFAULT_COMPOSITION,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
@@ -33,11 +37,11 @@ export const getProfile = catchAsync(async (req, res) => {
 
 export const editProfile = catchAsync(async (req, res) => {
   await profileService.editProfile(req.token.vendor._id, req.body);
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.EDIT_PROFILE,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.EDIT_PROFILE,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
@@ -59,11 +63,11 @@ export const getRoles = catchAsync(async (req, res) => {
 
 export const editRole = catchAsync(async (req, res) => {
   await profileService.editRole(req.token.vendor._id, req.body);
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.EDIT_ROLES,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.EDIT_ROLES,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
@@ -78,11 +82,11 @@ export const auditReport = catchAsync(async (req, res) => {
     req.query,
     req.headers.timezone
   );
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.GET_AUDIT_LOGS,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.GET_AUDIT_LOGS,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
@@ -97,11 +101,11 @@ export const uptimeReport = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query
   );
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.GET_AUDIT_LOGS,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.GET_UPTIME_REPORTS,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
@@ -116,11 +120,11 @@ export const mediaReport = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query
   );
-  // await logService.createLog(
-  //   req.token.vendor._id,
-  //   SUCCESS_MESSAGES.GET_AUDIT_LOGS,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.GET_MEDIA_REPORTS,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,

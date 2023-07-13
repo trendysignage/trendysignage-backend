@@ -149,26 +149,6 @@ const SUCCESS_MESSAGES = {
   SUCCESS: "Success",
   LOGOUT: "User successfully logged out",
   MAIL_SENT: "Mail sent successfully",
-  LOGIN: "successfully Logged in",
-  ADDED_SCREEN: "successfully added a new screen",
-  EDIT_SCREEN: "successfully edited a screen",
-  DELETE_SCREEN: "deleted a screen",
-  ADD_MEDIA: "successfully added new media",
-  EDIT_MEDIA: "successfully edited a media file",
-  DELETE_MEDIA: "deleted a media file",
-  PUBLISHED_MEDIA: "successfully published media to a screen",
-  PUBLISHED_COMPOSITION: "successfully published composition to a screen",
-  ADD_COMPOSITION: "successfully added a new composition",
-  EDIT_COMPOSITION: "successfully edited a composition",
-  DELETE_COMPOSITION: "deleted a composition",
-  DEFAULT_COMPOSITION:
-    "successfully changed the default composition for a screen",
-  EDIT_PROFILE: "edited their profile",
-  EDIT_ROLES: "edited a role",
-  ADD_SCHEDULE: "successfully added a new schedule",
-  EDIT_SCHEDULE: "edited a schedule",
-  DELETE_SCHEDULE: "deleted a schedule",
-  GET_AUDIT_LOGS: "successfully fetched audit logs",
 };
 
 const ERROR_MESSAGES = {
@@ -227,4 +207,38 @@ const STATUS_CODES = {
   GATEWAY_TIMEOUT: 504,
 };
 
-export { ERROR_MESSAGES, JOI, STATUS_CODES, SUCCESS_MESSAGES };
+const LOG_MESSAGES = {
+  LOGIN: "successfully logged in",
+  LOGOUT: "successfully logged out",
+  GET_SCREENS: "successfully fetched all screens",
+  ADDED_SCREEN: "successfully added a new screen",
+  EDIT_SCREEN: "successfully edited a screen",
+  DELETE_SCREEN: "successfully deleted a screen",
+  GET_MEDIA: "successfully fetched all media",
+  ADD_MEDIA: "successfully added new media",
+  EDIT_MEDIA: "successfully edited a media file",
+  DELETE_MEDIA: "successfully deleted a media file",
+  PUBLISHED_MEDIA: "successfully published media to a screen",
+  PUBLISHED_COMPOSITION: "successfully published composition to a screen",
+  GET_COMPOSITIONS: "successfully fetched all compositions",
+  ADD_COMPOSITION: "successfully added a new composition",
+  EDIT_COMPOSITION: "successfully edited a composition",
+  DELETE_COMPOSITION: "successfully deleted a composition",
+  SCREEN_DEFAULT_COMPOSITION:
+    "successfully changed the default composition for a screen",
+  DEFAULT_COMPOSITION: "successfully changed the default composition",
+  EDIT_PROFILE: "successfully edited their profile",
+  EDIT_ROLES: "successfully edited role",
+  GET_SCHEDULES: "successfully fetched all schedules",
+  ADD_SCHEDULE: "successfully added a new schedule",
+  EDIT_SCHEDULE: "successfully edited a schedule",
+  DELETE_SCHEDULE: "successfully deleted a schedule",
+  GET_AUDIT_LOGS: "successfully fetched audit logs",
+  GET_MEDIA_REPORTS: "successfully fetched media reports",
+  GET_UPTIME_REPORTS: "successfully fetched uptime reports",
+  GET_QUICKPLAY: "successfully fetched all quickplays",
+  ADD_QUICKPLAY: "successfully added a new quickplay",
+  DELETE_QUICKPLAY: "successfully deleted a quickplay",
+};
+
+export { ERROR_MESSAGES, JOI, STATUS_CODES, SUCCESS_MESSAGES, LOG_MESSAGES };

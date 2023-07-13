@@ -1,5 +1,6 @@
 import {
   ERROR_MESSAGES,
+  LOG_MESSAGES,
   STATUS_CODES,
   SUCCESS_MESSAGES,
   USER_TYPE,
@@ -10,6 +11,7 @@ import {
   verificationEmail,
 } from "../../libs/sendEmail.js";
 import {
+  logService,
   profileService,
   tokenService,
   vendorAuthService,
@@ -26,11 +28,11 @@ export const login = catchAsync(async (req, res) => {
   formatVendor(vendor);
   const token = await tokenService.generateAuthToken(vendor, USER_TYPE.VENDOR);
   const updateToken = await tokenService.isVerified(token.token);
-  // await logService.createLog(
-  //   vendor._id,
-  //   SUCCESS_MESSAGES.LOGIN,
-  //   req.headers.timezone
-  // );
+  await logService.createLog(
+    vendor._id,
+    LOG_MESSAGES.LOGIN,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
