@@ -34,7 +34,9 @@ export const getLogs = async (vendorId, query, timezone) => {
     },
     {},
     paginationOptions(query.page, query.limit)
-  ).lean();
+  )
+    .populate({ path: "vendor" })
+    .lean();
 
   logs.map((log) => {
     log.createdAt = localtime(log.createdAt, timezone);
