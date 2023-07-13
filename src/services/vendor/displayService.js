@@ -243,9 +243,13 @@ export const getMedia = async (query, vendorId) => {
         path: "media.createdBy",
         select: ["_id", "name"],
       });
-
-    vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
-    vendor.media = vendor?.media?.slice(query.page * query.limit, query.limit);
+    if (vendor.media) {
+      vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
+      vendor.media = vendor?.media?.slice(
+        query.page * query.limit,
+        query.limit
+      );
+    }
   } else {
     let data = { _id: vendorId, isDeleted: false };
 
