@@ -19,7 +19,7 @@ const profileSchema = new mongoose.Schema(
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     screenHealthIndicator: { type: Boolean, default: false },
     screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],
-    isDeleted: { type: Boolean, defualt: false },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
