@@ -18,6 +18,7 @@ export const getScreens = catchAsync(async (req, res) => {
     req?.query,
     req.token.vendor._id
   );
+  console.log(req.headers.timezone, "fkjnfjnnvngn");
   return successResponse(
     req,
     res,
