@@ -237,23 +237,12 @@ export const getMedia = async (query, vendorId) => {
       data = { ...data, "media.tags": { $in: query.tags } };
       projection = { "media.$": 1 };
     }
-    if (query.groups) {
-      data = { ...data, "media.groups": { $in: query.groups } };
-      projection = { "media.$": 1 };
-    }
     vendor = await Vendor.findOne(data, projection)
       .lean()
       .populate({
         path: "media.createdBy",
         select: ["_id", "name"],
       });
-
-    if (!vendor) {
-      throw new AuthFailedError(
-        ERROR_MESSAGES.VENDOR_NOT_FOUND,
-        STATUS_CODES.ACTION_FAILED
-      );
-    }
 
     vendor.media = vendor.media.sort((a, b) => b.createdAt - a.createdAt);
     vendor.media = vendor.media.slice(query.page * query.limit, query.limit);

@@ -28,7 +28,9 @@ export const addScreen = {
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
     tags: Joi.array().items(Joi.string().required()).default([]),
-    groups: Joi.array().items(Joi.string().required()).default([]),
+    groups: Joi.array()
+      .items(Joi.string().custom(objectId).allow(""))
+      .allow(""),
   }),
 };
 
@@ -71,9 +73,6 @@ export const getMedia = {
     type: Joi.string().allow("").valid("image", "video", "apps", "pdf"),
     filterType: Joi.string().allow("").valid("image", "video", "apps", "pdf"),
     tags: Joi.array().items(Joi.string().allow("")).allow(""),
-    groups: Joi.array()
-      .items(Joi.string().custom(objectId).allow(""))
-      .allow(""),
   }),
 };
 
@@ -83,7 +82,7 @@ export const addMedia = {
       // .valid(...Object.values(MEDIA_TYPE))
       .required(),
     properties: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).default([]),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
 
