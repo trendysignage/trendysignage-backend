@@ -35,7 +35,7 @@ export const getLogs = async (vendorId, query, timezone) => {
     {},
     paginationOptions(query.page, query.limit)
   )
-    .populate({ path: "vendor" })
+    .populate({ path: "vendor", select: ["name", "email"] })
     .lean();
 
   logs.map((log) => {
