@@ -20,7 +20,7 @@ const scheduleSchema = new mongoose.Schema(
         dates: [{ type: Date }],
       },
     ],
-    tags: [{ String }],
+    tags: [{ type: String }],
     screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],
     isDeleted: { type: Boolean, default: false },
   },
