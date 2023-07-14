@@ -358,7 +358,7 @@ export const deleteMedia = async (vendorId, mediaId) => {
   }).lean();
   if (!vendor) {
     throw new AuthFailedError(
-      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      ERROR_MESSAGES.MEDIA_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
