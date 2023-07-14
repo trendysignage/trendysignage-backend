@@ -26,6 +26,7 @@ export const editRole = {
 
 export const reports = {
   query: Joi.object().keys({
+    search: Joi.string().allow(""),
     page: JOI.PAGE,
     limit: JOI.LIMIT,
     startDate: Joi.string().required(),

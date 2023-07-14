@@ -118,6 +118,10 @@ export const uptimeReport = async (vendorId, query) => {
   if (query.groups) {
     data = { ...data, groups: { $in: query.groups } };
   }
+  if (query.search) {
+    let searchReg = RegExp(query.search, "i");
+    data = { ...data, name: { $regex: searchReg } };
+  }
 
   const reports = await Screen.find(
     data,
