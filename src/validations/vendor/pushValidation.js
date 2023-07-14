@@ -98,3 +98,10 @@ export const deleteQuickplay = {
     id: JOI.OBJECTID,
   }),
 };
+
+export const assignScreens = {
+  body: Joi.object().keys({
+    scheduleId: JOI.OBJECTID,
+    screens: Joi.array().items(JOI.OBJECTID).required(),
+  }),
+};

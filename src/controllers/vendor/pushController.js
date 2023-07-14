@@ -204,3 +204,18 @@ export const deleteQuickplay = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const assignScreens = catchAsync(async (req, res) => {
+  await pushService.assignScreens(req.token.vendor._id, req.body);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.SCHEDULE_ASSIGN_SCREEN,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});

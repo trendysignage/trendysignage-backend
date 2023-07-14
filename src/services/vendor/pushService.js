@@ -420,3 +420,36 @@ export const deleteQuickplay = async (createdBy, _id) => {
     );
   }
 };
+
+export const assignScreens = async (vendor, body) => {
+  const schedule = await Schedule.findOne({
+    _id: body.scheduleId,
+    isDeleted: false,
+  }).lean();
+
+  if (!schedule) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  for (const _id of body.screens) {
+    const screen = await Screen.findOneAndUpdate(
+      { _id, isDeleted: false },
+      { $set: { schedule } },
+      { new: 1, lean: 1 }
+    );
+
+    if (!screen) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCREEN_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  }
+  await Schedule.updateOne(
+    { _id: schedule._id },
+    { $addToSet: { screens: { $each: body.screens } } }
+  );
+};

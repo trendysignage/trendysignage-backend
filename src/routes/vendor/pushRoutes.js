@@ -52,4 +52,11 @@ router
     pushController.deleteQuickplay
   );
 
+router.post(
+  "/assignScreens",
+  auth(),
+  validate(pushValidation.assignScreens),
+  pushController.assignScreens
+);
+
 export default router;

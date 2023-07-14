@@ -234,6 +234,7 @@ const LOG_MESSAGES = {
   ADD_SCHEDULE: "successfully added a new schedule",
   EDIT_SCHEDULE: "successfully edited a schedule",
   DELETE_SCHEDULE: "successfully deleted a schedule",
+  SCHEDULE_ASSIGN_SCREEN: "successfully assigned schedule to screens",
   GET_AUDIT_LOGS: "successfully fetched audit logs",
   GET_MEDIA_REPORTS: "successfully fetched media reports",
   GET_UPTIME_REPORTS: "successfully fetched uptime reports",
