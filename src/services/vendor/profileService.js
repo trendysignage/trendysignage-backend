@@ -115,20 +115,12 @@ export const uptimeReport = async (vendorId, query) => {
     {
       name: 1,
       "uptimeReport.$": 1,
-      screenLocation: 1,
-      googleLocation: 1,
       tags: 1,
-      defaultComposition: 1,
       createdAt: 1,
       updatedAt: 1,
-      groups: 1,
-      isConnected: 1,
-      schedule: 1,
-      contentPlaying: 1,
-      device: 1,
     },
     paginationOptions(query.page, query.limit)
-  ).populate([{ path: "device" }, { path: "schedule", select: ["-screens"] }]);
+  );
 
   return reports;
 };
