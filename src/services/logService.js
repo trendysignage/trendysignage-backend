@@ -26,12 +26,19 @@ export const getLogs = async (vendorId, query, timezone) => {
   const startDate = utcTime(query.startDate, timezone);
   const endDate = utcTime(query.endDate, timezone);
 
+  let data = {
+    vendor: vendorId,
+    isDeleted: false,
+    createdAt: { $gte: startDate, $lte: endDate },
+  };
+
+  if (query.search) {
+    let searchReg = RegExp(query.search, "i");
+    data = { ...data, title: { $regex: searchReg } };
+  }
+
   const logs = await Logs.find(
-    {
-      vendor: vendorId,
-      isDeleted: false,
-      createdAt: { $gte: startDate, $lte: endDate },
-    },
+    data,
     {},
     paginationOptions(query.page, query.limit)
   )
