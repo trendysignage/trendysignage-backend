@@ -484,7 +484,7 @@ async function see() {
     },
     {
       uptimeReport: {
-        $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-13" } },
+        $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-30" } },
       },
     },
     paginationOptions(0, 100)
