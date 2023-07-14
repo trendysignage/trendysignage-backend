@@ -104,14 +104,23 @@ export const editRole = async (vendorId, body) => {
 };
 
 export const uptimeReport = async (vendorId, query) => {
-  const reports = await Screen.find(
-    {
-      isDeleted: false,
-      vendor: vendorId,
-      uptimeReport: {
-        $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
-      },
+  let data = {
+    isDeleted: false,
+    vendor: vendorId,
+    uptimeReport: {
+      $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
     },
+  };
+
+  if (query.tags) {
+    data = { ...data, tags: { $in: query.tags } };
+  }
+  if (query.groups) {
+    data = { ...data, groups: { $in: query.groups } };
+  }
+
+  const reports = await Screen.find(
+    data,
     {
       name: 1,
       "uptimeReport.$": 1,

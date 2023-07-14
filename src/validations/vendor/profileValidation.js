@@ -30,6 +30,8 @@ export const reports = {
     limit: JOI.LIMIT,
     startDate: Joi.string().required(),
     endDate: Joi.string().required(),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
+    groups: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
 
