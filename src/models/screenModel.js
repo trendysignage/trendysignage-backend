@@ -81,6 +81,7 @@ screenSchema.methods.stopUptimeTracking = async function (timezone) {
         day: today,
         time: uptimeMinutes,
       });
+      console.log(this, "this of uptimeReport");
     }
     this.isConnected = false;
     this.connectionStartTime = null; // Reset the connection start time

@@ -121,7 +121,6 @@ export const stopTracking = async (deviceToken, timezone) => {
     const screen = await Screen.findOne({ device: device._id });
     if (screen) {
       await screen.stopUptimeTracking(timezone);
-      await screen.save();
     }
   }
 };
