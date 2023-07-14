@@ -128,7 +128,7 @@ export const uptimeReport = async (vendorId, query) => {
     {
       name: 1,
       uptimeReport: {
-        $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-30" } },
+        $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
       },
       tags: 1,
       createdAt: 1,
