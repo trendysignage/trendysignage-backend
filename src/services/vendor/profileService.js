@@ -479,10 +479,10 @@ async function see() {
     {
       _id: "64ad0991de6c3163fc86e328",
       uptimeReport: {
-        $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-30" } },
+        $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-13" } },
       },
     },
-    { "uptimeReport.$": 1 },
+    { uptimeReport: 1 },
     paginationOptions(0, 100)
   ).lean();
 
