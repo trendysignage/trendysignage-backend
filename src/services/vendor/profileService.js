@@ -127,15 +127,19 @@ export const uptimeReport = async (vendorId, query) => {
     data,
     {
       name: 1,
-      uptimeReport: {
-        $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
-      },
+      uptimeReport: 1,
       tags: 1,
       createdAt: 1,
       updatedAt: 1,
     },
     paginationOptions(query.page, query.limit)
   );
+
+  reports.map((report) => {
+    report.uptimeReport = report.uptimeReport?.filter(
+      (i) => i.day >= query.startDate && i.day <= query.endDate
+    );
+  });
 
   return reports;
 };
@@ -475,24 +479,3 @@ export const assign = async (vendor, body) => {
     { new: 1, lean: 1 }
   );
 };
-
-async function see() {
-  const screen = await Screen.findOne(
-    {
-      _id: "64ad0991de6c3163fc86e328",
-      uptimeReport: {
-        $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-30" } },
-      },
-    },
-    {
-      uptimeReport: {
-        $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-30" } },
-      },
-    },
-    paginationOptions(0, 100)
-  ).lean();
-
-  console.log(screen);
-}
-
-see();
