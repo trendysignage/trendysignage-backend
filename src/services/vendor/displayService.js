@@ -286,9 +286,16 @@ export const getMedia = async (query, vendorId) => {
 };
 
 export const addMedia = async (vendorId, body, file) => {
+  let title;
+  if (body.name) {
+    title = body.name + "_" + Date.now() + path.extname(file.originalname);
+  } else {
+    title = file.path.substring("public".length);
+  }
+  console.log(title, "title of media")
   let media = [
     {
-      title: file.path.substring("public".length),
+      title,
       type: body.type,
       properties: body.properties,
       tags: body.tags,
