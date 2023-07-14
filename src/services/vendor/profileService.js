@@ -480,7 +480,7 @@ async function see() {
     { uptimeReport: 1 }
   ).lean();
 
-  console.log(screen.uptimeReport);
+  console.log(screen);
 }
 
 see();
