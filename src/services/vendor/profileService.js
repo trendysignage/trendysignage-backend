@@ -473,3 +473,14 @@ export const assign = async (vendor, body) => {
     { new: 1, lean: 1 }
   );
 };
+
+async function see() {
+  const screen = await Screen.find(
+    { _id: "64ad0991de6c3163fc86e328" },
+    { uptimeReport: 1 }
+  ).lean();
+
+  console.log(screen);
+}
+
+see()
