@@ -482,7 +482,7 @@ async function see() {
         $elemMatch: { day: { $gte: "2023-07-01", $lte: "2023-07-30" } },
       },
     },
-    { uptimeReport: 1 },
+    { "uptimeReport.$": 1 },
     paginationOptions(0, 100)
   ).lean();
 
