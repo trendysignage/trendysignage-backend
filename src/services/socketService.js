@@ -120,6 +120,7 @@ export const stopTracking = async (deviceToken, timezone) => {
   if (device) {
     const screen = await Screen.findOne({ device: device._id });
     if (screen) {
+      console.log(screen, "screen of utpimeee");
       await screen.stopUptimeTracking(timezone);
     }
   }
