@@ -288,7 +288,11 @@ export const getMedia = async (query, vendorId) => {
 export const addMedia = async (vendorId, body, file) => {
   let title;
   if (body.name) {
-    title = body.name + "_" + Date.now() + path.extname(file.originalname);
+    title =
+      body.name.replace(/\s/g, "") +
+      "_" +
+      Date.now() +
+      path.extname(file.originalname);
   } else {
     title = file.path.substring("public".length);
   }
