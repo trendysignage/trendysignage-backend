@@ -1,6 +1,7 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import {
   Composition,
+  Defaults,
   Quickplay,
   Schedule,
   Screen,
@@ -418,6 +419,75 @@ export const deleteQuickplay = async (createdBy, _id) => {
       ERROR_MESSAGES.QUICKPLAY_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
+  }
+};
+
+export const getDefaultCompositions = async (vendor, query) => {
+  let data = {
+    vendor,
+    isDeleted: false,
+  };
+
+  if (query.tags) {
+    data = { ...data, tags: { $in: query.tags } };
+  }
+
+  let defaultComps = await Defaults.find(
+    data,
+    {},
+    paginationOptions(query.page, query.limit)
+  ).populate({ path: "composition" });
+
+  if (query.search) {
+    defaultComps = defaultComps.filter((comp) =>
+      JSON.stringify(comp.composition.title.toLowerCase()).includes(
+        query.search.toLowerCase()
+      )
+    );
+  }
+
+  return defaultComps;
+};
+
+export const addDefaultComp = async (vendor, body) => {
+  const composition = await Composition.findOne({
+    _id: body.compositionId,
+    isDeleted: false,
+  }).lean();
+
+  if (!composition) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  const defaultComp = await Defaults.create({
+    vendor,
+    composition: composition._id,
+    screens: body.screens,
+  });
+
+  for (const _id of body.screens) {
+    const defaultComposition = {
+      media: composition,
+      duration: 600,
+      type: "composition",
+    };
+
+    defaultComposition.media.isDefault = true;
+
+    const screen = await Screen.findOneAndUpdate(
+      { _id, isDeleted: false },
+      { $set: { defaultComposition } },
+      { new: 1, lean: 1 }
+    ).lean();
+    if (!screen) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCREEN_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
   }
 };
 

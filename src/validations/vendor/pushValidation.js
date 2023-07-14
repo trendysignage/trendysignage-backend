@@ -99,6 +99,13 @@ export const deleteQuickplay = {
   }),
 };
 
+export const addDefaultComp = {
+  body: Joi.object().keys({
+    compositionId: JOI.OBJECTID,
+    screens: Joi.array().items(JOI.OBJECTID).required(),
+  }),
+};
+
 export const assignScreens = {
   body: Joi.object().keys({
     scheduleId: JOI.OBJECTID,

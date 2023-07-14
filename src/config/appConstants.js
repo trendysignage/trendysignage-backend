@@ -247,6 +247,8 @@ const LOG_MESSAGES = {
   EDIT_PROFILE: "successfully edited a profile",
   DELETE_PROFILE: "successfully deleted a profile",
   ASSIGN_DEVICE_PROFILE: "successfully assigned device profile to screen",
+  GET_DEFAULT_COMPOSITIONS: "successfully fetched all default compositions",
+  ADD_DEFAULT_COMPOSITIONS: "successfully added a new default composition",
 };
 
 export { ERROR_MESSAGES, JOI, STATUS_CODES, SUCCESS_MESSAGES, LOG_MESSAGES };

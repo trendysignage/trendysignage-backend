@@ -52,6 +52,15 @@ router
     pushController.deleteQuickplay
   );
 
+router
+  .route("/defaultComposition")
+  .all(auth())
+  .get(
+    validate(pushValidation.schedules),
+    pushController.getDefaultCompositions
+  )
+  .post(validate(pushValidation.addDefaultComp), pushController.addDefaultComp);
+
 router.post(
   "/assignScreens",
   auth(),

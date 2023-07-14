@@ -205,6 +205,44 @@ export const deleteQuickplay = catchAsync(async (req, res) => {
   );
 });
 
+export const getDefaultCompositions = catchAsync(async (req, res) => {
+  const compositions = await pushService.getDefaultCompositions(
+    req.token.vendor._id,
+    req.query
+  );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.GET_DEFAULT_COMPOSITIONS,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    compositions
+  );
+});
+
+export const addDefaultComp = catchAsync(async (req, res) => {
+  const compositions = await pushService.addDefaultComp(
+    req.token.vendor._id,
+    req.body
+  );
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.ADD_DEFAULT_COMPOSITIONS,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    compositions
+  );
+});
+
 export const assignScreens = catchAsync(async (req, res) => {
   await pushService.assignScreens(req.token.vendor._id, req.body);
   await logService.createLog(

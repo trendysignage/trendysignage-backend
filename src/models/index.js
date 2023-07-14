@@ -11,6 +11,7 @@ import { Screen } from "./screenModel.js";
 import { Token } from "./tokenModel.js";
 import { Vendor } from "./vendorModel.js";
 import { Profile } from "./deviceProfileModel.js";
+import { Defaults } from "./defaultCompositionsModel.js";
 
 export {
   Admin,
@@ -26,4 +27,5 @@ export {
   Token,
   Vendor,
   Profile,
+  Defaults,
 };
