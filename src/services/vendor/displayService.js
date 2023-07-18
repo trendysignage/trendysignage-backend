@@ -306,6 +306,7 @@ export const addMedia = async (vendorId, body, file) => {
       createdBy: vendorId,
       createdAt: new Date(),
       updatedAt: new Date(),
+      duration: body.duration,
     },
   ];
   const vendor = await Vendor.findOneAndUpdate(
@@ -411,6 +412,23 @@ export const publish = async (vendorId, body, timezone) => {
       endTime: new Date(localtime(new Date(), timezone) + "Z"),
       createdAt: new Date(localtime(new Date(), timezone) + "Z"),
     };
+
+    let mediaReport = {
+      media: vendor.media._id,
+      title: vendor.media.title,
+      day: localtime(new Date(), timezone).split("T")[0],
+      time: new Date(localtime(new Date(), timezone) + "Z"),
+      loop: Math.floor(
+        Number(body.duration) / Number(vendor?.media?.duration ?? 1)
+      ),
+      duration: Number(body.duration),
+    };
+
+    await Vendor.findByIdAndUpdate(
+      vendorId,
+      { $push: { mediaReport } },
+      { new: 1, lean: 1 }
+    );
   } else {
     vendor.compositions = vendor.compositions.find(
       (id) => JSON.stringify(id._id) === JSON.stringify(body.id)

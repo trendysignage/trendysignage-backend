@@ -84,6 +84,7 @@ export const addMedia = {
     properties: Joi.string().required(),
     tags: Joi.array().items(Joi.string().allow("")).allow(""),
     name: Joi.string().allow(""),
+    duration: Joi.number().allow("").default(1),
   }),
 };
 

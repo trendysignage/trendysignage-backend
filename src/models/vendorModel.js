@@ -18,11 +18,10 @@ const vendorSchema = new mongoose.Schema(
     defaultComposition: {
       media: {},
       type: { type: String },
-      duration: { type: Number },
+      duration: { type: Number, default: 0 },
     },
     media: [
       {
-        // baseUrl: { type: String },
         title: { type: String },
         type: { type: String /* enum: [...Object.values(MEDIA_TYPE)]  */ },
         properties: { type: String },
@@ -31,8 +30,19 @@ const vendorSchema = new mongoose.Schema(
         createdAt: { type: Date, default: new Date() },
         updatedAt: { type: Date, default: new Date() },
         isDefault: { type: Boolean, default: false },
+        duration: { type: Number, default: 1 },
         // startTime: { type: Date },
         // endTime: { type: Date },
+      },
+    ],
+    mediaReport: [
+      {
+        media: { type: mongoose.Schema.Types.ObjectId },
+        title: { type: String },
+        day: { type: String },
+        time: { type: Date },
+        loop: { type: Number },
+        duration: { type: Number },
       },
     ],
     apps: [{ type: mongoose.Schema.Types.ObjectId, ref: "apps" }],

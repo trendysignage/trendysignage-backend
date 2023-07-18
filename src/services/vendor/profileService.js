@@ -145,7 +145,31 @@ export const uptimeReport = async (vendorId, query) => {
 };
 
 export const mediaReport = async (vendorId, query) => {
-  const reports = await Vendor.findById(vendorId, { media: 1 }).lean();
+  let data = {
+    isDeleted: false,
+    _id: vendorId,
+    mediaReport: {
+      $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
+    },
+  };
+  const vendor = await Vendor.findOne(data, { mediaReport: 1 }).lean();
+
+  vendor.mediaReport = vendor?.mediaReport?.filter(
+    (report) => report.day >= query.startDate && report.day <= query.endDate
+  );
+
+  const reducedReport = vendor?.mediaReport?.reduce((acc, curr) => {
+    const { media, duration, loop } = curr;
+    if (acc[media]) {
+      acc[media].loop += Number(loop);
+      acc[media].duration += Number(duration);
+    } else {
+      acc[media] = { media, loop, duration };
+    }
+    return acc;
+  }, {});
+
+  const reports = Object.values(reducedReport);
 
   return reports;
 };
