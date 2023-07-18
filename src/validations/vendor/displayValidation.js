@@ -61,7 +61,7 @@ export const changeDefaultComposition = {
   body: Joi.object().keys({
     screenId: JOI.OBJECTID,
     compositionId: JOI.OBJECTID,
-    duration: Joi.string().required(),
+    duration: Joi.number().required(),
   }),
 };
 
