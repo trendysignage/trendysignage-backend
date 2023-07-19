@@ -189,6 +189,7 @@ const ERROR_MESSAGES = {
     "The Type or Id of the content you are trying to publish is incorrect!",
   QUICKPLAY_NOT_FOUND: "Quickplay not found",
   DEVICE_PROFILE_NOT_FOUND: "Device Profile not found",
+  APP_NOT_FOUND: "App not found",
 };
 
 const STATUS_CODES = {

@@ -8,6 +8,7 @@ import * as displayController from "./vendor/displayController.js";
 import * as layoutController from "./vendor/layoutController.js";
 import * as profileController from "./vendor/profileController.js";
 import * as pushController from "./vendor/pushController.js";
+import * as appController from "./vendor/appController.js";
 
 export {
   adminAuthController,
@@ -20,4 +21,5 @@ export {
   profileController,
   pushController,
   vendorAuthController,
+  appController,
 };

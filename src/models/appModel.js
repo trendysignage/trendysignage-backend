@@ -7,6 +7,7 @@ const appSchema = new mongoose.Schema(
     data: { type: String },
     url: { type: String },
     tags: [{ type: String }],
+    vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }

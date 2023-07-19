@@ -10,6 +10,7 @@ import * as displayService from "./vendor/displayService.js";
 import * as layoutService from "./vendor/layoutService.js";
 import * as profileService from "./vendor/profileService.js";
 import * as pushService from "./vendor/pushService.js";
+import * as appService from "./vendor/appService.js";
 
 export {
   adminAuthService,
@@ -24,4 +25,5 @@ export {
   socketService,
   tokenService,
   vendorAuthService,
+  appService,
 };

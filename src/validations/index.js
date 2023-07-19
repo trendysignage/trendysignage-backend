@@ -7,6 +7,7 @@ import * as displayValidation from "./vendor/displayValidation.js";
 import * as layoutValidation from "./vendor/layoutValidation.js";
 import * as profileValidation from "./vendor/profileValidation.js";
 import * as pushValidation from "./vendor/pushValidation.js";
+import * as appValidation from "./vendor/appValidation.js";
 
 export {
   adminAuthValidation,
@@ -18,4 +19,5 @@ export {
   profileValidation,
   pushValidation,
   vendorAuthValidation,
+  appValidation,
 };
