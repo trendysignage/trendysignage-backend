@@ -491,6 +491,25 @@ export const addDefaultComp = async (vendor, body) => {
   }
 };
 
+export const editDefaultComposition = async (vendor, body) => {
+  const defaultComp = await Defaults.findOneAndUpdate(
+    {
+      vendor,
+      _id: body.defaultCompId,
+      isDeleted: false,
+    },
+    { $set: { tags: body.tags } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!defaultComp) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.DEFAULT_COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
 export const assignScreens = async (vendor, body) => {
   const schedule = await Schedule.findOne({
     _id: body.scheduleId,

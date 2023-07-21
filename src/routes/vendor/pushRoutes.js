@@ -59,7 +59,11 @@ router
     validate(pushValidation.schedules),
     pushController.getDefaultCompositions
   )
-  .post(validate(pushValidation.addDefaultComp), pushController.addDefaultComp);
+  .post(validate(pushValidation.addDefaultComp), pushController.addDefaultComp)
+  .put(
+    validate(pushValidation.editDefaultComposition),
+    pushController.editDefaultComposition
+  );
 
 router.post(
   "/assignScreens",

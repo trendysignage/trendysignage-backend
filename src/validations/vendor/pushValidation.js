@@ -106,6 +106,13 @@ export const addDefaultComp = {
   }),
 };
 
+export const editDefaultComposition = {
+  body: Joi.object().keys({
+    defaultCompId: JOI.OBJECTID,
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
+  }),
+};
+
 export const assignScreens = {
   body: Joi.object().keys({
     scheduleId: JOI.OBJECTID,

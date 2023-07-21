@@ -190,6 +190,7 @@ const ERROR_MESSAGES = {
   QUICKPLAY_NOT_FOUND: "Quickplay not found",
   DEVICE_PROFILE_NOT_FOUND: "Device Profile not found",
   APP_NOT_FOUND: "App not found",
+  DEFAULT_COMPOSITION_NOT_FOUND: "Default Composition not found",
 };
 
 const STATUS_CODES = {
@@ -250,6 +251,8 @@ const LOG_MESSAGES = {
   ASSIGN_DEVICE_PROFILE: "successfully assigned device profile to screen",
   GET_DEFAULT_COMPOSITIONS: "successfully fetched all default compositions",
   ADD_DEFAULT_COMPOSITIONS: "successfully added a new default composition",
+  ADD_TAGS_TO_DEFAULT_COMPOSITIONS:
+    "successfully added tags to default composition",
 };
 
 export { ERROR_MESSAGES, JOI, STATUS_CODES, SUCCESS_MESSAGES, LOG_MESSAGES };

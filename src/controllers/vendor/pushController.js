@@ -243,6 +243,21 @@ export const addDefaultComp = catchAsync(async (req, res) => {
   );
 });
 
+export const editDefaultComposition = catchAsync(async (req, res) => {
+  await pushService.editDefaultComposition(req.token.vendor._id, req.body);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.ADD_TAGS_TO_DEFAULT_COMPOSITIONS,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    res,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
 export const assignScreens = catchAsync(async (req, res) => {
   await pushService.assignScreens(req.token.vendor._id, req.body);
   await logService.createLog(
