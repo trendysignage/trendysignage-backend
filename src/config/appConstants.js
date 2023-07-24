@@ -253,6 +253,7 @@ const LOG_MESSAGES = {
   ADD_DEFAULT_COMPOSITIONS: "successfully added a new default composition",
   ADD_TAGS_TO_DEFAULT_COMPOSITIONS:
     "successfully added tags to default composition",
+  CREATE_APP: "successfully created an app",
 };
 
-export { ERROR_MESSAGES, JOI, STATUS_CODES, SUCCESS_MESSAGES, LOG_MESSAGES };
+export { ERROR_MESSAGES, JOI, LOG_MESSAGES, STATUS_CODES, SUCCESS_MESSAGES };

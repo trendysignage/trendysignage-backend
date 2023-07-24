@@ -20,6 +20,11 @@ export const getApps = catchAsync(async (req, res) => {
 
 export const createApp = catchAsync(async (req, res) => {
   const app = await appService.createApp(req.token.vendor._id, req.body);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.CREATE_APP,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
