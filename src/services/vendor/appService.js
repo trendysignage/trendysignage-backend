@@ -14,6 +14,8 @@ export const createApp = async (vendor, body) => {
     data: body.data,
     url: body.url,
     vendor,
+    latitude: body.latitude,
+    longitude: body.longitude,
   });
 
   return app;

@@ -6,6 +6,8 @@ const appSchema = new mongoose.Schema(
     type: { type: String, required: true },
     data: { type: String },
     url: { type: String },
+    latitude: { type: Number },
+    longitude: { type: Number },
     tags: [{ type: String }],
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     isDeleted: { type: Boolean, default: false },

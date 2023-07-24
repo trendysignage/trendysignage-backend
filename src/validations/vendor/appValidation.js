@@ -7,6 +7,8 @@ export const createApp = {
     type: Joi.string().required(),
     data: Joi.string().required(),
     url: Joi.string().required(),
+    latitude: Joi.number().required(),
+    longitude: Joi.number().required(),
   }),
 };
 
@@ -17,6 +19,8 @@ export const editApp = {
     type: Joi.string().required(),
     data: Joi.string().required(),
     url: Joi.string().required(),
+    latitude: Joi.number().required(),
+    longitude: Joi.number().required(),
     tags: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
