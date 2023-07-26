@@ -65,8 +65,6 @@ screenSchema.methods.stopUptimeTracking = async function (timezone) {
     const today = localtime(new Date(), timezone).split("T")[0]; // Get today's date in YYYY-MM-DD format
     const uptimeMinutes = Math.round((now - this.connectionStartTime) / 1000); // Calculate uptime in minutes
 
-    console.log(uptimeMinutes, "uptimeMinutessss");
-
     // Find the uptime report entry for today, if it exists
     const todayReport = this.uptimeReport.find(
       (report) => report.day === today
@@ -82,6 +80,7 @@ screenSchema.methods.stopUptimeTracking = async function (timezone) {
         time: uptimeMinutes,
       });
     }
+
     console.log(this, "this of uptimeReport");
     this.isConnected = false;
     this.connectionStartTime = null; // Reset the connection start time
