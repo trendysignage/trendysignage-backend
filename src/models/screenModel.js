@@ -67,6 +67,8 @@ screenSchema.methods.stopUptimeTracking = async function (timezone) {
       (now - this.connectionStartTime) / (1000 * 60)
     ); // Calculate uptime in minutes
 
+    console.log(uptimeMinutes, "uptimeMinutessss");
+
     // Find the uptime report entry for today, if it exists
     const todayReport = this.uptimeReport.find(
       (report) => report.day === today
