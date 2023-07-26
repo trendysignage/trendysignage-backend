@@ -55,15 +55,14 @@ export const connectSocket = (server) => {
       userCache[deviceToken].map(async (id) => {
         const vendorId = await socketService.getVendor(deviceToken);
         const screen = await socketService.getScreen(deviceToken);
+        console.log(screen, "ssssss");
 
         let defaultContent = {};
         if (screen && screen?.defaultComposition) {
           screen.defaultComposition.isDefault = true;
           defaultContent = screen?.defaultComposition;
-          console.log("emitteddd", defaultContent);
         } else {
           defaultContent = await socketService.getDefault(vendorId);
-          console.log("emitteddd", defaultContent);
         }
 
         io.to(id).emit("receiveContent", defaultContent);
