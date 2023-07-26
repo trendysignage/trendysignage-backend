@@ -43,6 +43,7 @@ export const connectSocket = (server) => {
       } else {
         userCache[value].push(socket.id);
       }
+      console.log(userCache, "userCacchhcheee");
     } else {
       return next(new Error(ERROR_MESSAGES.AUTHENTICATION_FAILED));
     }
