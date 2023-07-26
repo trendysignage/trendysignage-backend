@@ -55,7 +55,6 @@ export const connectSocket = (server) => {
       userCache[deviceToken].map(async (id) => {
         const vendorId = await socketService.getVendor(deviceToken);
         const screen = await socketService.getScreen(deviceToken);
-        console.log(screen, "ssssss");
 
         let defaultContent = {};
         if (screen && screen?.defaultComposition) {
@@ -67,8 +66,8 @@ export const connectSocket = (server) => {
 
         io.to(id).emit("receiveContent", defaultContent);
       });
-      await socketService.uptimeReport(deviceToken, timezone);
     }
+    await socketService.uptimeReport(deviceToken, timezone);
     socket.on("error", function (error) {
       console.error(error, "something went wrong in socket...");
       return next(new Error(error));
