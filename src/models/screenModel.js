@@ -81,11 +81,11 @@ screenSchema.methods.stopUptimeTracking = async function (timezone) {
       });
     }
 
-    console.log(this, "this of uptimeReport");
     this.isConnected = false;
     this.connectionStartTime = null; // Reset the connection start time
     // Save the updated screen document
-    return this.save();
+    console.log(this, "this of uptimeReport");
+    return await this.save();
   }
 };
 
