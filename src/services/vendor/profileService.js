@@ -175,10 +175,11 @@ export const mediaReport = async (vendorId, query) => {
         acc[media] = { mediaObject, loop, duration };
       }
     }
-    console.log(acc);
 
     return acc;
   }, {});
+
+  console.log(reducedReport);
 
   const reports = Object.values(reducedReport);
 
