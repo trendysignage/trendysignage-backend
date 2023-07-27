@@ -108,7 +108,7 @@ export const uptimeReport = async (vendorId, query) => {
     isDeleted: false,
     vendor: vendorId,
     uptimeReport: {
-      $elemMatch: { day: { $lte: query.startDate, $gte: query.endDate } },
+      $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
     },
   };
 
