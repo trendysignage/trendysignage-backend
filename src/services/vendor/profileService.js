@@ -163,16 +163,19 @@ export const mediaReport = async (vendorId, query) => {
 
   const reducedReport = vendor?.mediaReport?.reduce((acc, curr) => {
     const { media, duration, loop } = curr;
-    const mediaObject = vendor.media.find((m) =>
-      console.log(JSON.stringify(m._id) === JSON.stringify(media))
+    const mediaObject = vendor.media.find(
+      (m) => JSON.stringify(m._id) === JSON.stringify(media)
     );
-    console.log(mediaObject);
-    if (acc[mediaObject]) {
-      acc[mediaObject].loop += Number(loop);
-      acc[mediaObject].duration += Number(duration);
-    } else {
-      acc[mediaObject] = { mediaObject, loop, duration };
+
+    if (mediaObject) {
+      if (acc[mediaObject]) {
+        acc[mediaObject].loop += Number(loop);
+        acc[mediaObject].duration += Number(duration);
+      } else {
+        acc[mediaObject] = { mediaObject, loop, duration };
+      }
     }
+
     return acc;
   }, {});
 
