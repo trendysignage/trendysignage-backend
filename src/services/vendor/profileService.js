@@ -168,7 +168,6 @@ export const mediaReport = async (vendorId, query) => {
     );
 
     if (mediaObject) {
-      console.log(mediaObject);
       if (acc[media]) {
         acc[media].loop += Number(loop);
         acc[media].duration += Number(duration);
@@ -176,7 +175,7 @@ export const mediaReport = async (vendorId, query) => {
         acc[media] = { mediaObject, loop, duration };
       }
     }
-    console.log(media);
+    console.log(acc);
 
     return acc;
   }, {});
