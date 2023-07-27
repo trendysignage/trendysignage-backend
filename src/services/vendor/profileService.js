@@ -163,7 +163,7 @@ export const mediaReport = async (vendorId, query) => {
 
   const reducedReport = vendor?.mediaReport?.reduce((acc, curr) => {
     const { media, duration, loop } = curr;
-    const mediaObject = vendor.media.find((m) => console.log(m._id, media));
+    const mediaObject = vendor.media.find((m) => console.log(m._id === media));
     console.log(mediaObject);
     if (acc[mediaObject]) {
       acc[mediaObject].loop += Number(loop);
