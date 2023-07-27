@@ -152,7 +152,10 @@ export const mediaReport = async (vendorId, query) => {
       $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
     },
   };
-  const vendor = await Vendor.findOne(data, { mediaReport: 1 }).lean();
+  const vendor = await Vendor.findOne(data, {
+    media: 1,
+    mediaReport: 1,
+  }).lean();
 
   vendor.mediaReport = vendor?.mediaReport?.filter(
     (report) => report.day >= query.startDate && report.day <= query.endDate
@@ -160,11 +163,13 @@ export const mediaReport = async (vendorId, query) => {
 
   const reducedReport = vendor?.mediaReport?.reduce((acc, curr) => {
     const { media, duration, loop } = curr;
-    if (acc[media]) {
-      acc[media].loop += Number(loop);
-      acc[media].duration += Number(duration);
+    const mediaObject = vendor.media.find((m) => m._id == media);
+
+    if (acc[mediaObject]) {
+      acc[mediaObject].loop += Number(loop);
+      acc[mediaObject].duration += Number(duration);
     } else {
-      acc[media] = { media, loop, duration };
+      acc[mediaObject] = { mediaObject, loop, duration };
     }
     return acc;
   }, {});
