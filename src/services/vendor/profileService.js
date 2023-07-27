@@ -176,6 +176,7 @@ export const mediaReport = async (vendorId, query) => {
         acc[media] = { mediaObject, loop, duration };
       }
     }
+    console.log(media);
 
     return acc;
   }, {});
