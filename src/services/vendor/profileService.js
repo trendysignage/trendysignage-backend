@@ -107,9 +107,9 @@ export const uptimeReport = async (vendorId, query) => {
   let data = {
     isDeleted: false,
     vendor: vendorId,
-    // uptimeReport: {
-    //   $elemMatch: { day: { $lte: query.startDate, $gte: query.endDate } },
-    // },
+    uptimeReport: {
+      $elemMatch: { day: { $lte: query.startDate, $gte: query.endDate } },
+    },
   };
 
   if (query.tags) {
