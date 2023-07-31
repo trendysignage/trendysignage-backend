@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Device, Screen } from "../../models/index.js";
+import { Device, Layout, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 
@@ -45,7 +45,14 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
-      console.log(JSON.stringify(screen.contentPlaying), "vvvvvvvvvvvvvvvvvvvvvvvvv");
+      for (const content of screen.contentPlaying) {
+        const layout = await Layout.findOne({
+          _id: content.media.layout,
+        }).lean();
+        if (layout) {
+          content.media.layout = layout;
+        }
+      }
 
       // if (screen && screen.schedule) {
       //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
