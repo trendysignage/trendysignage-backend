@@ -467,7 +467,6 @@ export const publish = async (vendorId, body, timezone) => {
       }
     }
 
-    console.log(JSON.stringify(contentPlaying), "evbvnfjvbhbehvjhrebhrebghrjhgnb")
     screen.contentPlaying.push(contentPlaying);
     screen = await screen.save();
     // const screen = await Screen.findOneAndUpdate(
@@ -484,6 +483,7 @@ export const publish = async (vendorId, body, timezone) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
+    console.log(JSON.stringify(screen.contentPlaying), "llllllllllllllllllll");
     await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
   }
 };
