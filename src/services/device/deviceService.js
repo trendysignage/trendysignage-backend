@@ -36,7 +36,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
           },
         },
         { new: true, lean: 1 }
-      );
+      ).populate({ path: "contentPlaying.media.layout" });
 
       if (!screen) {
         throw new AuthFailedError(
