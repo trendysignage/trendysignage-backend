@@ -1,24 +1,36 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { App } from "../../models/index.js";
+import { App, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const getApps = async (vendor) => {
-  const apps = await App.find({ isDeleted: false, vendor }).lean();
+  const apps = await Vendor.find({ isDeleted: false, vendor }).lean();
   return apps;
 };
 
 export const createApp = async (vendor, body) => {
-  const app = await App.create({
-    name: body.name,
+  const media = {
+    title: body.name,
     type: body.type,
-    data: body.data,
-    url: body.url,
-    vendor,
-    latitude: body.latitude,
-    longitude: body.longitude,
-  });
+    appData: body.data,
+    createdBy: vendor,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 
-  return app;
+  const vendor = await Vendor.findOneAndUpdate(
+    { _id: vendor },
+    { $addToSet: { media } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
+  return vendor;
 };
 
 export const editApp = async (vendor, body) => {

@@ -23,7 +23,7 @@ const vendorSchema = new mongoose.Schema(
     media: [
       {
         title: { type: String },
-        type: { type: String /* enum: [...Object.values(MEDIA_TYPE)]  */ },
+        type: { type: String },
         properties: { type: String },
         tags: [{ type: String }],
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
@@ -31,6 +31,7 @@ const vendorSchema = new mongoose.Schema(
         updatedAt: { type: Date, default: new Date() },
         isDefault: { type: Boolean, default: false },
         duration: { type: Number, default: 1 },
+        appData: { type: String },
         // startTime: { type: Date },
         // endTime: { type: Date },
       },
