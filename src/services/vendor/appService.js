@@ -2,11 +2,6 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { App, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
-export const getApps = async (vendor) => {
-  const apps = await Vendor.find({ isDeleted: false, vendor }).lean();
-  return apps;
-};
-
 export const createApp = async (vendor, body) => {
   const media = {
     title: body.name,
@@ -17,20 +12,20 @@ export const createApp = async (vendor, body) => {
     updatedAt: new Date(),
   };
 
-  const vendor = await Vendor.findOneAndUpdate(
+  const app = await Vendor.findOneAndUpdate(
     { _id: vendor },
     { $addToSet: { media } },
     { new: 1, lean: 1 }
   );
 
-  if (!vendor) {
+  if (!app) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
 
-  return vendor;
+  return app;
 };
 
 export const editApp = async (vendor, body) => {

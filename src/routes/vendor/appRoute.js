@@ -9,7 +9,6 @@ const router = express.Router();
 router
   .route("/apps")
   .all(auth())
-  .get(appController.getApps)
   .post(validate(appValidation.createApp), appController.createApp)
   .put(validate(appValidation.editApp), appController.editApp);
 
