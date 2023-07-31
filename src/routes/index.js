@@ -41,7 +41,7 @@ const defaultRoutes = [
   {
     path: "/vendor/apps",
     route: appRoute,
-  }
+  },
   {
     path: "/admin/auth",
     route: adminAuthRoute,
