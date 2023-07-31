@@ -439,14 +439,16 @@ export const publish = async (vendorId, body, timezone) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-    contentPlaying = {
-      media: vendor.compositions,
-      duration: body.duration,
-      type: "composition",
-      startTime: new Date(localtime(new Date(), timezone) + "Z"),
-      endTime: new Date(localtime(new Date(), timezone) + "Z"),
-      createdAt: new Date(localtime(new Date(), timezone) + "Z"),
-    };
+    if (vendor.compositions) {
+      contentPlaying = {
+        media: vendor?.compositions,
+        duration: body.duration,
+        type: "composition",
+        startTime: new Date(localtime(new Date(), timezone) + "Z"),
+        endTime: new Date(localtime(new Date(), timezone) + "Z"),
+        createdAt: new Date(localtime(new Date(), timezone) + "Z"),
+      };
+    }
   }
 
   contentPlaying.endTime.setSeconds(
@@ -483,7 +485,6 @@ export const publish = async (vendorId, body, timezone) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-    console.log(JSON.stringify(screen.contentPlaying), "llllllllllllllllllll");
     await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
   }
 };
