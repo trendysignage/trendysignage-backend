@@ -469,15 +469,13 @@ export const publish = async (vendorId, body, timezone) => {
       }
     }
 
-    screen.contentPlaying.push(contentPlaying);
-    screen = await screen.save();
-    // const screen = await Screen.findOneAndUpdate(
-    //   { _id: id, isDeleted: false },
-    //   { $push: { contentPlaying: contentPlaying } },
-    //   { new: true, lean: 1 }
-    // )
-    //   .lean()
-    //   .populate({ path: "device" });
+    screen = await Screen.findOneAndUpdate(
+      { _id: id, isDeleted: false },
+      { $push: { contentPlaying } },
+      { new: true, lean: 1 }
+    )
+      .lean()
+      .populate({ path: "device" });
 
     if (!screen) {
       throw new AuthFailedError(
