@@ -6,8 +6,8 @@ export const createApp = {
     name: Joi.string().required(),
     type: Joi.string().required(),
     data: Joi.string().required(),
-    latitude: Joi.number().required(),
-    longitude: Joi.number().required(),
+    latitude: Joi.number().allow(""),
+    longitude: Joi.number().allow(""),
   }),
 };
 
