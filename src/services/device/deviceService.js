@@ -23,6 +23,13 @@ export const addDevice = async (deviceToken, code, timezone) => {
       device.defaultComposition = device?.vendor?.defaultComposition;
     }
     device.content = [];
+    const layout = await Layout.findOne({
+      _id: device?.defaultComposition?.media?.layout,
+    }).lean();
+
+    if (layout) {
+      device.defaultComposition.media.layout = layout;
+    }
     if (device.screen) {
       // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });
 
