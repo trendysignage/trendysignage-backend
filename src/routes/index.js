@@ -4,6 +4,7 @@ import adminAuthRoute from "./admin/authRoutes.js";
 import adminResellerRoute from "./admin/resellerRoutes.js";
 import adminVendorRoute from "./admin/vendorRoutes.js";
 import deviceRoute from "./device/deviceRoutes.js";
+import appRoute from "./vendor/appRoute.js";
 import vendorAuth from "./vendor/authRoutes.js";
 import displayRoute from "./vendor/displayRoutes.js";
 import layoutRoute from "./vendor/layoutRoutes.js";
@@ -37,6 +38,10 @@ const defaultRoutes = [
     path: "/vendor/push",
     route: pushRoute,
   },
+  {
+    path: "/vendor/apps",
+    route: appRoute,
+  }
   {
     path: "/admin/auth",
     route: adminAuthRoute,
