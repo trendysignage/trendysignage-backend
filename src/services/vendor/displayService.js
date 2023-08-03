@@ -451,11 +451,11 @@ export const publish = async (vendorId, body, timezone) => {
     }
   }
 
-  console.log(contentPlaying, "nnnfnjvnjfngn");
-
   contentPlaying.endTime.setSeconds(
     contentPlaying.startTime.getSeconds() + body.duration
   );
+
+  console.log(contentPlaying.media, "nnnfnjvnjfngn");
 
   for (const id of body.screenIds) {
     let screen = await Screen.findOne({ _id: id, isDeleted: false }).populate({
