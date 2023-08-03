@@ -469,7 +469,7 @@ export const publish = async (vendorId, body, timezone) => {
       }
     }
 
-    console.log(contentPlaying, "playinggg from publishhhh");
+    console.log(JSON.stringify(contentPlaying), "playinggg from publishhhh");
 
     screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },
