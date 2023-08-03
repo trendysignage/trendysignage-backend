@@ -469,8 +469,6 @@ export const publish = async (vendorId, body, timezone) => {
       }
     }
 
-    console.log(JSON.stringify(contentPlaying), "playinggg from publishhhh");
-
     screen = await Screen.findOneAndUpdate(
       { _id: id, isDeleted: false },
       { $push: { contentPlaying } },
@@ -478,6 +476,8 @@ export const publish = async (vendorId, body, timezone) => {
     )
       .lean()
       .populate({ path: "device" });
+
+      console.log(JSON.stringify(screen.contentPlaying), "connttettetttPlayinnngggf")
 
     if (!screen) {
       throw new AuthFailedError(
