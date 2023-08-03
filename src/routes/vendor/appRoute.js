@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route("/")
   .all(auth())
-  .post(validate(appValidation.createApp), appController.createApp);
-// .put(validate(appValidation.editApp), appController.editApp);
+  .post(validate(appValidation.createApp), appController.createApp)
+.put(validate(appValidation.editApp), appController.editApp);
 
 export default router;

@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { App, Vendor } from "../../models/index.js";
+import { Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const createApp = async (vendor, body) => {
@@ -28,20 +28,17 @@ export const createApp = async (vendor, body) => {
   return app;
 };
 
-export const editApp = async (vendor, body) => {
-  const app = await App.findOneAndUpdate(
+export const editApp = async (_id, body) => {
+  const app = await Vendor.findOneAndUpdate(
     {
-      vendor,
-      isDeleted: false,
-      _id: body.appId,
+      _id,
+      "media._id": body.appId,
     },
     {
       $set: {
-        name: body.name,
-        type: body.type,
-        data: body.data,
-        url: body.url,
-        tags: body.tags,
+        "media.$.title": body.name,
+        "media.$.appData": body.data,
+        "media.$.tags": body.tags,
       },
     },
     { new: 1, lean: 1 }

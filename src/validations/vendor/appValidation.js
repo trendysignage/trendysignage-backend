@@ -15,11 +15,9 @@ export const editApp = {
   body: Joi.object().keys({
     appId: JOI.OBJECTID,
     name: Joi.string().required(),
-    type: Joi.string().required(),
     data: Joi.string().required(),
-    url: Joi.string().required(),
-    latitude: Joi.number().required(),
-    longitude: Joi.number().required(),
+    latitude: Joi.number().allow(""),
+    longitude: Joi.number().allow(""),
     tags: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
