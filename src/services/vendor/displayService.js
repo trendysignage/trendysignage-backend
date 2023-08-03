@@ -455,6 +455,8 @@ export const publish = async (vendorId, body, timezone) => {
     contentPlaying.startTime.getSeconds() + body.duration
   );
 
+  console.log(contentPlaying, "playinggg from publishhhh");
+
   for (const id of body.screenIds) {
     let screen = await Screen.findOne({ _id: id, isDeleted: false }).populate({
       path: "device",
