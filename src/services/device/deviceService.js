@@ -43,7 +43,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
           },
         },
         { new: true, lean: 1 }
-      ).populate({ path: "contentPlaying.media.layout" });
+      );
 
       if (!screen) {
         throw new AuthFailedError(
@@ -53,7 +53,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
       }
 
       for (const content of screen.contentPlaying) {
-        console.log(screen.contentPlaying, "contentttttttt");
         const layout = await Layout.findOne({
           _id: content?.media?.layout,
         }).lean();
