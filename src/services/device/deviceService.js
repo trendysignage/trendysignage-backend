@@ -53,8 +53,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
       }
 
       for (const content of screen.contentPlaying) {
+        console.log(content, "contentttttttt");
         const layout = await Layout.findOne({
-          _id: content.media.layout,
+          _id: content?.media?.layout,
         }).lean();
         if (layout) {
           content.media.layout = layout;
