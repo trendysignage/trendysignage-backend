@@ -58,7 +58,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
           content.media.layout = layout;
         }
       }
-      console.log(screen.contentPlaying, "conteteetnegjenbnebn");
 
       // if (screen && screen.schedule) {
       //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
