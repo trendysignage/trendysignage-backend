@@ -10,6 +10,6 @@ router
   .route("/")
   .all(auth())
   .post(validate(appValidation.createApp), appController.createApp)
-.put(validate(appValidation.editApp), appController.editApp);
+  .put(validate(appValidation.editApp), appController.editApp);
 
 export default router;
