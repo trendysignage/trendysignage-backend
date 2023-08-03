@@ -127,7 +127,6 @@ export const stopTracking = async (deviceToken, timezone) => {
       isDeleted: false,
     });
     if (screen) {
-      console.log(screen, "screen of utpimeee");
       await screen.stopUptimeTracking(timezone);
     }
   }
