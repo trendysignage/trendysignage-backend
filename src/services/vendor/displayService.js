@@ -454,7 +454,7 @@ export const publish = async (vendorId, body, timezone) => {
   contentPlaying.endTime.setSeconds(
     contentPlaying.startTime.getSeconds() + body.duration
   );
-  console.log(contentPlaying, ">==========cccccccccccccc---");
+
   if (contentPlaying.media) {
     for (const id of body.screenIds) {
       let screen = await Screen.findOne({ _id: id, isDeleted: false }).populate(
