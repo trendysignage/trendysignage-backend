@@ -455,37 +455,39 @@ export const publish = async (vendorId, body, timezone) => {
     contentPlaying.startTime.getSeconds() + body.duration
   );
 
-  console.log(contentPlaying.media, "nnnfnjvnjfngn");
-
-  for (const id of body.screenIds) {
-    let screen = await Screen.findOne({ _id: id, isDeleted: false }).populate({
-      path: "device",
-    });
-
-    if (body.type === CONTENT_TYPE.MEDIA) {
-      const index = screen.contentPlaying.findIndex(
-        (item) => item.type === CONTENT_TYPE.MEDIA
+  if (contentPlaying.media) {
+    for (const id of body.screenIds) {
+      let screen = await Screen.findOne({ _id: id, isDeleted: false }).populate(
+        {
+          path: "device",
+        }
       );
-      if (index !== -1) {
-        screen.contentPlaying.splice(index, 1);
+
+      if (body.type === CONTENT_TYPE.MEDIA) {
+        const index = screen.contentPlaying.findIndex(
+          (item) => item.type === CONTENT_TYPE.MEDIA
+        );
+        if (index !== -1) {
+          screen.contentPlaying.splice(index, 1);
+        }
       }
-    }
 
-    screen = await Screen.findOneAndUpdate(
-      { _id: id, isDeleted: false },
-      { $push: { contentPlaying } },
-      { new: true, lean: 1 }
-    )
-      .lean()
-      .populate({ path: "device" });
+      screen = await Screen.findOneAndUpdate(
+        { _id: id, isDeleted: false },
+        { $push: { contentPlaying } },
+        { new: true, lean: 1 }
+      )
+        .lean()
+        .populate({ path: "device" });
 
-    if (!screen) {
-      throw new AuthFailedError(
-        ERROR_MESSAGES.SCREEN_NOT_FOUND,
-        STATUS_CODES.ACTION_FAILED
-      );
+      if (!screen) {
+        throw new AuthFailedError(
+          ERROR_MESSAGES.SCREEN_NOT_FOUND,
+          STATUS_CODES.ACTION_FAILED
+        );
+      }
+      await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
     }
-    await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
   }
 };
 
