@@ -477,8 +477,6 @@ export const publish = async (vendorId, body, timezone) => {
       .lean()
       .populate({ path: "device" });
 
-      console.log(JSON.stringify(screen.contentPlaying), "connttettetttPlayinnngggf")
-
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,
