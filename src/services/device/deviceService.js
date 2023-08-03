@@ -59,52 +59,49 @@ export const addDevice = async (deviceToken, code, timezone) => {
         }
       }
 
-console.log(screen.contentPlaying, "fnjfgfnfgbjngbjgbng")
-
-      // if (screen && screen.schedule) {
-      //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
-
-      //   let schedule = await Schedule.findOne(
-      //     {
-      //       _id: screen.schedule,
-      //       "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
-      //       "sequence.timings": {
-      //         $elemMatch: {
-      //           startTime: { $lte: currentTime },
-      //           endTime: { $gte: currentTime },
-      //         },
-      //       },
-      //     },
-      //     { "sequence.timings.$": 1 }
-      //   )
-      //     .populate({ path: "sequence.timings.composition" })
-      //     .lean();
-
-      //   if (schedule) {
-      //     schedule?.sequence?.map(async (seq) => {
-      //       let diffMiliSeconds = Math.abs(
-      //         seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
-      //       );
-      //       let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-
-      //       content = [
-      //         {
-      //           media: seq?.timings[0]?.composition,
-      //           duration: diffSeconds,
-      //           type: "composition",
-      //           startTime: seq?.timings[0]?.startTime,
-      //           endTime: seq?.timings[0]?.endTime,
-      //           createdAt: utcTime(new Date(), timezone),
-      //         },
-      //       ];
-
-      //       // if (device.content) {
-      //       //   device.content.push(JSON.parse(JSON.stringify(content)));
-      //       // } else {
-      //       // }
-      //     });
-      //   }
+      // {
+      //   // if (screen && screen.schedule) {
+      //   //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
+      //   //   let schedule = await Schedule.findOne(
+      //   //     {
+      //   //       _id: screen.schedule,
+      //   //       "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
+      //   //       "sequence.timings": {
+      //   //         $elemMatch: {
+      //   //           startTime: { $lte: currentTime },
+      //   //           endTime: { $gte: currentTime },
+      //   //         },
+      //   //       },
+      //   //     },
+      //   //     { "sequence.timings.$": 1 }
+      //   //   )
+      //   //     .populate({ path: "sequence.timings.composition" })
+      //   //     .lean();
+      //   //   if (schedule) {
+      //   //     schedule?.sequence?.map(async (seq) => {
+      //   //       let diffMiliSeconds = Math.abs(
+      //   //         seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
+      //   //       );
+      //   //       let diffSeconds = Math.floor(diffMiliSeconds / 1000);
+      //   //       content = [
+      //   //         {
+      //   //           media: seq?.timings[0]?.composition,
+      //   //           duration: diffSeconds,
+      //   //           type: "composition",
+      //   //           startTime: seq?.timings[0]?.startTime,
+      //   //           endTime: seq?.timings[0]?.endTime,
+      //   //           createdAt: utcTime(new Date(), timezone),
+      //   //         },
+      //   //       ];
+      //   //       // if (device.content) {
+      //   //       //   device.content.push(JSON.parse(JSON.stringify(content)));
+      //   //       // } else {
+      //   //       // }
+      //   //     });
+      //   //   }
+      //   // }
       // }
+
       screen.contentPlaying = screen?.contentPlaying?.map((item) => {
         item.startTime = localtime(item.startTime, timezone);
         item.endTime = localtime(item.endTime, timezone);
