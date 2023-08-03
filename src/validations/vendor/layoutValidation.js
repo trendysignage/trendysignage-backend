@@ -1,6 +1,5 @@
 import Joi from "joi";
-import { JOI, MEDIA_TYPE } from "../../config/appConstants.js";
-import { objectId } from "../custom.validation.js";
+import { JOI } from "../../config/appConstants.js";
 
 export const addLayout = {
   body: Joi.object().keys({
@@ -64,13 +63,12 @@ export const addComposition = {
         zoneId: JOI.OBJECTID,
         content: Joi.array().items({
           url: Joi.string().allow(""),
-          type: Joi.string()
-            .valid(...Object.values(MEDIA_TYPE))
-            .required(),
+          type: Joi.string().required(),
           maintainAspectRatio: Joi.boolean().required().default(false),
           fitToScreen: Joi.boolean().required().default(true),
           crop: Joi.boolean().required().default(false),
           duration: Joi.number().required(),
+          data: Joi.string().allow(""),
         }),
       })
       .required(),
@@ -90,13 +88,12 @@ export const editComposition = {
         zoneId: JOI.OBJECTID,
         content: Joi.array().items({
           url: Joi.string().allow(""),
-          type: Joi.string()
-            .valid(...Object.values(MEDIA_TYPE))
-            .required(),
+          type: Joi.string().required(),
           maintainAspectRatio: Joi.boolean().required().default(false),
           fitToScreen: Joi.boolean().required().default(true),
           crop: Joi.boolean().required().default(false),
           duration: Joi.number().required(),
+          data: Joi.string().allow(""),
         }),
       })
       .required(),

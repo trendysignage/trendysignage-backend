@@ -18,6 +18,7 @@ const compositionSchema = new mongoose.Schema(
             crop: { type: Boolean, default: false },
             croppedImage: { type: String },
             duration: { type: Number },
+            data: { type: String },
           },
         ],
       },
