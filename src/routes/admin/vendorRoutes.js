@@ -55,7 +55,7 @@ router
   .route("/screen")
   .all(auth(USER_TYPE.ADMIN))
   .get(
-    validat(adminVendorValidation.getScreen),
+    validate(adminVendorValidation.getScreen),
     adminVendorController.getScreen
   );
 
