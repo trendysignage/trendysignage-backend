@@ -145,7 +145,6 @@ export const uptimeReport = async (vendorId, query) => {
 };
 
 export const mediaReport = async (vendorId, query) => {
-  console.log(vendorId, query, "jknjnjnn");
   let data = {
     isDeleted: false,
     _id: vendorId,
@@ -157,6 +156,8 @@ export const mediaReport = async (vendorId, query) => {
     media: 1,
     mediaReport: 1,
   }).lean();
+
+  console.log(vendor, "jkjnjnjnjn");
 
   vendor.mediaReport = vendor?.mediaReport?.filter(
     (report) => report.day >= query.startDate && report.day <= query.endDate
