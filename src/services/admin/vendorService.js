@@ -70,7 +70,7 @@ export const deleteVendor = async (_id) => {
 };
 
 export const list = async (query) => {
-  let data = { isDeleted: false };
+  let data = { isDeleted: false, isVerified: true };
   if (query.search) {
     query.search = escapeRegex(query.search);
 
@@ -94,4 +94,3 @@ export const list = async (query) => {
 
   return { vendors, count };
 };
-
