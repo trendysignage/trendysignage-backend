@@ -85,7 +85,10 @@ export const list = async (query) => {
     };
   }
   let [vendors, count] = await Promise.all([
-    Vendor.find(data, {}, paginationOptions(query.page, query.limit)),
+    Vendor.find(data, {}, paginationOptions(query.page, query.limit)).populate([
+      { path: "screens", populate: { path: "schedule" } },
+      { path: "schedules" },
+    ]),
     Vendor.countDocuments({ isDeleted: data.isDeleted }),
   ]);
 
