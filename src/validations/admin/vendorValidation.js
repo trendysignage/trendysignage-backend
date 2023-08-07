@@ -26,7 +26,7 @@ export const list = {
 
 export const reports = {
   query: Joi.object().keys({
-    screenId: JOI.OBJECTID,
+    vendorId: JOI.OBJECTID,
     search: Joi.string().allow(""),
     page: JOI.PAGE,
     limit: JOI.LIMIT,
