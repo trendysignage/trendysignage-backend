@@ -44,4 +44,11 @@ router.get(
   adminVendorController.uptimeReport
 );
 
+router.get(
+  "/auditLogs",
+  auth(USER_TYPE.ADMIN),
+  validate(adminVendorValidation.reports),
+  adminVendorController.auditReport
+);
+
 export default router;

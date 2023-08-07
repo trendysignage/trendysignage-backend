@@ -1,5 +1,9 @@
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
-import { adminVendorService, profileService } from "../../services/index.js";
+import {
+  adminVendorService,
+  logService,
+  profileService,
+} from "../../services/index.js";
 import { formatVendor } from "../../utils/formatResponse.js";
 import { successResponse } from "../../utils/response.js";
 import { catchAsync } from "../../utils/universalFunction.js";
@@ -64,6 +68,21 @@ export const mediaReport = catchAsync(async (req, res) => {
 
 export const uptimeReport = catchAsync(async (req, res) => {
   const data = await profileService.uptimeReport(req.query.vendorId, req.query);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    data
+  );
+});
+
+export const auditReport = catchAsync(async (req, res) => {
+  const logs = await logService.getLogs(
+    req.query.vendorId,
+    req.query,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   return successResponse(
     req,
     res,
