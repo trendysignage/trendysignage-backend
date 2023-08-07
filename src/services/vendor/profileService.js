@@ -135,6 +135,8 @@ export const uptimeReport = async (vendorId, query) => {
     paginationOptions(query.page, query.limit)
   );
 
+  console.log(reports, "kjfnbrth");
+
   reports?.map((report) => {
     report.uptimeReport = report?.uptimeReport?.filter(
       (i) => i.day >= query.startDate && i.day <= query.endDate
