@@ -197,7 +197,7 @@ export const deleteComposition = async (vendorId, compositionId) => {
 
 async function check() {
   const screen = await Screen.findOne({
-    contentPlaying: { $elemMatch: { "media._id": "64d0a1b9a6a5a29ff860f6e3" } },
+    "contentPlaying.media._id": "64d0a1b9a6a5a29ff860f6e3",
   }).lean();
   console.log(screen);
 }
