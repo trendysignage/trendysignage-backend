@@ -88,6 +88,6 @@ export const auditReport = catchAsync(async (req, res) => {
     res,
     STATUS_CODES.SUCCESS,
     SUCCESS_MESSAGES.SUCCESS,
-    data
+    logs
   );
 });
