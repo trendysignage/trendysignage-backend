@@ -30,4 +30,5 @@ router.get(
   adminVendorController.list
 );
 
+
 export default router;
