@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Composition, Layout, Vendor } from "../../models/index.js";
+import { Composition, Layout, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 
