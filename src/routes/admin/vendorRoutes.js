@@ -37,11 +37,11 @@ router.get(
   adminVendorController.mediaReport
 );
 
-// router.get(
-//   "/uptimeReport",
-//   auth(USER_TYPE.ADMIN),
-//   validate(adminVendorValidation.reports),
-//   adminVendorController.uptimeReport
-// );
+router.get(
+  "/uptimeReport",
+  auth(USER_TYPE.ADMIN),
+  validate(adminVendorValidation.reports),
+  adminVendorController.uptimeReport
+);
 
 export default router;

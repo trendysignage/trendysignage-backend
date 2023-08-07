@@ -61,3 +61,14 @@ export const mediaReport = catchAsync(async (req, res) => {
     data
   );
 });
+
+export const uptimeReport = catchAsync(async (req, res) => {
+  const data = await profileService.uptimeReport(req.query.vendorId, req.query);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    data
+  );
+});
