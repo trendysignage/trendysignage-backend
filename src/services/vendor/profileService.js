@@ -145,6 +145,7 @@ export const uptimeReport = async (vendorId, query) => {
 };
 
 export const mediaReport = async (vendorId, query) => {
+  console.log(vendorId, query, "jknjnjnn");
   let data = {
     isDeleted: false,
     _id: vendorId,
