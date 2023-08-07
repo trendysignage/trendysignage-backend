@@ -157,6 +157,8 @@ export const mediaReport = async (vendorId, query) => {
     mediaReport: 1,
   }).lean();
 
+  console.log(await Vendor.findOne({ _id:vendorId }));
+
   console.log(vendor, "jkjnjnjnjn");
 
   vendor.mediaReport = vendor?.mediaReport?.filter(
