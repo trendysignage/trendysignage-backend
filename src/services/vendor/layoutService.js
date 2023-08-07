@@ -161,6 +161,19 @@ export const editComposition = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  const screen = await Screen.find({
+    vendor: vendorId,
+    contentPlaying: { $elemMatch: { "media._id": composition._id } },
+  }).lean();
+
+  let contentPlaying = {
+    media: composition,
+    duration: body.duration,
+    type: "composition",
+    startTime: new Date(localtime(new Date(), timezone) + "Z"),
+    endTime: new Date(localtime(new Date(), timezone) + "Z"),
+    createdAt: new Date(localtime(new Date(), timezone) + "Z"),
+  };
 };
 
 export const deleteComposition = async (vendorId, compositionId) => {
@@ -181,3 +194,12 @@ export const deleteComposition = async (vendorId, compositionId) => {
     { new: 1, lean: 1 }
   );
 };
+
+async function check() {
+  const screen = await Screen.findOne({
+    contentPlaying: { $elemMatch: { "media._id": "64d0a1b9a6a5a29ff860f6e3" } },
+  }).lean();
+  console.log(screen);
+}
+
+check();
