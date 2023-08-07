@@ -148,18 +148,14 @@ export const mediaReport = async (vendorId, query) => {
   let data = {
     isDeleted: false,
     _id: vendorId,
-    mediaReport: {
-      $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
-    },
+    // mediaReport: {
+    //   $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
+    // },
   };
   const vendor = await Vendor.findOne(data, {
     media: 1,
     mediaReport: 1,
   }).lean();
-
-  console.log(await Vendor.findOne({ _id:vendorId }));
-
-  console.log(vendor, "jkjnjnjnjn");
 
   vendor.mediaReport = vendor?.mediaReport?.filter(
     (report) => report.day >= query.startDate && report.day <= query.endDate
