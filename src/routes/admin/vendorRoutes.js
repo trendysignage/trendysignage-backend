@@ -51,4 +51,12 @@ router.get(
   adminVendorController.auditReport
 );
 
+router
+  .route("/screen")
+  .all(auth(USER_TYPE.ADMIN))
+  .get(
+    validat(adminVendorValidation.getScreen),
+    adminVendorController.getScreen
+  );
+
 export default router;

@@ -103,6 +103,7 @@ export const editRole = async (vendorId, body) => {
   );
 };
 
+// used in vendor and superAdmin
 export const uptimeReport = async (vendorId, query) => {
   let data = {
     isDeleted: false,
@@ -146,6 +147,7 @@ export const uptimeReport = async (vendorId, query) => {
   return reports;
 };
 
+// used in vendor and superAdmin
 export const mediaReport = async (vendorId, query) => {
   let data = {
     isDeleted: false,

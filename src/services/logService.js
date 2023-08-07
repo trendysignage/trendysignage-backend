@@ -22,6 +22,7 @@ export const createLog = async (vendorId, title, timezone) => {
   return log;
 };
 
+// used in vendor and superAdmin
 export const getLogs = async (vendorId, query, timezone) => {
   const startDate = utcTime(query.startDate, timezone);
   const endDate = utcTime(query.endDate, timezone);

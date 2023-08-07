@@ -36,3 +36,9 @@ export const reports = {
     groups: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
+
+export const getScreen = {
+  query: Joi.object().keys({
+    screenId: JOI.OBJECTID,
+  }),
+};

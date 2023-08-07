@@ -1,6 +1,7 @@
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 import {
   adminVendorService,
+  displayService,
   logService,
   profileService,
 } from "../../services/index.js";
@@ -89,5 +90,16 @@ export const auditReport = catchAsync(async (req, res) => {
     STATUS_CODES.SUCCESS,
     SUCCESS_MESSAGES.SUCCESS,
     logs
+  );
+});
+
+export const getScreen = catchAsync(async (req, res) => {
+  const screen = await displayService.getScreen(req.query.screenId);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    screen
   );
 });
