@@ -30,5 +30,11 @@ router.get(
   adminVendorController.list
 );
 
+router.get(
+  "/mediaReport",
+  auth(USER_TYPE.ADMIN),
+  validate(adminVendorValidation.reports),
+  adminVendorController.mediaReport
+);
 
 export default router;

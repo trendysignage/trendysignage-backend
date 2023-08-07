@@ -1,5 +1,5 @@
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
-import { adminVendorService } from "../../services/index.js";
+import { adminVendorService, profileService } from "../../services/index.js";
 import { formatVendor } from "../../utils/formatResponse.js";
 import { successResponse } from "../../utils/response.js";
 import { catchAsync } from "../../utils/universalFunction.js";
@@ -42,6 +42,17 @@ export const list = catchAsync(async (req, res) => {
   data.vendors.map((vendor) => {
     formatVendor(vendor);
   });
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    data
+  );
+});
+
+export const mediaReport = catchAsync(async (req, res) => {
+  const data = await profileService.mediaReport(req.query.vendorId, req.query);
   return successResponse(
     req,
     res,

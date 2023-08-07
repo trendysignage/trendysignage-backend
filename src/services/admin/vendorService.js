@@ -94,3 +94,4 @@ export const list = async (query) => {
 
   return { vendors, count };
 };
+

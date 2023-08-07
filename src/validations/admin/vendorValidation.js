@@ -23,3 +23,16 @@ export const list = {
     limit: JOI.LIMIT,
   }),
 };
+
+export const reports = {
+  query: Joi.object().keys({
+    vendorId: JOI.OBJECTID,
+    search: Joi.string().allow(""),
+    page: JOI.PAGE,
+    limit: JOI.LIMIT,
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
+    groups: Joi.array().items(Joi.string().allow("")).allow(""),
+  }),
+};
