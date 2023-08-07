@@ -112,6 +112,8 @@ export const uptimeReport = async (vendorId, query) => {
     },
   };
 
+  console.log(query.startDate, query.endDate);
+
   if (query.tags) {
     data = { ...data, tags: { $in: query.tags } };
   }
