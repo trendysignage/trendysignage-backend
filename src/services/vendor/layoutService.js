@@ -197,10 +197,13 @@ export const deleteComposition = async (vendorId, compositionId) => {
 
 async function check() {
   const screen = await Screen.find({
-    "contentPlaying.media._id": "64d0a1b9a6a5a29ff860f6e3",
+    isDeleted: false,
   }).lean();
 
-  console.log(screen);
+  const data = screen.find((s) =>
+    JSON.stringify(s.contentPlaying).includes("64d0a1b9a6a5a29ff860f6e3")
+  );
+  console.log(data);
 }
 
 check();
