@@ -108,10 +108,16 @@ export const uptimeReport = async (vendorId, query) => {
   let data = {
     isDeleted: false,
     vendor: vendorId,
-    uptimeReport: {
-      $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
-    },
   };
+
+  if (query.startDate && query.endDate) {
+    data = {
+      ...data,
+      uptimeReport: {
+        $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
+      },
+    };
+  }
 
   if (query.tags) {
     data = { ...data, tags: { $in: query.tags } };
@@ -138,11 +144,13 @@ export const uptimeReport = async (vendorId, query) => {
 
   console.log(reports, "kjfnbrth");
 
-  reports?.map((report) => {
-    report.uptimeReport = report?.uptimeReport?.filter(
-      (i) => i.day >= query.startDate && i.day <= query.endDate
-    );
-  });
+  if (query.startDate && query.endDate) {
+    reports?.map((report) => {
+      report.uptimeReport = report?.uptimeReport?.filter(
+        (i) => i.day >= query.startDate && i.day <= query.endDate
+      );
+    });
+  }
 
   return reports;
 };
@@ -152,18 +160,27 @@ export const mediaReport = async (vendorId, query) => {
   let data = {
     isDeleted: false,
     _id: vendorId,
-    // mediaReport: {
-    //   $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
-    // },
   };
+
+  if (query.startDate && query.endDate) {
+    data = {
+      ...data,
+      mediaReport: {
+        $elemMatch: { day: { $gte: query.startDate, $lte: query.endDate } },
+      },
+    };
+  }
+
   const vendor = await Vendor.findOne(data, {
     media: 1,
     mediaReport: 1,
   }).lean();
 
-  vendor.mediaReport = vendor?.mediaReport?.filter(
-    (report) => report.day >= query.startDate && report.day <= query.endDate
-  );
+  if (query.startDate && query.endDate) {
+    vendor.mediaReport = vendor?.mediaReport?.filter(
+      (report) => report.day >= query.startDate && report.day <= query.endDate
+    );
+  }
 
   const reducedReport = vendor?.mediaReport?.reduce((acc, curr) => {
     const { media, duration, loop } = curr;

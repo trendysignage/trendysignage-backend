@@ -24,14 +24,19 @@ export const createLog = async (vendorId, title, timezone) => {
 
 // used in vendor and superAdmin
 export const getLogs = async (vendorId, query, timezone) => {
-  const startDate = utcTime(query.startDate, timezone);
-  const endDate = utcTime(query.endDate, timezone);
-
   let data = {
     vendor: vendorId,
     isDeleted: false,
-    createdAt: { $gte: startDate, $lte: endDate },
   };
+
+  if (query.startDate && query.endDate) {
+    const startDate = utcTime(query.startDate, timezone);
+    const endDate = utcTime(query.endDate, timezone);
+    data = {
+      ...data,
+      createdAt: { $gte: startDate, $lte: endDate },
+    };
+  }
 
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
