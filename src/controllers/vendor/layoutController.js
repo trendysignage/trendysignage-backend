@@ -111,7 +111,11 @@ export const addComposition = catchAsync(async (req, res) => {
 });
 
 export const editComposition = catchAsync(async (req, res) => {
-  await layoutService.editComposition(req.token.vendor._id, req.body);
+  await layoutService.editComposition(
+    req.token.vendor._id,
+    req.body,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
   await logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_COMPOSITION,

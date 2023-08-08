@@ -1,7 +1,13 @@
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import {
+  CONTENT_TYPE,
+  ERROR_MESSAGES,
+  STATUS_CODES,
+} from "../../config/appConstants.js";
 import { Composition, Layout, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
+import { localtime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
+import { emit } from "../socketService.js";
 
 export const layouts = async () => {
   const layouts = await Layout.find({ isDeleted: false }).lean();
@@ -139,7 +145,7 @@ export const addComposition = async (vendorId, body) => {
   );
 };
 
-export const editComposition = async (vendorId, body) => {
+export const editComposition = async (vendorId, body, timezone) => {
   const data = {
     name: body.name,
     createdBy: vendorId,
@@ -147,6 +153,7 @@ export const editComposition = async (vendorId, body) => {
     duration: body.duration,
     referenceUrl: body.referenceUrl,
   };
+
   const composition = await Composition.findOneAndUpdate(
     {
       _id: body.compositionId,
@@ -155,25 +162,15 @@ export const editComposition = async (vendorId, body) => {
     { $set: data },
     { new: 1, lean: 1 }
   );
+
   if (!composition) {
     throw new AuthFailedError(
       ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
-  const screen = await Screen.find({
-    vendor: vendorId,
-    contentPlaying: { $elemMatch: { "media._id": composition._id } },
-  }).lean();
 
-  let contentPlaying = {
-    media: composition,
-    duration: body.duration,
-    type: "composition",
-    startTime: new Date(localtime(new Date(), timezone) + "Z"),
-    endTime: new Date(localtime(new Date(), timezone) + "Z"),
-    createdAt: new Date(localtime(new Date(), timezone) + "Z"),
-  };
+  editCompositionEmit(composition, body.duration, timezone);
 };
 
 export const deleteComposition = async (vendorId, compositionId) => {
@@ -195,79 +192,47 @@ export const deleteComposition = async (vendorId, compositionId) => {
   );
 };
 
-async function check() {
-  const screen = await Screen.find({
-    isDeleted: false,
-  }).lean();
-
-  const data = screen.find((s) =>
-    JSON.stringify(s.contentPlaying).includes("64d0a1b9a6a5a29ff860f6e3")
-  );
-
-  const newObj = {
-    media: {
-      _id: "64d0a1b9a6a5a29ff860f6e3",
-      name: "newobject",
-      createdBy: "6436ac4945920161d6b13dab",
-      layout: "64562bce81a7ad616561409a",
-      zones: [
-        {
-          name: "Zone1",
-          zoneId: "64562bce81a7ad616561409b",
-          content: [
-            {
-              url: "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3",
-              type: "youtube-apps",
-              maintainAspectRatio: false,
-              fitToScreen: true,
-              crop: false,
-              duration: 10,
-              _id: "64d0a1b9a6a5a29ff860f6e5",
-            },
-            {
-              url: "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3",
-              type: "youtube-apps",
-              maintainAspectRatio: false,
-              fitToScreen: true,
-              crop: false,
-              duration: 10,
-              _id: "64d0a1b9a6a5a29ff860f6e6",
-            },
-          ],
-          _id: "64d0a1b9a6a5a29ff860f6e4",
-        },
-      ],
-      tags: [],
-      duration: 20,
-      schedules: [],
-      referenceUrl: [
-        "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3**Zone1",
-        "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3**Zone1",
-      ],
-      isDefault: false,
-      isDeleted: false,
-      createdAt: "2023-08-07T07:48:09.208Z",
-      updatedAt: "2023-08-07T07:48:09.208Z",
-      __v: 0,
-    },
-    duration: 600,
-    startTime: "2023-08-07T13:19:05.000Z",
-    endTime: "2023-08-07T13:29:05.000Z",
+export const editCompositionEmit = async (composition, duration, timezone) => {
+  const contentPlaying = {
+    media: composition,
+    duration,
     type: "composition",
-    createdAt: "2023-08-07T13:19:05.000Z",
-    _id: "64d0a1f1a6a5a29ff8610684",
+    startTime: new Date(localtime(new Date(), timezone) + "Z"),
+    endTime: new Date(localtime(new Date(), timezone) + "Z"),
+    createdAt: new Date(localtime(new Date(), timezone) + "Z"),
   };
 
+  contentPlaying.endTime.setSeconds(
+    contentPlaying.startTime.getSeconds() + duration
+  );
+
+  const screen = await Screen.find({
+    isDeleted: false,
+  })
+    .lean()
+    .populate({ path: "device" });
+
+  const data = screen.find((s) =>
+    JSON.stringify(s.contentPlaying).includes(composition._id)
+  );
+
   const newcontent = data.contentPlaying.map((content) => {
-    if (
-      JSON.stringify(content.media._id) ==
-      JSON.stringify("64d0a1b9a6a5a29ff860f6e3")
-    ) {
-      return newObj;
+    if (JSON.stringify(content.media._id) == JSON.stringify(composition._id)) {
+      return contentPlaying;
     }
     return content;
   });
-  console.log(newcontent);
-}
 
-check();
+  await Screen.updateOne(
+    { _id: data._id },
+    { $set: { contentPlaying: newcontent } },
+    { new: 1, lean: 1 }
+  );
+
+  await emit(
+    data.device?.deviceToken,
+    contentPlaying,
+    "",
+    CONTENT_TYPE.COMPOSITION
+  );
+};
