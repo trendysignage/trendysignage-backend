@@ -203,7 +203,71 @@ async function check() {
   const data = screen.find((s) =>
     JSON.stringify(s.contentPlaying).includes("64d0a1b9a6a5a29ff860f6e3")
   );
-  console.log(data);
+
+  const newObj = {
+    media: {
+      _id: "64d0a1b9a6a5a29ff860f6e3",
+      name: "newobject",
+      createdBy: "6436ac4945920161d6b13dab",
+      layout: "64562bce81a7ad616561409a",
+      zones: [
+        {
+          name: "Zone1",
+          zoneId: "64562bce81a7ad616561409b",
+          content: [
+            {
+              url: "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3",
+              type: "youtube-apps",
+              maintainAspectRatio: false,
+              fitToScreen: true,
+              crop: false,
+              duration: 10,
+              _id: "64d0a1b9a6a5a29ff860f6e5",
+            },
+            {
+              url: "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3",
+              type: "youtube-apps",
+              maintainAspectRatio: false,
+              fitToScreen: true,
+              crop: false,
+              duration: 10,
+              _id: "64d0a1b9a6a5a29ff860f6e6",
+            },
+          ],
+          _id: "64d0a1b9a6a5a29ff860f6e4",
+        },
+      ],
+      tags: [],
+      duration: 20,
+      schedules: [],
+      referenceUrl: [
+        "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3**Zone1",
+        "https://www.youtube.com/watch?v=Qwm6BSGrOq0&list=RDUZ_JZaNQrAw&index=3**Zone1",
+      ],
+      isDefault: false,
+      isDeleted: false,
+      createdAt: "2023-08-07T07:48:09.208Z",
+      updatedAt: "2023-08-07T07:48:09.208Z",
+      __v: 0,
+    },
+    duration: 600,
+    startTime: "2023-08-07T13:19:05.000Z",
+    endTime: "2023-08-07T13:29:05.000Z",
+    type: "composition",
+    createdAt: "2023-08-07T13:19:05.000Z",
+    _id: "64d0a1f1a6a5a29ff8610684",
+  };
+
+  const newcontent = data.contentPlaying.map((content) => {
+    if (
+      JSON.stringify(content.media._id) ==
+      JSON.stringify("64d0a1b9a6a5a29ff860f6e3")
+    ) {
+      return newObj;
+    }
+    return content;
+  });
+  console.log(newcontent);
 }
 
 check();
