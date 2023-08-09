@@ -31,6 +31,7 @@ export const deviceCode = async (vendorId, code) => {
 };
 
 export const getScreens = async (query, vendorId) => {
+  console.log("runinngg on server also------>>>>>>");
   let data = { vendor: vendorId, isDeleted: false };
 
   if (query.search) {
