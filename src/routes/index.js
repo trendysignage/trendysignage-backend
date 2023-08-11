@@ -13,6 +13,8 @@ import pushRoute from "./vendor/pushRoutes.js";
 
 const router = express.Router();
 
+console.log(adminAuthRoute, "kwejfewnfjnjfnwjenfwjn");
+
 const defaultRoutes = [
   {
     path: "/vendor/auth",

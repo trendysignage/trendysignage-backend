@@ -10,8 +10,6 @@ import { adminAuthValidation } from "../../validations/index.js";
 
 const router = express.Router();
 
-console.log("runnninggg123")
-
 router.post(
   "/login",
   validate(adminAuthValidation.login),
