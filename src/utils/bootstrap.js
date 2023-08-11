@@ -1,4 +1,4 @@
-import { Admin, Vendor } from "../models/index.js";
+import { Admin, Layout, Vendor } from "../models/index.js";
 
 const Run = async () => {
   /*-------------------------------------------------------------------------------
@@ -21,6 +21,7 @@ const Run = async () => {
 
   CreateAdmin(adminDetails);
   CreateVendor(vendorDetails);
+  createLayouts()
 };
 
 const CreateAdmin = async (adminDetails) => {
@@ -56,6 +57,142 @@ const CreateVendor = async (vendorDetails) => {
       "**********************************************************************",
       err
     );
+  }
+};
+
+const createLayouts = async () => {
+  try {
+    await Promise.all([
+      Layout.findOneAndUpdate(
+        { title: "Single Zone Landscape" },
+        {
+          screenType: "landscape",
+          screenResolution: "1920*1080",
+          zones: [
+            {
+              name: "Zone1",
+              x: 0,
+              y: 0,
+              height: 1080,
+              width: 1920,
+              _id: "64562bce81a7ad616561409b",
+            },
+          ],
+          isDeleted: false,
+        },
+        { lean: true, upsert: true, new: true }
+      ),
+      Layout.findOneAndUpdate(
+        { title: "Single Zone Potrait" },
+        {
+          screenType: "potrait",
+          screenResolution: "1080*1920",
+          zones: [
+            {
+              name: "Zone1",
+              x: 0,
+              y: 0,
+              height: 1920,
+              width: 1080,
+              _id: "64562bed81a7ad61656140af",
+            },
+          ],
+          isDeleted: false,
+        },
+        { lean: true, upsert: true, new: true }
+      ),
+      Layout.findOneAndUpdate(
+        { title: "Two Zone Potrait" },
+        {
+          screenType: "potrait",
+          screenResolution: "1080*1920",
+          zones: [
+            {
+              name: "Zone1",
+              x: 0,
+              y: 0,
+              height: 0,
+              width: 0,
+              _id: "64562c5881a7ad61656140ef",
+            },
+            {
+              name: "Zone2",
+              x: 0,
+              y: 0,
+              height: 0,
+              width: 0,
+              _id: "64562c5881a7ad61656140f0",
+            },
+          ],
+          isDeleted: false,
+        },
+        { lean: true, upsert: true, new: true }
+      ),
+      Layout.findOneAndUpdate(
+        { title: "Two Zone Landscape" },
+        {
+          screenType: "landscape",
+          screenResolution: "1920*1080",
+          zones: [
+            {
+              name: "Zone1",
+              x: 0,
+              y: 0,
+              height: 0,
+              width: 0,
+              _id: "64562c7881a7ad6165614105",
+            },
+            {
+              name: "Zone2",
+              x: 0,
+              y: 0,
+              height: 0,
+              width: 0,
+              _id: "64562c7881a7ad6165614106",
+            },
+          ],
+          isDeleted: false,
+        },
+        { lean: true, upsert: true, new: true }
+      ),
+      Layout.findOneAndUpdate(
+        { title: "Three Zone Landscape" },
+        {
+          screenType: "landscape",
+          screenResolution: "1920*1080",
+          zones: [
+            {
+              name: "Zone1",
+              x: 0,
+              y: 0,
+              height: 0,
+              width: 0,
+              _id: "64562c9181a7ad6165614118",
+            },
+            {
+              name: "Zone2",
+              x: 0,
+              y: 0,
+              height: 0,
+              width: 0,
+              _id: "64562c9181a7ad6165614119",
+            },
+            {
+              name: "Zone3",
+              x: 0,
+              y: 0,
+              height: 0,
+              width: 0,
+              _id: "64562c9181a7ad616561411a",
+            },
+          ],
+          isDeleted: false,
+        },
+        { lean: true, upsert: true, new: true }
+      ),
+    ]);
+  } catch (err) {
+    console.log(err, "---======+++++");
   }
 };
 
