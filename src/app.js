@@ -63,7 +63,6 @@ passport.use("jwt", jwtStrategy);
 app.use("/user/auth", authLimiter);
 
 // v1 api routes
-console.log("worknggggg??????");
 app.use("/", routes);
 
 app.use((req, res, next) => {
