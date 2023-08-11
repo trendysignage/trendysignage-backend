@@ -209,17 +209,15 @@ export const getSequence = async (query) => {
 };
 
 export const addSequence = async (vendorId, body, timezone) => {
-  console.log(body.timings, "timingggggssss");
   body.timings.forEach((i) => {
     i.startTime = utcTime(i.startTime, timezone);
     i.endTime = utcTime(i.endTime, timezone);
   });
 
-  console.log(body.timings, "timingggggssss2222222===>>>>>");
-
   let data = {
     name: body.name,
     timings: body.timings,
+    dates: [new Date()],
   };
 
   const schedule = await Schedule.findOneAndUpdate(
