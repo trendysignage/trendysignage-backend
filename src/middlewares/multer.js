@@ -4,7 +4,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log(req.file, "baseUrl multer");
+    console.log(file, "baseUrl multer");
     const vendorId = req.token.vendor._id;
     const mediaType = file.mimetype.split("/")[0];
     const dest = `public/${vendorId}/${mediaType}`;
