@@ -45,10 +45,11 @@ const task = async (req, res) => {
 
       if (schedule) {
         schedule?.timings?.map((comp) => {
-          comp.composition = comp.composition.filter(
-            (time) =>
-              moment(time.startTime).isBefore(moment(currentTime)) &&
-              moment(time.endTime).isAfter(moment(currentTime))
+          comp.composition = comp.composition.filter((time) =>
+            moment(currentTime).isBetween(
+              moment(time.startTime),
+              moment(time.endTime)
+            )
           );
         });
       }
