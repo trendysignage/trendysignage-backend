@@ -1,3 +1,4 @@
+import moment from "moment";
 import cron from "node-cron";
 import { STATUS_CODES } from "../config/appConstants.js";
 import { Device, Schedule, Screen } from "../models/index.js";
@@ -43,12 +44,12 @@ const task = async (req, res) => {
         .lean();
 
       if (schedule) {
-        console.log(schedule, "scheulddddddddddd")
-        schedule.timings.map((item) => {
-          item.composition = item.composition.filter((i) =>
-            console.log(i, "iiiiiiiiiiiiiiiiiiiiiiiiii======>>>>>>>>>>>>>>")
-          );
-        });
+        schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
+          (item) =>
+            moment(currentTime).isBetween(
+              moment(item.composition.startTime, item.composition.endTime)
+            )
+        );
       }
 
       let device = await Device.findOne({
