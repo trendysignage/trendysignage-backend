@@ -44,12 +44,14 @@ const task = async (req, res) => {
         .lean();
 
       if (schedule) {
-        // schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
-        //   (item) =>
-        //     moment(currentTime).isBetween(
-        //       moment(item.composition.startTime, item.composition.endTime)
-        //     )
-        // );
+        schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
+          (item) =>
+            console.log(
+              moment(currentTime),
+              moment(item.startTime),
+              moment(item.endTime)
+            )
+        );
       }
 
       let device = await Device.findOne({
