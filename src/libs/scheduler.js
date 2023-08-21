@@ -43,6 +43,7 @@ const task = async (req, res) => {
         .lean();
 
       if (schedule) {
+        console.log(schedule, "scheulddddddddddd")
         schedule.timings.map((item) => {
           item.composition = item.composition.filter((i) =>
             console.log(i, "iiiiiiiiiiiiiiiiiiiiiiiiii======>>>>>>>>>>>>>>")
