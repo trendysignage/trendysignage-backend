@@ -16,6 +16,7 @@ import {
   tokenService,
   vendorAuthService,
 } from "../../services/index.js";
+import { getProfile } from "../../services/vendor/profileService.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { formatVendor } from "../../utils/formatResponse.js";
 import { successResponse } from "../../utils/response.js";
@@ -97,6 +98,20 @@ export const socialLogin = catchAsync(async (req, res) => {
       token,
       vendor,
     }
+  );
+});
+
+export const resendOtp = catchAsync(async (req, res) => {
+  const vendor = await getProfile(req.token.vendor._id);
+  const otp = generateOtp();
+  const token = await tokenService.generateAuthToken(vendor, "vendor", "", otp);
+  verificationEmail(vendor.email, vendor.name, otp.code);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.MAIL_SENT,
+    { token, vendor }
   );
 });
 

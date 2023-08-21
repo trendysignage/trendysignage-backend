@@ -28,6 +28,8 @@ router.post(
   vendorAuthController.verify
 );
 
+router.post("/resendOtp", auth(), vendorAuthController.resendOtp);
+
 router.post(
   "/socialLogin",
   validate(vendorAuthValidation.socialLogin),
