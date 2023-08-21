@@ -44,12 +44,12 @@ const task = async (req, res) => {
         .lean();
 
       if (schedule) {
-        schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
-          (item) =>
-            moment(currentTime).isBetween(
-              moment(item.composition.startTime, item.composition.endTime)
-            )
-        );
+        // schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
+        //   (item) =>
+        //     moment(currentTime).isBetween(
+        //       moment(item.composition.startTime, item.composition.endTime)
+        //     )
+        // );
       }
 
       let device = await Device.findOne({
@@ -73,7 +73,7 @@ const task = async (req, res) => {
           createdAt: utcTime(new Date(), timezone),
         };
 
-        console.log(content, "contenttt off scheudlele");
+        // console.log(content, "contenttt off scheudlele");
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("========emitting scheduler========");
