@@ -47,9 +47,10 @@ const task = async (req, res) => {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
           (item) =>
             console.log(
-              moment(currentTime),
-              moment(item.startTime),
-              moment(item.endTime)
+              moment(currentTime).isBetween(
+                moment(item.startTime),
+                moment(item.endTime)
+              )
             )
         );
       }
