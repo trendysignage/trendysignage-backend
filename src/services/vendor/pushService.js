@@ -213,7 +213,6 @@ export const addSequence = async (vendorId, body, timezone) => {
     i.startTime = utcTime(i.startTime, timezone);
     i.endTime = utcTime(i.endTime, timezone);
   });
-  console.log(body.timings, "timeinngsss");
 
   let data = {
     name: body.name,
@@ -524,6 +523,8 @@ export const assignScreens = async (vendor, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+
+  console.log(schedule, "wekfnjwnfjn");
 
   for (const _id of body.screens) {
     const screen = await Screen.findOneAndUpdate(
