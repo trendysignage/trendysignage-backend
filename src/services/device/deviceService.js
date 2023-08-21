@@ -31,6 +31,12 @@ export const addDevice = async (deviceToken, code, timezone) => {
       device.defaultComposition.media.layout = layout;
     }
     if (device.screen) {
+      console.log(screen.contentPlaying, "contentPlaying");
+      console.log(
+        new Date(localtime(new Date(), timezone) + "Z"),
+        "timingnggggg"
+      );
+
       screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
         {
