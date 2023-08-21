@@ -53,8 +53,6 @@ const task = async (req, res) => {
         );
       }
 
-      console.log(JSON.stringify(schedule));
-
       let device = await Device.findOne({
         _id: s.device,
         isDeleted: false,
@@ -75,8 +73,6 @@ const task = async (req, res) => {
           endTime: schedule?.sequence[0]?.timings[0]?.endTime,
           createdAt: utcTime(new Date(), timezone),
         };
-
-        // console.log(content, "contenttt off scheudlele");
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("========emitting scheduler========");
