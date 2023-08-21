@@ -45,6 +45,7 @@ const task = async (req, res) => {
 
       if (schedule) {
         schedule?.timings?.map((comp) => {
+          console.log(comp, "comp of schemedidffuleellele")
           comp.composition = comp.composition.filter((time) =>
             moment(currentTime).isBetween(
               moment(time.startTime),
@@ -53,11 +54,6 @@ const task = async (req, res) => {
           );
         });
       }
-
-      console.log(
-        JSON.stringify(schedule),
-        "checking ggofrrrrr timjingngngng ====>>>"
-      );
 
       let device = await Device.findOne({
         _id: s.device,
@@ -79,6 +75,8 @@ const task = async (req, res) => {
           endTime: schedule?.sequence[0]?.timings[0]?.endTime,
           createdAt: utcTime(new Date(), timezone),
         };
+
+        console.log(content, "contenttt off scheudlele");
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("========emitting scheduler========");
