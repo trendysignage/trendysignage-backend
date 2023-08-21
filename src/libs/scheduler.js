@@ -1,3 +1,4 @@
+import moment from "moment";
 import cron from "node-cron";
 import { STATUS_CODES } from "../config/appConstants.js";
 import { Device, Schedule, Screen } from "../models/index.js";
@@ -42,12 +43,20 @@ const task = async (req, res) => {
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
+      schedule.timings.map((comp) => {
+        comp.composition = comp.composition.filter(
+          (time) =>
+            moment(time.startTime).isBefore(moment(currentTime)) &&
+            moment(time.endTime).isAfter(moment(currentTime))
+        );
+      });
+
+      console.log(JSON.stringify(schedule));
+
       let device = await Device.findOne({
         _id: s.device,
         isDeleted: false,
       }).lean();
-
-      console.log(JSON.stringify(schedule));
 
       if (schedule) {
         let diffMiliSeconds = Math.abs(
