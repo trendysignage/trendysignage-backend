@@ -42,8 +42,6 @@ const task = async (req, res) => {
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
-      console.log(JSON.stringify(schedule), "scheduleeeeee====>>>>>");
-
       let device = await Device.findOne({
         _id: s.device,
         isDeleted: false,
@@ -64,6 +62,11 @@ const task = async (req, res) => {
           endTime: schedule?.sequence[0]?.timings[0]?.endTime,
           createdAt: utcTime(new Date(), timezone),
         };
+
+        console.log(
+          s.contentPlaying.some((item) => checkContent(item, content)),
+          "checking contentttt??????"
+        );
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("========emitting scheduler========");
