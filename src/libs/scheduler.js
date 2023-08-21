@@ -63,13 +63,9 @@ const task = async (req, res) => {
           createdAt: utcTime(new Date(), timezone),
         };
 
-        console.log(
-          s.contentPlaying.some((item) => checkContent(item, content)),
-          "checking contentttt??????"
-        );
-
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("========emitting scheduler========");
+          console.log(content, "jkwejfwejfijwrewjefjfmwkfk");
           await emit(device.deviceToken, content);
           await Screen.findOneAndUpdate(
             {
