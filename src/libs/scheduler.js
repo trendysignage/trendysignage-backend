@@ -54,7 +54,10 @@ const task = async (req, res) => {
         });
       }
 
-      console.log(JSON.stringify(schedule));
+      console.log(
+        JSON.stringify(schedule),
+        "checking ggofrrrrr timjingngngng ====>>>"
+      );
 
       let device = await Device.findOne({
         _id: s.device,
