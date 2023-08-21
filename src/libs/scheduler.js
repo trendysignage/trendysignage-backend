@@ -42,6 +42,8 @@ const task = async (req, res) => {
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
+      console.log(JSON.stringify(schedule), "scheduleeeeee====>>>>>");
+
       let device = await Device.findOne({
         _id: s.device,
         isDeleted: false,
