@@ -47,6 +47,8 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
+      console.log(JSON.stringify(schedule));
+
       if (schedule) {
         let diffMiliSeconds = Math.abs(
           schedule?.sequence[0]?.timings[0]?.startTime -
@@ -65,7 +67,6 @@ const task = async (req, res) => {
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("========emitting scheduler========");
-          console.log(content, "jkwejfwejfijwrewjefjfmwkfk");
           await emit(device.deviceToken, content);
           await Screen.findOneAndUpdate(
             {
