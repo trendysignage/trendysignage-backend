@@ -44,8 +44,8 @@ const task = async (req, res) => {
         .lean();
 
       if (schedule) {
+        console.log("Testinggggggg schedulelelelelel");
         schedule?.timings?.map((comp) => {
-          console.log(comp, "comp of schemedidffuleellele")
           comp.composition = comp.composition.filter((time) =>
             moment(currentTime).isBetween(
               moment(time.startTime),
