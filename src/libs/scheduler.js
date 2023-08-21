@@ -1,4 +1,3 @@
-import moment from "moment";
 import cron from "node-cron";
 import { STATUS_CODES } from "../config/appConstants.js";
 import { Device, Schedule, Screen } from "../models/index.js";
@@ -44,13 +43,9 @@ const task = async (req, res) => {
         .lean();
 
       if (schedule) {
-        schedule?.timings?.map((comp) => {
-          console.log(comp, "compsissisiistotontntntttjgniuerhghrerghrbeng")
-          comp.composition = comp.composition.filter((time) =>
-            moment(currentTime).isBetween(
-              moment(time.startTime),
-              moment(time.endTime)
-            )
+        schedule.timings.map((item) => {
+          item.composition = item.composition.filter((i) =>
+            console.log(i, "iiiiiiiiiiiiiiiiiiiiiiiiii======>>>>>>>>>>>>>>")
           );
         });
       }
