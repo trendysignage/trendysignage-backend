@@ -213,6 +213,7 @@ export const addSequence = async (vendorId, body, timezone) => {
     i.startTime = utcTime(i.startTime, timezone);
     i.endTime = utcTime(i.endTime, timezone);
   });
+  console.log(body.timings, "timeinngsss");
 
   let data = {
     name: body.name,
