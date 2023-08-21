@@ -43,13 +43,15 @@ const task = async (req, res) => {
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
-      schedule.timings.map((comp) => {
-        comp.composition = comp.composition.filter(
-          (time) =>
-            moment(time.startTime).isBefore(moment(currentTime)) &&
-            moment(time.endTime).isAfter(moment(currentTime))
-        );
-      });
+      if (schedule) {
+        schedule?.timings?.map((comp) => {
+          comp.composition = comp.composition.filter(
+            (time) =>
+              moment(time.startTime).isBefore(moment(currentTime)) &&
+              moment(time.endTime).isAfter(moment(currentTime))
+          );
+        });
+      }
 
       console.log(JSON.stringify(schedule));
 
