@@ -11,18 +11,21 @@ export const login = async (email, password) => {
     isDeleted: false,
     isVerified: true,
   }).lean();
-  if (!vendor) {
+
+  if (!vendor || !vendor.password) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
   }
+
   if (!(await bcrypt.compare(password, vendor.password))) {
     throw new AuthFailedError(
       ERROR_MESSAGES.WRONG_PASSWORD,
       STATUS_CODES.AUTH_FAILED
     );
   }
+
   return vendor;
 };
 
@@ -72,23 +75,15 @@ export const verify = async (_id, tokenOtp, bodyOtp, tokenId) => {
 };
 
 export const socialLogin = async (socialId, email, name) => {
-  let data = {
-    isDeleted: false,
-    isVerified: true,
-    $or: [{ email }, { "socialId.googleId": socialId }],
-  };
+  let data = { email, isDeleted: false, isVerified: true };
 
-  let vendor = await Vendor.findOne(data).lean();
-
-  if (!vendor) {
-    data = {
-      name,
-      email,
-      "socialId.googleId": socialId,
-      isVerified: true,
-    };
-    vendor = await Vendor.create(data);
-  }
+  let vendor = await Vendor.findOneAndUpdate(
+    data,
+    {
+      $set: { "socialId.googleId": socialId },
+    },
+    { upsert: true, new: 1, lean: 1 }
+  );
 
   return vendor;
 };
