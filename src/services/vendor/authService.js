@@ -28,6 +28,8 @@ export const login = async (email, password) => {
 
   vendor.role = vendor.roles[vendor.role];
 
+  console.log(vendor);
+
   return vendor;
 };
 
