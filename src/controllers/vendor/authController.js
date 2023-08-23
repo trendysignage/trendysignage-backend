@@ -27,6 +27,7 @@ export const login = catchAsync(async (req, res) => {
 
   const vendor = await vendorAuthService.login(email, password);
   formatVendor(vendor);
+  console.log(vendor);
   const token = await tokenService.generateAuthToken(vendor, USER_TYPE.VENDOR);
   const updateToken = await tokenService.isVerified(token.token);
   await logService.createLog(

@@ -32,8 +32,6 @@ export const login = async (email, password) => {
 
   if (vendor.role !== ROLE.ADMIN) vendor.role = vendor.roles[vendor.role];
 
-  console.log(vendor);
-
   return vendor;
 };
 
