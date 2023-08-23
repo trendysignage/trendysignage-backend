@@ -1,6 +1,6 @@
 import { STATUS_CODES, SUCCESS_MESSAGES } from "../../config/appConstants.js";
 import { adminResellerService } from "../../services/index.js";
-import { formatVendor } from "../../utils/formatResponse.js";
+import { formatResellerVendor } from "../../utils/formatResponse.js";
 import { successResponse } from "../../utils/response.js";
 import { catchAsync } from "../../utils/universalFunction.js";
 
@@ -18,7 +18,7 @@ export const list = catchAsync(async (req, res) => {
 export const getReseller = catchAsync(async (req, res) => {
   const reseller = await adminResellerService.getReseller(req.query.resellerId);
   reseller.vendors?.map((v) => {
-    formatVendor(v);
+    formatResellerVendor(v);
   });
   return successResponse(
     req,

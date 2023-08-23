@@ -5,13 +5,13 @@ import {
   logService,
   profileService,
 } from "../../services/index.js";
-import { formatVendor } from "../../utils/formatResponse.js";
+import { formatResellerVendor } from "../../utils/formatResponse.js";
 import { successResponse } from "../../utils/response.js";
 import { catchAsync } from "../../utils/universalFunction.js";
 
 export const getVendor = catchAsync(async (req, res) => {
   const vendor = await adminVendorService.getVendor(req.query.vendorId);
-  formatVendor(vendor);
+  formatResellerVendor(vendor);
   return successResponse(
     req,
     res,
@@ -45,7 +45,7 @@ export const deleteVendor = catchAsync(async (req, res) => {
 export const list = catchAsync(async (req, res) => {
   const data = await adminVendorService.list(req.query);
   data.vendors.map((vendor) => {
-    formatVendor(vendor);
+    formatResellerVendor(vendor);
   });
   return successResponse(
     req,

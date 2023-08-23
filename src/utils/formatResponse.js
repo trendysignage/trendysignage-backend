@@ -35,9 +35,21 @@ const formatVendor = (vendor) => {
   delete vendor.isEnabled;
 };
 
+const formatResellerVendor = (vendor) => {
+  delete vendor.__v;
+  delete vendor.password;
+};
+
 const formatAdmin = (admin) => {
   delete admin.__v;
   delete admin.password;
 };
 
-export { converStringToDate, formatAdmin, formatVendor, localtime, utcTime };
+export {
+  converStringToDate,
+  formatAdmin,
+  formatResellerVendor,
+  formatVendor,
+  localtime,
+  utcTime,
+};
