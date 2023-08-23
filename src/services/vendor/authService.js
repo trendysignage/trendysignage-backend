@@ -1,5 +1,9 @@
 import bcrypt from "bcryptjs";
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import {
+  ERROR_MESSAGES,
+  ROLE,
+  STATUS_CODES,
+} from "../../config/appConstants.js";
 import config from "../../config/config.js";
 import { Token, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
@@ -26,7 +30,7 @@ export const login = async (email, password) => {
     );
   }
 
-  vendor.role = vendor.roles[vendor.role];
+  if (vendor.role !== ROLE.ADMIN) vendor.role = vendor.roles[vendor.role];
 
   console.log(vendor);
 

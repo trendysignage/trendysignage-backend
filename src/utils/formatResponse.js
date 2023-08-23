@@ -33,6 +33,7 @@ const formatVendor = (vendor) => {
   delete vendor.phoneNumber;
   delete vendor.isDeleted;
   delete vendor.isEnabled;
+  return vendor
 };
 
 const formatResellerVendor = (vendor) => {
