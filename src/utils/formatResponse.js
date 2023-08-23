@@ -19,6 +19,20 @@ const converStringToDate = (date) => {
 const formatVendor = (vendor) => {
   delete vendor.__v;
   delete vendor.password;
+  delete vendor.screens;
+  delete vendor.apps;
+  delete vendor.userGroups;
+  delete vendor.media;
+  delete vendor.mediaReport;
+  delete vendor.compositions;
+  delete vendor.schedules;
+  delete vendor.screens;
+  delete vendor.groups;
+  delete vendor.country;
+  delete vendor.countryCode;
+  delete vendor.phoneNumber;
+  delete vendor.isDeleted;
+  delete vendor.isEnabled;
 };
 
 const formatAdmin = (admin) => {
