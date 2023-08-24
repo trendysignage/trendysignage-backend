@@ -81,14 +81,29 @@ export const verify = async (_id, tokenOtp, bodyOtp, tokenId) => {
 };
 
 export const socialLogin = async (socialId, email, name) => {
-  let data = { email, isDeleted: false, isVerified: true };
+  let data = {
+    email,
+    isDeleted: false,
+    isVerified: true,
+    $or: [{ "socialId.googleId": socialId }],
+  };
 
   let vendor = await Vendor.findOneAndUpdate(
     data,
     {
       $set: { "socialId.googleId": socialId },
+      $setOnInsert: {
+        defaultComposition: {
+          media: {
+            title: config.defaultComposition,
+            type: "image",
+          },
+          type: "media",
+          duration: 10,
+        },
+      },
     },
-    { upsert: true, new: 1, lean: 1 }
+    { upsert: true, new: 1, lean: 1, setDefaultsOnInsert: true }
   );
 
   return vendor;
