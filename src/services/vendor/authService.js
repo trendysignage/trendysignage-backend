@@ -30,7 +30,8 @@ export const login = async (email, password) => {
     );
   }
 
-  if (vendor.role !== ROLE.ADMIN) vendor.role = vendor.roles[vendor.role];
+  if (vendor.role !== ROLE.ADMIN)
+    vendor.rolePermission = vendor.roles[vendor.role];
 
   return vendor;
 };
@@ -106,7 +107,8 @@ export const socialLogin = async (socialId, email, name) => {
     { upsert: true, new: 1, lean: 1, setDefaultsOnInsert: true }
   );
 
-  if (vendor.role !== ROLE.ADMIN) vendor.role = vendor.roles[vendor.role];
+  if (vendor.role !== ROLE.ADMIN)
+    vendor.rolePermission = vendor.roles[vendor.role];
 
   return vendor;
 };
