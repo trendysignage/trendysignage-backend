@@ -80,6 +80,8 @@ export const login = async (email, password) => {
     vendor.permission = vendor.roles[vendor.role];
   }
 
+console.log(vendor, "wfjenwjrnk")
+
   return vendor;
 };
 
