@@ -32,7 +32,50 @@ export const login = async (email, password) => {
   }
 
   if (vendor.role === ROLE.ADMIN) {
-    vendor.permission = vendor.roles.ADMIN;
+    vendor.permission = {
+      SCREEN: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      ASSETS: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      COMPOSITION: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      SCHEDULE: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      APPS: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      QUICKPLAY: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      REPORTS: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+    };
   } else {
     vendor.permission = vendor.roles[vendor.role];
   }
@@ -146,3 +189,12 @@ export const changePassword = async (vendorId, body) => {
   let newPass = await bcrypt.hash(body.newPassword, 8);
   await Vendor.findByIdAndUpdate(vendorId, { $set: { password: newPass } });
 };
+
+async function set() {
+  await Vendor.updateOne(
+    { email: "demo@example.com" },
+    {},
+    { setDefaultsOnInsert: 1 }
+  );
+}
+set();
