@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import {
   ERROR_MESSAGES,
   ROLE,
-  ROLES_SCHEMA,
   STATUS_CODES,
 } from "../../config/appConstants.js";
 import { Composition, Profile, Screen, Vendor } from "../../models/index.js";
@@ -544,7 +543,50 @@ export const getVendorRole = async (_id) => {
   const vendor = await Vendor.findById(_id, { role: 1, roles: 1 }).lean();
 
   if (vendor.role === ROLE.ADMIN) {
-    vendor.permission = ROLES_SCHEMA.ADMIN;
+    vendor.permission = {
+      SCREEN: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      ASSETS: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      COMPOSITION: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      SCHEDULE: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      APPS: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      QUICKPLAY: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+      REPORTS: {
+        view: true,
+        add: true,
+        edit: true,
+        delete: true,
+      },
+    };
   } else {
     vendor.permission = vendor.roles[vendor.role];
   }
