@@ -1,6 +1,5 @@
 import bcrypt from "bcryptjs";
 import {
-  ADMIN_PERMISSIONS,
   ERROR_MESSAGES,
   ROLE,
   ROLES_SCHEMA,
@@ -33,7 +32,7 @@ export const login = async (email, password) => {
   }
 
   if (vendor.role === ROLE.ADMIN) {
-    vendor.permission = ADMIN_PERMISSIONS;
+    vendor.permission = vendor.roles.ADMIN;
   } else {
     vendor.permission = vendor.roles[vendor.role];
   }
