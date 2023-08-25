@@ -325,3 +325,14 @@ export const assign = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS
   );
 });
+
+export const getVendorRole = catchAsync(async (req, res) => {
+  const role = await profileService.getVendorRole(req.token.vendor._id);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    role
+  );
+});

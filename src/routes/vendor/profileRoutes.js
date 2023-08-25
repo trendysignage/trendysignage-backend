@@ -103,4 +103,6 @@ router.post(
   profileController.assign
 );
 
+router.get("/vendorRole", auth(), profileController.getVendorRole);
+
 export default router;

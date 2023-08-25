@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import {
   ERROR_MESSAGES,
   ROLE,
+  ROLES_SCHEMA,
   STATUS_CODES,
 } from "../../config/appConstants.js";
 import config from "../../config/config.js";
@@ -30,8 +31,11 @@ export const login = async (email, password) => {
     );
   }
 
-  if (vendor.role !== ROLE.ADMIN)
-    vendor.rolePermission = vendor.roles[vendor.role];
+  if (vendor.role === ROLE.ADMIN) {
+    vendor.permission = ROLES_SCHEMA.ADMIN;
+  } else {
+    vendor.permission = vendor.roles[vendor.role];
+  }
 
   return vendor;
 };
@@ -107,8 +111,11 @@ export const socialLogin = async (socialId, email, name) => {
     { upsert: true, new: 1, lean: 1, setDefaultsOnInsert: true }
   );
 
-  if (vendor.role !== ROLE.ADMIN)
-    vendor.rolePermission = vendor.roles[vendor.role];
+  if (vendor.role === ROLE.ADMIN) {
+    vendor.permission = ROLES_SCHEMA.ADMIN;
+  } else {
+    vendor.permission = vendor.roles[vendor.role];
+  }
 
   return vendor;
 };

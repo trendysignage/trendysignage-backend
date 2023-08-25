@@ -1,5 +1,10 @@
 import bcrypt from "bcryptjs";
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import {
+  ERROR_MESSAGES,
+  ROLE,
+  ROLES_SCHEMA,
+  STATUS_CODES,
+} from "../../config/appConstants.js";
 import { Composition, Profile, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
@@ -533,4 +538,17 @@ export const assign = async (vendor, body) => {
     { $set: { screens: body.screens } },
     { new: 1, lean: 1 }
   );
+};
+
+export const getVendorRole = async (_id) => {
+  const vendor = await Vendor.findById(_id, { role: 1, roles: 1 }).lean();
+
+  if (vendor.role === ROLE.ADMIN) {
+    vendor.permission = ROLES_SCHEMA.ADMIN;
+  } else {
+    vendor.permission = vendor.roles[vendor.role];
+  }
+
+  delete vendor.roles;
+  return vendor;
 };
