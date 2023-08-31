@@ -4,7 +4,7 @@ import {
   ROLE,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import { Token, Vendor } from "../../models/index.js";
+import { Composition, Token, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { generateId } from "../../utils/universalFunction.js";
 
