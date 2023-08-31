@@ -4,7 +4,6 @@ import {
   ROLE,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import config from "../../config/config.js";
 import { Token, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { generateId } from "../../utils/universalFunction.js";
@@ -92,18 +91,21 @@ export const signup = async (email, password, name) => {
     );
   }
   let pass = await bcrypt.hash(password, 8);
+
   const id = await generateId();
+
+  const defaulyComp = await Composition.findOne({
+    name: "Default Composition",
+  }).lean();
+
   const vendor = await Vendor.create({
     id,
     name,
     email,
     password: pass,
     defaultComposition: {
-      media: {
-        title: config.defaultComposition,
-        type: "image",
-      },
-      type: "media",
+      media: defaultComp,
+      type: "composition",
       duration: 10,
     },
   });
@@ -135,17 +137,18 @@ export const socialLogin = async (socialId, email, name) => {
     $or: [{ "socialId.googleId": socialId }],
   };
 
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+  }).lean();
+
   let vendor = await Vendor.findOneAndUpdate(
     data,
     {
       $set: { "socialId.googleId": socialId },
       $setOnInsert: {
         defaultComposition: {
-          media: {
-            title: config.defaultComposition,
-            type: "image",
-          },
-          type: "media",
+          media: defaultComp,
+          type: "composition",
           duration: 10,
         },
       },
@@ -231,3 +234,19 @@ export const changePassword = async (vendorId, body) => {
   let newPass = await bcrypt.hash(body.newPassword, 8);
   await Vendor.findByIdAndUpdate(vendorId, { $set: { password: newPass } });
 };
+
+async function cc() {
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+  }).lean();
+
+  await Vendor.updateMany({
+    defaultComposition: {
+      media: defaultComp,
+      type: "composition",
+      duration: 10,
+    },
+  });
+}
+
+// cc();
