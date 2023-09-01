@@ -236,10 +236,7 @@ export const changePassword = async (vendorId, body) => {
 };
 
 async function cc() {
-  await Vendor.updateMany(
-    { email: "demo@example.com" },
-    { $set: { duration: 10 } }
-  );
+  await Vendor.updateMany({}, { $set: { duration: 10 } });
 }
 
 cc();
