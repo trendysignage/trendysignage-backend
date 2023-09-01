@@ -234,9 +234,3 @@ export const changePassword = async (vendorId, body) => {
   let newPass = await bcrypt.hash(body.newPassword, 8);
   await Vendor.findByIdAndUpdate(vendorId, { $set: { password: newPass } });
 };
-
-async function cc() {
-  await Vendor.updateMany({}, { $set: { duration: 10 } });
-}
-
-cc();
