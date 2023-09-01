@@ -22,8 +22,8 @@ export const getVendor = catchAsync(async (req, res) => {
 });
 
 export const addVendor = catchAsync(async (req, res) => {
-  const { name, email, password, screens } = req.body;
-  await adminVendorService.addVendor(name, email, password, screens);
+  const { name, email, password, screens, duration } = req.body;
+  await adminVendorService.addVendor(name, email, password, screens, duration);
   return successResponse(
     req,
     res,

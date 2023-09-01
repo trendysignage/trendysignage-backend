@@ -1,3 +1,4 @@
+import moment from "moment";
 import passport from "passport";
 import {
   ERROR_MESSAGES,
@@ -61,6 +62,21 @@ const verifyCallback =
             new AuthFailedError(
               ERROR_MESSAGES.ACCOUNT_NOT_VERIFIED,
               STATUS_CODES.AUTH_FAILED
+            )
+          );
+        }
+        if (
+          moment().isAfter(
+            moment(token.vendor.createdAt).add(
+              token.vendor.duration ?? 1,
+              "month"
+            )
+          )
+        ) {
+          return reject(
+            new AuthFailedError(
+              ERROR_MESSAGES.DURATION_ENDED,
+              STATUS_CODES.ACTION_FAILED
             )
           );
         }

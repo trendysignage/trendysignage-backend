@@ -25,7 +25,7 @@ export const getVendor = async (_id) => {
   return vendor;
 };
 
-export const addVendor = async (name, email, pass, screens) => {
+export const addVendor = async (name, email, pass, screens, duration) => {
   let password = await bcrypt.hash(pass, 8);
   if (await Vendor.findOne({ email, isDeleted: false, isVerified: true })) {
     throw new AuthFailedError(
@@ -42,6 +42,7 @@ export const addVendor = async (name, email, pass, screens) => {
     isVerified: true,
     defaultComposition: config.defaultComposition,
     totalScreens: screens,
+    duration,
   });
   if (!vendor) {
     throw new AuthFailedError(

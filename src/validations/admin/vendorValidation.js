@@ -13,6 +13,7 @@ export const addVendor = {
     email: JOI.EMAIL,
     password: JOI.PASSWORD,
     screens: Joi.number().required(),
+    duration: Joi.number().default(1),
   }),
 };
 
