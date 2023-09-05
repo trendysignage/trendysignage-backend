@@ -1,9 +1,11 @@
+import Parser from "rss-parser";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Device, Layout, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 
 export const addDevice = async (deviceToken, code, timezone) => {
+  const parser = new Parser();
   let screen;
 
   let device = await Device.findOne({
@@ -57,65 +59,34 @@ export const addDevice = async (deviceToken, code, timezone) => {
         if (layout) {
           content.media.layout = layout;
         }
+
+        screen.contentPlaying = screen?.contentPlaying?.map((item) => {
+          item.startTime = localtime(item.startTime, timezone);
+          item.endTime = localtime(item.endTime, timezone);
+          return item;
+        });
+        if (screen.defaultComposition) {
+          device.defaultComposition = screen?.defaultComposition;
+        }
       }
 
-      // {
-      //   // if (screen && screen.schedule) {
-      //   //   const currentTime = new Date(localtime(new Date(), timezone) + "Z");
-      //   //   let schedule = await Schedule.findOne(
-      //   //     {
-      //   //       _id: screen.schedule,
-      //   //       "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
-      //   //       "sequence.timings": {
-      //   //         $elemMatch: {
-      //   //           startTime: { $lte: currentTime },
-      //   //           endTime: { $gte: currentTime },
-      //   //         },
-      //   //       },
-      //   //     },
-      //   //     { "sequence.timings.$": 1 }
-      //   //   )
-      //   //     .populate({ path: "sequence.timings.composition" })
-      //   //     .lean();
-      //   //   if (schedule) {
-      //   //     schedule?.sequence?.map(async (seq) => {
-      //   //       let diffMiliSeconds = Math.abs(
-      //   //         seq?.timings[0]?.startTime - seq?.timings[0]?.endTime
-      //   //       );
-      //   //       let diffSeconds = Math.floor(diffMiliSeconds / 1000);
-      //   //       content = [
-      //   //         {
-      //   //           media: seq?.timings[0]?.composition,
-      //   //           duration: diffSeconds,
-      //   //           type: "composition",
-      //   //           startTime: seq?.timings[0]?.startTime,
-      //   //           endTime: seq?.timings[0]?.endTime,
-      //   //           createdAt: utcTime(new Date(), timezone),
-      //   //         },
-      //   //       ];
-      //   //       // if (device.content) {
-      //   //       //   device.content.push(JSON.parse(JSON.stringify(content)));
-      //   //       // } else {
-      //   //       // }
-      //   //     });
-      //   //   }
-      //   // }
-      // }
+      device.content = screen?.contentPlaying ?? [];
+    }
 
-      screen.contentPlaying = screen?.contentPlaying?.map((item) => {
-        item.startTime = localtime(item.startTime, timezone);
-        item.endTime = localtime(item.endTime, timezone);
-        return item;
-      });
-      if (screen.defaultComposition) {
-        device.defaultComposition = screen?.defaultComposition;
+    for (const content of device?.content) {
+      for (const zone of content?.media?.zones) {
+        for (const s of zone?.content) {
+          if (s.type === "rss-apps") {
+            s.data = JSON.parse(s.data);
+            s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+          }
+        }
       }
     }
 
-    device.content = screen?.contentPlaying ?? [];
+    delete device.vendor;
+    return device;
   }
-  delete device.vendor;
-  return device;
 };
 
 export const addDevice1 = async (deviceToken, code, timezone) => {
@@ -187,6 +158,17 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
 
         device.composition.push(item);
         // }
+      }
+    }
+  }
+
+  for (const content of device?.content) {
+    for (const zone of content?.media?.zones) {
+      for (const s of zone?.content) {
+        if (s.type === "rss-apps") {
+          s.data = JSON.parse(s.data);
+          s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+        }
       }
     }
   }
