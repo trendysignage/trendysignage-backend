@@ -80,9 +80,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
           if (s?.type === "rss-apps") {
             s.data = JSON.parse(s?.data);
             console.log(JSON.stringify(s), "cjkdghvfeh");
-
             if (s.data.urlLink) {
               s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+              console.log(JSON.stringify(s), "last datattata");
             }
           }
         }
