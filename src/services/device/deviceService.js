@@ -165,7 +165,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     }
   }
 
-  for (const content of device?.content) {
+  for (const content of device?.composition) {
     for (const zone of content?.media?.zones) {
       for (const s of zone?.content) {
         if (s?.type === "rss-apps") {
