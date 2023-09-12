@@ -77,12 +77,20 @@ export const addScreen = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  let vendor = Vendor.findById(vendorId, { defaultComposition: 1 }).lean();
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
   const screen = await Screen.create({
     name: body.name,
     screenLocation: body.screenLocation,
     googleLocation: body.googleLocation,
     tags: body.tags,
     groups: body.groups,
+    defaultComposition: vendor.defaultComposition,
     deviceCode: body.code,
     vendor: vendorId,
     device: device._id,
@@ -92,17 +100,11 @@ export const addScreen = async (vendorId, body) => {
     { $set: { isVerified: true, screen: screen._id, vendor: vendorId } },
     { new: true, lean: true }
   );
-  let vendor = await Vendor.findOneAndUpdate(
+  vendor = await Vendor.findOneAndUpdate(
     { _id: vendorId, isDeleted: false },
     { $addToSet: { screens: screen._id } },
     { new: true, lean: 1 }
   );
-  if (!vendor) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.VENDOR_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
   vendor.defaultComposition.isDefault = true;
   await emit(device.deviceToken, vendor.defaultComposition);
 };
