@@ -94,7 +94,7 @@ export const signup = async (email, password, name) => {
 
   const id = await generateId();
 
-  const defaulyComp = await Composition.findOne({
+  const defaultComp = await Composition.findOne({
     name: "Default Composition",
   }).lean();
 

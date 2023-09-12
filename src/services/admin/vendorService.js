@@ -1,6 +1,5 @@
 import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import config from "../../config/config.js";
 import { Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import {
@@ -34,16 +33,26 @@ export const addVendor = async (name, email, pass, screens, duration) => {
     );
   }
   const id = await generateId();
+
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+  }).lean();
+
   const vendor = await Vendor.create({
     id,
     name,
     email,
     password,
     isVerified: true,
-    defaultComposition: config.defaultComposition,
+    defaultComposition: {
+      media: defaultComp,
+      type: "composition",
+      duration: 10,
+    },
     totalScreens: screens,
     duration,
   });
+
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.SERVER_ERROR,
