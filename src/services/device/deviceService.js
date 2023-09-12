@@ -74,12 +74,16 @@ export const addDevice = async (deviceToken, code, timezone) => {
     }
 
     for (const content of device?.content) {
-      for (const zone of content?.media?.zones) {
-        for (const s of zone?.content) {
-          if (s?.type === "rss-apps") {
-            s.data = JSON.parse(s?.data);
-            if (s.data.urlLink) {
-              s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+      if (content && content.media && content.media.zones) {
+        for (const zone of content?.media?.zones) {
+          if (zone && zone.content) {
+            for (const s of zone?.content) {
+              if (s?.type === "rss-apps") {
+                s.data = JSON.parse(s?.data);
+                if (s.data.urlLink) {
+                  s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+                }
+              }
             }
           }
         }
