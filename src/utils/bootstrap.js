@@ -1,3 +1,4 @@
+import { config } from "dotenv";
 import { Admin, Composition, Layout, Vendor } from "../models/index.js";
 
 const Run = async () => {
@@ -198,36 +199,34 @@ const createLayouts = async () => {
 };
 
 const defaultComposition = async () => {
-  // const layout = await Layout.findOne({
-  //   title: "Single Zone Landscape",
-  // }).lean();
+  const layout = await Layout.findOne({
+    title: "Single Zone Landscape",
+  }).lean();
 
-  // const zones = [
-  //   {
-  //     name: "Zone1",
-  //     zoneId: layout.zones[0]._id,
-  //     content: [
-  //       {
-  //         url: config.defaultComposition,
-  //         type: "image",
-  //         maintainAspectRatio: false,
-  //         fitToScreen: true,
-  //         crop: false,
-  //         duration: 10,
-  //       },
-  //     ],
-  //   },
-  // ];
+  const zones = [
+    {
+      name: "Zone1",
+      zoneId: layout.zones[0]._id,
+      content: [
+        {
+          url: config.defaultComposition,
+          type: "image",
+          maintainAspectRatio: false,
+          fitToScreen: true,
+          crop: false,
+          duration: 10,
+        },
+      ],
+    },
+  ];
 
-  // const composition = await Composition.create({
-  //   name: "Default Composition",
-  //   layout: layout._id,
-  //   zones,
-  //   duration: 10,
-  //   type: "composition",
-  // });
-
-  await Composition.deleteMany({ name: "Default Composition" });
+  const composition = await Composition.create({
+    name: "Default Composition",
+    layout: layout._id,
+    zones,
+    duration: 10,
+    type: "composition",
+  });
 };
 
 export default Run;
