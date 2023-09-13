@@ -220,7 +220,7 @@ const defaultComposition = async () => {
     },
   ];
 
-  await Composition.deleteMany({name: "Default Composition"})
+  // await Composition.deleteMany({name: "Default Composition"})
 
   const composition = await Composition.create({
     name: "Default Composition",

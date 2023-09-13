@@ -240,6 +240,8 @@ async function cc() {
     name: "Default Composition",
   }).lean();
 
+  console.log(JSON.stringify(defaultComp.zones));
+
   // await Vendor.updateMany(
   //   {},
   //   {
