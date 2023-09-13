@@ -167,16 +167,16 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
         // }
       }
     }
-  }
 
-  for (const content of device?.composition) {
-    if (content && content.media && content.media.zones) {
-      for (const zone of content?.media?.zones) {
-        for (const s of zone?.content) {
-          if (s?.type === "rss-apps") {
-            s.data = JSON.parse(s?.data);
-            if (s.data.urlLink) {
-              s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+    for (const content of device?.composition) {
+      if (content && content.media && content.media.zones) {
+        for (const zone of content?.media?.zones) {
+          for (const s of zone?.content) {
+            if (s?.type === "rss-apps") {
+              s.data = JSON.parse(s?.data);
+              if (s.data.urlLink) {
+                s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+              }
             }
           }
         }
