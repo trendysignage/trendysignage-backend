@@ -1,3 +1,4 @@
+import { config } from "dotenv";
 import { Admin, Composition, Layout, Vendor } from "../models/index.js";
 
 const Run = async () => {
