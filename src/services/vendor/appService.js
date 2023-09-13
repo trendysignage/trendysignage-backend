@@ -12,7 +12,7 @@ export const createApp = async (vendor, body) => {
     updatedAt: new Date(),
   };
 
-  if (body.type === "youtube-app") {
+  if (body.type === "youtube-apps") {
     media.duration = 600;
   }
 
