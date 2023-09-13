@@ -1,5 +1,5 @@
 import config from "../config/config.js";
-import { Admin, Layout, Vendor } from "../models/index.js";
+import { Admin, Composition, Layout, Vendor } from "../models/index.js";
 
 const Run = async () => {
   /*-------------------------------------------------------------------------------
