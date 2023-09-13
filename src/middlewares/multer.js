@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     const vendorId = req.token.vendor._id;
     const mediaType = file.mimetype.split("/")[0];
     // const dest = `public/${vendorId}/${mediaType}`;
-    const dest = `default/`;
+    const dest = `public/default/`;
 
     // create the destination folder if it doesn't exist
     if (!fs.existsSync(dest)) {
