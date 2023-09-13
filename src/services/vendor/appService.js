@@ -12,10 +12,6 @@ export const createApp = async (vendor, body) => {
     updatedAt: new Date(),
   };
 
-  if (body.type === "youtube-apps") {
-    media.duration = 600;
-  }
-
   const app = await Vendor.findOneAndUpdate(
     { _id: vendor },
     { $addToSet: { media } },
