@@ -1,5 +1,5 @@
-import { config } from "dotenv";
-import { Admin, Composition, Layout, Vendor } from "../models/index.js";
+import { config } from "../config/config.js";
+import { Admin, Layout, Vendor } from "../models/index.js";
 
 const Run = async () => {
   /*-------------------------------------------------------------------------------
@@ -220,7 +220,7 @@ const defaultComposition = async () => {
     },
   ];
 
-  await Composition.deleteMany({ name: "Default Composition" });
+  console.log(config.defaultComposition);
 
   // const composition = await Composition.create({
   //   name: "Default Composition",
