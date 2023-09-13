@@ -240,19 +240,17 @@ async function cc() {
     name: "Default Composition",
   }).lean();
 
-  console.log(JSON.stringify(defaultComp?.zones), "cccc");
-
-  // await Vendor.updateMany(
-  //   {},
-  //   {
-  //     defaultComposition: {
-  //       media: defaultComp,
-  //       type: "composition",
-  //       duration: 10,
-  //     },
-  //   },
-  //   {}
-  // );
+  await Vendor.updateMany(
+    {},
+    {
+      defaultComposition: {
+        media: defaultComp,
+        type: "composition",
+        duration: 10,
+      },
+    },
+    {}
+  );
 }
 
-cc();
+// cc();

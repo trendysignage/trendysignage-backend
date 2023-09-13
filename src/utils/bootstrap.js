@@ -220,15 +220,13 @@ const defaultComposition = async () => {
     },
   ];
 
-  console.log(config.defaultComposition);
-
-  // const composition = await Composition.create({
-  //   name: "Default Composition",
-  //   layout: layout._id,
-  //   zones,
-  //   duration: 10,
-  //   type: "composition",
-  // });
+  const composition = await Composition.create({
+    name: "Default Composition",
+    layout: layout._id,
+    zones,
+    duration: 10,
+    type: "composition",
+  });
 };
 
 export default Run;
