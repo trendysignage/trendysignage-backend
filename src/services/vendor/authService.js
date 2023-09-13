@@ -235,22 +235,22 @@ export const changePassword = async (vendorId, body) => {
   await Vendor.findByIdAndUpdate(vendorId, { $set: { password: newPass } });
 };
 
-// async function cc() {
-//   const defaultComp = await Composition.findOne({
-//     name: "Default Composition",
-//   }).lean();
+async function cc() {
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+  }).lean();
 
-//   await Vendor.updateMany(
-//     {},
-//     {
-//       defaultComposition: {
-//         media: defaultComp,
-//         type: "composition",
-//         duration: 10,
-//       },
-//     },
-//     {}
-//   );
-// }
+  await Vendor.updateMany(
+    {},
+    {
+      defaultComposition: {
+        media: defaultComp,
+        type: "composition",
+        duration: 10,
+      },
+    },
+    {}
+  );
+}
 
-// cc();
+cc();
