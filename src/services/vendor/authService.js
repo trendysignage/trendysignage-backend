@@ -240,18 +240,20 @@ async function cc() {
     name: "Default Composition",
   }).lean();
 
+console.log(defaultComp, "dddd");
 
-  await Vendor.updateMany(
-    {},
-    {
-      defaultComposition: {
-        media: defaultComp,
-        type: "composition",
-        duration: 10,
-      },
-    },
-    {}
-  );
+
+  // await Vendor.updateMany(
+  //   {},
+  //   {
+  //     defaultComposition: {
+  //       media: defaultComp,
+  //       type: "composition",
+  //       duration: 10,
+  //     },
+  //   },
+  //   {}
+  // );
 }
 
 cc();
