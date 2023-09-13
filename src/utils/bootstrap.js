@@ -228,7 +228,6 @@ const defaultComposition = async () => {
       layout: layout._id,
       zones,
       duration: 10,
-      type: "composition",
     },
     {
       $setOnInsert: {
@@ -236,7 +235,6 @@ const defaultComposition = async () => {
         zones,
         layout: layout._id,
         duration: 10,
-        type: "composition",
       },
     },
     { new: 1, lean: 1, setDefaultsOnInsert: 1, upsert: 1 }
