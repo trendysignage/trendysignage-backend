@@ -241,17 +241,17 @@ async function cc() {
   }).lean();
 
 
-  // await Vendor.updateMany(
-  //   {},
-  //   {
-  //     defaultComposition: {
-  //       media: defaultComp,
-  //       type: "composition",
-  //       duration: 10,
-  //     },
-  //   },
-  //   {}
-  // );
+  await Vendor.updateMany(
+    {},
+    {
+      defaultComposition: {
+        media: defaultComp,
+        type: "composition",
+        duration: 10,
+      },
+    },
+    {}
+  );
 }
 
 cc();
