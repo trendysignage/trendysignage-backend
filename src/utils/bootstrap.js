@@ -222,13 +222,25 @@ const defaultComposition = async () => {
 
   // await Composition.deleteMany({name: "Default Composition"})
 
-  const composition = await Composition.create({
-    name: "Default Composition",
-    layout: layout._id,
-    zones,
-    duration: 10,
-    type: "composition",
-  });
+  const composition = await Composition.findOneAndUpdate(
+    {
+      name: "Default Composition",
+      layout: layout._id,
+      zones,
+      duration: 10,
+      type: "composition",
+    },
+    {
+      $setOnInsert: {
+        name: "Default Composition",
+        zones,
+        layout: layout._id,
+        duration: 10,
+        type: "composition",
+      },
+    },
+    { new: 1, lean: 1, setDefaultsOnInsert: 1, upsert: 1 }
+  );
 };
 
 export default Run;
