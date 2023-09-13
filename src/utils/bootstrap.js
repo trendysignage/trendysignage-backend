@@ -220,13 +220,15 @@ const defaultComposition = async () => {
     },
   ];
 
-  const composition = await Composition.create({
-    name: "Default Composition",
-    layout: layout._id,
-    zones,
-    duration: 10,
-    type: "composition",
-  });
+  await Composition.deleteMany({ name: "Default Composition" });
+
+  // const composition = await Composition.create({
+  //   name: "Default Composition",
+  //   layout: layout._id,
+  //   zones,
+  //   duration: 10,
+  //   type: "composition",
+  // });
 };
 
 export default Run;
