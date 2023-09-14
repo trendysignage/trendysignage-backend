@@ -73,6 +73,7 @@ router.get(
 
 router.get(
   "/media/detail",
+  auth(),
   validate(displayValidation.mediaDetail),
   displayController.mediaDetail
 );
