@@ -25,7 +25,7 @@ export const createApp = async (vendor, body) => {
     );
   }
 
-  return app;
+  return app.media[app.media.length - 1];
 };
 
 export const editApp = async (_id, body) => {

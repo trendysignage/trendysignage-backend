@@ -116,3 +116,9 @@ export const mediaFile = {
     path: Joi.string().required(),
   }),
 };
+
+export const mediaDetail = {
+  query: Joi.object().keys({
+    mediaId: JOI.OBJECTID,
+  }),
+};

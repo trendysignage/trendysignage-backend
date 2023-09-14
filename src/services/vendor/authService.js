@@ -234,23 +234,3 @@ export const changePassword = async (vendorId, body) => {
   let newPass = await bcrypt.hash(body.newPassword, 8);
   await Vendor.findByIdAndUpdate(vendorId, { $set: { password: newPass } });
 };
-
-async function cc() {
-  const defaultComp = await Composition.findOne({
-    name: "Default Composition",
-  }).lean();
-
-  await Vendor.updateMany(
-    {},
-    {
-      defaultComposition: {
-        media: defaultComp,
-        type: "composition",
-        duration: 10,
-      },
-    },
-    {}
-  );
-}
-
-cc();

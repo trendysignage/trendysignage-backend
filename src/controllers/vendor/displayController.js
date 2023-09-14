@@ -197,3 +197,17 @@ export const mediaFile = catchAsync(async (req, res) => {
   const file = await displayService.mediaFile(req.query.path);
   res.sendFile(file);
 });
+
+export const mediaDetail = catchAsync(async (req, res) => {
+  const data = await displayService.mediaDetail(
+    req.token.vendor._id,
+    req.query.mediaId
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    data
+  );
+});

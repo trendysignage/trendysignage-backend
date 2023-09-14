@@ -71,4 +71,10 @@ router.get(
   displayController.mediaFile
 );
 
+router.get(
+  "/media/detail",
+  validate(displayValidation.mediaDetail),
+  displayController.mediaDetail
+);
+
 export default router;

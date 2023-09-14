@@ -505,3 +505,13 @@ export const mediaFile = async (filePath) => {
   }
   return file;
 };
+
+export const mediaDetail = async (_id, mediaId) => {
+  const vendor = await Vendor.findById(_id, { media: 1 }).lean();
+
+  vendor.media = vendor.media.find(
+    (item) => JSON.stringify(item._id) === JSON.stringify(mediaId)
+  );
+
+  return vendor;
+};
