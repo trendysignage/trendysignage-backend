@@ -23,6 +23,18 @@ export const deviceCode = async (vendorId, code) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  const vendor = await Vendor.findById(vendorId, {
+    defaultComposition: 1,
+    screens: 1,
+    totalScreens: 1,
+  }).lean();
+  if (vendor.screens && vendor.screens?.length >= vendor.totalScreens) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.REACHED_SCREEN_LIMIT,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
   await Device.findOneAndUpdate(
     { deviceCode: code, isDeleted: false },
     { $set: { vendor: vendorId } },
@@ -77,7 +89,7 @@ export const addScreen = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  let vendor = Vendor.findById(vendorId, {
+  let vendor = await Vendor.findById(vendorId, {
     defaultComposition: 1,
     screens: 1,
     totalScreens: 1,
@@ -85,19 +97,6 @@ export const addScreen = async (vendorId, body) => {
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
-      STATUS_CODES.ACTION_FAILED
-    );
-  }
-  console.log(
-    vendor,
-    vendor.screens,
-    vendor?.screens?.length,
-    vendor.totalScreens,
-    "erkjenvrj"
-  );
-  if (vendor.screens && vendor?.screens?.length >= vendor.totalScreens) {
-    throw new AuthFailedError(
-      ERROR_MESSAGES.REACHED_SCREEN_LIMIT,
       STATUS_CODES.ACTION_FAILED
     );
   }
