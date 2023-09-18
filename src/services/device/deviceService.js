@@ -1,6 +1,6 @@
 import Parser from "rss-parser";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Device, Layout, Screen, Vendor } from "../../models/index.js";
+import { Device, Layout, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 
@@ -221,11 +221,3 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
-
-async function cc() {
-  await Vendor.updateOne(
-    { email: "demo@example.com" },
-    { $set: { compositions: [] } }
-  );
-}
-cc();

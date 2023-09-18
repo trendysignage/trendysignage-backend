@@ -236,3 +236,10 @@ export const editCompositionEmit = async (composition, duration, timezone) => {
     CONTENT_TYPE.COMPOSITION
   );
 };
+
+async function cc() {
+  const vendor = await Vendor.findOne({ email: "demo@example.com" }).lean();
+
+  await Composition.deleteMany({ createdBy: vendor._id });
+}
+cc()
