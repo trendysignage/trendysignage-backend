@@ -89,6 +89,7 @@ export const addScreen = async (vendorId, body) => {
     );
   }
   console.log(
+    vendor,
     vendor.screens,
     vendor?.screens?.length,
     vendor.totalScreens,
