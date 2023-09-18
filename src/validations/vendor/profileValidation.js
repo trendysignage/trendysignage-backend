@@ -1,5 +1,10 @@
 import Joi from "joi";
-import { JOI, ROLE, editRoleSchema } from "../../config/appConstants.js";
+import {
+  JOI,
+  ROLE,
+  TAG_TYPE,
+  editRoleSchema,
+} from "../../config/appConstants.js";
 import { objectId } from "../custom.validation.js";
 
 export const defaultComposition = {
@@ -100,6 +105,16 @@ export const editGroup = {
 export const deleteGroup = {
   query: Joi.object().keys({
     groupId: JOI.OBJECTID,
+  }),
+};
+
+export const addTags = {
+  body: Joi.object().keys({
+    type: Joi.string()
+      .valid(...Object.values(TAG_TYPE))
+      .required(),
+    id: JOI.OBJECTID,
+    tags: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 

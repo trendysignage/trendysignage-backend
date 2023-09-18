@@ -27,7 +27,6 @@ export const addScreen = {
     name: Joi.string().required().trim(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).default([]),
     groups: Joi.array()
       .items(Joi.string().custom(objectId).allow(""))
       .allow(""),
@@ -40,7 +39,6 @@ export const editScreen = {
     name: Joi.string().required(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).default([]),
     groups: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
@@ -82,7 +80,6 @@ export const addMedia = {
       // .valid(...Object.values(MEDIA_TYPE))
       .required(),
     properties: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().allow("")).allow(""),
     name: Joi.string().allow(""),
     duration: Joi.number().allow("").default(1),
   }),
@@ -92,7 +89,6 @@ export const editMedia = {
   body: Joi.object().keys({
     mediaId: JOI.OBJECTID,
     properties: Joi.string().required(),
-    tags: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 

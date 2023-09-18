@@ -55,6 +55,15 @@ export const MEDIA_TYPE = {
   APP: "app",
 };
 
+export const TAG_TYPE = {
+  SCREEN: "screen",
+  MEDIA: "media",
+  COMPOSITION: "composition",
+  SCHEDULE: "schedule",
+  QUICKPLAY: "quickplay",
+  DEFAULT: "default",
+};
+
 export const SUBSCRIPTION_STATUS = {
   EXPIRING: "expiring soon",
   INACTIVE: "inactive",

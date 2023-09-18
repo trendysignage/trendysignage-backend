@@ -3,8 +3,16 @@ import {
   ERROR_MESSAGES,
   ROLE,
   STATUS_CODES,
+  TAG_TYPE,
 } from "../../config/appConstants.js";
-import { Composition, Profile, Screen, Vendor } from "../../models/index.js";
+import {
+  Composition,
+  Profile,
+  Quickplay,
+  Schedule,
+  Screen,
+  Vendor,
+} from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
@@ -418,6 +426,61 @@ export const deleteGroup = async (vendorId, groupId) => {
       ERROR_MESSAGES.GROUP_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
+  }
+};
+
+export const addTags = async (vendorId, body) => {
+  if (body.type === TAG_TYPE.SCREEN) {
+    const screen = await Screen.findByIdAndUpdate(body.id, {
+      $set: { tags: body.tags },
+    });
+    if (!screen) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCREEN_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  } else if (body.type === TAG_TYPE.COMPOSITION) {
+    const composition = await Composition.findByIdAndUpdate(body.id, {
+      $et: { tags: body.tags },
+    });
+    if (!composition) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  } else if (body.type === TAG_TYPE.MEDIA) {
+    const vendor = await Vendor.findOneAndUpdate(
+      { _id: vendorId, "media._id": body.id },
+      { $set: { "media.$.tags": body.tags } }
+    );
+    if (!vendor) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.MEDIA_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  } else if (body.type === TAG_TYPE.SCHEDULE) {
+    const schedule = await Schedule.findByIdAndUpdate(body.id, {
+      $set: { tags: body.tags },
+    });
+    if (!schedule) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+  } else if (body.type === TAG_TYPE.QUICKPLAY) {
+    const quickplay = await Quickplay.findByIdAndUpdate(body.id, {
+      $set: { tags: body.tags },
+    });
+    if (!quickplay) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.QUICKPLAY_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
   }
 };
 

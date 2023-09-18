@@ -80,6 +80,10 @@ router
   );
 
 router
+  .route("/tags")
+  .post(validate(profileValidation.addTags), profileController.addTags);
+
+router
   .route("/deviceProfile")
   .all(auth())
   .get(profileController.getDeviceProfiles)
