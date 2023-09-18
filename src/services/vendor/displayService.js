@@ -87,7 +87,7 @@ export const addScreen = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  if (vendor.screens.length === vendor.totalScreens) {
+  if (vendor.screens.length >= vendor.totalScreens) {
     throw new AuthFailedError(
       ERROR_MESSAGES.REACHED_SCREEN_LIMIT,
       STATUS_CODES.ACTION_FAILED
