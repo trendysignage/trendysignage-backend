@@ -77,10 +77,19 @@ export const addScreen = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  let vendor = Vendor.findById(vendorId, { defaultComposition: 1 }).lean();
+  let vendor = Vendor.findById(vendorId, {
+    defaultComposition: 1,
+    screens: 1,
+  }).lean();
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+  if (vendor.screens.length === vendor.totalScreens) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.REACHED_SCREEN_LIMIT,
       STATUS_CODES.ACTION_FAILED
     );
   }

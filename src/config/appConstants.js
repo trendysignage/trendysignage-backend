@@ -202,6 +202,8 @@ const ERROR_MESSAGES = {
   DEFAULT_COMPOSITION_NOT_FOUND: "Default Composition not found",
   DURATION_ENDED:
     "Your subscription has ended. To activate your account, please contact the administrator.",
+  REACHED_SCREEN_LIMIT:
+    "You have already created the maximum number of screens assigned",
 };
 
 const STATUS_CODES = {
