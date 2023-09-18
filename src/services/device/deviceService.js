@@ -221,3 +221,11 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
+
+async function cc() {
+  await Vendor.updateOne(
+    { email: "demo@example.com" },
+    { $set: { compositions: [] } }
+  );
+}
+cc();
