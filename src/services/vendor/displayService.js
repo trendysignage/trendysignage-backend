@@ -80,6 +80,7 @@ export const addScreen = async (vendorId, body) => {
   let vendor = Vendor.findById(vendorId, {
     defaultComposition: 1,
     screens: 1,
+    totalScreens: 1,
   }).lean();
   if (!vendor) {
     throw new AuthFailedError(
@@ -191,7 +192,6 @@ export const getScreen = async (screenId) => {
 
   return screen;
 };
-1;
 
 export const changeDefaultComposition = async (vendorId, body) => {
   const composition = await Composition.findOne({
