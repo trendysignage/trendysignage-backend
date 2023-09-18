@@ -73,9 +73,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
       device.content = screen?.contentPlaying ?? [];
     }
 
-    console.log(JSON.stringify(device.content));
-
     for (const content of device?.content) {
+      console.log(JSON.stringify(content));
       if (content && content?.media && content.media.zones) {
         for (const zone of content?.media?.zones) {
           if (zone && zone?.content) {
