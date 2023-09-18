@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import config from "../config/config.js";
 import { Admin, Composition, Layout, Vendor } from "../models/index.js";
 
@@ -6,12 +5,11 @@ const Run = async () => {
   /*-------------------------------------------------------------------------------
    * add admin
    * -----------------------------------------------------------------------------*/
-  // let password = "$2a$08$8QBeUqrXcf334kMMrDS1euP5nbn00MZpP5Yi4PBucI9MIdASz8qDC";
-  let password = await bcrypt.hash("Riyadh@1991", 8)
+  let password = "$2a$08$8QBeUqrXcf334kMMrDS1euP5nbn00MZpP5Yi4PBucI9MIdASz8qDC";
 
   let adminDetails = {
     name: "Trendy App Admin",
-    email: "info@frontline.sa",
+    email: "admin@test.com",
     $setOnInsert: { password },
   };
 
