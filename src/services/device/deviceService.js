@@ -74,9 +74,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
     }
 
     for (const content of device?.content) {
-      console.log(JSON.stringify(content));
       if (content && content?.media && content.media.zones) {
         for (const zone of content?.media?.zones) {
+          console.log(JSON.stringify(zone, "zzzz"));
           if (zone && zone?.content) {
             for (const s of zone?.content) {
               if (s?.type === "rss-apps") {
