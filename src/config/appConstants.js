@@ -201,7 +201,7 @@ const ERROR_MESSAGES = {
   APP_NOT_FOUND: "App not found",
   DEFAULT_COMPOSITION_NOT_FOUND: "Default Composition not found",
   DURATION_ENDED:
-    "Your subscription has ended. To activate your account, please contact the administrator.",
+    "Please contact Trendy Administrator or email info@frontline.sa",
   REACHED_SCREEN_LIMIT:
     "You have already created the maximum number of screens assigned",
 };
