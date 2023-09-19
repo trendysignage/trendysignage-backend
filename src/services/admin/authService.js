@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Admin, Vendor } from "../../models/index.js";
+import { Admin } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const login = async (email, password) => {
@@ -38,9 +38,8 @@ export const changePassword = async (adminId, body) => {
   await Admin.findByIdAndUpdate(adminId, { $set: { password: newPass } });
 };
 
-export const dashboard = async () => {
-  const [vendors] = await Promise.all([
-    Vendor.countDocuments({ isDeleted: false }),
-  ]);
-  return vendors;
+export const dashboard = async (_id) => {
+  const admin = await Admin.findById(_id, { vendors: 1 });
+  const count = admin.vendors.length;
+  return count;
 };

@@ -33,7 +33,7 @@ export const changePassword = catchAsync(async (req, res) => {
 });
 
 export const dashboard = catchAsync(async (req, res) => {
-  const dashboard = await adminAuthService.dashboard();
+  const dashboard = await adminAuthService.dashboard(req.token.admin._id);
   return successResponse(
     req,
     res,

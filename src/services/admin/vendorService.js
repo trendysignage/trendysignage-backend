@@ -111,5 +111,7 @@ export const list = async (_id, query) => {
 
   const count = admin.vendors.length;
 
+  admin.vendors = admin.vendors.slice(query.page * query.limit, query.limit);
+
   return { vendors: admin.vendors, count };
 };
