@@ -23,7 +23,14 @@ export const getVendor = catchAsync(async (req, res) => {
 
 export const addVendor = catchAsync(async (req, res) => {
   const { name, email, password, screens, duration } = req.body;
-  await adminVendorService.addVendor(name, email, password, screens, duration);
+  await adminVendorService.addVendor(
+    req.token.admin._id,
+    name,
+    email,
+    password,
+    screens,
+    duration
+  );
   return successResponse(
     req,
     res,
@@ -33,7 +40,7 @@ export const addVendor = catchAsync(async (req, res) => {
 });
 
 export const deleteVendor = catchAsync(async (req, res) => {
-  await adminVendorService.deleteVendor(req.query.vendorId);
+  await adminVendorService.deleteVendor(req.token.admin._id, req.query.vendorId);
   return successResponse(
     req,
     res,
@@ -43,7 +50,7 @@ export const deleteVendor = catchAsync(async (req, res) => {
 });
 
 export const list = catchAsync(async (req, res) => {
-  const data = await adminVendorService.list(req.query);
+  const data = await adminVendorService.list(req.token.admin._id, req.query);
   data.vendors.map((vendor) => {
     formatResellerVendor(vendor);
   });

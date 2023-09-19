@@ -1,11 +1,8 @@
 import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Composition, Vendor } from "../../models/index.js";
+import { Admin, Composition, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import {
-  generateId,
-  paginationOptions,
-} from "../../utils/universalFunction.js";
+import { generateId } from "../../utils/universalFunction.js";
 import { escapeRegex } from "../../validations/custom.validation.js";
 
 export const getVendor = async (_id) => {
@@ -24,7 +21,7 @@ export const getVendor = async (_id) => {
   return vendor;
 };
 
-export const addVendor = async (name, email, pass, screens, duration) => {
+export const addVendor = async (_id, name, email, pass, screens, duration) => {
   let password = await bcrypt.hash(pass, 8);
   if (await Vendor.findOne({ email, isDeleted: false, isVerified: true })) {
     throw new AuthFailedError(
@@ -59,9 +56,11 @@ export const addVendor = async (name, email, pass, screens, duration) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+
+  await Admin.updateOne({ _id }, { $addToSet: { vendors: vendor._id } });
 };
 
-export const deleteVendor = async (_id) => {
+export const deleteVendor = async (adminId, _id) => {
   const vendor = await Vendor.findOneAndUpdate(
     {
       _id,
@@ -76,10 +75,11 @@ export const deleteVendor = async (_id) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  await Admin.updateOne({ _id: adminId }, { $pull: { vendors: _id } });
   return vendor;
 };
 
-export const list = async (query) => {
+export const list = async (_id, query) => {
   let data = { isDeleted: false, isVerified: true };
   if (query.search) {
     query.search = escapeRegex(query.search);
@@ -94,13 +94,22 @@ export const list = async (query) => {
       ],
     };
   }
-  let [vendors, count] = await Promise.all([
-    Vendor.find(data, {}, paginationOptions(query.page, query.limit)).populate([
-      { path: "screens", populate: [{ path: "schedule" }, { path: "device" }] },
-      { path: "schedules" },
-    ]),
-    Vendor.countDocuments({ isDeleted: data.isDeleted }),
+  const admin = await Admin.findOne({ _id }, { vendors: 1 }).populate([
+    {
+      path: "vendors",
+      populate: [
+        {
+          path: "screens",
+          populate: [{ path: "schedule" }, { path: "device" }],
+        },
+        {
+          path: "schedules",
+        },
+      ],
+    },
   ]);
 
-  return { vendors, count };
+  const count = admin.vendors.length;
+
+  return { vendors: admin.vendors, count };
 };

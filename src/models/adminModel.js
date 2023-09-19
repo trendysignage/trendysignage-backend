@@ -12,6 +12,7 @@ const adminSchema = new mongoose.Schema(
       required: true,
     },
     password: { type: String, required: true },
+    vendors: [{ type: mongoose.Schema.Types.ObjectId, ref: "vendors" }],
   },
   {
     timestamps: true,
