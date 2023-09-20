@@ -63,7 +63,7 @@ const task = async (req, res) => {
                 timezone
               ),
               "ebbtb",
-              item.startTime.toString().split("T")[1]
+              item.startTime
             )
           // moment(currentTime).isBetween(
           //   moment.tz(
