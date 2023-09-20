@@ -46,8 +46,8 @@ const task = async (req, res) => {
         .lean();
 
       if (schedule) {
-        schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
-          (item) =>
+        schedule.sequence[0].timings = schedule.sequence[0].timings
+          .filter((item) =>
             moment(currentTime).isBetween(
               moment.tz(
                 `${currentDate} ${item.startTime.toISOString().split("T")[1]}`,
@@ -60,7 +60,8 @@ const task = async (req, res) => {
                 timezone
               )
             )
-        );
+          )
+          .filter((item) => item);
       }
 
       console.log(JSON.stringify(schedule));
