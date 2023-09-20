@@ -31,17 +31,19 @@ const task = async (req, res) => {
         {
           _id: s.schedule,
           "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
-          "sequence.timings": {
-            $elemMatch: {
-              startTime: { $lte: currentTime },
-              endTime: { $gte: currentTime },
-            },
-          },
+          // "sequence.timings": {
+          //   $elemMatch: {
+          //     startTime: { $lte: currentTime },
+          //     endTime: { $gte: currentTime },
+          //   },
+          // },
         },
-        { "sequence.timings.$": 1 }
+        { "sequence.$": 1 }
       )
         .populate({ path: "sequence.timings.composition" })
         .lean();
+
+      console.log(schedule, "cheeeeeeee");
 
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
