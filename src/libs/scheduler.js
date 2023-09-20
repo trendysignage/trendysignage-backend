@@ -1,10 +1,10 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import cron from "node-cron";
 import { STATUS_CODES } from "../config/appConstants.js";
 import { Device, Schedule, Screen } from "../models/index.js";
 import { emit } from "../services/socketService.js";
 import { AuthFailedError } from "../utils/errors.js";
-import { localtime, utcTime } from "../utils/formatResponse.js";
+import { utcTime } from "../utils/formatResponse.js";
 
 const checkContent = (a, b) => {
   return (
@@ -24,7 +24,9 @@ const task = async (req, res) => {
       schedule: { $exists: true },
     }).lean();
 
-    const currentTime = new Date(localtime(new Date(), timezone) + "Z");
+    const currentTime = moment.tz(new Date(), timezone);
+
+    const currentDate = moment.tz(timezone).format("YYYY-MM-DD");
 
     for (const s of screens) {
       let schedule = await Schedule.findOne(
@@ -43,14 +45,20 @@ const task = async (req, res) => {
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
-      console.log(schedule, "cheeeeeeee");
-
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
           (item) =>
             moment(currentTime).isBetween(
-              moment(item.startTime),
-              moment(item.endTime)
+              moment.tz(
+                `${currentDate} ${item.startTime}`,
+                "YYYY-MM-DD HH:mm",
+                timezone
+              ),
+              moment.tz(
+                `${currentDate} ${item.endTime}`,
+                "YYYY-MM-DD HH:mm",
+                timezone
+              )
             )
         );
       }
