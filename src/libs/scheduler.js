@@ -52,13 +52,13 @@ const task = async (req, res) => {
               moment(currentTime),
               "dbber",
               moment.tz(
-                `${currentDate} ${item.startTime.toString().split("T")[1]}`,
+                `${currentDate} ${item.startTime.toISOString().split("T")[1]}`,
                 "YYYY-MM-DD HH:mm",
                 timezone
               ),
               "dnvfdnjn",
               moment.tz(
-                `${currentDate} ${item.endTime.toString().split("T")[1]}`,
+                `${currentDate} ${item.endTime.toISOString().split("T")[1]}`,
                 "YYYY-MM-DD HH:mm",
                 timezone
               ),
@@ -67,12 +67,12 @@ const task = async (req, res) => {
             )
           // moment(currentTime).isBetween(
           //   moment.tz(
-          //     `${currentDate} ${item.startTime.toString().split("T")[1]}`,
+          //     `${currentDate} ${item.startTime.toISOString().split("T")[1]}`,
           //     "YYYY-MM-DD HH:mm",
           //     timezone
           //   ),
           //   moment.tz(
-          //     `${currentDate} ${item.endTime.toString().split("T")[1]}`,
+          //     `${currentDate} ${item.endTime.toISOString().split("T")[1]}`,
           //     "YYYY-MM-DD HH:mm",
           //     timezone
           //   )
