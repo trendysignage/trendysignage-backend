@@ -45,20 +45,19 @@ const task = async (req, res) => {
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
-        console.log(JSON.stringify(schedule), "rgkjnjn")
-
+      console.log(JSON.stringify(schedule), "rgkjnjn");
 
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
           (item) =>
             moment(currentTime).isBetween(
               moment.tz(
-                `${currentDate} ${item.startTime}`,
+                `${currentDate} ${item.startTime.toString().split("T")[1]}`,
                 "YYYY-MM-DD HH:mm",
                 timezone
               ),
               moment.tz(
-                `${currentDate} ${item.endTime}`,
+                `${currentDate} ${item.endTime.toString().split("T")[1]}`,
                 "YYYY-MM-DD HH:mm",
                 timezone
               )
