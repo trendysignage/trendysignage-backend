@@ -48,35 +48,18 @@ const task = async (req, res) => {
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
           (item) =>
-            console.log(
-              moment(currentTime),
-              "dbber",
+            moment(currentTime).isBetween(
               moment.tz(
                 `${currentDate} ${item.startTime.toISOString().split("T")[1]}`,
                 "YYYY-MM-DD HH:mm",
                 timezone
               ),
-              "dnvfdnjn",
               moment.tz(
                 `${currentDate} ${item.endTime.toISOString().split("T")[1]}`,
                 "YYYY-MM-DD HH:mm",
                 timezone
-              ),
-              "ebbtb",
-              item.startTime
+              )
             )
-          // moment(currentTime).isBetween(
-          //   moment.tz(
-          //     `${currentDate} ${item.startTime.toISOString().split("T")[1]}`,
-          //     "YYYY-MM-DD HH:mm",
-          //     timezone
-          //   ),
-          //   moment.tz(
-          //     `${currentDate} ${item.endTime.toISOString().split("T")[1]}`,
-          //     "YYYY-MM-DD HH:mm",
-          //     timezone
-          //   )
-          // )
         );
       }
 
