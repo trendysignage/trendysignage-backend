@@ -61,7 +61,7 @@ const task = async (req, res) => {
               )
             )
         );
-        schedule.filter((item) => item.timings.length > 0);
+        schedule.sequence = schedule.sequence.filter((item) => item.timings.length > 0);
       }
 
       console.log(JSON.stringify(schedule));
