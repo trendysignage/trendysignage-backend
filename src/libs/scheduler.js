@@ -63,6 +63,8 @@ const task = async (req, res) => {
         );
       }
 
+console.log(JSON.stringify(schedule), "rgkjnjn")
+
       let device = await Device.findOne({
         _id: s.device,
         isDeleted: false,
