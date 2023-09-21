@@ -99,6 +99,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
     delete device.vendor;
     return device;
   }
+  console.log(screen.contentPlaying, "jhk")
 };
 
 export const addDevice1 = async (deviceToken, code, timezone) => {
@@ -122,13 +123,14 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       device.defaultComposition = device?.vendor?.defaultComposition;
     }
     if (device.screen) {
-
       screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
         {
           $pull: {
             contentPlaying: {
-              endTime: { $lte: new Date(localtime(new Date(), timezone) + "Z") },
+              endTime: {
+                $lte: new Date(localtime(new Date(), timezone) + "Z"),
+              },
             },
           },
         },
