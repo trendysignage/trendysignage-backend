@@ -47,10 +47,21 @@ const formatAdmin = (admin) => {
   delete admin.password;
 };
 
+const formatScheduleTime = (currentDate, time, timezone) => {
+  return momentTz
+    .tz(
+      `${currentDate} ${time.toISOString().split("T")[1]}`,
+      "YYYY-MM-DDTHH:mm:ss",
+      timezone
+    )
+    .format("YYYY-MM-DDTHH:mm:ss");
+};
+
 export {
   converStringToDate,
   formatAdmin,
   formatResellerVendor,
+  formatScheduleTime,
   formatVendor,
   localtime,
   utcTime,

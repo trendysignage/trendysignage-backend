@@ -4,7 +4,7 @@ import { STATUS_CODES } from "../config/appConstants.js";
 import { Device, Schedule, Screen } from "../models/index.js";
 import { emit } from "../services/socketService.js";
 import { AuthFailedError } from "../utils/errors.js";
-import { utcTime } from "../utils/formatResponse.js";
+import { formatScheduleTime, utcTime } from "../utils/formatResponse.js";
 
 const checkContent = (a, b) => {
   return (
@@ -80,56 +80,20 @@ const task = async (req, res) => {
         );
         let diffSeconds = Math.floor(diffMiliSeconds / 1000);
 
-        console.log(
-          moment.tz(
-            `${currentDate} ${
-              schedule?.sequence[0]?.timings[0]?.startTime
-                .toISOString()
-                .split("T")[1]
-            }`,
-            "YYYY-MM-DDTHH:mm:ss",
-            timezone
-          ),
-          "startTime",
-          timezone
-        );
-        console.log(
-          moment.tz(
-            `${currentDate} ${
-              schedule?.sequence[0]?.timings[0]?.endTime
-                .toISOString()
-                .split("T")[1]
-            }`,
-            "YYYY-MM-DDTHH:mm:ss",
-            timezone
-          )
-        );
         let content = {
           media: schedule?.sequence[0]?.timings[0]?.composition,
           duration: diffSeconds,
           type: "composition",
-          startTime: moment
-            .tz(
-              `${currentDate} ${
-                schedule?.sequence[0]?.timings[0]?.startTime
-                  .toISOString()
-                  .split("T")[1]
-              }`,
-              "YYYY-MM-DDTHH:mm:ss",
-              timezone
-            )
-            .format("YYYY-MM-DDTHH:mm:ss"),
-          endTime: moment
-            .tz(
-              `${currentDate} ${
-                schedule?.sequence[0]?.timings[0]?.endTime
-                  .toISOString()
-                  .split("T")[1]
-              }`,
-              "YYYY-MM-DDTHH:mm:ss",
-              timezone
-            )
-            .format("YYYY-MM-DDTHH:mm:ss"),
+          startTime: formatScheduleTime(
+            currentDate,
+            schedule?.sequence[0]?.timings[0]?.startTime,
+            timezone
+          ),
+          endTime: formatScheduleTime(
+            currentDate,
+            schedule?.sequence[0]?.timings[0]?.endTime,
+            timezone
+          ),
           createdAt: utcTime(new Date(), timezone),
         };
 
