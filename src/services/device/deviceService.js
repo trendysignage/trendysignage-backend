@@ -54,8 +54,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
-      console.log(JSON.stringify(screen._id), "contenttttttttttttttt");
-
       // screen.contentPlaying = screen?.contentPlaying?.map((item) => {
       //   item.startTime = localtime(item.startTime, timezone);
       //   item.endTime = localtime(item.endTime, timezone);
@@ -229,7 +227,7 @@ export const addDev = async (deviceToken, code, timezone) => {
 };
 
 async function cc() {
-  const screen = await Screen.findOne({ contentPlaying: { $ne: [] } }).lean();
-  console.log(JSON.stringify(screen.contentPlaying));
+  const screen = await Screen.find({ contentPlaying: { $ne: [] } }).lean();
+  console.log(JSON.stringify(screen));
 }
 cc();
