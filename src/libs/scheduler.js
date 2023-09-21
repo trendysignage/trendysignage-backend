@@ -9,7 +9,7 @@ import { formatScheduleTime, utcTime } from "../utils/formatResponse.js";
 const checkContent = (a, b) => {
   console.log(
     "cccccccccc",
-    JSON.stringify(a.media) == JSON.stringify(b.media)
+    JSON.stringify(a.endTime) == JSON.stringify(b.endTime)
   );
   return (
     JSON.stringify(a.media) == JSON.stringify(b.media) &&
