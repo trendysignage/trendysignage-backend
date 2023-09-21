@@ -47,6 +47,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
         { new: true, lean: 1 }
       );
 
+      console.log(screen, "sscreeeeensssss");
+
       if (!screen) {
         throw new AuthFailedError(
           ERROR_MESSAGES.SCREEN_NOT_FOUND,
@@ -225,8 +227,3 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
-
-async function cc() {
-  console.log(new Date(localtime(new Date(), "Asia/Kolkata") + "Z"))
-}
-cc();
