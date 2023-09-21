@@ -225,3 +225,12 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
+
+async function cc() {
+  await Screen.updateMany(
+    { contentPlaying: { $ne: [] } },
+    { $set: { contentPlaying: [] } }
+  );
+}
+
+cc()
