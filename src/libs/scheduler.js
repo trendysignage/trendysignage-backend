@@ -6,6 +6,7 @@ import { AuthFailedError } from "../utils/errors.js";
 import { formatScheduleTime, utcTime } from "../utils/formatResponse.js";
 
 const checkContent = (a, b) => {
+  console.log(JSON.stringify(a.media), JSON.stringify(b.media));
   return (
     JSON.stringify(a.media) == JSON.stringify(b.media) &&
     a.duration == b.duration &&
@@ -95,7 +96,6 @@ const task = async (req, res) => {
         };
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
-          console.log("running instideeeee someeee")
           //   console.log("========emitting scheduler========");
           //   await emit(device.deviceToken, content);
           //   await Screen.findOneAndUpdate(
