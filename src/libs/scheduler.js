@@ -72,16 +72,6 @@ const task = async (req, res) => {
         );
         let diffSeconds = Math.floor(diffMiliSeconds / 1000);
 
-        console.log(
-          formatScheduleTime(
-            currentDate,
-            schedule?.sequence[0]?.timings[0]?.startTime,
-            timezone
-          ),
-          schedule?.sequence[0]?.timings[0]?.startTime,
-          "bbbbbbbbbbbbbbbbbbbbbbbb"
-        );
-
         let content = {
           media: schedule?.sequence[0]?.timings[0]?.composition,
           duration: diffSeconds,
