@@ -47,8 +47,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
         { new: true, lean: 1 }
       );
 
-      console.log(screen, "sscreeeeensssss");
-
       if (!screen) {
         throw new AuthFailedError(
           ERROR_MESSAGES.SCREEN_NOT_FOUND,
