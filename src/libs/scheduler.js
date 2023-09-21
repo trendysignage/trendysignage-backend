@@ -82,16 +82,25 @@ const task = async (req, res) => {
 
         console.log(
           moment.tz(
-            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.startTime}`,
-            "YYYY-MM-DD HH:mm",
+            `${currentDate} ${
+              schedule?.sequence[0]?.timings[0]?.startTime
+                .toISOString()
+                .split("T")[1]
+            }`,
+            "YYYY-MM-DDTHH:mm:ss",
             timezone
           ),
-          "startTime"
+          "startTime",
+          timezone
         );
         console.log(
           moment.tz(
-            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.endTime}`,
-            "YYYY-MM-DD HH:mm",
+            `${currentDate} ${
+              schedule?.sequence[0]?.timings[0]?.endTime
+                .toISOString()
+                .split("T")[1]
+            }`,
+            "YYYY-MM-DDTHH:mm:ss",
             timezone
           )
         );
@@ -99,16 +108,28 @@ const task = async (req, res) => {
           media: schedule?.sequence[0]?.timings[0]?.composition,
           duration: diffSeconds,
           type: "composition",
-          startTime: moment.tz(
-            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.startTime}`,
-            "YYYY-MM-DD HH:mm",
-            timezone
-          ),
-          endTime: moment.tz(
-            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.endTime}`,
-            "YYYY-MM-DD HH:mm",
-            timezone
-          ),
+          startTime: moment
+            .tz(
+              `${currentDate} ${
+                schedule?.sequence[0]?.timings[0]?.startTime
+                  .toISOString()
+                  .split("T")[1]
+              }`,
+              "YYYY-MM-DDTHH:mm:ss",
+              timezone
+            )
+            .format("YYYY-MM-DDTHH:mm:ss"),
+          endTime: moment
+            .tz(
+              `${currentDate} ${
+                schedule?.sequence[0]?.timings[0]?.endTime
+                  .toISOString()
+                  .split("T")[1]
+              }`,
+              "YYYY-MM-DDTHH:mm:ss",
+              timezone
+            )
+            .format("YYYY-MM-DDTHH:mm:ss"),
           createdAt: utcTime(new Date(), timezone),
         };
 
