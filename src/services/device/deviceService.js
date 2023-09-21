@@ -65,6 +65,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
           item.endTime = localtime(item.endTime, timezone);
           return item;
         });
+        console.log(JSON.stringify(screen.contentPlaying), "content of screeen");
         if (screen.defaultComposition) {
           device.defaultComposition = screen?.defaultComposition;
         }
