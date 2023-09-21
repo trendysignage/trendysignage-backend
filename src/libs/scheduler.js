@@ -80,6 +80,21 @@ const task = async (req, res) => {
         );
         let diffSeconds = Math.floor(diffMiliSeconds / 1000);
 
+        console.log(
+          moment.tz(
+            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.startTime}`,
+            "YYYY-MM-DD HH:mm",
+            timezone
+          ),
+          "startTime"
+        );
+        console.log(
+          moment.tz(
+            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.endTime}`,
+            "YYYY-MM-DD HH:mm",
+            timezone
+          )
+        );
         let content = {
           media: schedule?.sequence[0]?.timings[0]?.composition,
           duration: diffSeconds,
