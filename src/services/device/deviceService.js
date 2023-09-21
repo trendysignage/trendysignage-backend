@@ -54,7 +54,16 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
-      console.log(JSON.stringify(screen.contentPlaying));
+      console.log(
+        JSON.stringify(screen.contentPlaying),
+        "contenttttttttttttttt"
+      );
+
+      screen.contentPlaying = screen?.contentPlaying?.map((item) => {
+        item.startTime = localtime(item.startTime, timezone);
+        item.endTime = localtime(item.endTime, timezone);
+        return item;
+      });
 
       for (const content of screen.contentPlaying) {
         const layout = await Layout.findOne({
@@ -64,12 +73,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
         if (layout) {
           content.media.layout = layout;
         }
-
-        // screen.contentPlaying = screen?.contentPlaying?.map((item) => {
-        //   item.startTime = localtime(item.startTime, timezone);
-        //   item.endTime = localtime(item.endTime, timezone);
-        //   return item;
-        // });
 
         if (screen.defaultComposition) {
           device.defaultComposition = screen?.defaultComposition;
