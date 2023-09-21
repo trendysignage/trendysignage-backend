@@ -95,17 +95,17 @@ const task = async (req, res) => {
           createdAt: utcTime(new Date(), timezone),
         };
 
-        if (!s.contentPlaying.some((item) => checkContent(item, content))) {
-          console.log("========emitting scheduler========");
-          await emit(device.deviceToken, content);
-          await Screen.findOneAndUpdate(
-            {
-              _id: s._id,
-            },
-            { $push: { contentPlaying: content } },
-            { new: 1, lean: 1 }
-          );
-        }
+        // if (!s.contentPlaying.some((item) => checkContent(item, content))) {
+        //   console.log("========emitting scheduler========");
+        //   await emit(device.deviceToken, content);
+        //   await Screen.findOneAndUpdate(
+        //     {
+        //       _id: s._id,
+        //     },
+        //     { $push: { contentPlaying: content } },
+        //     { new: 1, lean: 1 }
+        //   );
+        // }
       }
     }
   } catch (err) {
