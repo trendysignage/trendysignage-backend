@@ -38,7 +38,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
         {
           $pull: {
             contentPlaying: {
-              endTime: { $lt: new Date(localtime(new Date(), timezone) + "Z") },
+              endTime: {
+                $lte: new Date(localtime(new Date(), timezone) + "Z"),
+              },
             },
           },
         },
@@ -67,7 +69,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         //   return item;
         // });
 
-        console.log(JSON.stringify(screen.contentPlaying));
+        console.log(JSON.stringify(content));
 
         if (screen.defaultComposition) {
           device.defaultComposition = screen?.defaultComposition;
