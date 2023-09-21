@@ -87,9 +87,9 @@ const task = async (req, res) => {
             currentDate,
             schedule?.sequence[0]?.timings[0]?.startTime,
             timezone
-          ), 
+          ),
           schedule?.sequence[0]?.timings[0]?.startTime,
-"bbbbbbbbbbbbbbbbbbbbbbbb"
+          "bbbbbbbbbbbbbbbbbbbbbbbb"
         );
 
         let content = {
@@ -110,15 +110,15 @@ const task = async (req, res) => {
         };
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
-          //   console.log("========emitting scheduler========");
-          //   await emit(device.deviceToken, content);
-          //   await Screen.findOneAndUpdate(
-          //     {
-          //       _id: s._id,
-          //     },
-          //     { $push: { contentPlaying: content } },
-          //     { new: 1, lean: 1 }
-          //   );
+          console.log("========emitting scheduler========");
+          await emit(device.deviceToken, content);
+          await Screen.findOneAndUpdate(
+            {
+              _id: s._id,
+            },
+            { $push: { contentPlaying: content } },
+            { new: 1, lean: 1 }
+          );
         }
       }
     }
