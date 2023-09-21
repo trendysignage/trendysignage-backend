@@ -54,11 +54,11 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
-      // screen.contentPlaying = screen?.contentPlaying?.map((item) => {
-      //   item.startTime = localtime(item.startTime, timezone);
-      //   item.endTime = localtime(item.endTime, timezone);
-      //   return item;
-      // });
+      screen.contentPlaying = screen?.contentPlaying?.map((item) => {
+        item.startTime = localtime(item.startTime, timezone);
+        item.endTime = localtime(item.endTime, timezone);
+        return item;
+      });
 
       for (const content of screen.contentPlaying) {
         const layout = await Layout.findOne({
@@ -225,12 +225,3 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
-
-async function cc() {
-  await Screen.updateMany(
-    { contentPlaying: { $ne: [] } },
-    { $set: { contentPlaying: [] } }
-  );
-}
-
-cc()
