@@ -10,7 +10,9 @@ const checkContent = (a, b) => {
     JSON.stringify(a.media),
     "aaaaaaaaaaaaa",
     JSON.stringify(b.media),
-    "bbbbbbbbbbbb"
+    "bbbbbbbbbbbb",
+
+    JSON.stringify(a.media) == JSON.stringify(b.media), "cccccccccc"
   );
   return (
     JSON.stringify(a.media) == JSON.stringify(b.media) &&
