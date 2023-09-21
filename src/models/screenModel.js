@@ -45,6 +45,7 @@ const screenSchema = new mongoose.Schema(
     ],
     deviceProfile: { type: mongoose.Schema.Types.ObjectId, ref: "profiles" },
     connectionStartTime: { type: Date },
+    connectionEndTime: { type: Date },
     isConnected: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
   },
@@ -84,7 +85,8 @@ screenSchema.methods.stopUptimeTracking = async function (timezone) {
     }
 
     this.isConnected = false;
-    this.connectionStartTime = null; // Reset the connection start time
+    this.connectionStartTime = null;
+    this.connectionEndTime = localtime(new Date(), timezone); // Reset the connection start time
     // Save the updated screen document
     return await this.save();
   }
