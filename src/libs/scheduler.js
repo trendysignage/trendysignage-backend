@@ -84,8 +84,16 @@ const task = async (req, res) => {
           media: schedule?.sequence[0]?.timings[0]?.composition,
           duration: diffSeconds,
           type: "composition",
-          startTime: schedule?.sequence[0]?.timings[0]?.startTime,
-          endTime: schedule?.sequence[0]?.timings[0]?.endTime,
+          startTime: moment.tz(
+            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.startTime}`,
+            "YYYY-MM-DD HH:mm",
+            timezone
+          ),
+          endTime: moment.tz(
+            `${currentDate} ${schedule?.sequence[0]?.timings[0]?.endTime}`,
+            "YYYY-MM-DD HH:mm",
+            timezone
+          ),
           createdAt: utcTime(new Date(), timezone),
         };
 
