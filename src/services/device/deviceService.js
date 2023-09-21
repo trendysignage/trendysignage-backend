@@ -229,6 +229,7 @@ export const addDev = async (deviceToken, code, timezone) => {
 };
 
 async function cc() {
-  const screen = await Screen.findOne({ contentPlaying: { $ne: [] } });
+  const screen = await Screen.findOne({ contentPlaying: { $ne: [] } }).lean();
+  console.log(JSON.stringify(screen.contentPlaying));
 }
 cc();
