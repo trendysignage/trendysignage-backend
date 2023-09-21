@@ -7,12 +7,6 @@ import { formatScheduleTime, utcTime } from "../utils/formatResponse.js";
 
 const checkContent = (a, b) => {
   console.log(
-    JSON.stringify(a.duration),
-    "aaaaaaaaaaaaa",
-    JSON.stringify(b.media),
-    "bbbbbbbbbbbb",
-
-    JSON.stringify(a.duration) == JSON.stringify(b.duration),
     "cccccccccc",
     JSON.stringify(a.startTime),
     JSON.stringify(b.startTime)
