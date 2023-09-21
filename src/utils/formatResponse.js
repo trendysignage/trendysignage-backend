@@ -48,6 +48,7 @@ const formatAdmin = (admin) => {
 };
 
 const formatScheduleTime = (currentDate, time, timezone) => {
+  console.log(time, "knmjregnbrjken");
   return momentTz
     .tz(
       `${currentDate} ${time.toISOString().split("T")[1]}`,
