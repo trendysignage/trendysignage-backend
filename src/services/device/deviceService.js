@@ -97,9 +97,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
     }
 
     delete device.vendor;
+    console.log(screen.contentPlaying, "jhk")
     return device;
   }
-  console.log(screen.contentPlaying, "jhk")
 };
 
 export const addDevice1 = async (deviceToken, code, timezone) => {
