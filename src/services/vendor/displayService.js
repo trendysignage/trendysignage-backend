@@ -260,7 +260,7 @@ export const getMedia = async (query, vendorId) => {
       projection = { "media.$": 1 };
     }
 
-    vendor = await Vendor.findOne(data, projection)
+    vendor = await Vendor.findOne(data, projection, )
       .lean()
       .populate({
         path: "media.createdBy",
@@ -273,7 +273,7 @@ export const getMedia = async (query, vendorId) => {
         media: [],
       };
     }
-
+console.log(vendor)
     vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
     vendor.media = vendor?.media?.slice(query.page * query.limit, query.limit);
   } else {
