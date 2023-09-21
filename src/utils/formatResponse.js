@@ -51,7 +51,7 @@ const formatScheduleTime = (currentDate, time, timezone) => {
   return new Date(
     moment
       .tz(
-        `${currentDate} ${time.split("T")[1]}`,
+        `${currentDate} ${time.toISOString().split("T")[1]}`,
         "YYYY-MM-DDTHH:mm:ss",
         timezone
       )
