@@ -122,17 +122,13 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       device.defaultComposition = device?.vendor?.defaultComposition;
     }
     if (device.screen) {
-      // screen = await Screen.findOne({
-      //   _id: device.screen,
-      //   isDeleted: false,
-      // });
 
       screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
         {
           $pull: {
             contentPlaying: {
-              endTime: { $lt: new Date(localtime(new Date(), timezone) + "Z") },
+              endTime: { $lte: new Date(localtime(new Date(), timezone) + "Z") },
             },
           },
         },
@@ -155,22 +151,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
 
     if (screen && screen.contentPlaying) {
       for (const item of screen.contentPlaying) {
-        // if (item.type === CONTENT_TYPE.MEDIA) {
-        // device.content.push(item);
-        // } else {
-        // const composition = await Composition.findById(
-        //   item?.media._id
-        // ).lean();
-
-        // if (!composition) {
-        //   throw new AuthFailedError(
-        //     ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
-        //     STATUS_CODES.ACTION_FAILED
-        //   );
-        // }
-
         device.composition.push(item);
-        // }
       }
     }
 
