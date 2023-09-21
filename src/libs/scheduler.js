@@ -6,7 +6,12 @@ import { AuthFailedError } from "../utils/errors.js";
 import { formatScheduleTime, utcTime } from "../utils/formatResponse.js";
 
 const checkContent = (a, b) => {
-  console.log(JSON.stringify(a.media), JSON.stringify(b.media));
+  console.log(
+    JSON.stringify(a.media),
+    "aaaaaaaaaaaaa",
+    JSON.stringify(b.media),
+    "bbbbbbbbbbbb"
+  );
   return (
     JSON.stringify(a.media) == JSON.stringify(b.media) &&
     a.duration == b.duration &&
