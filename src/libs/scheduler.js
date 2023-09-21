@@ -9,7 +9,7 @@ import { formatScheduleTime, utcTime } from "../utils/formatResponse.js";
 const checkContent = (a, b) => {
   console.log(
     "cccccccccc",
-    JSON.stringify(a.startTime) == JSON.stringify(b.startTime)
+    JSON.stringify(a.media) == JSON.stringify(b.media)
   );
   return (
     JSON.stringify(a.media) == JSON.stringify(b.media) &&
@@ -37,12 +37,6 @@ const task = async (req, res) => {
         {
           _id: s.schedule,
           "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
-          // "sequence.timings": {
-          //   $elemMatch: {
-          //     startTime: { $lte: currentTime },
-          //     endTime: { $gte: currentTime },
-          //   },
-          // },
         },
         { "sequence.$": 1 }
       )
