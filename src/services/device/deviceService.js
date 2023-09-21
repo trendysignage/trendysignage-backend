@@ -227,7 +227,6 @@ export const addDev = async (deviceToken, code, timezone) => {
 };
 
 async function cc() {
-  const screen = await Screen.find({ contentPlaying: { $ne: [] } }).lean();
-  console.log(JSON.stringify(screen));
+  console.log(new Date(localtime(new Date(), "Asia/Kolkata") + "Z"))
 }
 cc();
