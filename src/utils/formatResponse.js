@@ -48,13 +48,15 @@ const formatAdmin = (admin) => {
 };
 
 const formatScheduleTime = (currentDate, time, timezone) => {
-  return momentTz
-    .tz(
-      `${currentDate} ${time.toISOString().split("T")[1]}`,
-      "YYYY-MM-DDTHH:mm:ss",
-      timezone
-    )
-    .format("YYYY-MM-DDTHH:mm:ss");
+  return new Date(
+    moment
+      .tz(
+        `${currentDate} ${time.split("T")[1]}`,
+        "YYYY-MM-DDTHH:mm:ss",
+        timezone
+      )
+      .format("YYYY-MM-DDTHH:mm:ss") + "Z"
+  );
 };
 
 export {
