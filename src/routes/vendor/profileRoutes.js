@@ -109,4 +109,9 @@ router.post(
 
 router.get("/vendorRole", auth(), profileController.getVendorRole);
 
+router
+  .route("/mfa")
+  .all(auth())
+  .post(validate(profileValidation.mfa), profileController.mfa);
+
 export default router;

@@ -159,3 +159,10 @@ export const assign = {
     screens: Joi.array().items(JOI.OBJECTID).required(),
   }),
 };
+
+export const mfa = {
+  body: Joi.object().keys({
+    mfaEnabled: Joi.boolean().required(),
+    mfa: Joi.string().allow(""),
+  }),
+};

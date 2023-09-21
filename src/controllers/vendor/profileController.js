@@ -348,3 +348,13 @@ export const getVendorRole = catchAsync(async (req, res) => {
     role
   );
 });
+
+export const mfa = catchAsync(async (req, res) => {
+  await profileService.mfa(req.token.vendor._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
