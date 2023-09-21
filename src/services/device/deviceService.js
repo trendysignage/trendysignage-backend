@@ -55,8 +55,10 @@ export const addDevice = async (deviceToken, code, timezone) => {
       }
 
       screen.contentPlaying = screen?.contentPlaying?.map((item) => {
+        console.log(item.startTime, "startTmemeemee11111");
         item.startTime = localtime(item.startTime, timezone);
         item.endTime = localtime(item.endTime, timezone);
+        console.log(item.startTime, "startTmemeemee");
         return item;
       });
 
