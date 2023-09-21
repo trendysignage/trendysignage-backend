@@ -14,7 +14,8 @@ const checkContent = (a, b) => {
 
     JSON.stringify(a.duration) == JSON.stringify(b.duration),
     "cccccccccc",
-    JSON.stringify(a.startTime) == JSON.stringify(b.startTime)
+    JSON.stringify(a.startTime),
+    JSON.stringify(b.startTime)
   );
   return (
     JSON.stringify(a.media) == JSON.stringify(b.media) &&
