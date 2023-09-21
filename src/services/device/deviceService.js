@@ -54,6 +54,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
+      console.log(JSON.stringify(screen.contentPlaying));
+
       for (const content of screen.contentPlaying) {
         const layout = await Layout.findOne({
           _id: content?.media?.layout,
@@ -68,8 +70,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
         //   item.endTime = localtime(item.endTime, timezone);
         //   return item;
         // });
-
-        console.log(JSON.stringify(content));
 
         if (screen.defaultComposition) {
           device.defaultComposition = screen?.defaultComposition;
