@@ -61,7 +61,9 @@ const task = async (req, res) => {
               )
             )
         );
-        schedule.sequence = schedule.sequence.filter((item) => item.timings.length > 0);
+        schedule.sequence = schedule.sequence.filter(
+          (item) => item.timings.length > 0
+        );
       }
 
       console.log(JSON.stringify(schedule));
@@ -71,7 +73,7 @@ const task = async (req, res) => {
         isDeleted: false,
       }).lean();
 
-      if (schedule) {
+      if (schedule && schedule.sequence.length > 0) {
         let diffMiliSeconds = Math.abs(
           schedule?.sequence[0]?.timings[0]?.startTime -
             schedule?.sequence[0]?.timings[0]?.endTime
