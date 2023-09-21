@@ -59,11 +59,11 @@ export const addDevice = async (deviceToken, code, timezone) => {
         "contenttttttttttttttt"
       );
 
-      screen.contentPlaying = screen?.contentPlaying?.map((item) => {
-        item.startTime = localtime(item.startTime, timezone);
-        item.endTime = localtime(item.endTime, timezone);
-        return item;
-      });
+      // screen.contentPlaying = screen?.contentPlaying?.map((item) => {
+      //   item.startTime = localtime(item.startTime, timezone);
+      //   item.endTime = localtime(item.endTime, timezone);
+      //   return item;
+      // });
 
       for (const content of screen.contentPlaying) {
         const layout = await Layout.findOne({
