@@ -38,8 +38,10 @@ const task = async (req, res) => {
       )
         .populate({ path: "sequence.timings.composition" })
         .lean();
+        if (schedule._id == "650a84ddb85b1787de912b7d"){
+          console.log(JSON.stringify(schedule), "bjh");
+        }
 
-      console.log(JSON.stringify(schedule), "bjh");
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
           (item) =>
