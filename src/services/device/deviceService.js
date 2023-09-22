@@ -54,7 +54,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
-      for (const [index, content] of screen.contentPlaying.entries) {
+      for (const [index, content] of screen.contentPlaying.entries()) {
         if (content.scheduleId) {
           const schedule = await Schedule.findOne({
             _id: content.scheduleId,
