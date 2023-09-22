@@ -662,6 +662,4 @@ export const mfa = async (_id, body) => {
   const vendor = await Vendor.findByIdAndUpdate(_id, {
     $set: { mfaEnabled: body.mfaEnabled, mfa: body.mfa },
   });
-
-  
 };

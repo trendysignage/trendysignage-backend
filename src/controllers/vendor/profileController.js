@@ -245,7 +245,6 @@ export const deleteGroup = catchAsync(async (req, res) => {
 
 export const addTags = catchAsync(async (req, res) => {
   const tags = await profileService.addTags(req.token.vendor._id, req.body);
-  formatVendor(tags);
   return successResponse(
     req,
     res,
