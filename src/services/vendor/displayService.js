@@ -77,7 +77,9 @@ export const getScreens = async (query, vendorId) => {
   const vendor = await Vendor.findById(vendorId, { group: 1 }).lean();
 
   vendor?.groups?.forEach((id) => {
+    console.log(id, "iddwkej")
     screens?.groups?.forEach((elem) => {
+      console.log(elem, "emeleele")
       if (JSON.stringify(id) === JSON.stringify(elem)) {
         elem = id;
       }
