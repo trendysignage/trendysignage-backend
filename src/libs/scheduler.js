@@ -42,6 +42,7 @@ const task = async (req, res) => {
         .lean();
 
       console.log(schedule);
+      console.log(s);
 
       if (schedule?._id == "650a84ddb85b1787de912b7d") {
         console.log(JSON.stringify(schedule), "bjh");
