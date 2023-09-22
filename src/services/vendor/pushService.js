@@ -2,6 +2,7 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import {
   Composition,
   Defaults,
+  Device,
   Quickplay,
   Schedule,
   Screen,
@@ -151,11 +152,21 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     );
   }
 
+  await Device.updateMany(
+    {
+      /* contentPlaying: { "content._scheduleId": scheduleId } */
+    },
+    {
+      $pull: {
+        contentPlaying: { "content._scheduleId": scheduleId },
+      },
+    }
+  );
+
   await Screen.findOneAndUpdate(
     { schedule: schedule._id },
     { $unset: { schedule: "" } }
   );
-
   await Vendor.findByIdAndUpdate(
     vendorId,
     {

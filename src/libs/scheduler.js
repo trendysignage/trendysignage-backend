@@ -73,6 +73,7 @@ const task = async (req, res) => {
         let diffSeconds = Math.floor(diffMiliSeconds / 1000);
 
         let content = {
+          scheduleId: schedule?._id,
           media: schedule?.sequence[0]?.timings[0]?.composition,
           duration: diffSeconds,
           type: "composition",
