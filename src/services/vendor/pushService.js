@@ -156,7 +156,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
       { schedule: schedule._id },
       {
         $unset: { schedule: "" },
-        $pull: { "contentPlaying.scheduleId": scheduleId },
+        $pull: { contentPlaying: { scheduleId: scheduleId } },
       }
     ),
     Vendor.findByIdAndUpdate(
@@ -549,14 +549,3 @@ export const assignScreens = async (vendor, body) => {
     { $addToSet: { screens: { $each: body.screens } } }
   );
 };
-
-async function cc() {
-  console.log(
-    await Screen.findOneAndUpdate(
-      { "contentPlaying.scheduleId": "650da0bad725af6b93e45575"  },
-      { $pull: { contentPlaying: { scheduleId: "650da0bad725af6b93e45575" } } },
-      { new: 1, lean: 1 }
-    )
-  );
-}
-cc();
