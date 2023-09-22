@@ -81,6 +81,6 @@ router.get(
 router
   .route("/assignGroups")
   .all(auth())
-  .post(validate(displayValidation.assignGroup), displayController.assignGroup);
+  .put(validate(displayValidation.assignGroup), displayController.assignGroup);
 
 export default router;
