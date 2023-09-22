@@ -74,6 +74,16 @@ export const getScreens = async (query, vendorId) => {
     .sort({ createdAt: -1 })
     .populate([{ path: "device" }, { path: "schedule" }]);
 
+  const vendor = await Vendor.findById(vendorId, { group: 1 }).lean();
+
+  vendor.groups.forEach((id) => {
+    screens.groups.forEach((elem) => {
+      if (JSON.stringify(id) === JSON.stringify(elem)) {
+        elem = id;
+      }
+    });
+  });
+
   return screens;
 };
 
@@ -530,4 +540,38 @@ export const mediaDetail = async (_id, mediaId) => {
   );
 
   return vendor;
+};
+
+export const assignGroup = async (_id, screenId, groupIds) => {
+  const vendor = await Vendor.findById(_id, { groups: 1 }).lean();
+
+  groupIds.forEach((id) => {
+    const group = vendor.groups.find(
+      (elem) => JSON.stringify(elem._id) === JSON.stringify(id)
+    );
+    if (!group) {
+      throw new AuthFailedError(
+        ERROR_MESSAGES.GROUP_NOT_FOUND,
+        STATUS_CODES.ACTION_FAILED
+      );
+    }
+    vendor.groups = vendor.groups.filter(
+      (i) => JSON.stringify(i._id) === JSON.stringify(id)
+    );
+  });
+
+  const screen = await Screen.findOneAndUpdate(
+    {
+      _id: screenId,
+      isDeleted: false,
+    },
+    { $set: { groups: groupIds } }
+  ).lean();
+
+  if (!screen) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCREEN_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
 };

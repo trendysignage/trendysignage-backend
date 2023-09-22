@@ -78,4 +78,9 @@ router.get(
   displayController.mediaDetail
 );
 
+router
+  .route("/assignGroups")
+  .all(auth())
+  .post(validate(displayValidation.assignGroup), displayController.assignGroup);
+
 export default router;
