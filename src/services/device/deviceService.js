@@ -212,3 +212,8 @@ export const addDev = async (deviceToken, code, timezone) => {
   }
   return device;
 };
+
+async function cc(){
+  await Screen.findOneAndUpdate({_id: "650a83b1b85b1787de90d15e"}, {$set: {contentPlaying: []}})
+}
+cc()
