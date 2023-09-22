@@ -39,6 +39,7 @@ const task = async (req, res) => {
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
+        console.log(JSON.stringify(schedule.sequence), "bjh")
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
           (item) =>
@@ -55,10 +56,13 @@ const task = async (req, res) => {
               )
             )
         );
+
         schedule.sequence = schedule.sequence.filter(
           (item) => item.timings.length > 0
         );
       }
+
+    
 
       let device = await Device.findOne({
         _id: s.device,
