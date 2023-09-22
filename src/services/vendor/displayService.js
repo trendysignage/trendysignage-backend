@@ -78,11 +78,11 @@ export const getScreens = async (query, vendorId) => {
 
   screens.map((screen) => {
     vendor?.groups?.forEach((id) => {
+      console.log(screen.groups, "rgkjjenjrenjkrenj");
       screen.groups?.forEach((elem) => {
         console.log(elem, "emeleele");
         if (JSON.stringify(id) === JSON.stringify(elem)) {
           elem = id;
-          console.log(elem);
         }
       });
     });
