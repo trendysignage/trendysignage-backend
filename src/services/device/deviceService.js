@@ -54,7 +54,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
-      for (const content of screen.contentPlaying) {
+      for (const [index, content] of screen.contentPlaying.entries) {
         if (content.scheduleId) {
           const schedule = await Schedule.findOne({
             _id: content.scheduleId,
@@ -62,11 +62,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
           }).lean();
 
           if (!schedule) {
-            screen.contentPlaying.find(
-              (elem) =>
-                JSON.stringify(elem.scheduleId) ===
-                JSON.stringify(content.scheduleId)
-            );
+            screen.contentPlaying.splice(index, 1);
           }
         }
 
