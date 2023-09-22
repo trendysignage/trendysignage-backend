@@ -75,15 +75,14 @@ export const getScreens = async (query, vendorId) => {
     .populate([{ path: "device" }, { path: "schedule" }]);
 
   const vendor = await Vendor.findById(vendorId, { groups: 1 }).lean();
-  console.log(vendor.groups);
-  console.log(screens.groups);
 
-  vendor?.groups?.forEach((id) => {
-    screens.map((screen) => {
+  screens.map((screen) => {
+    vendor?.groups?.forEach((id) => {
       screen.groups?.forEach((elem) => {
         console.log(elem, "emeleele");
         if (JSON.stringify(id) === JSON.stringify(elem)) {
           elem = id;
+          console.log(elem);
         }
       });
     });
