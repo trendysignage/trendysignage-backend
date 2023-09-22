@@ -545,6 +545,7 @@ export const mediaDetail = async (_id, mediaId) => {
 export const assignGroup = async (_id, screenId, groupIds) => {
   const vendor = await Vendor.findById(_id, { groups: 1 }).lean();
 
+  console.log(groupIds, groupIds.length);
   if (groupIds.length > 0)
     groupIds?.forEach((id) => {
       const group = vendor?.groups?.find(
