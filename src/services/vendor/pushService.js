@@ -152,7 +152,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     );
   }
 
-  await Device.updateMany(
+  console.log(await Device.updateMany(
     {
       /* contentPlaying: { "content._scheduleId": scheduleId } */
     },
@@ -161,7 +161,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
         contentPlaying: { "content._scheduleId": scheduleId },
       },
     }
-  );
+  );)
 
   await Screen.findOneAndUpdate(
     { schedule: schedule._id },
