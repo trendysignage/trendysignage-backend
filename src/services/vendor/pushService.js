@@ -161,7 +161,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
         contentPlaying: { "content._scheduleId": scheduleId },
       },
     }
-  );)
+  ))
 
   await Screen.findOneAndUpdate(
     { schedule: schedule._id },
