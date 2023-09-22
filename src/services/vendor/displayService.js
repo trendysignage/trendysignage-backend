@@ -76,17 +76,27 @@ export const getScreens = async (query, vendorId) => {
 
   const vendor = await Vendor.findById(vendorId, { groups: 1 }).lean();
 
-  screens.map((screen) => {
-    vendor?.groups?.forEach((id) => {
-      screen.groups = screen.groups?.forEach((elem) => {
-        if (JSON.stringify(id._id) === JSON.stringify(elem)) {
-          elem = id;
-          console.log(id._id, "emeleele", elem);
+  const updatedScreens = screens.map((screen) => {
+    if (vendor?.groups && vendor.groups.length > 0) {
+      screen.groups = screen.groups.map((elem) => {
+        const elemIdString = JSON.stringify(elem._id);
+        const vendorGroupIds = vendor.groups.map((group) =>
+          JSON.stringify(group._id)
+        );
+
+        if (vendorGroupIds.includes(elemIdString)) {
+          return vendor.groups.find(
+            (group) => JSON.stringify(group._id) === elemIdString
+          );
         }
+
         return elem;
       });
-    });
+    }
+    return screen;
   });
+
+  console.log(updatedScreens)
 
   return screens;
 };
