@@ -554,7 +554,7 @@ async function cc() {
   console.log(
     await Screen.findOneAndUpdate(
       {},
-      { $pull: { "contentPlaying.scheduleId": "650da0bad725af6b93e45575" } },
+      { $pull: { contentPlaying: { scheduleId: "650da0bad725af6b93e45575" } } },
       { new: 1, lean: 1 }
     )
   );
