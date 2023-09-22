@@ -76,7 +76,7 @@ export const getScreens = async (query, vendorId) => {
 
   const vendor = await Vendor.findById(vendorId, { groups: 1 }).lean();
 
-  const updatedScreens = screens.map((screen) => {
+  screens.forEach((screen) => {
     if (vendor?.groups && vendor.groups.length > 0) {
       screen.groups = screen.groups.map((elem) => {
         const elemIdString = JSON.stringify(elem._id);
@@ -93,12 +93,9 @@ export const getScreens = async (query, vendorId) => {
         return elem;
       });
     }
-    return screen;
   });
 
-  console.log(updatedScreens)
-
-  return screens;
+  return updatedScreens;
 };
 
 export const addScreen = async (vendorId, body) => {
