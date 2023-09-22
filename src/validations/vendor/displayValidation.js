@@ -122,6 +122,6 @@ export const mediaDetail = {
 export const assignGroup = {
   body: Joi.object().keys({
     screenId: JOI.OBJECTID,
-    groupIds: Joi.array().items(JOI.OBJECTID).allow(""),
+    groupIds: Joi.array().items(JOI.OBJECTID).default([]),
   }),
 };
