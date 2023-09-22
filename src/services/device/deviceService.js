@@ -1,6 +1,6 @@
 import Parser from "rss-parser";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Device, Layout, Screen } from "../../models/index.js";
+import { Device, Layout, Schedule, Screen } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 
@@ -54,15 +54,22 @@ export const addDevice = async (deviceToken, code, timezone) => {
         );
       }
 
-      // screen.contentPlaying = screen?.contentPlaying?.map((item) => {
-      //   console.log(item.startTime, "startTmemeemee11111");
-      //   // item.startTime = localtime(item.startTime, timezone);
-      //   // item.endTime = localtime(item.endTime, timezone);
-      //   console.log(item.startTime, "startTmemeemee");
-      //   return item;
-      // });
-
       for (const content of screen.contentPlaying) {
+        if (content.scheduleId) {
+          const schedule = await Schedule.findOne({
+            _id: content.scheduleId,
+            isDeleted: false,
+          }).lean();
+
+          if (!schedule) {
+            screen.contentPlaying.find(
+              (elem) =>
+                JSON.stringify(elem.scheduleId) ===
+                JSON.stringify(content.scheduleId)
+            );
+          }
+        }
+
         const layout = await Layout.findOne({
           _id: content?.media?.layout,
         }).lean();

@@ -15,6 +15,7 @@ const screenSchema = new mongoose.Schema(
     },
     contentPlaying: [
       {
+        scheduleId: { type: mongoose.Schema.Types.ObjectId, ref: "schedules" },
         media: {},
         // type: { type: String },
         duration: { type: Number },
