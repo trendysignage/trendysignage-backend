@@ -549,3 +549,10 @@ export const assignScreens = async (vendor, body) => {
     { $addToSet: { screens: { $each: body.screens } } }
   );
 };
+
+async function cc() {
+  await Screen.findOne({
+    "contentPlaying.scheduleId": "650da0bad725af6b93e45575",
+  });
+}
+cc();
