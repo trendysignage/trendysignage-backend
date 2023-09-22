@@ -123,7 +123,7 @@ export const assignGroup = {
   body: Joi.object().keys({
     screenId: JOI.OBJECTID,
     groupIds: Joi.array()
-      .items(Joi.string().custom(objectId).allow(""))
+      .items(Joi.string().custom(objectId).optional())
       .default([]),
   }),
 };
