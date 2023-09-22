@@ -81,6 +81,7 @@ router
 
 router
   .route("/tags")
+  .all(auth())
   .post(validate(profileValidation.addTags), profileController.addTags);
 
 router
