@@ -33,7 +33,7 @@ const task = async (req, res) => {
         {
           _id: s.schedule,
           "sequence.dates": {
-            $in: [new Date(current)],
+            $in: [new Date(currentDate)],
           },
         },
         { "sequence.$": 1 }
