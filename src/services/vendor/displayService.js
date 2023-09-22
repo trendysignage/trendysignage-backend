@@ -82,8 +82,8 @@ export const getScreens = async (query, vendorId) => {
         if (JSON.stringify(id._id) === JSON.stringify(elem)) {
           elem = id;
           console.log(id._id, "emeleele", elem);
-          return elem;
         }
+        return elem;
       });
     });
   });
