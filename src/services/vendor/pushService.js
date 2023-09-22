@@ -552,9 +552,13 @@ export const assignScreens = async (vendor, body) => {
 
 async function cc() {
   console.log(
-    await Screen.findOne({
-      "contentPlaying.scheduleId": "650da0bad725af6b93e45575",
-    }, {"contentPlaying.$":1})
+    await Screen.findOneAndUpdate(
+      {
+        "contentPlaying.scheduleId": "650da0bad725af6b93e45575",
+      },
+      { $pull: { "contentPlaying.scheduleId": "650da0bad725af6b93e45575" } },
+      { new: 1, lean: 1 }
+    )
   );
 }
 cc();
