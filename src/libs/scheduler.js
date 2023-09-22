@@ -29,28 +29,16 @@ const task = async (req, res) => {
     const currentDate = moment.tz(timezone).format("YYYY-MM-DD");
 
     for (const s of screens) {
-      let schedule = await Schedule.findOne(
-        {
-          _id: s.schedule,
-          "sequence.dates": {
-            $in: [moment.tz(new Date(), timezone).format("YYYY-MM-DD")],
-          },
+      let schedule = await Schedule.findOne({
+        _id: s.schedule,
+        "sequence.dates": {
+          $in: [moment.tz(new Date(), timezone).format("YYYY-MM-DD")],
         },
-        { "sequence.$": 1 }
-      )
+      })
         .populate({ path: "sequence.timings.composition" })
         .lean();
 
-      console.log(
-        await Schedule.findOne({
-          _id: "650a84ddb85b1787de912b7d",
-          "sequence.dates": {
-            $in: [moment.tz(new Date(), timezone).format("YYYY-MM-DD")],
-          },
-        })
-      );
-
-      if (schedule?._id == "650a84ddb85b1787de912b7d") {
+      if (JSON.stringify(schedule?._id) == "650a84ddb85b1787de912b7d") {
         console.log(JSON.stringify(schedule), "bjh");
       }
 
