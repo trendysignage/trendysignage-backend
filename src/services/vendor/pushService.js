@@ -2,7 +2,6 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import {
   Composition,
   Defaults,
-  Device,
   Quickplay,
   Schedule,
   Screen,
@@ -152,30 +151,16 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     );
   }
 
-  console.log(
-    await Device.find(
+  await Promise.all([
+    Screen.updateMany({ schedule: schedule._id }, { $unset: { schedule: "" } }),
+    Vendor.findByIdAndUpdate(
+      vendorId,
       {
-        contentPlaying: { "content._scheduleId": scheduleId },
-      }
-      // {
-      //   $pull: {
-      //     contentPlaying: { "content._scheduleId": scheduleId },
-      //   },
-      // }
-    ).lean()
-  );
-
-  await Screen.findOneAndUpdate(
-    { schedule: schedule._id },
-    { $unset: { schedule: "" } }
-  );
-  await Vendor.findByIdAndUpdate(
-    vendorId,
-    {
-      $pull: { schedules: scheduleId },
-    },
-    { new: 1, lean: 1 }
-  );
+        $pull: { schedules: scheduleId },
+      },
+      { new: 1, lean: 1 }
+    ),
+  ]);
 };
 
 export const sequenceList = async (vendorId, _id) => {
