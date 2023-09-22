@@ -31,6 +31,8 @@ const task = async (req, res) => {
     for (const s of screens) {
       const current = moment().format("YYYY-MM-DD");
 
+      console.log(new Date(current));
+
       let schedule = await Schedule.findOne({
         _id: s.schedule,
         "sequence.dates": {
