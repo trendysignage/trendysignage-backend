@@ -27,11 +27,12 @@ const task = async (req, res) => {
     const currentTime = moment.tz(new Date(), timezone);
 
     const currentDate = moment.tz(timezone).format("YYYY-MM-DD");
+    
+    console.log(await Schedule.findOne({_id: "650d43909a9fe2eff3a4cb30"}))
 
     for (const s of screens) {
       const current = moment().format("YYYY-MM-DD");
 
-      console.log(new Date(current));
 
       let schedule = await Schedule.findOne({
         _id: s.schedule,
