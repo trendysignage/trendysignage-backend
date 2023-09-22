@@ -152,7 +152,13 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
   }
 
   await Promise.all([
-    Screen.updateMany({ schedule: schedule._id }, { $unset: { schedule: "" } }),
+    Screen.updateMany(
+      { schedule: schedule._id },
+      {
+        $unset: { schedule: "" },
+        $pull: { "contentPlaying.scheduleId": scheduleId },
+      }
+    ),
     Vendor.findByIdAndUpdate(
       vendorId,
       {
