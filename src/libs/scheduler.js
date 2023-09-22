@@ -32,15 +32,18 @@ const task = async (req, res) => {
       let schedule = await Schedule.findOne(
         {
           _id: s.schedule,
-          "sequence.dates": { $in: [new Date().toISOString().split("T")[0]] },
+          "sequence.dates": {
+            $in: [moment.tz(new Date(), timezone).format("YYYY-MM-DD")],
+          },
         },
         { "sequence.$": 1 }
       )
         .populate({ path: "sequence.timings.composition" })
         .lean();
-        if (schedule._id == "650a84ddb85b1787de912b7d"){
-          console.log(JSON.stringify(schedule), "bjh");
-        }
+
+      if (schedule?._id == "650a84ddb85b1787de912b7d") {
+        console.log(JSON.stringify(schedule), "bjh");
+      }
 
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
