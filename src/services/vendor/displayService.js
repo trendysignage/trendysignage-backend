@@ -95,7 +95,7 @@ export const getScreens = async (query, vendorId) => {
     }
   });
 
-  return updatedScreens;
+  return screens;
 };
 
 export const addScreen = async (vendorId, body) => {
