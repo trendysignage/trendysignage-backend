@@ -560,7 +560,8 @@ export const assignGroup = async (_id, screenId, groupIds) => {
     for (const id of groupIds) {
       const group = vendor?.groups?.find(
         (elem) => console.log(elem._id),
-        console.log(id)
+        console.log(id),
+        console.log(JSON.stringify(elem._id) === JSON.stringify(id))
         // JSON.stringify(elem._id) === JSON.stringify(id)
       );
       console.log(group, "lljjjjj");
