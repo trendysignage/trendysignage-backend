@@ -434,12 +434,12 @@ export const getTags = async (_id, type) => {
   if (type === "screens") {
     const screens = await Screen.find({ vendor: _id }, { tags: 1 }).lean();
     screens.forEach((screen) => {
-      tags.push(screen.tags);
+      if (screen.tags.length > 0) tags.push(screen.tags);
     });
   } else if (type === "media") {
     const vendor = await Vendor.findById(_id, { media: 1 }).lean();
     vendor.media.forEach((item) => {
-      tags.push(item.tags);
+      if (item.tags.length > 0) tags.push(item.tags);
     });
   } else if (type === "composition") {
     const compositions = await Composition.find(
@@ -447,7 +447,7 @@ export const getTags = async (_id, type) => {
       { tags: 1 }
     ).lean();
     compositions.forEach((composition) => {
-      tags.push(composition.tags);
+      if (composition.tags.length > 0) tags.push(composition.tags);
     });
   } else if (type === "schedule") {
     const schedules = await Schedule.find(
@@ -455,7 +455,7 @@ export const getTags = async (_id, type) => {
       { tags: 1 }
     ).lean();
     schedules.forEach((schedule) => {
-      tags.push(schedule.tags);
+      if (schedule.tags.length > 0) tags.push(schedule.tags);
     });
   }
   return tags;
