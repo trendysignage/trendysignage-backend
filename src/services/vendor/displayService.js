@@ -558,21 +558,17 @@ export const assignGroup = async (_id, screenId, groupIds) => {
 
   if (groupIds.length > 0)
     for (const id of groupIds) {
-      const group = vendor?.groups?.find(
-        (elem) => console.log(JSON.stringify(elem._id)),
-        console.log(id)
-        // JSON.stringify(elem._id) === JSON.stringify(id)
-      );
-      console.log(group, "lljjjjj");
-      if (!group) {
+      const groupIds = JSON.stringify(vendor.groups);
+
+      if (!groupIds.includes(id)) {
         throw new AuthFailedError(
           ERROR_MESSAGES.GROUP_NOT_FOUND,
           STATUS_CODES.ACTION_FAILED
         );
       }
-      vendor.groups = vendor?.groups?.filter(
-        (i) => JSON.stringify(i._id) === JSON.stringify(id)
-      );
+      // vendor.groups = vendor?.groups?.filter(
+      //   (i) => JSON.stringify(i._id) === JSON.stringify(id)
+      // );
     }
 
   const screen = await Screen.findOneAndUpdate(
