@@ -557,7 +557,7 @@ export const assignGroup = async (_id, screenId, groupIds) => {
   const vendor = await Vendor.findById(_id, { groups: 1 }).lean();
 
   if (groupIds.length > 0)
-    groupIds?.forEach((id) => {
+    for (const id of groupIds) {
       const group = vendor?.groups?.find(
         (elem) => JSON.stringify(elem._id) === JSON.stringify(id)
       );
@@ -570,7 +570,7 @@ export const assignGroup = async (_id, screenId, groupIds) => {
       vendor.groups = vendor?.groups?.filter(
         (i) => JSON.stringify(i._id) === JSON.stringify(id)
       );
-    });
+    }
 
   const screen = await Screen.findOneAndUpdate(
     {
