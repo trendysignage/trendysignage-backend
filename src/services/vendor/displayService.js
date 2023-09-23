@@ -559,10 +559,11 @@ export const assignGroup = async (_id, screenId, groupIds) => {
   if (groupIds.length > 0)
     for (const id of groupIds) {
       const group = vendor?.groups?.find(
-        (elem) => 
-        JSON.stringify(elem._id) === JSON.stringify(id)
+        (elem) => console.log(elem._id),
+        console.log(id)
+        // JSON.stringify(elem._id) === JSON.stringify(id)
       );
-      console.log(group, "lljjjjj")
+      console.log(group, "lljjjjj");
       if (!group) {
         throw new AuthFailedError(
           ERROR_MESSAGES.GROUP_NOT_FOUND,
