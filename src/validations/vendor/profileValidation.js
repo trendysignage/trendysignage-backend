@@ -108,6 +108,14 @@ export const deleteGroup = {
   }),
 };
 
+export const getTags = {
+  query: Joi.object().keys({
+    type: Joi.string()
+      .valid("screens", "media", "composition", "schedule")
+      .required(),
+  }),
+};
+
 export const addTags = {
   body: Joi.object().keys({
     type: Joi.string()

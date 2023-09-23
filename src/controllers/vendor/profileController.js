@@ -243,6 +243,20 @@ export const deleteGroup = catchAsync(async (req, res) => {
   );
 });
 
+export const getTags = catchAsync(async (req, res) => {
+  const tags = await profileService.getTags(
+    req.token.vendor._id,
+    req.query.type
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    tags
+  );
+});
+
 export const addTags = catchAsync(async (req, res) => {
   const tags = await profileService.addTags(req.token.vendor._id, req.body);
   return successResponse(

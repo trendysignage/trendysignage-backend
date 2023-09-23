@@ -566,9 +566,6 @@ export const assignGroup = async (_id, screenId, groupIds) => {
           STATUS_CODES.ACTION_FAILED
         );
       }
-      // vendor.groups = vendor?.groups?.filter(
-      //   (i) => JSON.stringify(i._id) === JSON.stringify(id)
-      // );
     }
 
   const screen = await Screen.findOneAndUpdate(
