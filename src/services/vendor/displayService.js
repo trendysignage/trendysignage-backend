@@ -295,7 +295,7 @@ export const getMedia = async (query, vendorId) => {
     }
 
     vendor.media = vendor.media.filter((m) =>
-      JSON.stringify(m.tags).includes(JSON.stringify(query.tags))
+      m.tags.includes(JSON.stringify(query.tags))
     );
     vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
     vendor.media = vendor?.media?.slice(query.page * query.limit, query.limit);
