@@ -295,7 +295,7 @@ export const getMedia = async (query, vendorId) => {
     }
 
     query.tags.map((tag) => {
-      vendor.media = vendor.media.filter((m) => console.logs(m));
+      vendor.media = vendor.media.filter((m) => console.log(m));
     });
     vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
     vendor.media = vendor?.media?.slice(query.page * query.limit, query.limit);
