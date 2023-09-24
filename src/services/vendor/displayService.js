@@ -281,6 +281,8 @@ export const getMedia = async (query, vendorId) => {
       projection = { "media.$": 1 };
     }
 
+console.log(data, "fdvfvdfvdf")
+
     vendor = await Vendor.findOne(data, projection)
       .lean()
       .populate({
