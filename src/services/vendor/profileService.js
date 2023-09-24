@@ -474,7 +474,7 @@ export const addTags = async (vendorId, body) => {
     }
   } else if (body.type === TAG_TYPE.COMPOSITION) {
     const composition = await Composition.findByIdAndUpdate(body.id, {
-      $et: { tags: body.tags },
+      $set: { tags: body.tags },
     });
     if (!composition) {
       throw new AuthFailedError(
