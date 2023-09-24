@@ -294,9 +294,9 @@ export const getMedia = async (query, vendorId) => {
       };
     }
 
-    vendor.media = vendor.media.filter((m) =>
-      m.tags.includes(JSON.stringify(query.tags))
-    );
+    query.tags.map((tag) => {
+      vendor.media = vendor.media.filter((m) => console.logs(m));
+    });
     vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
     vendor.media = vendor?.media?.slice(query.page * query.limit, query.limit);
   } else {
