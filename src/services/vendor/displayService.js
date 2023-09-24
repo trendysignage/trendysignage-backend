@@ -296,7 +296,7 @@ export const getMedia = async (query, vendorId) => {
 
     query.tags.map((tag) => {
       vendor.media = vendor.media.filter(
-        (m) => console.log(m.tags.includes(tag), tag)
+        (m) => console.log(JSON.stringify(m.tags).includes(tag), tag)
         // JSON.stringify(m.tags).includes(tag)
       );
     });
