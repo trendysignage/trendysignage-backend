@@ -295,8 +295,9 @@ export const getMedia = async (query, vendorId) => {
     }
 
     query.tags.map((tag) => {
-      vendor.media = vendor.media.filter((m) =>
-        JSON.stringify(m.tags).includes(tag)
+      vendor.media = vendor.media.filter(
+        (m) => console.log(m.tags.includes(tag), tag)
+        // JSON.stringify(m.tags).includes(tag)
       );
     });
     vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
