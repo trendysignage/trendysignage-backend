@@ -455,7 +455,8 @@ export const getTags = async (_id, type) => {
       { tags: 1 }
     ).lean();
     schedules.forEach((schedule) => {
-      if (schedule.tags.length > 0) tags = [...tags, ...schedule.tags];
+      if (schedule.tags && schedule?.tags?.length > 0)
+        tags = [...tags, ...schedule.tags];
     });
   }
   return tags;
