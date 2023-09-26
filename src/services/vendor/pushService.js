@@ -199,6 +199,11 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
 };
 
 export const sequenceList = async (vendorId, _id) => {
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+    isDefault: true,
+  }).lean();
+
   const schedule = await Schedule.findOne(
     {
       _id,
@@ -215,6 +220,15 @@ export const sequenceList = async (vendorId, _id) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+
+  for (const seq of schedule.sequence) {
+    for (const timing of seq.timings) {
+      if (!timing.composition || timing.composition == null) {
+        timing.composition = defaultComp;
+      }
+    }
+  }
+
   delete schedule.screens;
   return schedule;
 };
