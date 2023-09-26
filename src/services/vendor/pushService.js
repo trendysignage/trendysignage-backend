@@ -10,6 +10,7 @@ import {
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime, utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
+import { layoutService } from "../index.js";
 import { emit } from "../socketService.js";
 
 export const schedules = async (vendorId, query) => {
@@ -213,10 +214,11 @@ export const getSequence = async (query) => {
 };
 
 export const addSequence = async (vendorId, body, timezone) => {
-  body.timings.forEach((i) => {
+  for (const i of body.timings) {
+    await layoutService.getComposition(i.composition);
     i.startTime = utcTime(i.startTime, timezone);
     i.endTime = utcTime(i.endTime, timezone);
-  });
+  }
 
   let data = {
     name: body.name,
