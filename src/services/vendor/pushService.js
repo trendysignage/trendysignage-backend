@@ -28,11 +28,20 @@ export const schedules = async (vendorId, query) => {
     data = { ...data, tags: { $in: query.tags } };
   }
 
+  console.log(
+    JSON.stringify(
+      await Schedule.findOne({ _id: "64e2f97c57d8b8a429d46112" }).lean()
+    ),
+    "onlyyyy fuirststts"
+  );
+
   let schedules = await Schedule.find(
     data,
     {},
     paginationOptions(query.page, query.limit)
   ).populate({ path: "sequence.timings.composition" });
+
+  console.log(JSON.stringify(schedules), "shceudeleeeeesss");
 
   return schedules;
 };
