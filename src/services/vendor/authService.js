@@ -96,6 +96,7 @@ export const signup = async (email, password, name) => {
 
   const defaultComp = await Composition.findOne({
     name: "Default Composition",
+    isDefault: true,
   }).lean();
 
   const vendor = await Vendor.create({

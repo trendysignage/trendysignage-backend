@@ -227,12 +227,14 @@ const defaultComposition = async () => {
       name: "Default Composition",
       layout: layout._id,
       zones,
+      isDefault: true,
       duration: 10,
     },
     {
       $setOnInsert: {
         name: "Default Composition",
         zones,
+        isDefault: true,
         layout: layout._id,
         duration: 10,
       },

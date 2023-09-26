@@ -3,7 +3,13 @@ import {
   ERROR_MESSAGES,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import { Composition, Layout, Screen, Vendor } from "../../models/index.js";
+import {
+  Composition,
+  Layout,
+  Schedule,
+  Screen,
+  Vendor,
+} from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
@@ -189,6 +195,16 @@ export const deleteComposition = async (vendorId, compositionId) => {
     { _id: vendorId },
     { $pull: { compositions: composition._id } },
     { new: 1, lean: 1 }
+  );
+  await Schedule.updateMany(
+    {
+      "sequence.timings": { $elemMatch: { composition: compositionId } },
+    },
+    {
+      $pull: {
+        "sequence.timings": { $elemMatch: { composition: compositionId } },
+      },
+    }
   );
 };
 

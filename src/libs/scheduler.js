@@ -1,7 +1,7 @@
 import moment from "moment-timezone";
 import cron from "node-cron";
 import { STATUS_CODES } from "../config/appConstants.js";
-import { Device, Schedule, Screen } from "../models/index.js";
+import { Composition, Device, Schedule, Screen } from "../models/index.js";
 import { emit } from "../services/socketService.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { formatScheduleTime, utcTime } from "../utils/formatResponse.js";
@@ -19,9 +19,15 @@ const task = async (req, res) => {
   try {
     console.log("---------------------running cron task----------------------");
     const timezone = req?.headers?.timezone ?? "Asia/Kolkata";
+
     const screens = await Screen.find({
       isDeleted: false,
       schedule: { $exists: true },
+    }).lean();
+
+    const defaultComp = await Composition.findOne({
+      name: "Default Composition",
+      isDefault: true,
     }).lean();
 
     const currentTime = moment.tz(new Date(), timezone);
@@ -75,9 +81,13 @@ const task = async (req, res) => {
         );
         let diffSeconds = Math.floor(diffMiliSeconds / 1000);
 
+        const composition = await Composition.findById({
+          _id: schedule?.sequence[0]?.timings[0]?.composition,
+        }).lean();
+
         let content = {
           scheduleId: schedule?._id,
-          media: schedule?.sequence[0]?.timings[0]?.composition,
+          media: composition?._id ?? defaultComp?._id,
           duration: diffSeconds,
           type: "composition",
           startTime: formatScheduleTime(
