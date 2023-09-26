@@ -234,6 +234,11 @@ export const sequenceList = async (vendorId, _id) => {
 };
 
 export const getSequence = async (query) => {
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+    isDefault: true,
+  }).lean();
+
   const schedule = await Schedule.findOne(
     {
       _id: query.scheduleId,
@@ -250,6 +255,14 @@ export const getSequence = async (query) => {
       ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
+  }
+
+  for (const seq of schedule.sequence) {
+    for (const timing of seq.timings) {
+      if (!timing.composition || timing.composition == null) {
+        timing.composition = defaultComp;
+      }
+    }
   }
 
   return schedule;
