@@ -82,7 +82,7 @@ const task = async (req, res) => {
         let diffSeconds = Math.floor(diffMiliSeconds / 1000);
 
         const composition = await Composition.findById({
-          _id: schedule?.sequence[0]?.timings[0]?.composition._id,
+          _id: schedule?.sequence[0]?.timings[0]?.composition?._id,
         }).lean();
 
         let content = {
