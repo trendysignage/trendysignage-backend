@@ -87,7 +87,7 @@ const task = async (req, res) => {
 
         let content = {
           scheduleId: schedule?._id,
-          media: composition?._id ?? defaultComp?._id,
+          media: composition ?? defaultComp,
           duration: diffSeconds,
           type: "composition",
           startTime: formatScheduleTime(

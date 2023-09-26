@@ -14,6 +14,11 @@ import { layoutService } from "../index.js";
 import { emit } from "../socketService.js";
 
 export const schedules = async (vendorId, query) => {
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+    isDefault: true,
+  }).lean();
+
   let data = {
     createdBy: vendorId,
     isDeleted: false,
@@ -34,10 +39,25 @@ export const schedules = async (vendorId, query) => {
     paginationOptions(query.page, query.limit)
   ).populate({ path: "sequence.timings.composition" });
 
+  for (const schedule of schedules) {
+    for (const seq of schedule.sequence) {
+      for (const timing of seq.timings) {
+        if (!timing.composition || timing.composition == null) {
+          timing.composition = defaultComp;
+        }
+      }
+    }
+  }
+
   return schedules;
 };
 
 export const getSchedule = async (scheduleId) => {
+  const defaultComp = await Composition.findOne({
+    name: "Default Composition",
+    isDefault: true,
+  }).lean();
+
   const schedule = await Schedule.findOne({
     _id: scheduleId,
     isDeleted: false,
@@ -50,6 +70,14 @@ export const getSchedule = async (scheduleId) => {
       ERROR_MESSAGES.SCHEDULE_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
+  }
+
+  for (const seq of schedule.sequence) {
+    for (const timing of seq.timings) {
+      if (!timing.composition || timing.composition == null) {
+        timing.composition = defaultComp;
+      }
+    }
   }
 
   return schedule;
