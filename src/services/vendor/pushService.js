@@ -30,7 +30,7 @@ export const schedules = async (vendorId, query) => {
 
   console.log(
     JSON.stringify(
-      await Schedule.findOne({ _id: "64e2f97c57d8b8a429d46112" }).lean()
+      await Composition.findOne({ _id: "64e19d80ac78e4c01c08d8bb" }).lean()
     ),
     "onlyyyy fuirststts"
   );
@@ -41,7 +41,7 @@ export const schedules = async (vendorId, query) => {
     paginationOptions(query.page, query.limit)
   ).populate({ path: "sequence.timings.composition" });
 
-  console.log(JSON.stringify(schedules), "shceudeleeeeesss");
+  // console.log(JSON.stringify(schedules), "shceudeleeeeesss");
 
   return schedules;
 };
