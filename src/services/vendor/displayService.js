@@ -596,3 +596,24 @@ export const assignGroup = async (_id, screenId, groupIds) => {
     );
   }
 };
+
+async function up() {
+  const { mac, privateIp, publicIp, deviceOS } = await netInterface();
+
+  await Screen.updateMany(
+    {},
+    {
+      $set: {
+        drivers: {
+          mac,
+          publicIp,
+          privateIp,
+          deviceOS,
+          javascriptVersion: "14",
+        },
+      },
+    }
+  );
+}
+
+up();
