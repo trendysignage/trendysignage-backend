@@ -82,8 +82,8 @@ const netInterface = async () => {
   console.log(results);
 
   return {
-    mac: results.en0[1],
-    privateIp: results.en0[0],
+    mac: results[1],
+    privateIp: results[0],
     publicIp: await publicIpv4(),
     deviceOS,
   };
