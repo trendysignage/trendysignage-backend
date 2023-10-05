@@ -79,8 +79,6 @@ const netInterface = async () => {
     }
   }
 
-  console.log(results);
-
   return {
     mac: results[1],
     privateIp: results[0],
