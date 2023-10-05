@@ -62,7 +62,7 @@ const generateOtp = () => {
 const netInterface = async () => {
   const nets = os.networkInterfaces();
   const deviceOS = os.type();
-  const results = {};
+  const results = [];
 
   for (const name of Object.keys(nets)) {
     for (const net of nets[name]) {
@@ -70,11 +70,11 @@ const netInterface = async () => {
       // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
       const familyV4Value = typeof net.family === "string" ? "IPv4" : 4;
       if (net.family === familyV4Value && !net.internal) {
-        if (!results[name]) {
-          results[name] = [];
+        if (!results) {
+          results = [];
         }
-        results[name].push(net.address);
-        results[name].push(net.mac);
+        results.push(net.address);
+        results.push(net.mac);
       }
     }
   }
