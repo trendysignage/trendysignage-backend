@@ -45,8 +45,8 @@ const screenSchema = new mongoose.Schema(
       },
     ],
     drivers: {
-      publicIp: { type: Number },
-      privateIp: { type: Number },
+      publicIp: { type: String },
+      privateIp: { type: String },
       mac: { type: String, default: "" },
       deviceOS: { type: String },
       apkVersion: { type: String },
