@@ -1,6 +1,6 @@
-import { Device, Reseller, Vendor } from "../models/index.js";
 import os from "os";
-import { publicIp, publicIpv4, publicIpv6 } from "public-ip";
+import { publicIpv4 } from "public-ip";
+import { Device, Reseller, Vendor } from "../models/index.js";
 
 const catchAsync = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch((err) => {
@@ -61,6 +61,7 @@ const generateOtp = () => {
 
 const netInterface = async () => {
   const nets = os.networkInterfaces();
+  const deviceOS = os.type();
   const results = {};
 
   for (const name of Object.keys(nets)) {
@@ -82,6 +83,7 @@ const netInterface = async () => {
     mac: results.en0[1],
     privateIp: results.en0[0],
     publicIp: await publicIpv4(),
+    deviceOS,
   };
 };
 
@@ -90,7 +92,7 @@ export {
   generateDeviceCode,
   generateId,
   generateOtp,
+  netInterface,
   paginationOptions,
   pick,
-  netInterface,
 };

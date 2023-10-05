@@ -7,7 +7,10 @@ import {
 import { Composition, Device, Screen, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
-import { paginationOptions } from "../../utils/universalFunction.js";
+import {
+  netInterface,
+  paginationOptions,
+} from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
 
 export const deviceCode = async (vendorId, code) => {
@@ -121,6 +124,7 @@ export const addScreen = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+  const { mac, privateIp, publicIp, deviceOS } = await netInterface();
   const screen = await Screen.create({
     name: body.name,
     screenLocation: body.screenLocation,
@@ -131,6 +135,12 @@ export const addScreen = async (vendorId, body) => {
     deviceCode: body.code,
     vendor: vendorId,
     device: device._id,
+    drivers: {
+      mac,
+      publicIp,
+      privateIp,
+      deviceOS,
+    },
   });
   device = await Device.findOneAndUpdate(
     { deviceCode: body.code, isDeleted: false },
@@ -293,7 +303,7 @@ export const getMedia = async (query, vendorId) => {
         media: [],
       };
     }
-    
+
     if (query.tags)
       vendor.media = vendor.media.filter((item) =>
         item.tags.some((tag) => query?.tags?.includes(tag))
