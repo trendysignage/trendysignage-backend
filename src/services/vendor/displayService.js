@@ -384,7 +384,7 @@ export const addMedia = async (vendorId, body, file) => {
 
 export const addMedia64 = async (vendorId, body, string) => {
   try {
-    console.log(vendorId, body, string)
+    console.log("dhghghfghfghsfhgfhgfh",vendorId, body, string)
     const base64String = string;
     const binaryData = Buffer.from(base64String, 'base64');
     const filename = `${Date.now().toString()}.png`;

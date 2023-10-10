@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 // parse json request body
-app.use(express.json());
+app.use(express.json({limit:'500mb'}));
 
 app.use(morgan("dev"));
 
