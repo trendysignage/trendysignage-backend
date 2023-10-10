@@ -48,6 +48,11 @@ router
     validate(displayValidation.addMedia),
     displayController.addMedia
   )
+  .patch(
+    // validate(displayValidation.addMedia),
+    displayController.addMediaBase64
+  )
+
   .put(
     upload.single("file"),
     validate(displayValidation.editMedia),
@@ -82,5 +87,7 @@ router
   .route("/assignGroups")
   .all(auth())
   .put(validate(displayValidation.assignGroup), displayController.assignGroup);
+
+
 
 export default router;

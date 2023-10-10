@@ -78,10 +78,11 @@ export const addMedia = {
   body: Joi.object().keys({
     type: Joi.string()
       // .valid(...Object.values(MEDIA_TYPE))
-      .required(),
+      .optional(),
     properties: Joi.string().required(),
     name: Joi.string().allow(""),
     duration: Joi.number().allow("").default(1),
+    extension: Joi.string().optional(),
   }),
 };
 

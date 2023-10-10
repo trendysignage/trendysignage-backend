@@ -139,6 +139,22 @@ export const addMedia = catchAsync(async (req, res) => {
   );
 });
 
+export const addMediaBase64 = catchAsync(async (req, res) => {
+  console.log("<<--------------uploaded successfully--------------->>");
+  await displayService.addMedia64(req.token.vendor._id, req.body, req.body.base64String);
+  await logService.createLog(
+    req.token.vendor._id,
+    LOG_MESSAGES.ADD_MEDIA,
+    req.headers.timezone ?? "Asia/Kolkata"
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
 export const editMedia = catchAsync(async (req, res) => {
   await displayService.editMedia(req.token.vendor._id, req.body, req.file);
   await logService.createLog(

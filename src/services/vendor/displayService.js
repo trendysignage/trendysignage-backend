@@ -12,6 +12,7 @@ import {
   paginationOptions,
 } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
+import fs from 'fs';
 
 export const deviceCode = async (vendorId, code) => {
   if (
@@ -380,6 +381,57 @@ export const addMedia = async (vendorId, body, file) => {
     );
   }
 };
+
+export const addMedia64 = async (vendorId, body, string) => {
+  try {
+    const base64String = string;
+    const binaryData = Buffer.from(base64String, 'base64');
+    const filename = `${Date.now().toString()}.png`;
+    const Path = `public/${vendorId}`;
+    const filePath = `public/${vendorId}/${filename}`;
+    fs.mkdir(Path, { recursive: true }, (err) => {
+      if (err) {
+        throw err
+      } else {
+        fs.writeFile(filePath, binaryData, async (err) => {
+          if (err) {
+            throw err;
+          } else {
+            let media = [
+              {
+                filename,
+                type: body.type,
+                properties: body.properties,
+                tags: body.tags,
+                createdBy: vendorId,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                duration: body.duration,
+              },
+            ];
+            const vendor = await Vendor.findOneAndUpdate(
+              {
+                _id: vendorId,
+                isDeleted: false,
+              },
+              { $addToSet: { media: media } },
+              { new: true, lean: 1 }
+            );
+            if (!vendor) {
+              throw new AuthFailedError(
+                ERROR_MESSAGES.VENDOR_NOT_FOUND,
+                STATUS_CODES.ACTION_FAILED
+              );
+            }
+          }
+        });
+      }
+    });
+
+  } catch (error) {
+    throw error
+  }
+}
 
 export const editMedia = async (vendorId, body, file) => {
   let data = {
