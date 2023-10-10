@@ -141,6 +141,7 @@ export const addMedia = catchAsync(async (req, res) => {
 
 export const addMediaBase64 = catchAsync(async (req, res) => {
   console.log("<<--------------uploaded successfully--------------->>");
+  console.log(req.body)
   await displayService.addMedia64(req.token.vendor._id, req.body, req.body.base64String);
   await logService.createLog(
     req.token.vendor._id,
