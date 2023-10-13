@@ -41,7 +41,7 @@ router.put(
 
 router
   .route("/media")
-  // .all(auth())
+  .all(auth())
   .get(validate(displayValidation.getMedia), displayController.getMedia)
   .post(
     upload.single("file"),
