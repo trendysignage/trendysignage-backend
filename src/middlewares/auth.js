@@ -66,12 +66,13 @@ const verifyCallback =
           );
         }
         if (
-          moment().isAfter(
-            moment(token.vendor.createdAt).add(
-              token.vendor.duration ?? 1,
-              "month"
-            )
-          ) ||
+          (!token.vendor.subscription &&
+            moment().isAfter(
+              moment(token.vendor.createdAt).add(
+                token.vendor.duration ?? 1,
+                "month"
+              )
+            )) ||
           (token.vendor.subscription &&
             token.vendor.subscription.endDate &&
             moment().isAfter(moment(token.vendor.subscription.endDate)))

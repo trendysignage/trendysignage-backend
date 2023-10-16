@@ -18,6 +18,10 @@ router
     validate(adminVendorValidation.addVendor),
     adminVendorController.addVendor
   )
+  .put(
+    validate(adminVendorValidation.editVendor),
+    adminVendorController.editVendor
+  )
   .delete(
     validate(adminVendorValidation.getVendor),
     adminVendorController.deleteVendor

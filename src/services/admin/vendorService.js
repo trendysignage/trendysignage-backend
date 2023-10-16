@@ -73,6 +73,33 @@ export const addVendor = async (
   await Admin.updateOne({ _id }, { $addToSet: { vendors: vendor._id } });
 };
 
+export const editVendor = async (
+  _id,
+  vendorId,
+  name,
+  screens,
+  duration,
+  startDate,
+  endDate
+) => {
+  const vendor = await Vendor.findOneAndUpdate(
+    {
+      _id: vendorId,
+      isDeleted: false,
+      isVerified: true,
+    },
+    { $set: { name, screens, duration, subscription: { startDate, endDate } } },
+    { new: 1, lean: 1 }
+  );
+
+  if (!vendor) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.VENDOR_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+};
+
 export const deleteVendor = async (adminId, _id) => {
   const vendor = await Vendor.findOneAndUpdate(
     {

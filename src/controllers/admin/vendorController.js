@@ -42,6 +42,25 @@ export const addVendor = catchAsync(async (req, res) => {
   );
 });
 
+export const editVendor = catchAsync(async (req, res) => {
+  const { vendorId, name, screens, duration, startDate, endDate } = req.body;
+  await adminVendorService.editVendor(
+    req.token.admin._id,
+    vendorId,
+    name,
+    screens,
+    duration,
+    startDate,
+    endDate
+  );
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
 export const deleteVendor = catchAsync(async (req, res) => {
   await adminVendorService.deleteVendor(
     req.token.admin._id,

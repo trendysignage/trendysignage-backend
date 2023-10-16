@@ -19,6 +19,17 @@ export const addVendor = {
   }),
 };
 
+export const editVendor = {
+  body: Joi.object().keys({
+    vendorId: JOI.OBJECTID,
+    name: Joi.string().required(),
+    screens: Joi.number().required(),
+    duration: Joi.number(),
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
+  }),
+};
+
 export const list = {
   query: Joi.object().keys({
     search: JOI.SEARCH,
