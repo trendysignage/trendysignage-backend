@@ -43,3 +43,9 @@ export const dashboard = async (_id) => {
   const count = admin.vendors.length;
   return count;
 };
+
+export const editMfa = async (_id, body) => {
+  const admin = await Admin.findByIdAndUpdate(_id, {
+    $set: { mfaEnabled: body.mfaEnabled, mfa: body.mfa },
+  });
+};

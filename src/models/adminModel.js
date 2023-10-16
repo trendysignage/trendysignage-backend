@@ -13,6 +13,8 @@ const adminSchema = new mongoose.Schema(
     },
     password: { type: String, required: true },
     vendors: [{ type: mongoose.Schema.Types.ObjectId, ref: "vendors" }],
+    mfa: { type: String },
+    mfaEnabled: { type: Boolean, default: false },
   },
   {
     timestamps: true,

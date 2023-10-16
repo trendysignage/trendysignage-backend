@@ -25,6 +25,13 @@ router.put(
 
 router.get("/dashboard", auth(USER_TYPE.ADMIN), adminAuthController.dashboard);
 
+router.put(
+  "/mfa",
+  auth(USER_TYPE.ADMIN),
+  validate(adminAuthValidation.editMfa),
+  adminAuthController.editMfa
+);
+
 router.post("/logout", auth(), commonController.logout);
 
 export default router;

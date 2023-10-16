@@ -14,3 +14,10 @@ export const changePassword = {
     newPassword: JOI.PASSWORD,
   }),
 };
+
+export const editMfa = {
+  body: Joi.object().keys({
+    mfaEnabled: Joi.boolean().required(),
+    mfa: Joi.string().allow(""),
+  }),
+};

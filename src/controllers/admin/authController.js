@@ -42,3 +42,13 @@ export const dashboard = catchAsync(async (req, res) => {
     dashboard
   );
 });
+
+export const editMfa = catchAsync(async (req, res) => {
+  await adminAuthService.editMfa(req.token.admin._id, req.body);
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS
+  );
+});
