@@ -22,14 +22,17 @@ export const getVendor = catchAsync(async (req, res) => {
 });
 
 export const addVendor = catchAsync(async (req, res) => {
-  const { name, email, password, screens, duration } = req.body;
+  const { name, email, password, screens, duration, startDate, endDate } =
+    req.body;
   await adminVendorService.addVendor(
     req.token.admin._id,
     name,
     email,
     password,
     screens,
-    duration
+    duration,
+    startDate,
+    endDate
   );
   return successResponse(
     req,
@@ -40,7 +43,10 @@ export const addVendor = catchAsync(async (req, res) => {
 });
 
 export const deleteVendor = catchAsync(async (req, res) => {
-  await adminVendorService.deleteVendor(req.token.admin._id, req.query.vendorId);
+  await adminVendorService.deleteVendor(
+    req.token.admin._id,
+    req.query.vendorId
+  );
   return successResponse(
     req,
     res,

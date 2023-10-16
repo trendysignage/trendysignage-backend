@@ -21,7 +21,16 @@ export const getVendor = async (_id) => {
   return vendor;
 };
 
-export const addVendor = async (_id, name, email, pass, screens, duration) => {
+export const addVendor = async (
+  _id,
+  name,
+  email,
+  pass,
+  screens,
+  duration,
+  startDate,
+  endDate
+) => {
   let password = await bcrypt.hash(pass, 8);
   if (await Vendor.findOne({ email, isDeleted: false, isVerified: true })) {
     throw new AuthFailedError(
@@ -48,6 +57,10 @@ export const addVendor = async (_id, name, email, pass, screens, duration) => {
     },
     totalScreens: screens,
     duration,
+    subscription: {
+      startDate,
+      endDate,
+    },
   });
 
   if (!vendor) {

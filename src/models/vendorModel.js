@@ -71,6 +71,10 @@ const vendorSchema = new mongoose.Schema(
     roles: ROLES_SCHEMA,
     totalScreens: { type: Number, default: 1 },
     duration: { type: Number, default: 1 }, //duration time limit for vendor in months
+    subscription: {
+      startDate: { type: Date },
+      endDate: { type: Date },
+    },
     country: { type: String },
     countryCode: { type: Number },
     phoneNumber: { type: Number },

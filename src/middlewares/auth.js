@@ -71,7 +71,10 @@ const verifyCallback =
               token.vendor.duration ?? 1,
               "month"
             )
-          )
+          ) ||
+          (token.vendor.subscription &&
+            token.vendor.subscription.endDate &&
+            moment().isAfter(moment(token.vendor.subscription.endDate)))
         ) {
           return reject(
             new AuthFailedError(
