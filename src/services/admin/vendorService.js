@@ -88,7 +88,15 @@ export const editVendor = async (
       isDeleted: false,
       isVerified: true,
     },
-    { $set: { name, screens, duration, subscription: { startDate, endDate } } },
+    {
+      $set: {
+        name,
+        totalScreens: screens,
+        duration,
+        "subscription.startDate": startDate,
+        "subscription.endDate": endDate,
+      },
+    },
     { new: 1, lean: 1 }
   );
 
