@@ -11,6 +11,7 @@ const resellerSchema = new mongoose.Schema(
       trim: true,
       sparse: true,
     },
+    password: { type: String },
     vendors: [{ type: mongoose.Schema.Types.ObjectId, ref: "vendors" }],
     comission: { type: Number },
     isDeleted: { type: Boolean, default: false },

@@ -1,5 +1,10 @@
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Reseller } from "../../models/index.js";
+import bcrypt from "bcryptjs";
+import {
+  ERROR_MESSAGES,
+  STATUS_CODES,
+  USER_TYPE,
+} from "../../config/appConstants.js";
+import { Reseller, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import {
   generateId,
@@ -29,13 +34,30 @@ export const list = async (query) => {
 export const addReseller = async (body) => {
   const id = await generateId();
 
+  let password = await bcrypt.hash(body.password, 8);
   let query = {
     id,
     name: body.name,
     email: body.email,
-    comission: body.comission,
+    password,
   };
-  query.vendors && body.clients;
+  body.clients && (query.vendors = body.clients);
+
+  if (body.clients && body.clients.length > 0)
+    for (const client of body.clients) {
+      const vendor = await Vendor.findOne({
+        _id: client,
+        isDeleted: false,
+        isVerified: true,
+      }).lean();
+
+      if (!vendor) {
+        throw new AuthFailedError(
+          ERROR_MESSAGES.VENDOR_NOT_FOUND,
+          STATUS_CODES.ACTION_FAILED
+        );
+      }
+    }
 
   if (await Reseller.findOne({ email: body.email, isDeleted: false })) {
     throw new AuthFailedError(
@@ -46,6 +68,16 @@ export const addReseller = async (body) => {
 
   const reseller = await Reseller.create(query);
 
+  if (body.clients && body.clients.length > 0)
+    await Promise.all(
+      ...body.clients?.map(async (client) => {
+        await Vendor.updateOne(
+          { _id: client },
+          { $set: { reseller: reseller._id } }
+        );
+      })
+    );
+
   if (!reseller) {
     throw new AuthFailedError(
       ERROR_MESSAGES.SERVER_ERROR,
@@ -55,7 +87,7 @@ export const addReseller = async (body) => {
 };
 
 export const getReseller = async (resellerId) => {
-  const reseller = await Reseller.findById(resellerId)
+  const reseller = await Reseller.findById(resellerId, { password: -1 })
     .lean()
     .populate({ path: "vendors" });
 
@@ -69,10 +101,11 @@ export const getReseller = async (resellerId) => {
 };
 
 export const editReseller = async (body) => {
+  let password = await bcrypt.hash(body.password, 8);
   let query = {
-    comission: body.comission,
+    password,
   };
-  query.vendors && body.clients;
+  body.clients && (query.vendors = body.clients);
 
   const reseller = await Reseller.findByIdAndUpdate(
     body.resellerId,
@@ -88,6 +121,16 @@ export const editReseller = async (body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+
+  await Promise.all(
+    body.clients.map(async (client) => {
+      await Vendor.updateOne(
+        { _id: client },
+        { $set: { reseller: reseller._id } }
+      );
+    })
+  );
+
   return reseller;
 };
 
@@ -107,4 +150,40 @@ export const deleteReseller = async (resellerId) => {
     );
   }
   return reseller;
+};
+
+export const vendorsList = async (_id, query, role) => {
+  let data = { isDeleted: false, isVerified: true };
+
+  if (role === USER_TYPE.RESELLER)
+    data = {
+      ...query,
+      reseller: _id,
+    };
+
+  const vendors = await Vendor.find(
+    data,
+    {
+      name: 1,
+      screens: 1,
+      schedules: 1,
+      email: 1,
+      profilePic: 1,
+      id: 1,
+      isOnline: 1,
+    },
+    paginationOptions(query.page, query.limit)
+  )
+    .populate([
+      {
+        path: "screens",
+        populate: [{ path: "schedule" }, { path: "device" }],
+      },
+      {
+        path: "schedules",
+      },
+    ])
+    .lean();
+
+  return vendors;
 };

@@ -1,7 +1,7 @@
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Token } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
-import { TOKEN_TYPE, USER_TYPE } from "./appConstants.js";
+import { TOKEN_TYPE } from "./appConstants.js";
 import config from "./config.js";
 
 const jwtOptions = {
@@ -15,17 +15,9 @@ const jwtVerify = async (payload, done) => {
       throw new AuthFailedError();
     }
 
-    let token = {};
-
-    if (payload.role === USER_TYPE.ADMIN) {
-      token = await Token.findOne({ _id: payload.id, isDeleted: false })
-        .populate({ path: "admin" })
-        .lean();
-    } else {
-      token = await Token.findOne({ _id: payload.id, isDeleted: false })
-        .populate({ path: "vendor" })
-        .lean();
-    }
+    const token = await Token.findOne({ _id: payload.id, isDeleted: false })
+      .populate({ path: payload.role })
+      .lean();
 
     if (!token) {
       return done(null, false);

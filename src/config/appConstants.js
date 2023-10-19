@@ -86,6 +86,7 @@ export const TOKEN_TYPE = {
 export const USER_TYPE = {
   ADMIN: "admin",
   VENDOR: "vendor",
+  RESELLER: "reseller",
 };
 
 export const DEVICE_TYPE = {

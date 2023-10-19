@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import { TOKEN_TYPE, USER_TYPE, DEVICE_TYPE } from "../config/appConstants.js";
+import { DEVICE_TYPE, TOKEN_TYPE, USER_TYPE } from "../config/appConstants.js";
 
 const tokenSchema = new mongoose.Schema(
   {
     token: { type: String, unique: true, required: true },
     vendor: { type: mongoose.SchemaTypes.ObjectId, ref: "vendors" },
     admin: { type: mongoose.SchemaTypes.ObjectId, ref: "admins" },
+    reseller: { type: mongoose.SchemaTypes.ObjectId, ref: "resellers" },
     otp: {},
     role: {
       type: String,

@@ -75,6 +75,7 @@ const vendorSchema = new mongoose.Schema(
       startDate: { type: Date },
       endDate: { type: Date },
     },
+    reseller: { type: mongoose.Schema.Types.ObjectId, ref: "resellers" },
     country: { type: String },
     countryCode: { type: Number },
     phoneNumber: { type: Number },

@@ -1,23 +1,36 @@
 import bcrypt from "bcryptjs";
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Admin } from "../../models/index.js";
+import {
+  ERROR_MESSAGES,
+  STATUS_CODES,
+  USER_TYPE,
+} from "../../config/appConstants.js";
+import { Admin, Reseller } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
-export const login = async (email, password) => {
-  const admin = await Admin.findOne({ email: email }).lean();
-  if (!admin) {
+export const login = async (email, password, role) => {
+  let data;
+
+  if (role === USER_TYPE.RESELLER) {
+    data = await Reseller.findOne({ email }).lean();
+  } else {
+    data = await Admin.findOne({ email }).lean();
+  }
+
+  if (!data) {
     throw new AuthFailedError(
       ERROR_MESSAGES.EMAIL_NOT_FOUND,
       STATUS_CODES.VALIDATION_FAILED
     );
   }
-  if (!(await bcrypt.compare(password, admin.password))) {
+
+  if (!(await bcrypt.compare(password, data.password))) {
     throw new AuthFailedError(
       ERROR_MESSAGES.WRONG_PASSWORD,
       STATUS_CODES.VALIDATION_FAILED
     );
   }
-  return admin;
+
+  return data;
 };
 
 export const changePassword = async (adminId, body) => {

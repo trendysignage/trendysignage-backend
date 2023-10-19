@@ -6,6 +6,7 @@ import { catchAsync } from "../../utils/universalFunction.js";
 
 export const list = catchAsync(async (req, res) => {
   const data = await adminResellerService.list(req.query);
+  formatResellerVendor(data);
   return successResponse(
     req,
     res,
@@ -56,5 +57,21 @@ export const deleteReseller = catchAsync(async (req, res) => {
     res,
     STATUS_CODES.SUCCESS,
     SUCCESS_MESSAGES.SUCCESS
+  );
+});
+
+export const vendorsList = catchAsync(async (req, res) => {
+  const data = await adminResellerService.vendorsList(
+    req.token[req.token.role]._id,
+    req.query,
+    req.token.role
+  );
+
+  return successResponse(
+    req,
+    res,
+    STATUS_CODES.SUCCESS,
+    SUCCESS_MESSAGES.SUCCESS,
+    data
   );
 });

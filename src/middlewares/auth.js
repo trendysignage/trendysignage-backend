@@ -13,7 +13,7 @@ const verifyCallback =
       return reject(new AuthFailedError());
     }
 
-    if (role && token.role != role) {
+    if (role && !role.includes(token.role)) {
       return reject(
         new AuthFailedError(
           ERROR_MESSAGES.UNAUTHORIZED,

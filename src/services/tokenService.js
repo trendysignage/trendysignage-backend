@@ -35,8 +35,11 @@ export const saveToken = async (data) => {
   };
   if (data.userType) {
     if (!data.loginType) {
-      if (data.userType === USER_TYPE.ADMIN) {
-        dataToBesaved.admin = data.user._id;
+      if (
+        data.userType === USER_TYPE.ADMIN ||
+        data.userType === USER_TYPE.RESELLER
+      ) {
+        dataToBesaved[data.userType] = data.user._id;
         dataToBesaved.isVerified = true;
       } else {
         dataToBesaved.vendor = data.user._id;

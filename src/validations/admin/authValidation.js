@@ -1,10 +1,13 @@
 import Joi from "joi";
-import { JOI } from "../../config/appConstants.js";
+import { JOI, USER_TYPE } from "../../config/appConstants.js";
 
 export const login = {
   body: Joi.object().keys({
     email: JOI.EMAIL,
     password: JOI.PASSWORD,
+    role: Joi.string()
+      .valid(...Object.values(USER_TYPE))
+      .default(USER_TYPE.ADMIN),
   }),
 };
 

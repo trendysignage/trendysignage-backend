@@ -32,4 +32,12 @@ router
     adminResellerController.deleteReseller
   );
 
+router
+  .route("/vendorsList")
+  .all(auth([USER_TYPE.ADMIN, USER_TYPE.RESELLER]))
+  .get(
+    validate(adminResellerValidation.list),
+    adminResellerController.vendorsList
+  );
+
 export default router;
