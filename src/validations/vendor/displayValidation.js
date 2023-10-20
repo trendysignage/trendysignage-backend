@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { JOI } from "../../config/appConstants.js";
+import { JOI, SCREEN_SETTINGS } from "../../config/appConstants.js";
 import { objectId } from "../custom.validation.js";
 
 export const deviceCode = {
@@ -83,7 +83,7 @@ export const addMedia = {
     name: Joi.string().allow(""),
     duration: Joi.number().allow("").default(1),
     extension: Joi.string().optional(),
-    base64String: Joi.string().optional()
+    base64String: Joi.string().optional(),
   }),
 };
 
@@ -127,5 +127,12 @@ export const assignGroup = {
     groupIds: Joi.array()
       .items(Joi.string().custom(objectId).optional())
       .optional(),
+  }),
+};
+
+export const settings = {
+  body: Joi.object().keys({
+    type: Joi.string().valid(SCREEN_SETTINGS).required(),
+    screenId: JOI.OBJECTID,
   }),
 };

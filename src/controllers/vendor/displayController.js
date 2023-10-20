@@ -1,5 +1,6 @@
 import {
   LOG_MESSAGES,
+  SCREEN_SETTINGS,
   STATUS_CODES,
   SUCCESS_MESSAGES,
 } from "../../config/appConstants.js";
@@ -141,8 +142,12 @@ export const addMedia = catchAsync(async (req, res) => {
 
 export const addMediaBase64 = catchAsync(async (req, res) => {
   console.log("<<--------------uploaded successfully--------------->>");
-  console.log(req.body)
-  await displayService.addMedia64(req.token.vendor._id, req.body, req.body.base64String);
+  console.log(req.body);
+  await displayService.addMedia64(
+    req.token.vendor._id,
+    req.body,
+    req.body.base64String
+  );
   await logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_MEDIA,
@@ -242,4 +247,20 @@ export const assignGroup = catchAsync(async (req, res) => {
     SUCCESS_MESSAGES.SUCCESS,
     data
   );
+});
+
+export const settings = catchAsync(async (req, res) => {
+  const { type, screenId } = req.body;
+  await displayService.settings(type, screenId);
+
+  const successResponse =
+    type === SCREEN_SETTINGS.CACHE
+      ? SUCCESS_MESSAGES.CLEAR_CACHE
+      : type === SCREEN_SETTINGS.DATA
+      ? SUCCESS_MESSAGES.CLEAR_DATA
+      : type === SCREEN_SETTINGS.REBOOT
+      ? SUCCESS_MESSAGES.REBOOT
+      : SUCCESS_MESSAGES.RELOAD;
+
+  return successResponse(req, res, STATUS_CODES.SUCCESS, successResponse);
 });

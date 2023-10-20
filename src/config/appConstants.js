@@ -49,6 +49,13 @@ export const ROLE = {
   EDITOR: "EDITOR",
 };
 
+export const SCREEN_SETTINGS = {
+  CACHE: "clear_cache",
+  RELOAD: "reload_display",
+  REBOOT: "reboot_display",
+  DATA: "clear_data",
+};
+
 export const MEDIA_TYPE = {
   IMAGE: "image",
   VIDEO: "video",
@@ -159,6 +166,10 @@ const SUCCESS_MESSAGES = {
   SUCCESS: "Success",
   LOGOUT: "User successfully logged out",
   MAIL_SENT: "Mail sent successfully",
+  CLEAR_CACHE: "Cache cleared successfully",
+  CLEAR_DATA: "Data cleared successfully",
+  REBOOT: "Screen rebooted successfully",
+  RELOAD: "Screen reloaded successfully",
 };
 
 const ERROR_MESSAGES = {

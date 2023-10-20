@@ -48,10 +48,7 @@ router
     validate(displayValidation.addMedia),
     displayController.addMedia
   )
-  .patch(
-    validate(displayValidation.addMedia),
-    displayController.addMediaBase64
-  )
+  .patch(validate(displayValidation.addMedia), displayController.addMediaBase64)
 
   .put(
     upload.single("file"),
@@ -88,6 +85,8 @@ router
   .all(auth())
   .put(validate(displayValidation.assignGroup), displayController.assignGroup);
 
-
+router
+  .route("/screenSettings")
+  .post(validate(displayValidation.settings), displayController.settings);
 
 export default router;
