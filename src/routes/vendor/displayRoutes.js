@@ -87,6 +87,7 @@ router
 
 router
   .route("/screenSettings")
+  .all(auth())
   .post(validate(displayValidation.settings), displayController.settings);
 
 export default router;
