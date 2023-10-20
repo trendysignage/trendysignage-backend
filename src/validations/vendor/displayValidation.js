@@ -132,7 +132,7 @@ export const assignGroup = {
 
 export const settings = {
   body: Joi.object().keys({
-    type: Joi.string().valid(SCREEN_SETTINGS).required(),
+    type: Joi.string().valid(...Object.values(SCREEN_SETTINGS)).required(),
     screenId: JOI.OBJECTID,
   }),
 };
