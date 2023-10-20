@@ -253,7 +253,7 @@ export const settings = catchAsync(async (req, res) => {
   const { type, screenId } = req.body;
   // await displayService.settings(type, screenId);
 
-  const successResponse =
+  const successMessage =
     type === SCREEN_SETTINGS.CACHE
       ? SUCCESS_MESSAGES.CLEAR_CACHE
       : type === SCREEN_SETTINGS.DATA
@@ -262,5 +262,5 @@ export const settings = catchAsync(async (req, res) => {
       ? SUCCESS_MESSAGES.REBOOT
       : SUCCESS_MESSAGES.RELOAD;
 
-  return successResponse(req, res, STATUS_CODES.SUCCESS, successResponse);
+  return successResponse(req, res, STATUS_CODES.SUCCESS, successMessage);
 });
