@@ -1,4 +1,6 @@
+import fs from "fs";
 import path from "path";
+import util from "util";
 import {
   CONTENT_TYPE,
   ERROR_MESSAGES,
@@ -12,8 +14,6 @@ import {
   paginationOptions,
 } from "../../utils/universalFunction.js";
 import { emit } from "../socketService.js";
-import fs from 'fs';
-import util from 'util';
 
 export const deviceCode = async (vendorId, code) => {
   if (
@@ -386,7 +386,7 @@ export const addMedia = async (vendorId, body, file) => {
 export const addMedia64 = async (vendorId, body, string) => {
   try {
     const base64String = string;
-    const binaryData = Buffer.from(base64String, 'base64');
+    const binaryData = Buffer.from(base64String, "base64");
     const filename = `${Date.now().toString()}.${body.extension}`;
     const Path = `public/${vendorId}`;
     const filePath = `public/${vendorId}/${filename}`;
@@ -420,13 +420,10 @@ export const addMedia64 = async (vendorId, body, string) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
-   
-   
-
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export const editMedia = async (vendorId, body, file) => {
   let data = {

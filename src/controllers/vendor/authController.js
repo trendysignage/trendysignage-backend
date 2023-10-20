@@ -122,7 +122,7 @@ export const forgotPassword = catchAsync(async (req, res) => {
     email
   );
   const user = await profileService.getVendorByEmail(email);
-  await forgotPasswordEmail(email, resetPasswordToken, user.name);
+  forgotPasswordEmail(email, resetPasswordToken, user.name);
   return successResponse(
     req,
     res,
