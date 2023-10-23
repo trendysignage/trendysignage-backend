@@ -14,8 +14,8 @@ export const addVendor = {
     password: JOI.PASSWORD,
     screens: Joi.number().required(),
     duration: Joi.number().default(1),
-    startDate: Joi.string().required(),
-    endDate: Joi.string().required(),
+    startDate: Joi.string().allow(""),
+    endDate: Joi.string().allow(""),
   }),
 };
 
