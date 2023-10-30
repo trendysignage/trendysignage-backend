@@ -6,7 +6,13 @@ import {
   ERROR_MESSAGES,
   STATUS_CODES,
 } from "../../config/appConstants.js";
-import { Composition, Device, Screen, Vendor } from "../../models/index.js";
+import {
+  Composition,
+  Device,
+  Layout,
+  Screen,
+  Vendor,
+} from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 import {
@@ -485,12 +491,15 @@ export const deleteMedia = async (vendorId, mediaId) => {
 };
 
 export const publish = async (vendorId, body, timezone) => {
-  let vendor = await Vendor.findOne({
-    _id: vendorId,
-    isDeleted: false,
-  })
-    .lean()
-    .populate({ path: "compositions" });
+  let [vendor, layout] = await Promise.all([
+    Vendor.findOne({
+      _id: vendorId,
+      isDeleted: false,
+    })
+      .lean()
+      .populate({ path: "compositions" }),
+    Layout.findOne({ title: "Single Zone Landscape" }).lean(),
+  ]);
 
   let contentPlaying;
 
@@ -504,8 +513,28 @@ export const publish = async (vendorId, body, timezone) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
+
+    const composition = await Composition.create({
+      name: vendor.media.title,
+      layout: layout._id,
+      createdBy: vendorId,
+      zones: {
+        name: layout.zones[0].name,
+        zoneId: layout.zones[0]._id,
+        content: {
+          url: vendor.media.title,
+          type: vendor.media.type,
+          maintainAspectRatio: false,
+          fitToScreen: true,
+          crop: false,
+          duration: vendor.media.duration,
+          data: "",
+        },
+      },
+    });
+
     contentPlaying = {
-      media: vendor.media,
+      media: composition,
       duration: body.duration,
       type: "media",
       startTime: new Date(localtime(new Date(), timezone) + "Z"),
