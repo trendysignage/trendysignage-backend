@@ -62,13 +62,9 @@ export const addDevice = async (deviceToken, code, timezone) => {
         if (layout) {
           content.media.layout = layout;
         }
-
-        console.log(screen.defaultComposition, "screeeen");
-        console.log(device.defaultComposition, "devicieeeeee");
-
-        if (screen.defaultComposition) {
-          device.defaultComposition = screen?.defaultComposition;
-        }
+      }
+      if (screen.defaultComposition) {
+        device.defaultComposition = screen?.defaultComposition;
       }
 
       device.content = screen?.contentPlaying ?? [];
