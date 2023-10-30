@@ -669,3 +669,8 @@ export const assignGroup = async (_id, screenId, groupIds) => {
     );
   }
 };
+
+async function cc(){
+  await Screen.updateMany({}, {$set: {contentPlaying: []}})
+}
+cc()
