@@ -543,12 +543,20 @@ export const addDefaultComp = async (vendor, body) => {
       { _id, isDeleted: false },
       { $set: { defaultComposition } },
       { new: 1, lean: 1 }
-    ).lean();
+    )
+      .populate({ path: "device" })
+      .lean();
+
     if (!screen) {
       throw new AuthFailedError(
         ERROR_MESSAGES.SCREEN_NOT_FOUND,
         STATUS_CODES.ACTION_FAILED
       );
+    }
+
+    if (screen.device) {
+      console.log("runinngggg emit");
+      await emit(screen.device?.deviceToken, screen.defaultComposition);
     }
   }
 };
