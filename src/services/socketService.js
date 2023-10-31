@@ -87,6 +87,8 @@ export const getDefault = async (vendorId) => {
 
 export const emit = async (value, content, data, type) => {
   if (!data) {
+    console.log("runinngggg emit insideeeee emitttt");
+
     if (type === CONTENT_TYPE.COMPOSITION) {
       userCache[value]?.map((id) => {
         console.log(id, "yese emitititting android comp");

@@ -277,6 +277,7 @@ export const changeDefaultComposition = async (vendorId, body) => {
   }
 
   if (screen.device) {
+    console.log("runinngggg emit")
     await emit(screen.device?.deviceToken, screen.defaultComposition);
   }
 };
