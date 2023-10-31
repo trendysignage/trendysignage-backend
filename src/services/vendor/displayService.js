@@ -669,15 +669,3 @@ export const assignGroup = async (_id, screenId, groupIds) => {
     );
   }
 };
-
-async function cc() {
-  await Vendor.findOneAndUpdate(
-    {
-      _id: "6520f28bc306b1ad89924b96",
-      "media._id": "65257c65d693df79dc2d1fd9",
-    },
-    { $pull: { media: { _id: "65257c65d693df79dc2d1fd9" } } }
-  );
-}
-
-cc()
