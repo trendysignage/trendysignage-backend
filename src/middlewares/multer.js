@@ -11,6 +11,8 @@ const storage = multer.diskStorage({
       const dest = `public/${vendorId}/${mediaType}`;
       // const dest = `public/default/`;
 
+      console.log("========>started uploading========");
+
       // create the destination folder if it doesn't exist
       if (!fs.existsSync(dest)) {
         // create the destination folder (and any parent folders) if it doesn't exist
