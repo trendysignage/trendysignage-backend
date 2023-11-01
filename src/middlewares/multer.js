@@ -6,12 +6,12 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     try {
       console.log(file, "baseUrl multer");
+      console.log("========>started uploading========");
+
       const vendorId = "req.token.vendor._id";
       const mediaType = file.mimetype.split("/")[0];
       const dest = `public/${vendorId}/${mediaType}`;
       // const dest = `public/default/`;
-
-      console.log("========>started uploading========");
 
       // create the destination folder if it doesn't exist
       if (!fs.existsSync(dest)) {

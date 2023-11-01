@@ -17,7 +17,6 @@ const checkContent = (a, b) => {
 
 const task = async (req, res) => {
   try {
-    console.log("---------------------running cron task----------------------");
     const timezone = req?.headers?.timezone ?? "Asia/Kolkata";
 
     const screens = await Screen.find({

@@ -87,8 +87,6 @@ export const getDefault = async (vendorId) => {
 
 export const emit = async (value, content, data, type) => {
   if (!data) {
-    console.log("runinngggg emit insideeeee emitttt");
-
     if (type === CONTENT_TYPE.COMPOSITION) {
       userCache[value]?.map((id) => {
         console.log(id, "yese emitititting android comp");
@@ -108,7 +106,6 @@ export const emit = async (value, content, data, type) => {
 };
 
 export const uptimeReport = async (deviceToken, timezone) => {
-  console.log("-----uptimereport trackning-----");
   const device = await Device.findOne({ deviceToken, isDeleted: false });
   if (device) {
     const screen = await Screen.findOne({
