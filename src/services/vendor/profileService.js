@@ -42,7 +42,18 @@ export const defaultComposition = async (vendorId, body) => {
     { new: true, lean: 1 }
   )
     .lean()
-    .populate({ path: "screens", populate: { path: "device" } });
+    .populate([
+      {
+        path: "screens",
+        populate: [
+          { path: "device" },
+          { path: "defaultComposition.media.layout" },
+        ],
+      },
+      {
+        path: "defaultComposition.media.layout",
+      },
+    ]);
 
   if (!vendor) {
     throw new AuthFailedError(
