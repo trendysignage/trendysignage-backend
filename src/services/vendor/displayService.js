@@ -528,8 +528,6 @@ export const publish = async (vendorId, body, timezone) => {
       );
     }
 
-    console.log(vendor.media, "fycvhjnjmkmkmlk");
-
     const composition = await Composition.create({
       name: vendor.media.title,
       layout: layout._id,
