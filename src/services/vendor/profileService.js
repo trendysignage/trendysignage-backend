@@ -23,6 +23,13 @@ export const defaultComposition = async (vendorId, body) => {
     isDeleted: false,
   }).lean();
 
+  if (!composition) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
   const defaultComposition = {
     media: composition,
     duration: body.duration,
