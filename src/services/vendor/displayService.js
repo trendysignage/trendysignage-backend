@@ -110,22 +110,24 @@ export const getScreens = async (query, vendorId) => {
 };
 
 export const addScreen = async (vendorId, body) => {
-  let device = await Device.findOne({
-    deviceCode: body.code,
-    isDeleted: false,
-    isVerified: false,
-  }).lean();
+  let [device, vendor] = await Promise.all([
+    Device.findOne({
+      deviceCode: body.code,
+      isDeleted: false,
+      isVerified: false,
+    }).lean(),
+    Vendor.findById(vendorId, {
+      defaultComposition: 1,
+      screens: 1,
+      totalScreens: 1,
+    }).lean(),
+  ]);
   if (!device) {
     throw new AuthFailedError(
       ERROR_MESSAGES.WRONG_DEVICE_CODE,
       STATUS_CODES.ACTION_FAILED
     );
   }
-  let vendor = await Vendor.findById(vendorId, {
-    defaultComposition: 1,
-    screens: 1,
-    totalScreens: 1,
-  }).lean();
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -139,7 +141,7 @@ export const addScreen = async (vendorId, body) => {
     googleLocation: body.googleLocation,
     tags: body.tags,
     groups: body.groups,
-    defaultComposition: vendor.defaultComposition,
+    // defaultComposition: vendor.defaultComposition,
     deviceCode: body.code,
     vendor: vendorId,
     device: device._id,
@@ -150,18 +152,20 @@ export const addScreen = async (vendorId, body) => {
       deviceOS,
     },
   });
-  device = await Device.findOneAndUpdate(
-    { deviceCode: body.code, isDeleted: false },
-    { $set: { isVerified: true, screen: screen._id, vendor: vendorId } },
-    { new: true, lean: true }
-  );
-  vendor = await Vendor.findOneAndUpdate(
-    { _id: vendorId, isDeleted: false },
-    { $addToSet: { screens: screen._id } },
-    { new: true, lean: 1 }
-  );
+  [device, vendor] = await Promise.all([
+    Device.findOneAndUpdate(
+      { deviceCode: body.code, isDeleted: false },
+      { $set: { isVerified: true, screen: screen._id, vendor: vendorId } },
+      { new: true, lean: true }
+    ),
+    Vendor.findOneAndUpdate(
+      { _id: vendorId, isDeleted: false },
+      { $addToSet: { screens: screen._id } },
+      { new: true, lean: 1 }
+    ),
+  ]);
   vendor.defaultComposition.isDefault = true;
-  await emit(device.deviceToken, vendor.defaultComposition);
+  emit(device.deviceToken, vendor.defaultComposition);
 };
 
 export const editScreen = async (vendorId, body) => {
