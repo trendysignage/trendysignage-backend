@@ -85,7 +85,10 @@ export const getScreens = async (query, vendorId) => {
     .sort({ createdAt: -1 })
     .populate([{ path: "device" }, { path: "schedule" }]);
 
-  const vendor = await Vendor.findById(vendorId, { groups: 1 }).lean();
+  const vendor = await Vendor.findById(vendorId, {
+    groups: 1,
+    defaultComposition: 1,
+  }).lean();
 
   screens.forEach((screen) => {
     if (vendor?.groups && vendor.groups.length > 0) {
@@ -103,6 +106,9 @@ export const getScreens = async (query, vendorId) => {
 
         return elem;
       });
+    }
+    if (!screen.defaultComposition) {
+      screen.defaultComposition = vendor.defaultComposition;
     }
   });
 
