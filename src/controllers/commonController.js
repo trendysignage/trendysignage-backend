@@ -5,7 +5,7 @@ import { catchAsync } from "../utils/universalFunction.js";
 
 export const logout = catchAsync(async (req, res) => {
   await tokenService.logout(req.token._id);
-  // await logService.createLog(
+  // logService.createLog(
   //   req.token.vendor._id,
   //   SUCCESS_MESSAGES.LOGOUT,
   //   req.headers.timezone

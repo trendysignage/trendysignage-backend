@@ -9,7 +9,7 @@ import { catchAsync } from "../../utils/universalFunction.js";
 
 export const createApp = catchAsync(async (req, res) => {
   const app = await appService.createApp(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.CREATE_APP,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -25,7 +25,7 @@ export const createApp = catchAsync(async (req, res) => {
 
 export const editApp = catchAsync(async (req, res) => {
   await appService.editApp(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_APP,
     req.headers.timezone ?? "Asia/Kolkata"

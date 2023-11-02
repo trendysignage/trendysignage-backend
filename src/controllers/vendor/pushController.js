@@ -12,7 +12,7 @@ export const schedules = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_SCHEDULES,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -42,7 +42,7 @@ export const addSchedule = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.body
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_SCHEDULE,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -58,7 +58,7 @@ export const addSchedule = catchAsync(async (req, res) => {
 
 export const editSchedule = catchAsync(async (req, res) => {
   await pushService.editSchedule(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_SCHEDULE,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -73,7 +73,7 @@ export const editSchedule = catchAsync(async (req, res) => {
 
 export const deleteSchedule = catchAsync(async (req, res) => {
   await pushService.deleteSchedule(req.token.vendor._id, req.query.scheduleId);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.DELETE_SCHEDULE,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -155,7 +155,7 @@ export const dates = catchAsync(async (req, res) => {
 
 export const getQuickplay = catchAsync(async (req, res) => {
   const data = await pushService.getQuickplay(req.token.vendor._id, req.query);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_QUICKPLAY,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -176,7 +176,7 @@ export const addQuickplay = catchAsync(async (req, res) => {
     req.body,
     timezone
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_QUICKPLAY,
     timezone
@@ -192,7 +192,7 @@ export const addQuickplay = catchAsync(async (req, res) => {
 
 export const deleteQuickplay = catchAsync(async (req, res) => {
   await pushService.deleteQuickplay(req.token.vendor._id, req.query.id);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.DELETE_QUICKPLAY,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -210,7 +210,7 @@ export const getDefaultCompositions = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_DEFAULT_COMPOSITIONS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -229,7 +229,7 @@ export const addDefaultComp = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.body
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_DEFAULT_COMPOSITIONS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -245,7 +245,7 @@ export const addDefaultComp = catchAsync(async (req, res) => {
 
 export const editDefaultComposition = catchAsync(async (req, res) => {
   await pushService.editDefaultComposition(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_TAGS_TO_DEFAULT_COMPOSITIONS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -260,7 +260,7 @@ export const editDefaultComposition = catchAsync(async (req, res) => {
 
 export const assignScreens = catchAsync(async (req, res) => {
   await pushService.assignScreens(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.SCHEDULE_ASSIGN_SCREEN,
     req.headers.timezone ?? "Asia/Kolkata"

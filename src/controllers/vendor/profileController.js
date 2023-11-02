@@ -10,7 +10,7 @@ import { catchAsync } from "../../utils/universalFunction.js";
 
 export const defaultComposition = catchAsync(async (req, res) => {
   await profileService.defaultComposition(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.DEFAULT_COMPOSITION,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -37,7 +37,7 @@ export const getProfile = catchAsync(async (req, res) => {
 
 export const editProfile = catchAsync(async (req, res) => {
   await profileService.editProfile(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_PROFILE,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -63,7 +63,7 @@ export const getRoles = catchAsync(async (req, res) => {
 
 export const editRole = catchAsync(async (req, res) => {
   await profileService.editRole(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_ROLES,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -82,7 +82,7 @@ export const auditReport = catchAsync(async (req, res) => {
     req.query,
     req.headers.timezone
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_AUDIT_LOGS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -101,7 +101,7 @@ export const uptimeReport = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_UPTIME_REPORTS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -120,7 +120,7 @@ export const mediaReport = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_MEDIA_REPORTS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -270,7 +270,7 @@ export const addTags = catchAsync(async (req, res) => {
 
 export const getDeviceProfiles = catchAsync(async (req, res) => {
   const profiles = await profileService.getDeviceProfiles(req.token.vendor._id);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_PROFILES,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -289,7 +289,7 @@ export const addDeviceProfile = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.body
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_PROFILE,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -305,7 +305,7 @@ export const addDeviceProfile = catchAsync(async (req, res) => {
 
 export const editDeviceProfile = catchAsync(async (req, res) => {
   await profileService.editDeviceProfile(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_PROFILE,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -323,7 +323,7 @@ export const deleteDeviceProfile = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query.profileId
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.DELETE_PROFILE,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -338,7 +338,7 @@ export const deleteDeviceProfile = catchAsync(async (req, res) => {
 
 export const assign = catchAsync(async (req, res) => {
   await profileService.assign(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ASSIGN_DEVICE_PROFILE,
     req.headers.timezone ?? "Asia/Kolkata"

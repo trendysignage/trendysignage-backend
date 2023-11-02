@@ -23,7 +23,7 @@ export const getScreens = catchAsync(async (req, res) => {
     req?.query,
     req.token.vendor._id
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_SCREENS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -39,7 +39,7 @@ export const getScreens = catchAsync(async (req, res) => {
 
 export const addScreen = catchAsync(async (req, res) => {
   const screen = await displayService.addScreen(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADDED_SCREEN,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -54,7 +54,7 @@ export const addScreen = catchAsync(async (req, res) => {
 
 export const editScreen = catchAsync(async (req, res) => {
   await displayService.editScreen(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_SCREEN,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -69,7 +69,7 @@ export const editScreen = catchAsync(async (req, res) => {
 
 export const deleteScreen = catchAsync(async (req, res) => {
   await displayService.deleteScreen(req.token.vendor._id, req.query.screenId);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.DELETE_SCREEN,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -95,7 +95,7 @@ export const getScreen = catchAsync(async (req, res) => {
 
 export const changeDefaultComposition = catchAsync(async (req, res) => {
   await displayService.changeDefaultComposition(req.token.vendor._id, req.body);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.SCREEN_DEFAULT_COMPOSITION,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -110,7 +110,7 @@ export const changeDefaultComposition = catchAsync(async (req, res) => {
 
 export const getMedia = catchAsync(async (req, res) => {
   const media = await displayService.getMedia(req.query, req.token.vendor._id);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_MEDIA,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -127,7 +127,7 @@ export const getMedia = catchAsync(async (req, res) => {
 export const addMedia = catchAsync(async (req, res) => {
   console.log("<<--------------uploaded successfully--------------->>");
   await displayService.addMedia(req.token.vendor._id, req.body, req.file);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_MEDIA,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -148,7 +148,7 @@ export const addMediaBase64 = catchAsync(async (req, res) => {
     req.body,
     req.body.base64String
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_MEDIA,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -163,7 +163,7 @@ export const addMediaBase64 = catchAsync(async (req, res) => {
 
 export const editMedia = catchAsync(async (req, res) => {
   await displayService.editMedia(req.token.vendor._id, req.body, req.file);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_MEDIA,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -178,7 +178,7 @@ export const editMedia = catchAsync(async (req, res) => {
 
 export const deleteMedia = catchAsync(async (req, res) => {
   await displayService.deleteMedia(req.token.vendor._id, req.query.mediaId);
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.DELETE_MEDIA,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -195,13 +195,13 @@ export const publish = catchAsync(async (req, res) => {
   const timezone = req.headers?.timezone ?? "Asia/Kolkata";
   await displayService.publish(req.token.vendor._id, req.body, timezone);
   if (req.body.type === "media") {
-    await logService.createLog(
+    logService.createLog(
       req.token.vendor._id,
       LOG_MESSAGES.PUBLISHED_MEDIA,
       timezone
     );
   } else {
-    await logService.createLog(
+    logService.createLog(
       req.token.vendor._id,
       LOG_MESSAGES.PUBLISHED_COMPOSITION,
       timezone

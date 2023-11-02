@@ -64,7 +64,7 @@ export const getCompositions = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.GET_COMPOSITIONS,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -97,7 +97,7 @@ export const addComposition = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.body
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.ADD_COMPOSITION,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -116,7 +116,7 @@ export const editComposition = catchAsync(async (req, res) => {
     req.body,
     req.headers.timezone ?? "Asia/Kolkata"
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.EDIT_COMPOSITION,
     req.headers.timezone ?? "Asia/Kolkata"
@@ -134,7 +134,7 @@ export const deleteComposition = catchAsync(async (req, res) => {
     req.token.vendor._id,
     req.query.compositionId
   );
-  await logService.createLog(
+  logService.createLog(
     req.token.vendor._id,
     LOG_MESSAGES.DELETE_COMPOSITION,
     req.headers.timezone ?? "Asia/Kolkata"
