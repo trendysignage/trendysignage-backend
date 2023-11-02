@@ -573,10 +573,10 @@ export const publish = async (vendorId, body, timezone) => {
       { new: 1, lean: 1 }
     );
   } else {
-    vendor.compositions = vendor.compositions.find(
-      (id) => id._id.toString() === body.id.toString()
-    );
     console.log(vendor.compositions, ":hvjbkjn", body.id);
+    vendor.compositions = vendor.compositions.find((id) =>
+      id._id.equals(body.id)
+    );
     if (!vendor.compositions) {
       throw new AuthFailedError(
         ERROR_MESSAGES.WRONG_TYPE_OR_ID,
