@@ -45,7 +45,6 @@ export const defaultComposition = async (vendorId, body) => {
   }
 
   for (const screen of vendor.screens) {
-    console.log(vendor.defaultComposition);
     if (screen.device) {
       vendor.defaultComposition.isDefault = true;
       emit(screen.device?.deviceToken, vendor.defaultComposition);
