@@ -55,6 +55,8 @@ export const defaultComposition = async (vendorId, body) => {
       },
     ]);
 
+  console.log(vendor.defaultComposition, "defeuakttlttt");
+
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
