@@ -505,7 +505,7 @@ export const deleteMedia = async (vendorId, mediaId) => {
 };
 
 export const publish = async (vendorId, body, timezone) => {
-  let [vendor, layout] = await Promise.all([
+  let [vendor, layout, composition] = await Promise.all([
     Vendor.findOne({
       _id: vendorId,
       isDeleted: false,
@@ -513,6 +513,7 @@ export const publish = async (vendorId, body, timezone) => {
       .lean()
       .populate({ path: "compositions" }),
     Layout.findOne({ title: "Single Zone Landscape" }).lean(),
+    Composition.findOne({ id: body.id, createdBy: vendorId }).lean(),
   ]);
 
   let contentPlaying;
@@ -573,26 +574,21 @@ export const publish = async (vendorId, body, timezone) => {
       { new: 1, lean: 1 }
     );
   } else {
-    console.log(vendor.compositions, ":hvjbkjn", body.id);
-    vendor.compositions = vendor.compositions.find((id) =>
-      id._id.equals(body.id)
-    );
-    if (!vendor.compositions) {
+    if (!composition) {
       throw new AuthFailedError(
-        ERROR_MESSAGES.WRONG_TYPE_OR_ID,
+        ERROR_MESSAGES.COMPOSITION_NOT_FOUND,
         STATUS_CODES.ACTION_FAILED
       );
     }
-    if (vendor.compositions) {
-      contentPlaying = {
-        media: vendor?.compositions,
-        duration: body.duration,
-        type: "composition",
-        startTime: new Date(localtime(new Date(), timezone) + "Z"),
-        endTime: new Date(localtime(new Date(), timezone) + "Z"),
-        createdAt: new Date(localtime(new Date(), timezone) + "Z"),
-      };
-    }
+
+    contentPlaying = {
+      media: composition,
+      duration: body.duration,
+      type: "composition",
+      startTime: new Date(localtime(new Date(), timezone) + "Z"),
+      endTime: new Date(localtime(new Date(), timezone) + "Z"),
+      createdAt: new Date(localtime(new Date(), timezone) + "Z"),
+    };
   }
 
   contentPlaying.endTime.setSeconds(
