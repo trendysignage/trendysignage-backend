@@ -576,7 +576,7 @@ export const publish = async (vendorId, body, timezone) => {
     vendor.compositions = vendor.compositions.find(
       (id) => id._id.toString() === body.id.toString()
     );
-
+    console.log(vendor.compositions, ":hvjbkjn", body.id);
     if (!vendor.compositions) {
       throw new AuthFailedError(
         ERROR_MESSAGES.WRONG_TYPE_OR_ID,
