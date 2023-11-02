@@ -513,7 +513,7 @@ export const publish = async (vendorId, body, timezone) => {
       .lean()
       .populate({ path: "compositions" }),
     Layout.findOne({ title: "Single Zone Landscape" }).lean(),
-    Composition.findOne({ id: body.id, createdBy: vendorId }).lean(),
+    Composition.findOne({ id: body.id }).lean(),
   ]);
 
   let contentPlaying;
