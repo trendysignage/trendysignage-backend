@@ -229,10 +229,5 @@ export const editCompositionEmit = async (composition, duration, timezone) => {
     { new: 1, lean: 1 }
   );
 
-  await emit(
-    data.device?.deviceToken,
-    contentPlaying,
-    "",
-    CONTENT_TYPE.COMPOSITION
-  );
+  emit(data.device?.deviceToken, contentPlaying, "", CONTENT_TYPE.COMPOSITION);
 };

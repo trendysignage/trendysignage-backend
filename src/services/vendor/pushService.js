@@ -458,8 +458,8 @@ export const addQuickplay = async (vendorId, body, timezone) => {
       { new: 1, lean: 1 }
     ).lean();
 
-    await emit(screen.device?.deviceToken, contentPlaying);
-    await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
+    emit(screen.device?.deviceToken, contentPlaying);
+    emit(screen.device?.deviceToken, contentPlaying, "", body.type);
   }
 
   return quickplay;
@@ -556,7 +556,6 @@ export const addDefaultComp = async (vendor, body) => {
 
     if (screen.device) {
       console.log("runinngggg emit");
-      await emit(screen.device?.deviceToken, screen.defaultComposition);
     }
   }
 };

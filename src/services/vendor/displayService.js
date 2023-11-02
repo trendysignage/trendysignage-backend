@@ -217,16 +217,20 @@ export const deleteScreen = async (vendorId, screenId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-  let device = await Device.findOneAndUpdate(
-    { screen: screenId, isDeleted: false },
-    {
-      $set: { isVerified: false },
-      $unset: { screen: "", vendor: "" },
-    },
-    { new: true, lean: 1 }
-  );
-  await Vendor.findByIdAndUpdate(vendorId, { $pull: { screens: screen._id } });
-  await emit(device.deviceToken, "", "delete");
+  let [device] = await Promise.all([
+    Device.findOneAndUpdate(
+      { screen: screenId, isDeleted: false },
+      {
+        $set: { isVerified: false },
+        $unset: { screen: "", vendor: "" },
+      },
+      { new: true, lean: 1 }
+    ),
+    Vendor.findByIdAndUpdate(vendorId, {
+      $pull: { screens: screen._id },
+    }),
+  ]);
+  emit(device.deviceToken, "", "delete");
 };
 
 // used in vendor and superAdmin
@@ -287,7 +291,7 @@ export const changeDefaultComposition = async (vendorId, body) => {
   }
 
   if (screen.device) {
-    await emit(screen.device?.deviceToken, screen.defaultComposition);
+    emit(screen.device?.deviceToken, screen.defaultComposition);
   }
 };
 
@@ -625,7 +629,7 @@ export const publish = async (vendorId, body, timezone) => {
           STATUS_CODES.ACTION_FAILED
         );
       }
-      await emit(screen.device?.deviceToken, contentPlaying, "", body.type);
+      emit(screen.device?.deviceToken, contentPlaying, "", body.type);
     }
   }
 };

@@ -19,32 +19,38 @@ const task = async (req, res) => {
   try {
     const timezone = req?.headers?.timezone ?? "Asia/Kolkata";
 
-    const screens = await Screen.find({
-      isDeleted: false,
-      schedule: { $exists: true },
-    }).lean();
-
-    const defaultComp = await Composition.findOne({
-      name: "Default Composition",
-      isDefault: true,
-    }).lean();
+    const [screens, defaultComp] = await Promise.all([
+      Screen.find({
+        isDeleted: false,
+        schedule: { $exists: true },
+      }).lean(),
+      Composition.findOne({
+        name: "Default Composition",
+        isDefault: true,
+      }).lean(),
+    ]);
 
     const currentTime = moment.tz(new Date(), timezone);
-
     const currentDate = moment.tz(timezone).format("YYYY-MM-DD");
 
     for (const s of screens) {
-      let schedule = await Schedule.findOne(
-        {
-          _id: s.schedule,
-          "sequence.dates": {
-            $in: [new Date(currentDate)],
+      let [schedule, device] = await Promise.all([
+        Schedule.findOne(
+          {
+            _id: s.schedule,
+            "sequence.dates": {
+              $in: [new Date(currentDate)],
+            },
           },
-        },
-        { "sequence.$": 1 }
-      )
-        .populate({ path: "sequence.timings.composition" })
-        .lean();
+          { "sequence.$": 1 }
+        )
+          .populate({ path: "sequence.timings.composition" })
+          .lean(),
+        Device.findOne({
+          _id: s.device,
+          isDeleted: false,
+        }).lean(),
+      ]);
 
       if (schedule) {
         schedule.sequence[0].timings = schedule.sequence[0].timings.filter(
@@ -62,16 +68,10 @@ const task = async (req, res) => {
               )
             )
         );
-
         schedule.sequence = schedule.sequence.filter(
           (item) => item.timings.length > 0
         );
       }
-
-      let device = await Device.findOne({
-        _id: s.device,
-        isDeleted: false,
-      }).lean();
 
       if (schedule && schedule.sequence.length > 0) {
         let diffMiliSeconds = Math.abs(
@@ -104,7 +104,7 @@ const task = async (req, res) => {
 
         if (!s.contentPlaying.some((item) => checkContent(item, content))) {
           console.log("========emitting scheduler========");
-          await emit(device.deviceToken, content);
+          emit(device.deviceToken, content);
           await Screen.findOneAndUpdate(
             {
               _id: s._id,
