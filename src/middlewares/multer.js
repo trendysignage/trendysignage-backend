@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
       console.log(file, "baseUrl multer");
       console.log("========>started uploading========");
 
-      const vendorId = "req.token.vendor._id";
+      const vendorId = req.token.vendor._id;
       const mediaType = file.mimetype.split("/")[0];
       const dest = `public/${vendorId}/${mediaType}`;
       // const dest = `public/default/`;
