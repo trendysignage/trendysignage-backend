@@ -519,7 +519,7 @@ export const publish = async (vendorId, body, timezone) => {
 
   if (body.type === CONTENT_TYPE.MEDIA) {
     vendor.media = vendor.media.find(
-      (id) => JSON.stringify(id._id) === JSON.stringify(body.id)
+      (id) => id._id.toString() === body.id.toString()
     );
     if (!vendor.media) {
       throw new AuthFailedError(
@@ -527,6 +527,8 @@ export const publish = async (vendorId, body, timezone) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
+
+    console.log(vendor.media, "fycvhjnjmkmkmlk");
 
     const composition = await Composition.create({
       name: vendor.media.title,
