@@ -7,6 +7,7 @@ import {
 } from "../../config/appConstants.js";
 import {
   Composition,
+  Layout,
   Profile,
   Quickplay,
   Schedule,
@@ -55,8 +56,6 @@ export const defaultComposition = async (vendorId, body) => {
       },
     ]);
 
-  console.log(vendor.defaultComposition, "defeuakttlttt");
-
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -69,6 +68,14 @@ export const defaultComposition = async (vendorId, body) => {
       let defaultComposition = screen.defaultComposition
         ? screen.defaultComposition
         : vendor.defaultComposition;
+
+      const layout = await Layout.findOne({
+        _id: defaultComposition?.media?.layout,
+      }).lean();
+
+      if (layout) {
+        defaultComposition.media.layout = layout;
+      }
 
       vendor.defaultComposition.isDefault = true;
       emit(screen.device?.deviceToken, defaultComposition);
