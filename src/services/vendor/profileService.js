@@ -53,8 +53,12 @@ export const defaultComposition = async (vendorId, body) => {
 
   for (const screen of vendor.screens) {
     if (screen.device) {
+      let defaultComposition = screen.defaultComposition
+        ? screen.defaultComposition
+        : vendor.defaultComposition;
+
       vendor.defaultComposition.isDefault = true;
-      emit(screen.device?.deviceToken, vendor.defaultComposition);
+      emit(screen.device?.deviceToken, defaultComposition);
     }
   }
 };
