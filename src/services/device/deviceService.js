@@ -25,13 +25,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
       device.defaultComposition = device?.vendor?.defaultComposition;
     }
     device.content = [];
-    const layout = await Layout.findOne({
-      _id: device?.defaultComposition?.media?.layout,
-    }).lean();
 
-    if (layout) {
-      device.defaultComposition.media.layout = layout;
-    }
     if (device.screen) {
       screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
@@ -46,7 +40,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
         },
         { new: true, lean: 1 }
       );
-
       if (!screen) {
         throw new AuthFailedError(
           ERROR_MESSAGES.SCREEN_NOT_FOUND,
@@ -55,16 +48,24 @@ export const addDevice = async (deviceToken, code, timezone) => {
       }
 
       for (const content of screen.contentPlaying) {
-        const layout = await Layout.findOne({
+        const layout1 = await Layout.findOne({
           _id: content?.media?.layout,
         }).lean();
 
-        if (layout) {
-          content.media.layout = layout;
+        if (layout1) {
+          content.media.layout = layout1;
         }
       }
+
       if (screen.defaultComposition) {
         device.defaultComposition = screen?.defaultComposition;
+      }
+
+      const layout2 = await Layout.findOne({
+        _id: device?.defaultComposition?.media?.layout,
+      }).lean();
+      if (layout2) {
+        device.defaultComposition.media.layout = layout2;
       }
 
       device.content = screen?.contentPlaying ?? [];
