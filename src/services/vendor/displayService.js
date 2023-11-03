@@ -146,7 +146,6 @@ export const addScreen = async (vendorId, body) => {
     screenLocation: body.screenLocation,
     googleLocation: body.googleLocation,
     tags: body.tags,
-    groups: body.groups,
     // defaultComposition: vendor.defaultComposition,
     deviceCode: body.code,
     vendor: vendorId,
@@ -331,7 +330,12 @@ export const getMedia = async (query, vendorId) => {
         item.tags.some((tag) => query?.tags?.includes(tag))
       );
     vendor.media = vendor?.media?.sort((a, b) => b.createdAt - a.createdAt);
-    vendor.media = vendor?.media?.slice(query.page * query.limit, query.limit);
+
+    if (query.page && query.limit)
+      vendor.media = vendor?.media?.slice(
+        query.page * query.limit,
+        query.limit
+      );
   } else {
     let data = { _id: vendorId, isDeleted: false };
 
@@ -357,7 +361,8 @@ export const getMedia = async (query, vendorId) => {
         JSON.stringify(i.title).includes(query.search)
       );
     }
-    vendor.media = vendor.media.slice(query.page * query.limit, query.limit);
+    if (query.page && query.limit)
+      vendor.media = vendor.media.slice(query.page * query.limit, query.limit);
   }
 
   return vendor;

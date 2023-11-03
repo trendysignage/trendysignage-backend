@@ -27,9 +27,7 @@ export const addScreen = {
     name: Joi.string().required().trim(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    groups: Joi.array()
-      .items(Joi.string().custom(objectId).allow(""))
-      .allow(""),
+    tags: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
 
@@ -67,7 +65,7 @@ export const getMedia = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),
     page: Joi.number().allow("").default(0),
-    limit: Joi.number().allow("").default(10),
+    limit: Joi.number().allow(""),
     type: Joi.string().allow("").valid("image", "video", "apps", "pdf"),
     filterType: Joi.string().allow("").valid("image", "video", "apps", "pdf"),
     tags: Joi.array().items(Joi.string().allow("")).allow(""),
@@ -132,7 +130,9 @@ export const assignGroup = {
 
 export const settings = {
   body: Joi.object().keys({
-    type: Joi.string().valid(...Object.values(SCREEN_SETTINGS)).required(),
+    type: Joi.string()
+      .valid(...Object.values(SCREEN_SETTINGS))
+      .required(),
     screenId: JOI.OBJECTID,
   }),
 };

@@ -8,6 +8,7 @@ export const createApp = async (vendor, body) => {
     type: body.type,
     appData: body.data,
     createdBy: vendor,
+    duration: 0,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
