@@ -56,6 +56,7 @@ export const deviceCode = async (vendorId, code) => {
 export const getScreens = async (query, vendorId) => {
   console.log("runinngg on server also------>>>>>>");
   let data = { vendor: vendorId, isDeleted: false };
+  let options = {};
 
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
@@ -76,19 +77,19 @@ export const getScreens = async (query, vendorId) => {
   if (query.groups) {
     data = { ...data, groups: { $in: query.groups } };
   }
+  if (query.page && query.limit) {
+    options = paginationOptions(query.page, query.limit);
+  }
 
-  let screens = await Screen.find(
-    data,
-    {},
-    paginationOptions(query.page, query.limit)
-  )
-    .sort({ createdAt: -1 })
-    .populate([{ path: "device" }, { path: "schedule" }]);
-
-  const vendor = await Vendor.findById(vendorId, {
-    groups: 1,
-    defaultComposition: 1,
-  }).lean();
+  const [screens, vendor] = await Promise.all([
+    Screen.find(data, {}, options)
+      .sort({ createdAt: -1 })
+      .populate([{ path: "device" }, { path: "schedule" }]),
+    Vendor.findById(vendorId, {
+      groups: 1,
+      defaultComposition: 1,
+    }).lean(),
+  ]);
 
   screens.forEach((screen) => {
     if (vendor?.groups && vendor.groups.length > 0) {
