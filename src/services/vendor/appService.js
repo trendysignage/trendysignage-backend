@@ -8,10 +8,13 @@ export const createApp = async (vendor, body) => {
     type: body.type,
     appData: body.data,
     createdBy: vendor,
-    duration: 0,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
+
+  if (body.type === "youtube-apps") {
+    media.duration = 0;
+  }
 
   const app = await Vendor.findOneAndUpdate(
     { _id: vendor },
