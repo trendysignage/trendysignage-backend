@@ -99,9 +99,11 @@ export const getCompositions = async (vendorId, query) => {
     options = paginationOptions(query.page, query.limit);
   }
 
-  const compositions = await Composition.find(data, {}, options).populate({
-    path: "layout",
-  });
+  const compositions = await Composition.find(data, {}, options)
+    .populate({
+      path: "layout",
+    })
+    .sort({ createdAt: -1 });
 
   return compositions;
 };
