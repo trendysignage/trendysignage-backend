@@ -86,6 +86,7 @@ export const deleteLayout = async (vendorId, layoutId) => {
 
 export const getCompositions = async (vendorId, query) => {
   let data = { createdBy: vendorId, isDeleted: false };
+  let options = {};
 
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
@@ -94,12 +95,13 @@ export const getCompositions = async (vendorId, query) => {
   if (query.tags) {
     data = { ...data, tags: { $in: query.tags } };
   }
+  if (query.page && query.limit) {
+    options = paginationOptions(query.page, query.limit);
+  }
 
-  let compositions = await Composition.find(
-    data,
-    {},
-    paginationOptions(query.page, query.limit)
-  ).populate({ path: "layout" });
+  const compositions = await Composition.find(data, {}, options).populate({
+    path: "layout",
+  });
 
   return compositions;
 };

@@ -48,7 +48,7 @@ export const getCompositions = {
   query: Joi.object().keys({
     search: Joi.string().allow(""),
     page: Joi.number().allow("").default(0),
-    limit: Joi.number().allow("").default(10),
+    limit: Joi.number().allow(""),
     tags: Joi.array().items(Joi.string().allow("")).allow(""),
   }),
 };
