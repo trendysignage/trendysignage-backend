@@ -16,6 +16,7 @@ export const addVendor = {
     duration: Joi.number().default(1),
     startDate: Joi.string().allow(""),
     endDate: Joi.string().allow(""),
+    resellerId: Joi.string().custom(objectId).allow(""),
   }),
 };
 

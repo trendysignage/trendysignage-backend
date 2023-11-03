@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
-import { Admin, Composition, Vendor } from "../../models/index.js";
+import { Admin, Composition, Reseller, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { generateId } from "../../utils/universalFunction.js";
 import { escapeRegex } from "../../validations/custom.validation.js";
@@ -29,7 +29,8 @@ export const addVendor = async (
   screens,
   duration,
   startDate,
-  endDate
+  endDate,
+  resellerId
 ) => {
   let password = await bcrypt.hash(pass, 8);
   if (await Vendor.findOne({ email, isDeleted: false, isVerified: true })) {
@@ -43,6 +44,10 @@ export const addVendor = async (
   const defaultComp = await Composition.findOne({
     name: "Default Composition",
   }).lean();
+
+  if (resellerId) {
+    var reseller = await Reseller.findOne({ _id: resellerId }).lean();
+  }
 
   const vendor = await Vendor.create({
     id,
@@ -61,6 +66,7 @@ export const addVendor = async (
       startDate,
       endDate,
     },
+    reseller: reseller._id,
   });
 
   if (!vendor) {
@@ -70,7 +76,13 @@ export const addVendor = async (
     );
   }
 
-  await Admin.updateOne({ _id }, { $addToSet: { vendors: vendor._id } });
+  await Promise.all([
+    Admin.updateOne({ _id }, { $addToSet: { vendors: vendor._id } }),
+    Reseller.updateOne(
+      { _id: resellerId },
+      { $addToSet: { vendors: vendor._id } }
+    ),
+  ]);
 };
 
 export const editVendor = async (

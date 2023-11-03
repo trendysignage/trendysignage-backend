@@ -22,8 +22,16 @@ export const getVendor = catchAsync(async (req, res) => {
 });
 
 export const addVendor = catchAsync(async (req, res) => {
-  const { name, email, password, screens, duration, startDate, endDate } =
-    req.body;
+  const {
+    name,
+    email,
+    password,
+    screens,
+    duration,
+    startDate,
+    endDate,
+    resellerId,
+  } = req.body;
   await adminVendorService.addVendor(
     req.token.admin._id,
     name,
@@ -32,7 +40,8 @@ export const addVendor = catchAsync(async (req, res) => {
     screens,
     duration,
     startDate,
-    endDate
+    endDate,
+    resellerId
   );
   return successResponse(
     req,
