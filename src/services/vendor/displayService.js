@@ -703,7 +703,7 @@ export const settings = async (type, _id) => {
   }
   if (type === SCREEN_SETTINGS.CACHE) {
     const { cache } = require();
-    console.log(require, "vgn;ml,;");
+    // console.log(require, "vgn;ml,;");
     console.log(cache, "kjhgj");
   }
 };
