@@ -198,6 +198,8 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     ),
   ]);
 
+  console.log(screens);
+
   const updatedScreens = await Screen.find({ _id: { $in: screens } })
     .populate({ path: "device" })
     .lean();
