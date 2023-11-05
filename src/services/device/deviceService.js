@@ -8,10 +8,13 @@ export const addDevice = async (deviceToken, code, timezone) => {
   const parser = new Parser();
   let screen;
 
-  let device = await Device.findOne({
-    deviceToken: deviceToken,
-    isDeleted: false,
-  })
+  let device = await Device.findOneAndUpdate(
+    {
+      deviceToken: deviceToken,
+      isDeleted: false,
+    },
+    { $set: { isReload: false } }
+  )
     .populate({ path: "vendor" })
     .lean();
 
@@ -97,10 +100,13 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
   let screen;
   const parser = new Parser();
 
-  let device = await Device.findOne({
-    deviceToken: deviceToken,
-    isDeleted: false,
-  })
+  let device = await Device.findOneAndUpdate(
+    {
+      deviceToken: deviceToken,
+      isDeleted: false,
+    },
+    { $set: { isReload: false } }
+  )
     .lean()
     .populate({ path: "vendor" });
 
@@ -171,10 +177,13 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
 export const addDev = async (deviceToken, code, timezone) => {
   let screen;
 
-  let device = await Device.findOne({
-    deviceToken: deviceToken,
-    isDeleted: false,
-  }).lean();
+  let device = await Device.findOneAndUpdate(
+    {
+      deviceToken: deviceToken,
+      isDeleted: false,
+    },
+    { $set: { isReload: false } }
+  ).lean();
 
   if (!device) {
     device = await Device.create({

@@ -9,6 +9,7 @@ const deviceSchema = new mongoose.Schema(
     publicIP: { type: String },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     screen: { type: mongoose.Schema.Types.ObjectId, ref: "screens" },
+    isReload: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
   },

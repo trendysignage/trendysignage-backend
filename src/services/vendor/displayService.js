@@ -690,6 +690,15 @@ export const assignGroup = async (_id, screenId, groupIds) => {
 };
 
 export const settings = async (type, _id) => {
+  const screen = await Screen.findOne({ _id, isDeleted: false });
+
+  if (!screen) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.SCREEN_NOT_FOUND,
+      STATUS_CODES.ACTION_FAILED
+    );
+  }
+
   if (type === SCREEN_SETTINGS.DATA) {
     const screen = await Screen.findOneAndUpdate(
       { _id, isDeleted: false },
@@ -701,6 +710,16 @@ export const settings = async (type, _id) => {
 
     emit(screen.device?.deviceToken, screen.contentPlaying);
   }
-  if (type === SCREEN_SETTINGS.CACHE) {
+  if (type === SCREEN_SETTINGS.RELOAD) {
+    const screen = await Screen.findOneAndUpdate({ _id, isDeleted: false })
+      .populate({ path: "device" })
+      .lean();
+
+    const device = await Device.findOneAndUpdate(
+      {
+        deviceToken: screen.device.deviceToken,
+      },
+      { $set: { isReload: true } }
+    );
   }
 };
