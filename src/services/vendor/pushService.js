@@ -567,6 +567,7 @@ export const addDefaultComp = async (vendor, body) => {
     }
 
     if (screen.device) {
+      emit(screen?.device?.deviceToken, screen.contentPlaying);
       console.log("runinngggg emit");
     }
   }
