@@ -181,11 +181,11 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
   }
 
   console.log(
-    await Screen.findOne({ schedule: schedule._id }),
+    await Screen.find({ schedule: schedule._id }),
     "guihihulhujhuhjuhh"
   );
   const [screens] = await Promise.all([
-    Screen.find({ schedule: schedule._id }, { _id: 1 }).lean(),
+    Screen.find({ schedule: schedule._id }).lean(),
     Screen.updateMany(
       { schedule: schedule._id },
       {
