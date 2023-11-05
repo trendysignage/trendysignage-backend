@@ -157,6 +157,7 @@ export const addScreen = async (vendorId, body) => {
       privateIp,
       deviceOS,
     },
+    isConnected: true
   });
   [device, vendor] = await Promise.all([
     Device.findOneAndUpdate(
@@ -686,3 +687,12 @@ export const assignGroup = async (_id, screenId, groupIds) => {
     );
   }
 };
+
+// export const settings = async (type, _id) => {
+//   if (type === SCREEN_SETTINGS.CACHE) {
+//     const screen = await Screen.findOneAndUpdate(
+//       { _id, isDeleted: false },
+//       { $unset: { schedule } }
+//     ).lean();
+//   }
+// };

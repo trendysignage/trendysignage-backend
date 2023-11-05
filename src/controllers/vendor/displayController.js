@@ -251,7 +251,7 @@ export const assignGroup = catchAsync(async (req, res) => {
 
 export const settings = catchAsync(async (req, res) => {
   const { type, screenId } = req.body;
-  // await displayService.settings(type, screenId);
+  await displayService.settings(type, screenId);
 
   const successMessage =
     type === SCREEN_SETTINGS.CACHE
