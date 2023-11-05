@@ -4,6 +4,7 @@ import util from "util";
 import {
   CONTENT_TYPE,
   ERROR_MESSAGES,
+  SCREEN_SETTINGS,
   STATUS_CODES,
 } from "../../config/appConstants.js";
 import {
@@ -157,7 +158,7 @@ export const addScreen = async (vendorId, body) => {
       privateIp,
       deviceOS,
     },
-    isConnected: true
+    isConnected: true,
   });
   [device, vendor] = await Promise.all([
     Device.findOneAndUpdate(
@@ -688,11 +689,21 @@ export const assignGroup = async (_id, screenId, groupIds) => {
   }
 };
 
-// export const settings = async (type, _id) => {
-//   if (type === SCREEN_SETTINGS.CACHE) {
-//     const screen = await Screen.findOneAndUpdate(
-//       { _id, isDeleted: false },
-//       { $unset: { schedule } }
-//     ).lean();
-//   }
-// };
+export const settings = async (type, _id) => {
+  if (type === SCREEN_SETTINGS.DATA) {
+    const screen = await Screen.findOneAndUpdate(
+      { _id, isDeleted: false },
+      { $unset: { schedule }, $set: { contentPlaying: [] } },
+      { new: 1, lean: 1 }
+    )
+      .populate({ path: "device" })
+      .lean();
+
+    emit(screen.device?.deviceToken, screen.contentPlaying);
+  }
+  if (type === SCREEN_SETTINGS.CACHE) {
+    const { cache } = require;
+    console.log(require, "vgn;ml,;");
+    console.log(cache, "kjhgj");
+  }
+};
