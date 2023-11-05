@@ -184,7 +184,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     await Screen.find({ schedule: schedule._id }),
     "guihihulhujhuhjuhh"
   );
-  const [screens] = await Promise.all([
+  const [previousScreens, data, vendor] = await Promise.all([
     Screen.find({ schedule: schedule._id }).lean(),
     Screen.updateMany(
       { schedule: schedule._id },
@@ -202,9 +202,9 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     ),
   ]);
 
-  console.log(screens, "gvhbnjkl");
+  console.log(previousScreens, "gvhbnjkl");
 
-  const updatedScreens = await Screen.find({ _id: { $in: screens } })
+  const updatedScreens = await Screen.find({ _id: { $in: previousScreens } })
     .populate({ path: "device" })
     .lean();
 
