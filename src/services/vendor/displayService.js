@@ -693,7 +693,7 @@ export const settings = async (type, _id) => {
   if (type === SCREEN_SETTINGS.DATA) {
     const screen = await Screen.findOneAndUpdate(
       { _id, isDeleted: false },
-      { $unset: { schedule }, $set: { contentPlaying: [] } },
+      { $unset: { schedule: "" }, $set: { contentPlaying: [] } },
       { new: 1, lean: 1 }
     )
       .populate({ path: "device" })
