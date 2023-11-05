@@ -711,7 +711,7 @@ export const settings = async (type, _id) => {
     emit(screen.device?.deviceToken, screen.contentPlaying);
   }
   if (type === SCREEN_SETTINGS.RELOAD) {
-    const screen = await Screen.findOneAndUpdate({ _id, isDeleted: false })
+    const screen = await Screen.findOne({ _id, isDeleted: false })
       .populate({ path: "device" })
       .lean();
 
