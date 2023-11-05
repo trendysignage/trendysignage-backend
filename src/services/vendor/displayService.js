@@ -702,7 +702,7 @@ export const settings = async (type, _id) => {
     emit(screen.device?.deviceToken, screen.contentPlaying);
   }
   if (type === SCREEN_SETTINGS.CACHE) {
-    const { cache } = require;
+    const { cache } = require();
     console.log(require, "vgn;ml,;");
     console.log(cache, "kjhgj");
   }
