@@ -199,6 +199,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
   ]);
 
   for (const screen of screens) {
+    console.log("emitttinggg delete scheduleee");
     emit(screen.device?.deviceToken, screen.contentPlaying);
   }
 };
