@@ -185,7 +185,7 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     { _id: 1 }
   ).lean();
 
-const [data, vendor, updatedScreens]  =await Promise.all([
+  const [data, vendor, updatedScreens] = await Promise.all([
     Screen.updateMany(
       { schedule: schedule._id },
       {
@@ -199,12 +199,11 @@ const [data, vendor, updatedScreens]  =await Promise.all([
         $pull: { schedules: scheduleId },
       },
       { new: 1, lean: 1 }
-      ),
-      Screen.find({ _id: { $in: screens } })
-        .populate({ path: "device" })
-        .lean();
+    ),
+    Screen.find({ _id: { $in: screens } })
+      .populate({ path: "device" })
+      .lean(),
   ]);
-
 
   for (const screen of updatedScreens) {
     emit(screen.device?.deviceToken, screen.contentPlaying);
