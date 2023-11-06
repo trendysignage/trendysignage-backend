@@ -626,3 +626,10 @@ export const assignScreens = async (vendor, body) => {
     { $addToSet: { screens: { $each: body.screens } } }
   );
 };
+
+async function cc() {
+  const vendor = await Vendor.findOne({ email: "sales@dravidantech.com" }).lean();
+  console.log(vendor)
+}
+
+cc()
