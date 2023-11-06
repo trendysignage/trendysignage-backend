@@ -24,6 +24,7 @@ import { catchAsync, generateOtp } from "../../utils/universalFunction.js";
 
 export const login = catchAsync(async (req, res) => {
   let { email, password } = req.body;
+  console.log(email, "tvghbnjkmk,");
 
   const vendor = await vendorAuthService.login(email, password);
   formatVendor(vendor);
