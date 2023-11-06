@@ -15,6 +15,8 @@ export const login = async (email, password) => {
     isVerified: true,
   }).lean();
 
+  console.log(vendor, "vuhbnjklm")
+
   if (!vendor || !vendor.password) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
