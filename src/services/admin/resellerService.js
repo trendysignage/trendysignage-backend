@@ -24,7 +24,9 @@ export const list = async (query) => {
     };
   }
   let [reseller, count] = await Promise.all([
-    Reseller.find(data, {}, paginationOptions(query.page, query.limit)),
+    Reseller.find(data, {}, paginationOptions(query.page, query.limit))
+      .populate({ path: "vendors", select: ["name", "email", "socialId"] })
+      .lean(),
     Reseller.countDocuments({ isDeleted: data.isDeleted }),
   ]);
 

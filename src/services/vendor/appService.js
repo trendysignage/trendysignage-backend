@@ -1,8 +1,11 @@
+import Parser from "rss-parser";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 
 export const createApp = async (vendor, body) => {
+  const parser = new Parser();
+
   const media = {
     title: body.name,
     type: body.type,
@@ -27,6 +30,17 @@ export const createApp = async (vendor, body) => {
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
       STATUS_CODES.ACTION_FAILED
     );
+  }
+
+  if (body.type === "rss-apps") {
+    app.media[app.media.length - 1].appData = JSON.parse(
+      app.media[app.media.length - 1]?.appData
+    );
+    if (app.media[app.media.length - 1].appData.urlLink) {
+      app.media[app.media.length - 1].appData.urlLink = await parser.parseURL(
+        app.media[app.media.length - 1]?.appData?.urlLink
+      );
+    }
   }
 
   return app.media[app.media.length - 1];

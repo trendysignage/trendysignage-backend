@@ -165,6 +165,10 @@ export const list = async (_id, query) => {
         {
           path: "schedules",
         },
+        {
+          path: "reseller",
+          select: ["name", "email"],
+        },
       ],
     },
   ]);
