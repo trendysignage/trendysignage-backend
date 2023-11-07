@@ -63,7 +63,7 @@ const vendorSchema = new mongoose.Schema(
         description: { type: String },
       },
     ],
-    mfa: { type: String },
+    mfa: { type: String, default: null },
     mfaEnabled: { type: Boolean, default: false },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "vendors" },
     userGroups: [{ type: mongoose.Schema.Types.ObjectId }],
