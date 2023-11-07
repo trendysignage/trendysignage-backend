@@ -66,7 +66,7 @@ export const addVendor = async (
       startDate,
       endDate,
     },
-    reseller: reseller._id,
+    reseller: reseller?._id ?? null,
   });
 
   if (!vendor) {
