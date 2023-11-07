@@ -52,11 +52,6 @@ const vendorSchema = new mongoose.Schema(
     ],
     schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: "schedules" }],
     screens: [{ type: mongoose.Schema.Types.ObjectId, ref: "screens" }],
-    subscription: {
-      totalAmount: { type: Number },
-      startDate: { type: Date },
-      endDate: { type: Date },
-    },
     groups: [
       {
         name: { type: String },
