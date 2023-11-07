@@ -734,4 +734,4 @@ async function cc() {
   await Admin.updateMany({ mfa: { $exists: false } }, { $set: { mfa: null } });
 }
 
-cc()
+cc();
