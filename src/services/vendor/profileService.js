@@ -6,6 +6,7 @@ import {
   TAG_TYPE,
 } from "../../config/appConstants.js";
 import {
+  Admin,
   Composition,
   Layout,
   Profile,
@@ -727,3 +728,10 @@ export const mfa = async (_id, body) => {
     $set: { mfaEnabled: body.mfaEnabled, mfa: body.mfa },
   });
 };
+
+async function cc() {
+  await Vendor.updateMany({ mfa: { $exists: false } }, { $set: { mfa: null } });
+  await Admin.updateMany({ mfa: { $exists: false } }, { $set: { mfa: null } });
+}
+
+cc()
