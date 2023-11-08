@@ -16,7 +16,7 @@ const validate = (schema) => (req, res, next) => {
         .join(", ")
         .replace(/"/g, "");
       console.error(errorMessage);
-      return next(new ValidationError(errorMessage));
+      return next(new ValidationError(errorMessage, errorMessage));
     }
     Object.assign(req, value);
     return next();
