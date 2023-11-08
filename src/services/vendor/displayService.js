@@ -725,4 +725,3 @@ export const settings = async (type, _id) => {
     // setTimeout(emitagain, 5000);
   }
 };
-clearTimeout();
