@@ -33,14 +33,13 @@ export const addDevice = async (deviceToken, code, timezone) => {
       screen = await Screen.findOneAndUpdate(
         { _id: device.screen, isDeleted: false },
         {
-          // $pull: {
-          //   contentPlaying: {
-          //     endTime: {
-          //       $lte: new Date(localtime(new Date(), timezone) + "Z"),
-          //     },
-          //   },
-          // },
-          $set: { contentPlaying: [] },
+          $pull: {
+            contentPlaying: {
+              endTime: {
+                $lte: new Date(localtime(new Date(), timezone) + "Z"),
+              },
+            },
+          },
         },
         { new: true, lean: 1 }
       );
@@ -91,6 +90,8 @@ export const addDevice = async (deviceToken, code, timezone) => {
         }
       }
     }
+
+    if (device.isReload) device.content = [];
 
     delete device.vendor;
     return device;
