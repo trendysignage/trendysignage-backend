@@ -722,7 +722,7 @@ export const settings = async (type, _id) => {
     // const emitagain = () => {
     emit(screen.device?.deviceToken, screen.contentPlaying);
     // };
-    clearTimeout();
     // setTimeout(emitagain, 5000);
   }
 };
+clearTimeout();
