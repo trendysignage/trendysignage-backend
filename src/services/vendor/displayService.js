@@ -715,13 +715,13 @@ export const settings = async (type, _id) => {
       .populate({ path: "device" })
       .lean();
 
-    // const contentPlaying = [];
+    const contentPlaying = [];
 
-    // emit(screen.device?.deviceToken, contentPlaying);
+    emit(screen.device?.deviceToken, contentPlaying);
 
-    // const emitagain = () => {
-    emit(screen.device?.deviceToken, screen.contentPlaying);
-    // };
-    // setTimeout(emitagain, 5000);
+    function emitagain() {
+      emit(screen.device?.deviceToken, screen.contentPlaying);
+    }
+    setTimeout(emitagain, 5000);
   }
 };
