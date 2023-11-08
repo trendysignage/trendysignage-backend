@@ -718,6 +718,10 @@ export const settings = async (type, _id) => {
     const contentPlaying = [];
 
     emit(screen.device?.deviceToken, contentPlaying);
-    emit(screen.device?.deviceToken, screen.contentPlaying);
+
+    const emitagain = () =>
+      emit(screen.device?.deviceToken, screen.contentPlaying);
+
+    setTimeout(emitagain, 5000);
   }
 };
