@@ -91,7 +91,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
       }
     }
 
-    if (device.isReload) {
+    if (device.isReload === true) {
       device.content = [];
     }
 
