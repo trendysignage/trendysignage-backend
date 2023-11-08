@@ -715,11 +715,6 @@ export const settings = async (type, _id) => {
       .populate({ path: "device" })
       .lean();
 
-    const device = await Device.findOneAndUpdate(
-      {
-        deviceToken: screen.device.deviceToken,
-      },
-      { $set: { isReload: true } }
-    );
+    emit(screen.device?.deviceToken, screen.contentPlaying);
   }
 };
