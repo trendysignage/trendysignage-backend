@@ -715,6 +715,9 @@ export const settings = async (type, _id) => {
       .populate({ path: "device" })
       .lean();
 
+    const contentPlaying = [];
+
+    emit(screen.device?.deviceToken, contentPlaying);
     emit(screen.device?.deviceToken, screen.contentPlaying);
   }
 };
