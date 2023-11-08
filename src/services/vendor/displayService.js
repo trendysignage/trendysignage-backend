@@ -722,7 +722,7 @@ export const settings = async (type, _id) => {
       { $set: { isReload: true } }
     );
 
-    emit(screen.device?.deviceToken, contentPlaying);
+    emit(screen.device?.deviceToken, screen.contentPlaying);
 
     function emitagain() {
       emit(screen.device?.deviceToken, screen.contentPlaying);
