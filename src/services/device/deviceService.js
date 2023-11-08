@@ -91,6 +91,10 @@ export const addDevice = async (deviceToken, code, timezone) => {
       }
     }
 
+    if (device.isReload) {
+      device.content = [];
+    }
+
     delete device.vendor;
     return device;
   }
