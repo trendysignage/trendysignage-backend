@@ -65,13 +65,18 @@ export const defaultComposition = async (vendorId, body) => {
 
   for (const screen of vendor.screens) {
     if (screen.device) {
-      let defaultComposition = screen.defaultComposition
-        ? screen.defaultComposition
-        : vendor.defaultComposition;
+      let defaultComposition = vendor.defaultComposition;
 
-      const layout = await Layout.findOne({
-        _id: defaultComposition?.media?.layout,
-      }).lean();
+      const [layout] = await Promise.all([
+        Layout.findOne({
+          _id: defaultComposition?.media?.layout,
+        }).lean(),
+        Screen.findOneAndUpdate(
+          { _id: screen._id, isDeleted: false },
+          { $set: { defaultComposition } },
+          { new: 1, lean: 1 }
+        ).lean(),
+      ]);
 
       if (layout) {
         defaultComposition.media.layout = layout;
