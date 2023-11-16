@@ -572,6 +572,8 @@ export const addDefaultComp = async (vendor, body) => {
 
     defaultComposition.media.layout = layout;
 
+    console.log(defaultComposition, "deault from pussssshingggggg");
+
     if (screen.device) {
       emit(screen?.device?.deviceToken, defaultComposition);
       console.log("runinngggg emit");
