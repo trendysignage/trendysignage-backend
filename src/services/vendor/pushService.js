@@ -527,7 +527,9 @@ export const addDefaultComp = async (vendor, body) => {
   const composition = await Composition.findOne({
     _id: body.compositionId,
     isDeleted: false,
-  }).lean();
+  })
+    .populate({ path: "layout" })
+    .lean();
 
   if (!composition) {
     throw new AuthFailedError(
@@ -567,7 +569,7 @@ export const addDefaultComp = async (vendor, body) => {
     }
 
     if (screen.device) {
-      emit(screen?.device?.deviceToken, screen.defaultComposition);
+      emit(screen?.device?.deviceToken, defaultComposition);
       console.log("runinngggg emit");
     }
   }
