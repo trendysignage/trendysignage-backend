@@ -1,4 +1,8 @@
-import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
+import {
+  ERROR_MESSAGES,
+  SCREEN_SETTINGS,
+  STATUS_CODES,
+} from "../../config/appConstants.js";
 import {
   Composition,
   Defaults,
@@ -11,7 +15,7 @@ import {
 import { AuthFailedError } from "../../utils/errors.js";
 import { localtime, utcTime } from "../../utils/formatResponse.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
-import { layoutService } from "../index.js";
+import { displayService, layoutService } from "../index.js";
 import { emit } from "../socketService.js";
 
 export const schedules = async (vendorId, query) => {
@@ -576,6 +580,7 @@ export const addDefaultComp = async (vendor, body) => {
       emit(screen?.device?.deviceToken, defaultComposition);
       console.log("runinngggg emit");
     }
+    displayService.settings(SCREEN_SETTINGS.RELOAD, _id);
   }
 };
 
