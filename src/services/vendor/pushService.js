@@ -2,6 +2,7 @@ import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import {
   Composition,
   Defaults,
+  Layout,
   Quickplay,
   Schedule,
   Screen,
@@ -527,9 +528,7 @@ export const addDefaultComp = async (vendor, body) => {
   const composition = await Composition.findOne({
     _id: body.compositionId,
     isDeleted: false,
-  })
-    .populate({ path: "layout" })
-    .lean();
+  }).lean();
 
   if (!composition) {
     throw new AuthFailedError(
@@ -538,11 +537,11 @@ export const addDefaultComp = async (vendor, body) => {
     );
   }
 
-  const defaultComp = await Defaults.create({
-    vendor,
-    composition: composition._id,
-    screens: body.screens,
-  });
+  // const defaultComp = await Defaults.create({
+  //   vendor,
+  //   composition: composition._id,
+  //   screens: body.screens,
+  // });
 
   for (const _id of body.screens) {
     const defaultComposition = {
@@ -553,13 +552,16 @@ export const addDefaultComp = async (vendor, body) => {
 
     defaultComposition.media.isDefault = true;
 
-    const screen = await Screen.findOneAndUpdate(
-      { _id, isDeleted: false },
-      { $set: { defaultComposition } },
-      { new: 1 }
-    )
-      .populate({ path: "device" })
-      .lean();
+    const [screen, layout] = await Promise.all([
+      Screen.findOneAndUpdate(
+        { _id, isDeleted: false },
+        { $set: { defaultComposition } },
+        { new: 1 }
+      )
+        .populate({ path: "device" })
+        .lean(),
+      Layout.findOne({ _id: defaultComposition.media.layout }).lean(),
+    ]);
 
     if (!screen) {
       throw new AuthFailedError(
@@ -567,6 +569,8 @@ export const addDefaultComp = async (vendor, body) => {
         STATUS_CODES.ACTION_FAILED
       );
     }
+
+    defaultComposition.media.layout = layout;
 
     if (screen.device) {
       emit(screen?.device?.deviceToken, defaultComposition);
