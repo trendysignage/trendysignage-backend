@@ -82,7 +82,8 @@ export const defaultComposition = async (vendorId, body) => {
     }
     if (screenData.device) {
       screenData.defaultComposition.isDefault = true;
-      emit(screen.device?.deviceToken, screenData.defaultComposition);
+      console.log(screenData.defaultComposition);
+      emit(screenData.device?.deviceToken, screenData.defaultComposition);
     }
   }
 };
