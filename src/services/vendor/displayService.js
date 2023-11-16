@@ -280,7 +280,8 @@ export const changeDefaultComposition = async (vendorId, body) => {
       _id: body.screenId,
       isDeleted: false,
     },
-    { $set: { defaultComposition } }
+    { $set: { defaultComposition } },
+    { new: 1 }
   )
     .lean()
     .populate({ path: "device" });
