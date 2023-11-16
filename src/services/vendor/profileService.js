@@ -37,24 +37,29 @@ export const defaultComposition = async (vendorId, body) => {
     type: "composition",
   };
 
-  const vendor = await Vendor.findByIdAndUpdate(
-    vendorId,
-    { $set: { defaultComposition } },
-    { new: true, lean: 1 }
-  )
-    .lean()
-    .populate([
-      {
-        path: "screens",
-        populate: [
-          { path: "device" },
-          { path: "defaultComposition.media.layout" },
-        ],
-      },
-      {
-        path: "defaultComposition.media.layout",
-      },
-    ]);
+  const [vendor, screens] = await Promise.all([
+    Vendor.findByIdAndUpdate(
+      vendorId,
+      { $set: { defaultComposition } },
+      { new: true, lean: 1 }
+    )
+      .lean()
+      .populate([
+        {
+          path: "screens",
+          populate: [
+            { path: "device" },
+            { path: "defaultComposition.media.layout" },
+          ],
+        },
+        {
+          path: "defaultComposition.media.layout",
+        },
+      ]),
+    Screen.find({ vendor: vendorId, isDeleted: false })
+      .populate({ path: "device" })
+      .lean(),
+  ]);
 
   if (!vendor) {
     throw new AuthFailedError(
@@ -63,9 +68,7 @@ export const defaultComposition = async (vendorId, body) => {
     );
   }
 
-  for (const screen of vendor.screens) {
-    let defaultComposition = vendor.defaultComposition;
-
+  for (const screen of screens) {
     const [layout, screenData] = await Promise.all([
       Layout.findOne({
         _id: defaultComposition?.media?.layout,
