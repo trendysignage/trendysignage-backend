@@ -554,7 +554,7 @@ export const addDefaultComp = async (vendor, body) => {
     const screen = await Screen.findOneAndUpdate(
       { _id, isDeleted: false },
       { $set: { defaultComposition } },
-      { new: 1, lean: 1 }
+      { new: 1 }
     )
       .populate({ path: "device" })
       .lean();
@@ -567,7 +567,7 @@ export const addDefaultComp = async (vendor, body) => {
     }
 
     if (screen.device) {
-      emit(screen?.device?.deviceToken, screen.contentPlaying);
+      await emit(screen?.device?.deviceToken, screen.contentPlaying);
       console.log("runinngggg emit");
     }
   }

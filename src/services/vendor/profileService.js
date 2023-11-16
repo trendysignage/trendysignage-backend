@@ -82,7 +82,7 @@ export const defaultComposition = async (vendorId, body) => {
         defaultComposition.media.layout = layout;
       }
 
-      vendor.defaultComposition.isDefault = true;
+      screenData.defaultComposition.isDefault = true;
       emit(screen.device?.deviceToken, screenData.defaultComposition);
     }
   }
