@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import {
   ERROR_MESSAGES,
   ROLE,
+  SCREEN_SETTINGS,
   STATUS_CODES,
   TAG_TYPE,
 } from "../../config/appConstants.js";
@@ -16,6 +17,7 @@ import {
 } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
 import { paginationOptions } from "../../utils/universalFunction.js";
+import { displayService } from "../index.js";
 import { emit } from "../socketService.js";
 
 export const defaultComposition = async (vendorId, body) => {
@@ -87,6 +89,8 @@ export const defaultComposition = async (vendorId, body) => {
       screenData.defaultComposition.isDefault = true;
       emit(screenData.device?.deviceToken, screenData.defaultComposition);
     }
+
+    displayService.settings(SCREEN_SETTINGS.RELOAD, screen._id);
   }
 };
 
