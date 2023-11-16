@@ -79,7 +79,7 @@ export const defaultComposition = async (vendorId, body) => {
       ]);
 
       if (layout) {
-        defaultComposition.media.layout = layout;
+        screenData.defaultComposition.media.layout = layout;
       }
 
       screenData.defaultComposition.isDefault = true;
