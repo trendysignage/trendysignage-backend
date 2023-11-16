@@ -64,24 +64,23 @@ export const defaultComposition = async (vendorId, body) => {
   }
 
   for (const screen of vendor.screens) {
-    if (screen.device) {
-      let defaultComposition = vendor.defaultComposition;
+    let defaultComposition = vendor.defaultComposition;
 
-      const [layout, screenData] = await Promise.all([
-        Layout.findOne({
-          _id: defaultComposition?.media?.layout,
-        }).lean(),
-        Screen.findOneAndUpdate(
-          { _id: screen._id, isDeleted: false },
-          { $set: { defaultComposition } },
-          { new: 1, lean: 1 }
-        ),
-      ]);
+    const [layout, screenData] = await Promise.all([
+      Layout.findOne({
+        _id: defaultComposition?.media?.layout,
+      }).lean(),
+      Screen.findOneAndUpdate(
+        { _id: screen._id, isDeleted: false },
+        { $set: { defaultComposition } },
+        { new: 1, lean: 1 }
+      ).populate({ path: "device" }),
+    ]);
 
-      if (layout) {
-        screenData.defaultComposition.media.layout = layout;
-      }
-
+    if (layout) {
+      screenData.defaultComposition.media.layout = layout;
+    }
+    if (screenData.device) {
       screenData.defaultComposition.isDefault = true;
       emit(screen.device?.deviceToken, screenData.defaultComposition);
     }
