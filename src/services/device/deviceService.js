@@ -177,39 +177,39 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
   return device;
 };
 
-export const addDev = async (deviceToken, code, timezone) => {
-  let screen;
+// export const addDev = async (deviceToken, code, timezone) => {
+//   let screen;
 
-  let device = await Device.findOneAndUpdate(
-    {
-      deviceToken: deviceToken,
-      isDeleted: false,
-    },
-    { $set: { isReload: false } }
-  ).lean();
+//   let device = await Device.findOneAndUpdate(
+//     {
+//       deviceToken: deviceToken,
+//       isDeleted: false,
+//     },
+//     { $set: { isReload: false } }
+//   ).lean();
 
-  if (!device) {
-    device = await Device.create({
-      deviceToken: deviceToken,
-      deviceCode: code,
-    });
-  } else {
-    if (device.screen) {
-      // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });y
-      screen = await Screen.findOneAndUpdate(
-        { _id: device.screen, isDeleted: false },
-        { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
-        { new: true, lean: 1 }
-      );
+//   if (!device) {
+//     device = await Device.create({
+//       deviceToken: deviceToken,
+//       deviceCode: code,
+//     });
+//   } else {
+//     if (device.screen) {
+//       // screen = await Screen.findOne({ _id: device.screen, isDeleted: false });y
+//       screen = await Screen.findOneAndUpdate(
+//         { _id: device.screen, isDeleted: false },
+//         { $pull: { contentPlaying: { endTime: { $lt: new Date() } } } },
+//         { new: true, lean: 1 }
+//       );
 
-      if (!screen) {
-        throw new AuthFailedError(
-          ERROR_MESSAGES.SCREEN_NOT_FOUND,
-          STATUS_CODES.ACTION_FAILED
-        );
-      }
-    }
-    device.content = screen?.contentPlaying ?? [];
-  }
-  return device;
-};
+//       if (!screen) {
+//         throw new AuthFailedError(
+//           ERROR_MESSAGES.SCREEN_NOT_FOUND,
+//           STATUS_CODES.ACTION_FAILED
+//         );
+//       }
+//     }
+//     device.content = screen?.contentPlaying ?? [];
+//   }
+//   return device;
+// };
