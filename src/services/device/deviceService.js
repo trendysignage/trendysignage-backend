@@ -162,11 +162,10 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
           for (const s of zone?.content) {
             if (s?.type === "rss-apps") {
               s.rssData = JSON.parse(s?.data);
-              if (s.data.urlLink) {
-                s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+              if (s.rssData.urlLink) {
+                s.rssData.urlLink = await parser.parseURL(s?.data?.urlLink);
               }
             }
-            delete s?.data;
           }
         }
       }
