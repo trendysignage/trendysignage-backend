@@ -161,11 +161,12 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
         for (const zone of content?.media?.zones) {
           for (const s of zone?.content) {
             if (s?.type === "rss-apps") {
-              s.data = JSON.parse(s?.data);
+              s.rssData = JSON.parse(s?.data);
               if (s.data.urlLink) {
                 s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
               }
             }
+            delete s?.data;
           }
         }
       }
