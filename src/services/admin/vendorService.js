@@ -2,7 +2,10 @@ import bcrypt from "bcryptjs";
 import { ERROR_MESSAGES, STATUS_CODES } from "../../config/appConstants.js";
 import { Admin, Composition, Reseller, Vendor } from "../../models/index.js";
 import { AuthFailedError } from "../../utils/errors.js";
-import { generateId } from "../../utils/universalFunction.js";
+import {
+  generateId,
+  paginationOptions,
+} from "../../utils/universalFunction.js";
 import { escapeRegex } from "../../validations/custom.validation.js";
 
 export const getVendor = async (_id) => {
@@ -154,10 +157,10 @@ export const list = async (_id, query) => {
       ],
     };
   }
-  const admin = await Admin.findOne({ _id }, { vendors: 1 }).populate([
-    {
-      path: "vendors",
-      populate: [
+
+  const [vendors, count] = await Promise.all([
+    Vendor.find(data, {}, paginationOptions(query.page, query.limit))
+      .populate([
         {
           path: "screens",
           populate: [{ path: "schedule" }, { path: "device" }],
@@ -169,13 +172,10 @@ export const list = async (_id, query) => {
           path: "reseller",
           select: ["name", "email"],
         },
-      ],
-    },
+      ])
+      .lean(),
+    Vendor.countDocuments(data),
   ]);
 
-  const count = admin.vendors.length;
-
-  admin.vendors = admin.vendors.slice(query.page * query.limit, query.limit);
-
-  return { vendors: admin.vendors, count };
+  return { vendors, count };
 };
