@@ -179,13 +179,3 @@ export const list = async (_id, query) => {
 
   return { vendors, count };
 };
-
-async function cc() {
-  await Vendor.updateOne(
-    { email: "demo@example.com" },
-    { $set: { totalScreens: 10 } }
-  ).lean();
-}
-
-
-cc()
