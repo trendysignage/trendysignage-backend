@@ -38,6 +38,8 @@ export const getLogs = async (vendorId, query, timezone) => {
     };
   }
 
+console.log(startDate, endDate, "dataeeees")
+
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
     data = { ...data, title: { $regex: searchReg } };
