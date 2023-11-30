@@ -59,6 +59,11 @@ export const getScreens = async (query, vendorId) => {
   let data = { vendor: vendorId, isDeleted: false };
   let options = {};
 
+  const subVendor = await Vendor.findById(vendorId, { vendor: 1 }).lean();
+
+  if (subVendor.vendor) {
+    data.vendor = subVendor.vendor;
+  }
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
     data = { ...data, name: { $regex: searchReg } };
