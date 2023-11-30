@@ -133,8 +133,17 @@ export const addScreen = async (vendorId, body) => {
       defaultComposition: 1,
       screens: 1,
       totalScreens: 1,
+      roles: 1,
+      role: 1,
+      vendor: 1,
     }).lean(),
   ]);
+  if (!vendor.roles[vendor.role]["SCREEN"].add) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
   if (!device) {
     throw new AuthFailedError(
       ERROR_MESSAGES.WRONG_DEVICE_CODE,
@@ -148,12 +157,12 @@ export const addScreen = async (vendorId, body) => {
     );
   }
   const { mac, privateIp, publicIp, deviceOS } = await netInterface();
-  const screen = await Screen.create({
+
+  let data = {
     name: body.name,
     screenLocation: body.screenLocation,
     googleLocation: body.googleLocation,
     tags: body.tags,
-    // defaultComposition: vendor.defaultComposition,
     deviceCode: body.code,
     vendor: vendorId,
     device: device._id,
@@ -164,15 +173,18 @@ export const addScreen = async (vendorId, body) => {
       deviceOS,
     },
     isConnected: true,
-  });
+  };
+  if (vendor.vendor) data.vendor = vendor.vendor;
+
+  const screen = await Screen.create(data);
   [device, vendor] = await Promise.all([
     Device.findOneAndUpdate(
       { deviceCode: body.code, isDeleted: false },
-      { $set: { isVerified: true, screen: screen._id, vendor: vendorId } },
+      { $set: { isVerified: true, screen: screen._id, vendor: data.vendor } },
       { new: true, lean: true }
     ),
     Vendor.findOneAndUpdate(
-      { _id: vendorId, isDeleted: false },
+      { _id: data.vendor, isDeleted: false },
       { $addToSet: { screens: screen._id } },
       { new: true, lean: 1 }
     ),
@@ -190,7 +202,7 @@ export const editScreen = async (vendorId, body) => {
     );
   }
 
-  let data = {
+  const data = {
     name: body.name,
     screenLocation: body.screenLocation,
     googleLocation: body.googleLocation,
