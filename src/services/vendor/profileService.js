@@ -264,7 +264,9 @@ export const getUsers = async (vendor) => {
     vendor,
     isDeleted: false,
     isVerified: true,
-  }).lean();
+  })
+    .sort({ createdAt: -1 })
+    .lean();
 
   return users;
 };
