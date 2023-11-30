@@ -182,6 +182,14 @@ export const addScreen = async (vendorId, body) => {
 };
 
 export const editScreen = async (vendorId, body) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor.roles[vendor.role]["SCREEN"].edit) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
   let data = {
     name: body.name,
     screenLocation: body.screenLocation,
@@ -192,7 +200,7 @@ export const editScreen = async (vendorId, body) => {
   const screen = await Screen.findOneAndUpdate(
     {
       _id: body.screenId,
-      vendor: vendorId,
+      $or: [{ vendor: vendor.vendor }, { vendor: vendorId }],
       isDeleted: false,
     },
     { $set: data },
@@ -208,9 +216,6 @@ export const editScreen = async (vendorId, body) => {
 
 export const deleteScreen = async (vendorId, screenId) => {
   const vendor = await Vendor.findById(vendorId).lean();
-
-  console.log(vendor.roles[vendor.role]["SCREEN"], "roleeeee");
-
   if (!vendor.roles[vendor.role]["SCREEN"].delete) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
