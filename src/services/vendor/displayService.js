@@ -340,8 +340,8 @@ export const getMedia = async (query, vendorId) => {
   if (!query.type) {
     let data = { _id: vendorId, isDeleted: false };
     let projection = { media: 1 };
+    if (subvendor.vendor) data._id = subvendor.vendor;
 
-    if (subvendor.vendor) data._id = vendor.vendor;
     if (query.search) {
       let searchReg = RegExp(query.search, "i");
       data = { ...data, "media.title": { $regex: searchReg } };
