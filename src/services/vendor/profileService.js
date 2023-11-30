@@ -755,6 +755,8 @@ export const mfa = async (_id, body) => {
 async function cc() {
   const vendors = await Vendor.find({ vendor: { $exists: true } }).lean();
 
+  console.log(vendors, "fygjkl;'")
+
   for (const vendor of vendors) {
     const ven = await Vendor.findOne({ _id: vendor.vendor }).lean();
     await Vendor.updateOne(
