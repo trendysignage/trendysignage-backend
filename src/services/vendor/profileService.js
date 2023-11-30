@@ -289,6 +289,8 @@ export const addUser = async (vendorId, body) => {
     );
   }
 
+  const vendor = await Vendor.findById(vendorId).lean();
+
   const password = await bcrypt.hash(body.password, 8);
 
   const user = await Vendor.create({
@@ -300,6 +302,8 @@ export const addUser = async (vendorId, body) => {
     vendor: vendorId,
     isVerified: true,
     isEnabled: true,
+    totalScreens: vendor.totalScreens,
+    subscription: vendor.subscription,
   });
 
   return user.toObject();
