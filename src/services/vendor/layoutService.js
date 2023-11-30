@@ -85,8 +85,11 @@ export const deleteLayout = async (vendorId, layoutId) => {
 };
 
 export const getCompositions = async (vendorId, query) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
   let data = { createdBy: vendorId, isDeleted: false };
   let options = {};
+
+  if (subvendor.vendor) data.createdBy = subvendor.vendor;
 
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
