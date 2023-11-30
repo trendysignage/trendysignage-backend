@@ -40,6 +40,9 @@ export const deviceCode = async (vendorId, code) => {
     screens: 1,
     totalScreens: 1,
   }).lean();
+
+  console.log(vendor, "vguhbnjkml;,")
+
   if (vendor.screens && vendor.screens?.length >= vendor.totalScreens) {
     throw new AuthFailedError(
       ERROR_MESSAGES.REACHED_SCREEN_LIMIT,
