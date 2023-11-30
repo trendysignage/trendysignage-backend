@@ -726,9 +726,11 @@ export const getVendorRole = async (_id) => {
         edit: true,
         delete: true,
       },
+      role: vendor.role,
     };
   } else {
     vendor.permission = vendor.roles[vendor.role];
+    vendor.permission.role = vendor.role;
   }
 
   delete vendor.roles;
