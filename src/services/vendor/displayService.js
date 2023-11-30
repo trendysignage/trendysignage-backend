@@ -39,11 +39,17 @@ export const deviceCode = async (vendorId, code) => {
     defaultComposition: 1,
     screens: 1,
     totalScreens: 1,
+    vendor: 1,
   }).lean();
 
-  console.log(vendor, "vguhbnjkml;,")
+  if (vendor.vendor) vendorId = vendor.vendor;
 
-  if (vendor.screens && vendor.screens?.length >= vendor.totalScreens) {
+  const screens = await Screen.countDocuments({
+    vendor: vendorId,
+    isDeleted: false,
+  });
+
+  if (screens && screens?.length >= vendor.totalScreens) {
     throw new AuthFailedError(
       ERROR_MESSAGES.REACHED_SCREEN_LIMIT,
       STATUS_CODES.ACTION_FAILED
