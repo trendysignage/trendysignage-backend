@@ -129,6 +129,14 @@ export const getComposition = async (compositionId) => {
 };
 
 export const addComposition = async (vendorId, body) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor.roles[vendor.role]["COMPOSITION"].add) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
   const data = {
     name: body.name,
     layout: body.layoutId,
@@ -138,6 +146,8 @@ export const addComposition = async (vendorId, body) => {
     referenceUrl: body.referenceUrl,
     tags: body.tags,
   };
+  if (vendor.vendor) data.createdBy = vendor.vendor;
+
   const composition = await Composition.create(data);
   if (!composition) {
     throw new AuthFailedError(
@@ -145,8 +155,9 @@ export const addComposition = async (vendorId, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+
   await Vendor.updateOne(
-    { _id: vendorId },
+    { _id: data.createdBy },
     { $addToSet: { compositions: composition._id } },
     { new: 1, lean: 1 }
   );
@@ -160,6 +171,16 @@ export const editComposition = async (vendorId, body, timezone) => {
     duration: body.duration,
     referenceUrl: body.referenceUrl,
   };
+
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor.roles[vendor.role]["COMPOSITION"].edit) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
+  if (vendor.vendor) data.createdBy = vendor.vendor;
 
   const composition = await Composition.findOneAndUpdate(
     {
@@ -181,6 +202,14 @@ export const editComposition = async (vendorId, body, timezone) => {
 };
 
 export const deleteComposition = async (vendorId, compositionId) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor.roles[vendor.role]["SCREEN"].delete) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
   const composition = await Composition.findOneAndUpdate(
     { _id: compositionId, isDeleted: false },
     { $set: { isDeleted: true } },
@@ -193,7 +222,7 @@ export const deleteComposition = async (vendorId, compositionId) => {
     );
   }
   await Vendor.updateOne(
-    { _id: vendorId },
+    { compositions: { $in: [composition._id] } },
     { $pull: { compositions: composition._id } },
     { new: 1, lean: 1 }
   );
