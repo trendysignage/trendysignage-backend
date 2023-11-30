@@ -7,6 +7,7 @@ const validate = (schema) => (req, res, next) => {
   try {
     const validSchema = pick(schema, ["params", "query", "body"]);
     const object = pick(req, Object.keys(validSchema));
+    console.log(object, "objecttt of validate")
     const { value, error } = Joi.compile(validSchema)
       .prefs({ errors: { label: "key" } })
       .validate(object);
