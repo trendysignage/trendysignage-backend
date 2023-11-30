@@ -212,14 +212,14 @@ export const uptimeReport = async (vendorId, query) => {
 
 // used in vendor and superAdmin
 export const mediaReport = async (vendorId, query) => {
-  const vendor = await Vendor.findById(vendorId).lean();
+  const subvendor = await Vendor.findById(vendorId).lean();
 
   let data = {
     isDeleted: false,
     _id: vendorId,
   };
 
-  if (vendor.vendor) data.vendor = vendor.vendor;
+  if (subvendor.vendor) data.vendor = subvendor.vendor;
 
   if (query.startDate && query.endDate) {
     data = {
