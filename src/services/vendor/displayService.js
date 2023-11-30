@@ -207,6 +207,12 @@ export const editScreen = async (vendorId, body) => {
 };
 
 export const deleteScreen = async (vendorId, screenId) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+
+  console.log(vendor.roles[vendor.role], "roleeeee");
+
+  if (vendor.roles[vendor.role]["SCREEN"].delete) {
+  }
   const screen = await Screen.findOneAndUpdate(
     {
       _id: screenId,
