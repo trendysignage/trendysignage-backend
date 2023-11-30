@@ -19,16 +19,21 @@ import { displayService, layoutService } from "../index.js";
 import { emit } from "../socketService.js";
 
 export const schedules = async (vendorId, query) => {
-  const defaultComp = await Composition.findOne({
-    name: "Default Composition",
-    isDefault: true,
-  }).lean();
+  const [defaultComp, vendor] = await Promise.all([
+    Composition.findOne({
+      name: "Default Composition",
+      isDefault: true,
+    }).lean(),
+    Vendor.findById(vendorId).lean(),
+  ]);
 
   let data = {
     createdBy: vendorId,
     isDeleted: false,
     sequence: { $ne: [] },
   };
+
+  if (vendor.vendor) data.createdBy = vendor.vendor;
 
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
