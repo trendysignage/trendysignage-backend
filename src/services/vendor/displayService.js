@@ -335,10 +335,13 @@ export const changeDefaultComposition = async (vendorId, body) => {
 };
 
 export const getMedia = async (query, vendorId) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
   let vendor;
   if (!query.type) {
     let data = { _id: vendorId, isDeleted: false };
     let projection = { media: 1 };
+
+    if (subvendor.vendor) data._id = vendor.vendor;
     if (query.search) {
       let searchReg = RegExp(query.search, "i");
       data = { ...data, "media.title": { $regex: searchReg } };
@@ -378,6 +381,7 @@ export const getMedia = async (query, vendorId) => {
       );
   } else {
     let data = { _id: vendorId, isDeleted: false };
+    if (subvendor.vendor) data._id = subvendor.vendor;
 
     vendor = await Vendor.findOne(data)
       .lean()
