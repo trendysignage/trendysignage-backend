@@ -751,3 +751,24 @@ export const mfa = async (_id, body) => {
     $set: { mfaEnabled: body.mfaEnabled, mfa: body.mfa },
   });
 };
+
+async function cc() {
+  const vendors = await Vendor.find({ vendor: { $exists: true } }).lean();
+
+  for (const vendor of vendors) {
+    const ven = await Vendor.findOne({ _id: vendor.vendor }).lean();
+    await Vendor.updateOne(
+      { _id: vendor._id },
+      {
+        $set: {
+          totalScreens: ven.totalScreens,
+          subscription: ven.subscription,
+        },
+      }
+    );
+  }
+
+  console.log("-----completeee-----");
+}
+
+cc()
