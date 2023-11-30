@@ -639,11 +639,21 @@ export const editDefaultComposition = async (vendor, body) => {
   }
 };
 
-export const assignScreens = async (vendor, body) => {
-  const schedule = await Schedule.findOne({
-    _id: body.scheduleId,
-    isDeleted: false,
-  }).lean();
+export const assignScreens = async (vendorId, body) => {
+  const [schedule, vendor] = await Promise.all([
+    Schedule.findOne({
+      _id: body.scheduleId,
+      isDeleted: false,
+    }).lean(),
+    Vendor.findById(vendorId).lean(),
+  ]);
+
+  if (!vendor.roles[vendor.role]["SCHEDULE"].edit) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
 
   if (!schedule) {
     throw new AuthFailedError(
@@ -651,8 +661,6 @@ export const assignScreens = async (vendor, body) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
-
-  console.log(schedule, "wekfnjwnfjn");
 
   for (const _id of body.screens) {
     const screen = await Screen.findOneAndUpdate(
