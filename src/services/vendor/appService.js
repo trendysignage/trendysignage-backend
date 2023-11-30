@@ -6,6 +6,14 @@ import { AuthFailedError } from "../../utils/errors.js";
 export const createApp = async (vendor, body) => {
   const parser = new Parser();
 
+  const subvendor = await Vendor.findById(vendor).lean();
+  if (!subvendor.roles[subvendor.role]["APPS"].add) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
   const media = {
     title: body.name,
     type: body.type,
@@ -15,12 +23,14 @@ export const createApp = async (vendor, body) => {
     updatedAt: new Date(),
   };
 
+  if (subvendor.vendor) media.createdBy = subvendor.vendor;
+
   if (body.type === "youtube-apps") {
     media.duration = 0;
   }
 
   const app = await Vendor.findOneAndUpdate(
-    { _id: vendor },
+    { _id: media.createdBy },
     { $addToSet: { media } },
     { new: 1, lean: 1 }
   );
