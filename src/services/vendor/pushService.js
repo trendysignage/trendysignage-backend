@@ -94,11 +94,21 @@ export const getSchedule = async (scheduleId) => {
 };
 
 export const addSchedule = async (vendorId, body) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor.roles[vendor.role]["SCHEDULE"].add) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
   let data = {
     name: body.name,
     screens: body.screens,
     createdBy: vendorId,
   };
+  if (vendor) data.createdBy = vendor.vendor;
+
   const schedule = await Schedule.create(data);
   if (!schedule) {
     throw new AuthFailedError(
@@ -125,7 +135,7 @@ export const addSchedule = async (vendorId, body) => {
     }
   }
   await Vendor.findByIdAndUpdate(
-    vendorId,
+    data.createdBy,
     { $addToSet: { schedules: schedule._id } },
     { new: 1, lean: 1 }
   );
@@ -133,10 +143,17 @@ export const addSchedule = async (vendorId, body) => {
 };
 
 export const editSchedule = async (vendorId, body) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+  if (!vendor.roles[vendor.role]["SCHEDULE"].edit) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
   const schedule = await Schedule.findOneAndUpdate(
     {
       _id: body.scheduleId,
-      createdBy: vendorId,
       isDeleted: false,
     },
     {
@@ -174,6 +191,14 @@ export const editSchedule = async (vendorId, body) => {
 };
 
 export const deleteSchedule = async (vendorId, scheduleId) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (!subvendor.roles[subvendor.role]["SCHEDULE"].delete) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
+  }
+
   const schedule = await Schedule.findOneAndUpdate(
     {
       _id: scheduleId,
@@ -213,11 +238,17 @@ export const deleteSchedule = async (vendorId, scheduleId) => {
     Screen.find({ _id: { $in: screens } })
       .populate({ path: "device" })
       .lean(),
+    Vendor.findByIdAndUpdate(
+      subvendor.vendor,
+      {
+        $pull: { schedules: scheduleId },
+      },
+      { new: 1, lean: 1 }
+    ),
   ]);
 
-  for (const screen of updatedScreens) {
+  for (const screen of updatedScreens)
     emit(screen.device?.deviceToken, screen.contentPlaying);
-  }
 };
 
 export const sequenceList = async (vendorId, _id) => {
