@@ -159,10 +159,13 @@ export const editRole = async (vendorId, body) => {
 
 // used in vendor and superAdmin
 export const uptimeReport = async (vendorId, query) => {
+  const vendor = await Vendor.findById(vendorId).lean();
   let data = {
     isDeleted: false,
     vendor: vendorId,
   };
+
+  if (vendor.vendor) data.vendor = vendor.vendor;
 
   if (query.startDate && query.endDate) {
     data = {
@@ -196,8 +199,6 @@ export const uptimeReport = async (vendorId, query) => {
     paginationOptions(query.page, query.limit)
   );
 
-  console.log(reports, "kjfnbrth");
-
   if (query.startDate && query.endDate) {
     reports?.map((report) => {
       report.uptimeReport = report?.uptimeReport?.filter(
@@ -211,10 +212,14 @@ export const uptimeReport = async (vendorId, query) => {
 
 // used in vendor and superAdmin
 export const mediaReport = async (vendorId, query) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+
   let data = {
     isDeleted: false,
     _id: vendorId,
   };
+
+  if (vendor.vendor) data.vendor = vendor.vendor;
 
   if (query.startDate && query.endDate) {
     data = {

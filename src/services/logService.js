@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES, STATUS_CODES } from "../config/appConstants.js";
-import { Logs } from "../models/index.js";
+import { Logs, Vendor } from "../models/index.js";
 import { AuthFailedError } from "../utils/errors.js";
 import { localtime, utcTime } from "../utils/formatResponse.js";
 import { paginationOptions } from "../utils/universalFunction.js";
@@ -24,10 +24,13 @@ export const createLog = async (vendorId, title, timezone) => {
 
 // used in vendor and superAdmin
 export const getLogs = async (vendorId, query, timezone) => {
+  const vendor = await Vendor.findById(vendorId).lean();
   let data = {
     vendor: vendorId,
     isDeleted: false,
   };
+
+  if (vendor.vendor) data.vendor = vendor.vendor;
 
   if (query.startDate && query.endDate) {
     const startDate = utcTime(query.startDate, timezone);
