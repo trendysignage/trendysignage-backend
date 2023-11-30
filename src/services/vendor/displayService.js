@@ -211,12 +211,17 @@ export const deleteScreen = async (vendorId, screenId) => {
 
   console.log(vendor.roles[vendor.role]["SCREEN"], "roleeeee");
 
-  if (vendor.roles[vendor.role]["SCREEN"].delete) {
+  if (!vendor.roles[vendor.role]["SCREEN"].delete) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.PERMISSION_DENIED,
+      STATUS_CODES.FORBIDDEN
+    );
   }
+
   const screen = await Screen.findOneAndUpdate(
     {
       _id: screenId,
-      vendor: vendorId,
+      $or: [{ vendor: vendorId }, { vendor: vendor.vendor }],
       isDeleted: false,
     },
     {
@@ -240,6 +245,9 @@ export const deleteScreen = async (vendorId, screenId) => {
       { new: true, lean: 1 }
     ),
     Vendor.findByIdAndUpdate(vendorId, {
+      $pull: { screens: screen._id },
+    }),
+    Vendor.findByIdAndUpdate(vendor.vendor, {
       $pull: { screens: screen._id },
     }),
   ]);

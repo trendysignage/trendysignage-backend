@@ -174,6 +174,7 @@ const SUCCESS_MESSAGES = {
 
 const ERROR_MESSAGES = {
   NOT_FOUND: "Not found",
+  PERMISSION_DENIED: "You don't have permission to perform this action!",
   VALIDATION_FAILED: "Validation Failed, Kindly check your parameters",
   SERVER_ERROR: "Something went wrong, Please try again.",
   AUTHENTICATION_FAILED: "Please authenticate",
