@@ -95,7 +95,7 @@ export const getSchedule = async (scheduleId) => {
 
 export const addSchedule = async (vendorId, body) => {
   const vendor = await Vendor.findById(vendorId).lean();
-  if (!vendor.roles[vendor.role]["SCHEDULE"].add) {
+  if (vendor.role !== "ADMIN" && !vendor.roles[vendor.role]["SCHEDULE"].add) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN
@@ -144,7 +144,7 @@ export const addSchedule = async (vendorId, body) => {
 
 export const editSchedule = async (vendorId, body) => {
   const vendor = await Vendor.findById(vendorId).lean();
-  if (!vendor.roles[vendor.role]["SCHEDULE"].edit) {
+  if (vendor.role !== "ADMIN" && !vendor.roles[vendor.role]["SCHEDULE"].edit) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN
@@ -648,7 +648,7 @@ export const assignScreens = async (vendorId, body) => {
     Vendor.findById(vendorId).lean(),
   ]);
 
-  if (!vendor.roles[vendor.role]["SCHEDULE"].edit) {
+  if (vendor.role !== "ADMIN" && !vendor.roles[vendor.role]["SCHEDULE"].edit) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN

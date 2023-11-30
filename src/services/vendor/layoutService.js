@@ -130,7 +130,10 @@ export const getComposition = async (compositionId) => {
 
 export const addComposition = async (vendorId, body) => {
   const vendor = await Vendor.findById(vendorId).lean();
-  if (!vendor.roles[vendor.role]["COMPOSITION"].add) {
+  if (
+    vendor.role !== "ADMIN" &&
+    !vendor.roles[vendor.role]["COMPOSITION"].add
+  ) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN
@@ -173,7 +176,10 @@ export const editComposition = async (vendorId, body, timezone) => {
   };
 
   const vendor = await Vendor.findById(vendorId).lean();
-  if (!vendor.roles[vendor.role]["COMPOSITION"].edit) {
+  if (
+    vendor.role !== "ADMIN" &&
+    !vendor.roles[vendor.role]["COMPOSITION"].edit
+  ) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN
@@ -203,7 +209,7 @@ export const editComposition = async (vendorId, body, timezone) => {
 
 export const deleteComposition = async (vendorId, compositionId) => {
   const vendor = await Vendor.findById(vendorId).lean();
-  if (!vendor.roles[vendor.role]["SCREEN"].delete) {
+  if (vendor.role !== "ADMIN" && !vendor.roles[vendor.role]["SCREEN"].delete) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN
