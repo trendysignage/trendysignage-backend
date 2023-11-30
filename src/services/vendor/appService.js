@@ -7,7 +7,10 @@ export const createApp = async (vendor, body) => {
   const parser = new Parser();
 
   const subvendor = await Vendor.findById(vendor).lean();
-  if (!subvendor.roles[subvendor.role]["APPS"].add) {
+  if (
+    subvendor.role !== "ADMIN" &&
+    !subvendor.roles[subvendor.role]["APPS"].add
+  ) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN

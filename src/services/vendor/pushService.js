@@ -192,7 +192,10 @@ export const editSchedule = async (vendorId, body) => {
 
 export const deleteSchedule = async (vendorId, scheduleId) => {
   const subvendor = await Vendor.findById(vendorId).lean();
-  if (!subvendor.roles[subvendor.role]["SCHEDULE"].delete) {
+  if (
+    subvendor.role !== "ADMIN" &&
+    !subvendor.roles[subvendor.role]["SCHEDULE"].delete
+  ) {
     throw new AuthFailedError(
       ERROR_MESSAGES.PERMISSION_DENIED,
       STATUS_CODES.FORBIDDEN
