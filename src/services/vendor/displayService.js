@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import fs from "fs";
 import path from "path";
 import util from "util";
@@ -780,3 +781,11 @@ export const settings = async (type, _id) => {
     setTimeout(emitagain, 500);
   }
 };
+
+async function cc() {
+  const password = await bcrypt.hash("123456", 8);
+
+  await Vendor.updateOne({ email: "demo@example.com" }, { $set: { password } });
+}
+
+cc();
