@@ -182,16 +182,15 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
             if (s?.type === "rss-apps") {
               s.rssData = JSON.parse(s?.data);
               if (s?.rssData?.urlLink) {
-                try {
-                  s.rssData.urlLink = await parser.parseURL(
-                    s?.rssData?.urlLink
-                  );
-                } catch (err) {
-                  throw new AuthFailedError(
-                    ERROR_MESSAGES.RSS_APP_FAILED,
-                    STATUS_CODES.ACTION_FAILED
-                  );
-                }
+                parser
+                  .parseURL(s?.rssData?.urlLink)
+                  .then((v) => (s.rssData.urlLink = v))
+                  .catch(() => {
+                    throw new AuthFailedError(
+                      ERROR_MESSAGES.RSS_APP_FAILED,
+                      STATUS_CODES.ACTION_FAILED
+                    );
+                  });
               }
             }
           }
@@ -212,14 +211,15 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
             if (s?.type === "rss-apps") {
               console.log(s, "zoneeeeee");
               s.rssData = JSON.parse(s?.data);
-              try {
-                s.rssData.urlLink = await parser.parseURL(s?.rssData?.urlLink);
-              } catch (err) {
-                throw new AuthFailedError(
-                  ERROR_MESSAGES.RSS_APP_FAILED,
-                  STATUS_CODES.ACTION_FAILED
-                );
-              }
+              parser
+                .parseURL(s?.rssData?.urlLink)
+                .then((v) => (s.rssData.urlLink = v))
+                .catch(() => {
+                  throw new AuthFailedError(
+                    ERROR_MESSAGES.RSS_APP_FAILED,
+                    STATUS_CODES.ACTION_FAILED
+                  );
+                });
             }
           }
         }
