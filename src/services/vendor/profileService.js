@@ -243,8 +243,6 @@ export const mediaReport = async (vendorId, query) => {
     mediaReport: 1,
   }).lean();
 
-  console.log(vendor, "vghjbnkml");
-
   if (vendor && query.startDate && query.endDate) {
     vendor.mediaReport = vendor?.mediaReport?.filter(
       (report) => report.day >= query.startDate && report.day <= query.endDate
@@ -268,6 +266,8 @@ export const mediaReport = async (vendorId, query) => {
 
     return acc;
   }, {});
+
+  console.log(reducedReport, "reducedddddd");
 
   const reports = Object.values(reducedReport);
 
