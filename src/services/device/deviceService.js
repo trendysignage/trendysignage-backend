@@ -5,134 +5,130 @@ import { AuthFailedError } from "../../utils/errors.js";
 import { localtime } from "../../utils/formatResponse.js";
 
 export const addDevice = async (deviceToken, code, timezone) => {
-  const parser = new Parser();
-  let screen;
+  try {
+    const parser = new Parser();
+    let screen;
 
-  let device = await Device.findOneAndUpdate(
-    {
-      deviceToken: deviceToken,
-      isDeleted: false,
-    },
-    { $set: { isReload: false } }
-  )
-    .populate({ path: "vendor", select: ["defaultComposition"] })
-    .lean();
+    let device = await Device.findOneAndUpdate(
+      {
+        deviceToken: deviceToken,
+        isDeleted: false,
+      },
+      { $set: { isReload: false } }
+    )
+      .populate({ path: "vendor", select: ["defaultComposition"] })
+      .lean();
 
-  if (!device) {
-    device = await Device.create({
-      deviceToken: deviceToken,
-      deviceCode: code,
-    });
-  } else {
-    if (device.vendor) {
-      device.defaultComposition = device?.vendor?.defaultComposition;
-    }
-    device.content = [];
+    if (!device) {
+      device = await Device.create({
+        deviceToken: deviceToken,
+        deviceCode: code,
+      });
+    } else {
+      if (device.vendor) {
+        device.defaultComposition = device?.vendor?.defaultComposition;
+      }
+      device.content = [];
 
-    if (device.screen) {
-      screen = await Screen.findOneAndUpdate(
-        { _id: device.screen, isDeleted: false },
-        {
-          $pull: {
-            contentPlaying: {
-              endTime: {
-                $lte: new Date(localtime(new Date(), timezone) + "Z"),
+      if (device.screen) {
+        screen = await Screen.findOneAndUpdate(
+          { _id: device.screen, isDeleted: false },
+          {
+            $pull: {
+              contentPlaying: {
+                endTime: {
+                  $lte: new Date(localtime(new Date(), timezone) + "Z"),
+                },
               },
             },
           },
-        },
-        { new: true, lean: 1 }
-      );
-      if (!screen) {
-        throw new AuthFailedError(
-          ERROR_MESSAGES.SCREEN_NOT_FOUND,
-          STATUS_CODES.ACTION_FAILED
+          { new: true, lean: 1 }
         );
-      }
-
-      for (const content of screen.contentPlaying) {
-        const layout1 = await Layout.findOne({
-          _id: content?.media?.layout,
-        }).lean();
-
-        if (layout1) {
-          content.media.layout = layout1;
+        if (!screen) {
+          throw new AuthFailedError(
+            ERROR_MESSAGES.SCREEN_NOT_FOUND,
+            STATUS_CODES.ACTION_FAILED
+          );
         }
+
+        for (const content of screen.contentPlaying) {
+          const layout1 = await Layout.findOne({
+            _id: content?.media?.layout,
+          }).lean();
+
+          if (layout1) {
+            content.media.layout = layout1;
+          }
+        }
+
+        if (screen.defaultComposition) {
+          device.defaultComposition = screen?.defaultComposition;
+        }
+
+        const layout2 = await Layout.findOne({
+          _id: device?.defaultComposition?.media?.layout,
+        }).lean();
+        if (layout2) {
+          device.defaultComposition.media.layout = layout2;
+        }
+
+        device.content = screen?.contentPlaying ?? [];
       }
 
-      if (screen.defaultComposition) {
-        device.defaultComposition = screen?.defaultComposition;
-      }
-
-      const layout2 = await Layout.findOne({
-        _id: device?.defaultComposition?.media?.layout,
-      }).lean();
-      if (layout2) {
-        device.defaultComposition.media.layout = layout2;
-      }
-
-      device.content = screen?.contentPlaying ?? [];
-    }
-
-    for (const content of device?.content) {
-      if (content && content?.media && content.media.zones) {
-        for (const zone of content?.media?.zones) {
-          if (zone && zone?.content) {
-            for (const s of zone?.content) {
-              if (s?.type === "rss-apps") {
-                s.data = JSON.parse(s?.data);
-                if (s.data.urlLink) {
-                  parser
-                    .parseURL(s?.data?.urlLink)
-                    .then((v) => {
-                      s.data.urlLink = v;
-                    })
-                    .catch((err) => {
-                      throw new AuthFailedError(
-                        ERROR_MESSAGES.RSS_APP_FAILED,
-                        STATUS_CODES.ACTION_FAILED
-                      );
-                    });
+      for (const content of device?.content) {
+        if (content && content?.media && content.media.zones) {
+          for (const zone of content?.media?.zones) {
+            if (zone && zone?.content) {
+              for (const s of zone?.content) {
+                if (s?.type === "rss-apps") {
+                  s.data = JSON.parse(s?.data);
+                  if (s.data.urlLink) {
+                    parser
+                      .parseURL(s?.data?.urlLink)
+                      .then((v) => {
+                        s.data.urlLink = v;
+                      })
+                      .catch((err) => {
+                        throw new AuthFailedError(
+                          ERROR_MESSAGES.RSS_APP_FAILED,
+                          STATUS_CODES.ACTION_FAILED
+                        );
+                      });
+                  }
                 }
               }
             }
           }
         }
       }
-    }
 
-    if (
-      device.defaultComposition &&
-      device.defaultComposition.media &&
-      device.defaultComposition.media.zones
-    ) {
-      for (const zone of device.defaultComposition?.media?.zones) {
-        if (zone && zone?.content) {
-          for (const s of zone?.content) {
-            if (s?.type === "rss-apps") {
-              s.data = JSON.parse(s?.data);
-              if (s.data.urlLink) {
-                parser
-                  .parseURL(s?.data?.urlLink)
-                  .then((v) => {
-                    s.data.urlLink = v;
-                  })
-                  .catch((err) => {
-                    throw new AuthFailedError(
-                      ERROR_MESSAGES.RSS_APP_FAILED,
-                      STATUS_CODES.ACTION_FAILED
-                    );
-                  });
-                console.log(s.data, "drtfgyhuijkl");
+      if (
+        device.defaultComposition &&
+        device.defaultComposition.media &&
+        device.defaultComposition.media.zones
+      ) {
+        for (const zone of device.defaultComposition?.media?.zones) {
+          if (zone && zone?.content) {
+            for (const s of zone?.content) {
+              if (s?.type === "rss-apps") {
+                s.data = JSON.parse(s?.data);
+                if (s.data.urlLink) {
+                  s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+                }
               }
             }
           }
         }
       }
-    }
 
-    delete device.vendor;
-    return device;
+      delete device.vendor;
+      return device;
+    }
+  } catch (err) {
+    throw new AuthFailedError(
+      ERROR_MESSAGES.RSS_APP_FAILED,
+      STATUS_CODES.ACTION_FAILED
+    );
   }
 };
 
