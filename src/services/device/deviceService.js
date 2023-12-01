@@ -90,6 +90,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         }
       }
     }
+    console.log(device, "ftdghjkl;'")
 
     if (device.isReload) device.content = [];
 
