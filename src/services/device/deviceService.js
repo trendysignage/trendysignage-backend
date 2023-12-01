@@ -90,7 +90,6 @@ export const addDevice = async (deviceToken, code, timezone) => {
         }
       }
     }
-    console.log(device.defaultComposition.media, "ftdghjkl;'");
 
     if (
       device.defaultComposition &&
@@ -177,6 +176,25 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
     for (const content of device?.composition) {
       if (content && content.media && content.media.zones) {
         for (const zone of content?.media?.zones) {
+          for (const s of zone?.content) {
+            if (s?.type === "rss-apps") {
+              s.rssData = JSON.parse(s?.data);
+              if (s?.rssData?.urlLink) {
+                s.rssData.urlLink = await parser.parseURL(s?.rssData?.urlLink);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (
+      device.defaultComposition &&
+      device.defaultComposition.media &&
+      device.defaultComposition.media.zones
+    ) {
+      for (const zone of device.defaultComposition?.media?.zones) {
+        if (zone && zone?.content) {
           for (const s of zone?.content) {
             if (s?.type === "rss-apps") {
               s.rssData = JSON.parse(s?.data);
