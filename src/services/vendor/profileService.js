@@ -39,6 +39,10 @@ export const defaultComposition = async (vendorId, body) => {
     type: "composition",
   };
 
+  const subvendor = await Vendor.findById(vendorId).lean();
+
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   const [vendor, screens] = await Promise.all([
     Vendor.findByIdAndUpdate(
       vendorId,
@@ -96,10 +100,11 @@ export const defaultComposition = async (vendorId, body) => {
 
 export const getVendorByEmail = async (email) => {
   const user = await Vendor.findOne({
-    email: email,
+    email,
     isDeleted: false,
     isVerified: true,
   }).lean();
+
   if (!user) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -111,6 +116,7 @@ export const getVendorByEmail = async (email) => {
 
 export const getProfile = async (vendorId) => {
   const vendor = await Vendor.findById(vendorId).lean();
+
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
@@ -125,10 +131,12 @@ export const editProfile = async (vendorId, body) => {
     name: body.name,
     profilePic: body.profilePic,
   };
+
   if (body.phoneNumber && body.countryCode) {
     dataToBeUpdated.phoneNumber = body.phoneNumber;
     dataToBeUpdated.countryCode = body.countryCode;
   }
+
   const vendor = await Vendor.findByIdAndUpdate(
     vendorId,
     {
@@ -390,6 +398,9 @@ export const disableUser = async (vendorId, _id) => {
 };
 
 export const getGroups = async (vendorId) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   const vendor = await Vendor.findById(vendorId, { groups: 1 }).lean();
 
   if (!vendor) {
@@ -410,6 +421,9 @@ export const addGroups = async (vendorId, body) => {
     },
   ];
 
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   const vendor = await Vendor.findByIdAndUpdate(
     vendorId,
     {
@@ -429,6 +443,9 @@ export const addGroups = async (vendorId, body) => {
 };
 
 export const editGroups = async (vendorId, body) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   const vendor = await Vendor.findOneAndUpdate(
     {
       _id: vendorId,
@@ -452,7 +469,10 @@ export const editGroups = async (vendorId, body) => {
 };
 
 export const deleteGroup = async (vendorId, groupId) => {
-  const screen = await Screen.findOne({ groups: groupId }).lean();
+  const [screen, subvendor] = await Promise.all([
+    Screen.findOne({ groups: groupId }).lean(),
+    Vendor.findById(vendorId).lean(),
+  ]);
 
   if (screen) {
     throw new AuthFailedError(
@@ -460,6 +480,8 @@ export const deleteGroup = async (vendorId, groupId) => {
       STATUS_CODES.ACTION_FAILED
     );
   }
+
+  if (subvendor.vendor) vendorId = subvendor.vendor;
 
   const vendor = await Vendor.findOneAndUpdate(
     {
@@ -483,6 +505,9 @@ export const deleteGroup = async (vendorId, groupId) => {
 };
 
 export const getTags = async (_id, type) => {
+  const subvendor = await Vendor.findById(_if).lean();
+  if (subvendor.vendor) _id = subvendor.vendor;
+
   let tags = [];
   if (type === "screens") {
     const screens = await Screen.find({ vendor: _id }, { tags: 1 }).lean();
@@ -516,6 +541,9 @@ export const getTags = async (_id, type) => {
 };
 
 export const addTags = async (vendorId, body) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   if (body.type === TAG_TYPE.SCREEN) {
     const screen = await Screen.findByIdAndUpdate(body.id, {
       $set: { tags: body.tags },
@@ -655,6 +683,9 @@ export const deleteDeviceProfile = async (vendor, _id) => {
 };
 
 export const assign = async (vendor, body) => {
+  const subvendor = await Vendor.findById(vendor).lean();
+  if (subvendor.vendor) vendor = subvendor.vendor;
+
   const profile = await Profile.findOne({
     _id: body.profileId,
     isDeleted: false,

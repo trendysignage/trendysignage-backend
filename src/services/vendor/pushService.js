@@ -337,6 +337,9 @@ export const addSequence = async (vendorId, body, timezone) => {
     dates: [new Date()],
   };
 
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   const schedule = await Schedule.findOneAndUpdate(
     {
       _id: body.scheduleId,
@@ -361,6 +364,8 @@ export const editSequence = async (vendorId, body, timezone) => {
     i.startTime = utcTime(i.startTime, timezone);
     i.endTime = utcTime(i.endTime, timezone);
   });
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (subvendor.vendor) vendorId = subvendor.vendor;
 
   const schedule = await Schedule.findOneAndUpdate(
     {
@@ -389,6 +394,9 @@ export const editSequence = async (vendorId, body, timezone) => {
 };
 
 export const deleteSequence = async (vendorId, query) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   const schedule = await Schedule.findOneAndUpdate(
     {
       _id: query.scheduleId,
@@ -411,7 +419,11 @@ export const deleteSequence = async (vendorId, query) => {
 };
 
 export const dates = async (vendorId, body) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
   let schedule;
+
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   for (const seq of body.scheduleArray) {
     schedule = await Schedule.findOneAndUpdate(
       {
@@ -530,6 +542,9 @@ export const addQuickplay = async (vendorId, body, timezone) => {
 };
 
 export const deleteQuickplay = async (createdBy, _id) => {
+  const subvendor = await Vendor.findById(createdBy).lean();
+  if (subvendor.vendor) createdBy = subvendor.vendor;
+
   const quickplay = await Quickplay.findOneAndUpdate(
     {
       _id,

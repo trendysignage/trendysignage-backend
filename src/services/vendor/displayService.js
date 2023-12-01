@@ -575,6 +575,10 @@ export const deleteMedia = async (vendorId, mediaId) => {
 };
 
 export const publish = async (vendorId, body, timezone) => {
+  const subvendor = await Vendor.findById(vendorId).lean();
+
+  if (subvendor.vendor) vendorId = subvendor.vendor;
+
   let [vendor, layout, composition] = await Promise.all([
     Vendor.findOne({
       _id: vendorId,
@@ -711,6 +715,9 @@ export const mediaFile = async (filePath) => {
 };
 
 export const mediaDetail = async (_id, mediaId) => {
+  const subvendor = await Vendor.findById(_id).lean();
+  if (subvendor.vendor) _id = subvendor.vendor;
+
   const vendor = await Vendor.findById(_id, { media: 1 }).lean();
 
   vendor.media = vendor.media.find(
@@ -721,6 +728,9 @@ export const mediaDetail = async (_id, mediaId) => {
 };
 
 export const assignGroup = async (_id, screenId, groupIds) => {
+  const subvendor = await Vendor.findById(_id).lean();
+  if (subvendor.vendor) _id = subvendor.vendor;
+
   const vendor = await Vendor.findById(_id, { groups: 1 }).lean();
 
   if (groupIds.length > 0)
