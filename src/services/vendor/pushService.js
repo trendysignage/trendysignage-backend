@@ -549,10 +549,14 @@ export const deleteQuickplay = async (createdBy, _id) => {
 };
 
 export const getDefaultCompositions = async (vendor, query) => {
+  const subvendor = await Vendor.findById(vendor).lean();
+
   let data = {
     vendor,
     isDeleted: false,
   };
+
+  if (subvendor.vendor) data.vendor = subvendor.vendor;
 
   if (query.tags) {
     data = { ...data, tags: { $in: query.tags } };
@@ -634,7 +638,6 @@ export const addDefaultComp = async (vendor, body) => {
 export const editDefaultComposition = async (vendor, body) => {
   const defaultComp = await Defaults.findOneAndUpdate(
     {
-      vendor,
       _id: body.defaultCompId,
       isDeleted: false,
     },
