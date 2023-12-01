@@ -15,7 +15,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
     },
     { $set: { isReload: false } }
   )
-    .populate({ path: "vendor" })
+    .populate({ path: "vendor", select: ["defaultComposition"] })
     .lean();
 
   if (!device) {
@@ -90,7 +90,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         }
       }
     }
-    console.log(device, "ftdghjkl;'")
+    console.log(device, "ftdghjkl;'");
 
     if (device.isReload) device.content = [];
 
