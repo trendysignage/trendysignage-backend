@@ -173,6 +173,8 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       }
     }
 
+    console.log(JSON.stringify(device.composition), "yubjnk;l");
+
     for (const content of device?.composition) {
       if (content && content.media && content.media.zones) {
         for (const zone of content?.media?.zones) {
