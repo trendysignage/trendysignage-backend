@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import moment from "moment";
 import {
   ERROR_MESSAGES,
   ROLE,
@@ -751,3 +752,19 @@ export const mfa = async (_id, body) => {
     $set: { mfaEnabled: body.mfaEnabled, mfa: body.mfa },
   });
 };
+
+async function cc() {
+  await Vendor.updateMany(
+    { subscription: { $exists: false } },
+    {
+      $set: {
+        subscription: {
+          startDate: moment(),
+          endDate: moment().add(1, "year"),
+        },
+      },
+    }
+  );
+}
+
+cc()
