@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import moment from "moment";
 import {
   ERROR_MESSAGES,
   ROLE,

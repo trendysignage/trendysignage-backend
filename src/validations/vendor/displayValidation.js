@@ -37,7 +37,7 @@ export const editScreen = {
     name: Joi.string().required(),
     screenLocation: Joi.string().required(),
     googleLocation: Joi.string().required(),
-    groups: Joi.array().items(Joi.string().required()).default([]),
+    // groups: Joi.array().items(Joi.string().required()).default([]),
   }),
 };
 

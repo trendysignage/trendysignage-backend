@@ -216,7 +216,7 @@ export const editScreen = async (vendorId, body) => {
     screenLocation: body.screenLocation,
     googleLocation: body.googleLocation,
     tags: body.tags,
-    groups: body.groups,
+    // groups: body.groups,
   };
   const screen = await Screen.findOneAndUpdate(
     {
