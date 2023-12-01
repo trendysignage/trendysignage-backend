@@ -505,7 +505,7 @@ export const deleteGroup = async (vendorId, groupId) => {
 };
 
 export const getTags = async (_id, type) => {
-  const subvendor = await Vendor.findById(_if).lean();
+  const subvendor = await Vendor.findById(_id).lean();
   if (subvendor.vendor) _id = subvendor.vendor;
 
   let tags = [];
