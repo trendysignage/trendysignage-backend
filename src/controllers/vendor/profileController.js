@@ -77,7 +77,6 @@ export const editRole = catchAsync(async (req, res) => {
 });
 
 export const auditReport = catchAsync(async (req, res) => {
-  console.log(req.headers.timezone, "timezoneeee")
   const logs = await logService.getLogs(
     req.token.vendor._id,
     req.query,
