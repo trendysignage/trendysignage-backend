@@ -217,6 +217,7 @@ const ERROR_MESSAGES = {
     "Please contact Trendy Administrator or email info@frontline.sa",
   REACHED_SCREEN_LIMIT:
     "You have already created the maximum number of screens assigned",
+  RSS_APP_FAILED: "RSS URL is incorrect. Please check the URL and try again!",
 };
 
 const STATUS_CODES = {
