@@ -267,7 +267,7 @@ export const mediaReport = async (vendorId, query) => {
     return acc;
   }, {});
 
-  const reports = Object.values(reducedReport) ?? [];
+  const reports = Object.values(reducedReport ?? []);
 
   return reports;
 };
