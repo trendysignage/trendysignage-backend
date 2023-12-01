@@ -92,7 +92,24 @@ export const addDevice = async (deviceToken, code, timezone) => {
     }
     console.log(device, "ftdghjkl;'");
 
-    if (device.isReload) device.content = [];
+    if (
+      device.defaultComposition &&
+      device.defaultComposition.media &&
+      device.defaultComposition.media.zones
+    ) {
+      for (const zone of device.defaultComposition?.media?.zones) {
+        if (zone && zone?.content) {
+          for (const s of zone?.content) {
+            if (s?.type === "rss-apps") {
+              s.data = JSON.parse(s?.data);
+              if (s.data.urlLink) {
+                s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+              }
+            }
+          }
+        }
+      }
+    }
 
     delete device.vendor;
     return device;
