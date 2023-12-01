@@ -243,7 +243,7 @@ export const mediaReport = async (vendorId, query) => {
     mediaReport: 1,
   }).lean();
 
-  if (vendor && query.startDate && query.endDate) {
+  if (query.startDate && query.endDate) {
     vendor.mediaReport = vendor?.mediaReport?.filter(
       (report) => report.day >= query.startDate && report.day <= query.endDate
     );
@@ -251,7 +251,7 @@ export const mediaReport = async (vendorId, query) => {
 
   const reducedReport = vendor?.mediaReport?.reduce((acc, curr) => {
     const { media, duration, loop } = curr;
-    const mediaObject = vendor?.media?.find(
+    const mediaObject = vendor.media.find(
       (m) => JSON.stringify(m._id) === JSON.stringify(media)
     );
 
@@ -267,11 +267,9 @@ export const mediaReport = async (vendorId, query) => {
     return acc;
   }, {});
 
-  if (reducedReport) {
-    const reports = Object.values(reducedReport);
+  const reports = Object.values(reducedReport);
 
-    return reports;
-  }
+  return reports;
 };
 
 export const getUsers = async (vendor) => {
