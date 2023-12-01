@@ -83,17 +83,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
                 if (s?.type === "rss-apps") {
                   s.data = JSON.parse(s?.data);
                   if (s.data.urlLink) {
-                    parser
-                      .parseURL(s?.data?.urlLink)
-                      .then((v) => {
-                        s.data.urlLink = v;
-                      })
-                      .catch((err) => {
-                        throw new AuthFailedError(
-                          ERROR_MESSAGES.RSS_APP_FAILED,
-                          STATUS_CODES.ACTION_FAILED
-                        );
-                      });
+                    s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
                   }
                 }
               }
