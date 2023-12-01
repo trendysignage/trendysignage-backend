@@ -123,6 +123,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
                       STATUS_CODES.ACTION_FAILED
                     );
                   });
+                console.log(s.data, "drtfgyhuijkl");
               }
             }
           }
