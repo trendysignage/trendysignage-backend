@@ -190,6 +190,8 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       }
     }
 
+    console.log("afterrrrr stringifyyyyyyy");
+
     if (
       device.defaultComposition &&
       device.defaultComposition.media &&
