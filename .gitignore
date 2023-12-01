@@ -11,3 +11,5 @@ test.js
 /src/middlewares/locales/
 
 public/
+
+settings.json

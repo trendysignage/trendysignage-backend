@@ -436,10 +436,14 @@ export const dates = async (vendorId, body) => {
 };
 
 export const getQuickplay = async (vendorId, query) => {
+  const vendor = await Vendor.findById(vendorId).lean();
+
   let data = {
     isDeleted: false,
     createdBy: vendorId,
   };
+
+  if (vendor.vendor) data.createdBy = vendor.vendor;
 
   if (query.search) {
     let searchReg = RegExp(query.search, "i");
@@ -479,8 +483,12 @@ export const addQuickplay = async (vendorId, body, timezone) => {
   const endTime = new Date(localtime(new Date(), timezone) + "Z");
   endTime.setSeconds(endTime.getSeconds() + body.duration);
 
+  const vendor = await Vendor.findById(vendorId).lean();
+
+  const createdBy = vendor.vendor ?? vendorId;
+
   const quickplay = await Quickplay.create({
-    createdBy: vendorId,
+    createdBy,
     screens: body.screens,
     duration: body.duration,
     name: body.name,
