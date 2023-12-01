@@ -227,7 +227,7 @@ export const mediaReport = async (vendorId, query) => {
     _id: vendorId,
   };
 
-  if (subvendor.vendor) data.vendor = subvendor.vendor;
+  if (subvendor.vendor) data._id = subvendor.vendor;
 
   if (query.startDate && query.endDate) {
     data = {
@@ -237,8 +237,6 @@ export const mediaReport = async (vendorId, query) => {
       },
     };
   }
-
-console.log(subvendor._id, data, "gvhjbknlm")
 
   const vendor = await Vendor.findOne(data, {
     media: 1,
