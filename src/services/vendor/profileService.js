@@ -243,7 +243,7 @@ export const mediaReport = async (vendorId, query) => {
     mediaReport: 1,
   }).lean();
 
-  if (query.startDate && query.endDate) {
+  if (vendor && query.startDate && query.endDate) {
     vendor.mediaReport = vendor?.mediaReport?.filter(
       (report) => report.day >= query.startDate && report.day <= query.endDate
     );
