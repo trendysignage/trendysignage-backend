@@ -198,7 +198,9 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
               if (s?.rssData?.urlLink) {
                 parser
                   .parseURL(s?.rssData?.urlLink)
-                  .then((v) => (s.rssData.urlLink = v))
+                  .then((v) => {
+                    s?.rssData?.urlLink = v;
+                  })
                   .catch(() => {
                     throw new AuthFailedError(
                       ERROR_MESSAGES.RSS_APP_FAILED,
@@ -224,7 +226,9 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
               s.rssData = JSON.parse(s?.data);
               parser
                 .parseURL(s?.rssData?.urlLink)
-                .then((v) => (s.rssData.urlLink = v))
+                .then((v) => {
+                  s.rssData.urlLink = v;
+                })
                 .catch(() => {
                   throw new AuthFailedError(
                     ERROR_MESSAGES.RSS_APP_FAILED,
