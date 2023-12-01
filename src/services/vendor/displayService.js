@@ -478,6 +478,7 @@ export const addMedia64 = async (vendorId, body, string) => {
     const writeFile = util.promisify(fs.writeFile);
     await mkdir(Path, { recursive: true });
     await writeFile(filePath, binaryData);
+    const subvendor = await Vendor.findById(vendorId).lean();
     let media = [
       {
         filename,
@@ -490,14 +491,17 @@ export const addMedia64 = async (vendorId, body, string) => {
         duration: body.duration,
       },
     ];
+    if (subvendor.vednor) media[0].createdBy = subvendor.vendor;
+
     const vendor = await Vendor.findOneAndUpdate(
       {
-        _id: vendorId,
+        _id: media[0]?.createdBy,
         isDeleted: false,
       },
-      { $addToSet: { media: media } },
+      { $addToSet: { media } },
       { new: true, lean: 1 }
     );
+
     if (!vendor) {
       throw new AuthFailedError(
         ERROR_MESSAGES.VENDOR_NOT_FOUND,
