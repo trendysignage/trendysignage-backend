@@ -90,7 +90,7 @@ export const addDevice = async (deviceToken, code, timezone) => {
         }
       }
     }
-    console.log(device, "ftdghjkl;'");
+    console.log(device.defaultComposition.media, "ftdghjkl;'");
 
     if (
       device.defaultComposition &&
