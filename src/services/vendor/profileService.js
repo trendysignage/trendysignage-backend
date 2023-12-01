@@ -238,6 +238,8 @@ export const mediaReport = async (vendorId, query) => {
     };
   }
 
+console.log(subvendor._id, data, "gvhjbknlm")
+
   const vendor = await Vendor.findOne(data, {
     media: 1,
     mediaReport: 1,
