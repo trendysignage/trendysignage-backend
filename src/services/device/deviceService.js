@@ -199,7 +199,7 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
                 parser
                   .parseURL(s?.rssData?.urlLink)
                   .then((v) => {
-                    s?.rssData?.urlLink = v;
+                    s.rssData.urlLink = v;
                   })
                   .catch(() => {
                     throw new AuthFailedError(
