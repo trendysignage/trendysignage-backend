@@ -72,6 +72,7 @@ screenSchema.methods.startUptimeTracking = async function (timezone) {
 };
 
 screenSchema.methods.stopUptimeTracking = async function (timezone) {
+  console.log(this, "dfghjkml")
   if (this.connectionStartTime) {
     const now = new Date(localtime(new Date(), timezone));
     const today = localtime(new Date(), timezone).split("T")[0]; // Get today's date in YYYY-MM-DD format
