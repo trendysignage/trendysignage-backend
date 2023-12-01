@@ -433,6 +433,8 @@ export const addMedia = async (vendorId, body, file) => {
     title = file.path.substring("public".length);
   }
 
+  const subvendor = await Vendor.findById(vendorId).lean();
+
   let media = [
     {
       title,
@@ -445,14 +447,18 @@ export const addMedia = async (vendorId, body, file) => {
       duration: body.duration,
     },
   ];
+
+  if (subvendor.vendor) media[0].createdBy = subvendor.vendor;
+
   const vendor = await Vendor.findOneAndUpdate(
     {
-      _id: vendorId,
+      _id: media[0]?.createdBy,
       isDeleted: false,
     },
-    { $addToSet: { media: media } },
+    { $addToSet: { media } },
     { new: true, lean: 1 }
   );
+
   if (!vendor) {
     throw new AuthFailedError(
       ERROR_MESSAGES.VENDOR_NOT_FOUND,
