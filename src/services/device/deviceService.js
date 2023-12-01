@@ -82,7 +82,15 @@ export const addDevice = async (deviceToken, code, timezone) => {
               if (s?.type === "rss-apps") {
                 s.data = JSON.parse(s?.data);
                 if (s.data.urlLink) {
-                  s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+                  parser
+                    .parseURL(s?.data?.urlLink)
+                    .then((v) => (s.data.urlLink = v))
+                    .catch((err) => {
+                      throw new AuthFailedError(
+                        ERROR_MESSAGES.RSS_APP_FAILED,
+                        STATUS_CODES.ACTION_FAILED
+                      );
+                    });
                 }
               }
             }
@@ -102,7 +110,15 @@ export const addDevice = async (deviceToken, code, timezone) => {
             if (s?.type === "rss-apps") {
               s.data = JSON.parse(s?.data);
               if (s.data.urlLink) {
-                s.data.urlLink = await parser.parseURL(s?.data?.urlLink);
+                parser
+                  .parseURL(s?.data?.urlLink)
+                  .then((v) => (s.data.urlLink = v))
+                  .catch((err) => {
+                    throw new AuthFailedError(
+                      ERROR_MESSAGES.RSS_APP_FAILED,
+                      STATUS_CODES.ACTION_FAILED
+                    );
+                  });
               }
             }
           }
@@ -173,8 +189,6 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       }
     }
 
-    console.log(JSON.stringify(device.composition), "yubjnk;l");
-
     for (const content of device?.composition) {
       if (content && content.media && content.media.zones) {
         for (const zone of content?.media?.zones) {
@@ -198,8 +212,6 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
       }
     }
 
-    console.log("afterrrrr stringifyyyyyyy");
-
     if (
       device.defaultComposition &&
       device.defaultComposition.media &&
@@ -209,7 +221,6 @@ export const addDevice1 = async (deviceToken, code, timezone) => {
         if (zone && zone?.content) {
           for (const s of zone?.content) {
             if (s?.type === "rss-apps") {
-              console.log(s, "zoneeeeee");
               s.rssData = JSON.parse(s?.data);
               parser
                 .parseURL(s?.rssData?.urlLink)
